@@ -6,12 +6,14 @@
 <title>Car Configurator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600&family=Inconsolata:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 :root{--bg:#0a0a0b;--panel:#101013;--border:#1c1c22;--accent:#c8a96e;--a2:#4a8cff;--ok:#4caf7d;--hot:#ff6b35;--cam:#9b59b6;--text:#e2ddd6;--muted:#52526a;--pw:300px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif}
 canvas{display:block}
-#panel{position:fixed;top:0;right:0;width:var(--pw);height:100%;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;z-index:10;transition:transform 0.3s cubic-bezier(0.2,0.8,0.2,1)}
+#panel{position:fixed;top:0;right:0;width:var(--pw);height:100%;background:var(--panel-bg,var(--panel));border-left:1px solid var(--border);display:flex;flex-direction:column;z-index:10;transition:transform 0.3s cubic-bezier(0.2,0.8,0.2,1)}
 #panel.closed{transform:translateX(100%)}
 #ptab{position:absolute;top:50%;left:-28px;width:28px;height:60px;transform:translateY(-50%);background:var(--panel);border:1px solid var(--border);border-right:none;border-radius:6px 0 0 6px;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;z-index:11;transition:color 0.15s}
 #ptab:hover{color:var(--accent)}
@@ -24,6 +26,9 @@ canvas{display:block}
 .tnb:hover{color:var(--text)}
 .tnb.active{border-bottom-color:var(--accent);color:var(--accent)}
 .tabpane{display:none}.tabpane.active{display:block}
+body.wce-panel-combined #tabnav{display:none}
+body.wce-panel-combined .tabpane{display:block !important}
+body.wce-panel-combined .tabpane:not(:first-child){border-top:1px solid var(--border);margin-top:14px;padding-top:14px}
 #pb{flex:1;overflow-y:auto;padding:14px 14px 24px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 .sec{margin-bottom:18px}
 .st{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:8px}
@@ -49,10 +54,16 @@ canvas{display:block}
 .sr select:focus{border-color:var(--a2)}
 #ld{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;transition:opacity .5s}
 #ld.hidden{opacity:0;pointer-events:none}
-#lbw{width:180px;height:1px;background:var(--border);margin-top:18px}
+#lbw{position:relative;width:180px;height:1px;background:var(--border);margin-top:18px}
 #lb{height:100%;width:0%;background:var(--accent);transition:width .25s}
 #lt{font-size:10px;letter-spacing:.3em;color:var(--muted);margin-top:10px;font-family:'Inconsolata',monospace}
 #st{position:fixed;bottom:14px;left:18px;font-size:9px;letter-spacing:.2em;color:var(--muted);font-family:'Inconsolata',monospace;z-index:10}
+#ld{background-color:#000000}
+
+
+
+
+#lt{font-size:10px !important;font-weight:400 !important}
 .nested-grp{margin-left:10px;padding-left:8px;border-left:1px solid var(--border);margin-top:6px;display:none}
 .nested-grp.open{display:block}
 .anim-btn{width:100%;margin-bottom:5px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:3px;cursor:pointer;transition:background .08s,color .08s,border-color .08s,opacity .08s;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:.08em;color:var(--muted);text-align:left;display:flex;align-items:center;gap:8px}
@@ -89,19 +100,49 @@ canvas{display:block}
 .hs-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:var(--hot)}
 @keyframes hs-pulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.4);opacity:.35}}
 .hs-sprite.clickable{pointer-events:auto;cursor:pointer}
+.annot-marker{position:absolute;pointer-events:auto;cursor:pointer;transform:translate(-50%,-50%);display:none;border-radius:50%;border:2px solid #000;box-sizing:border-box;transition:box-shadow .2s ease,transform .2s ease}
+body.wce-cascade-open .annot-marker,
+body.wce-cascade-open .hs-sprite,
+body.wce-cascade-open #hotspot-layer > img{display:none !important}
+.annot-marker:hover{transform:translate(-50%,-50%) scale(1.15)}
+.annot-popup{position:fixed;z-index:10001;max-width:320px;background:rgba(10,10,12,.92);border:1px solid var(--accent,#c8a96e);border-radius:6px;padding:14px 16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:14px;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.annot-popup video{width:100%;border-radius:4px;display:block}
+.annot-popup-close{position:absolute;top:6px;right:8px;cursor:pointer;font-size:16px;opacity:.7;line-height:1}
+.annot-popup-close:hover{opacity:1}
+.wce-overlay-thumb{position:fixed;z-index:6;cursor:pointer;background-size:cover;background-position:center;border:2px solid rgba(255,255,255,.85);box-shadow:0 2px 12px rgba(0,0,0,.45);transition:transform .15s ease,border-color .15s ease}
+body:not(.wce-editing-mode) .wce-overlay-thumb:not(.wce-overlay-image):hover{transform:scale(1.08);border-color:var(--accent)}
+.wce-overlay-thumb.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent),0 2px 12px rgba(0,0,0,.45)}
+.wce-overlay-text{position:fixed;z-index:6;pointer-events:none;font-family:'Rajdhani',sans-serif;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,.6);white-space:nowrap}
+.wce-overlay-linked{cursor:pointer !important;pointer-events:auto !important;transition:transform .15s ease,filter .15s ease}
+body:not(.wce-editing-mode) .wce-overlay-linked:hover{transform:scale(1.08);filter:brightness(1.15)}
+.wce-overlay-group{position:fixed;z-index:5;background:rgba(16,16,19,.85);border:1px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden;transition:width .25s ease}
+.wce-group-header{display:flex;align-items:center;gap:6px;padding:6px 10px;cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);background:rgba(255,255,255,.06)}
+body:not(.wce-editing-mode) .wce-group-header{transition:transform .25s ease,height .25s ease,width .25s ease}
+.wce-group-arrow{font-size:9px;color:var(--accent);flex-shrink:0}
+.wce-group-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
+.wce-group-body{position:relative;overflow:hidden}
+body:not(.wce-editing-mode) .wce-group-body{transition:height .25s ease,width .25s ease}
+.wce-group-body .wce-overlay-thumb,.wce-group-body .wce-overlay-text{position:absolute}
+</style>
+<style id="wce-theme-overrides">
+:root{--bg:#0a0a0b;--panel:#101013;--border:#1c1c22;--accent:#c8a96e;--a2:#4a8cff;--ok:#4caf7d;--hot:#ff6b35;--cam:#9b59b6;--text:#e2ddd6;--muted:#52526a;--panel-bg:rgba(0,0,0,1.0)}
+html,body{font-family:'Rajdhani',sans-serif}
+.pb2,.gb,.tb,.anim-btn,.cam-btn,.tt-btn,.vc,.tnb,.cin-btn,#ar-btn,#sfx-toggle,.sr select{border-radius:3px;clip-path:none;padding:7px 10px;border-width:1px;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:0.07em;font-weight:500;font-style:normal;text-transform:none;}
+.sr select{font-family:'Rajdhani',sans-serif;letter-spacing:0.07em;font-weight:500;font-style:normal;text-transform:none;}
+#st{font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:0.07em;font-weight:500;font-style:normal;text-transform:none;}
 </style>
 <script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/",
+  "three-mesh-bvh":"https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.7.3/build/index.module.js"
+}}
 </script>
 </head>
-<body>
+<body class="">
 <div id="ld">
-  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-    <circle cx="18" cy="18" r="16" stroke="#1c1c22" stroke-width="1.5"/>
-    <path d="M18 2 A16 16 0 0 1 34 18" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round">
-      <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="0.9s" repeatCount="indefinite"/>
-    </path>
-  </svg>
+  
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="opacity:1.0"><circle cx="18.0" cy="18.0" r="16.0" stroke="#1c1c22" stroke-width="1.5"/><path d="M18.0 2 A16.0 16.0 0 0 1 34 18.0" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 18.0 18.0" to="360 18.0 18.0" dur="0.9s" repeatCount="indefinite"/></path></svg>
   <div id="lbw"><div id="lb"></div></div>
   <p id="lt">INITIALISING</p>
 </div>
@@ -150,8 +191,14 @@ canvas{display:block}
 <script src="ui.js"></script>
 <script type="module">
 import * as THREE         from 'three';
+import { computeBoundsTree, disposeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh';
 import {OrbitControls}   from 'three/addons/controls/OrbitControls.js';
 import {GLTFLoader}      from 'three/addons/loaders/GLTFLoader.js';
+
+// Override default Three.js raycaster with BVH
+THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
+THREE.BufferGeometry.prototype.disposeBoundsTree = disposeBoundsTree;
+THREE.Mesh.prototype.raycast = acceleratedRaycast;
 import {RGBELoader}      from 'three/addons/loaders/RGBELoader.js';
 import {GroundedSkybox}  from 'three/addons/objects/GroundedSkybox.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
@@ -166,366 +213,205 @@ import {OutputPass}      from 'three/addons/postprocessing/OutputPass.js';
 RectAreaLightUniformsLib.init();
 
 const CFG = {
-  "containers": {},
-  "mat_colors": {},
-  "geometry_exposed": {
-    "GEOMETRIES_FENDERKIT": {
-      "name": "GEOMETRIES_FENDERKIT",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_FENDERKIT_NORMAL",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_FENDERKIT_RACE",
-          "enabled": true,
-          "children": []
-        }
+  "containers": {
+    "BODY": [
+      "Corn Yellow CARPAINT_METALLIC_GLTF",
+      "Ferrari Red CARPAINT_METALLIC_GLTF"
+    ]
+  },
+  "mat_colors": {
+    "Corn Yellow CARPAINT_METALLIC_GLTF": {
+      "color": [
+        1.0,
+        0.8962693810462952,
+        0.2158605009317398
       ],
-      "subset_only": true
-    },
-    "GEOMETRIES_HOOD": {
-      "name": "GEOMETRIES_HOOD",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_HOOD_WITH_VENTS",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_HOOD_WITHOUT_VENTS",
-          "enabled": true,
-          "children": []
-        }
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
       ],
-      "subset_only": true
+      "emissiveIntensity": 0.0
     },
-    "GEOMETRIES_LICENSEPLATE": {
-      "name": "GEOMETRIES_LICENSEPLATE",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_LICENSEPLATE_GERMANY",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_LICENSEPLATE_INDIA",
-          "enabled": true,
-          "children": []
-        }
+    "Ferrari Red CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.9301108717918396,
+        0.004024717025458813,
+        0.01032982300966978
       ],
-      "subset_only": true
-    },
-    "GEOMETRIES_LIGHTS": {
-      "name": "GEOMETRIES_LIGHTS",
-      "enabled": true,
-      "children": [],
-      "subset_only": true
-    },
-    "GEOMETRIES_ROOF": {
-      "name": "GEOMETRIES_ROOF",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_ROOF_PATTERN",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_ROOF_SPORTY",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_ROOF_WITHOUT_SUNROOF",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_ROOF_WITH_SUNROOF",
-          "enabled": true,
-          "children": []
-        }
-      ]
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
     }
   },
+  "geometry_exposed": {},
   "geometry_subsets": [
     {
-      "name": "BASE",
+      "name": "Geo Set 1",
       "state": {
         "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE",
-        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_NORMAL",
-        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITHOUT VENTS",
-        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_WITHOUT_SUNROOF"
-      }
-    },
-    {
-      "name": "SPORTY",
-      "state": {
-        "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE",
-        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
-        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
-        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_SPORTY"
-      }
-    },
-    {
-      "name": "LUXURY",
-      "state": {
-        "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE",
-        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
-        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
-        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_PATTERN"
+        "ENVIRONMENTS": "NONE"
       }
     }
   ],
-  "mat_subset_categories": [
-    "BITONE",
-    "MONOTONE"
-  ],
-  "mat_subsets": [
-    {
-      "name": "GRAY",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "ROOF": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Iron Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Nardo Gray CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "RED",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Red CARPAINT_METALLIC_GLTF",
-        "ROOF": "Red CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Red CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Red PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Red CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "BLUE",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "ROOF": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "New Midnight Blue PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "MidnightBlue CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE_SILVER",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "ROOF": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "White Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "WhiteSmoke CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Half White CARPAINT_MATTE_GLTF",
-        "ROOF": "Half White CARPAINT_MATTE_GLTF",
-        "HOOD_RACE": "Half White CARPAINT_MATTE_GLTF",
-        "BACKGROUND": "Half White PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Half White CARPAINT_MATTE_GLTF"
-      }
-    },
-    {
-      "name": "BLACK",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Black CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Black CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Jet Black PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Black CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "GRAY",
-      "category": "BITONE",
-      "state": {
-        "BODY": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Iron Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Nardo Gray CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE",
-      "category": "BITONE",
-      "state": {
-        "BODY": "Half White CARPAINT_MATTE_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Half White CARPAINT_MATTE_GLTF",
-        "BACKGROUND": "Half White PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Half White CARPAINT_MATTE_GLTF"
-      }
-    },
-    {
-      "name": "RED",
-      "category": "BITONE",
-      "state": {
-        "BODY": "Red CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Red CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Red PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Red CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "BLUE",
-      "category": "BITONE",
-      "state": {
-        "BODY": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "New Midnight Blue PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "MidnightBlue CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE_SILVER",
-      "category": "BITONE",
-      "state": {
-        "BODY": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "White Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "WhiteSmoke CARPAINT_METALLIC_GLTF"
-      }
-    }
-  ],
+  "mat_subset_categories": [],
+  "mat_subsets": [],
   "global_mat_sets": [],
-  "area_lights": [],
+  "area_lights": [
+    {
+      "name": "Area",
+      "rig": "LIGHTS",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intensity": 5.0,
+      "width": 1.0,
+      "height": 4.7059,
+      "position": [
+        -1.7369,
+        1.3096,
+        0.0
+      ],
+      "quaternion": [
+        -0.637667,
+        -0.305582,
+        0.305582,
+        0.637667
+      ]
+    },
+    {
+      "name": "Area.001",
+      "rig": "LIGHTS",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intensity": 5.0,
+      "width": 1.0,
+      "height": 4.7059,
+      "position": [
+        1.8973,
+        1.3096,
+        0.0
+      ],
+      "quaternion": [
+        -0.616417,
+        0.346454,
+        -0.346454,
+        0.616417
+      ]
+    }
+  ],
   "mat_name_map": {
-    "CARBON_FIBER_1_GLTF": "CARBON_FIBER_1_GLTF",
-    "CARBON_FIBER_GLTF": "CARBON_FIBER_1_GLTF",
-    "CARBON_FIBER_GLTF.001": "CARBON_FIBER_1_GLTF"
+    "GROUNDSHADOW": "GROUNDSHADOW"
   },
   "default_geo_state": {
     "LIGHTS": "NONE",
-    "ENVIRONMENTS": "NONE",
-    "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
-    "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
-    "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-    "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_SPORTY"
+    "ENVIRONMENTS": "NONE"
   },
   "default_variant": "",
-  "default_mat_subset": {
-    "name": "GRAY",
-    "category": "BITONE"
-  },
+  "default_mat_subset": null,
   "camera": {
-    "zoom_min": 2.763,
-    "zoom_max": 13.31,
-    "floor_z": -0.345,
-    "startup_camera": {
-      "position": [
-        -4.1674,
-        1.1274,
-        -6.8269
-      ],
-      "forward": [
-        0.5449,
-        -0.1744,
-        0.8202
-      ],
-      "up": [
-        0.0965,
-        0.9847,
-        0.1453
-      ],
-      "hfov_deg": 39.598
-    },
-    "focal_length_mm": 50.0,
-    "sensor_width_mm": 36.0,
-    "roof_z": 5.9739
+    "zoom_min": 2.0,
+    "zoom_max": 15.0,
+    "floor_z": 0.0,
+    "startup_camera": null,
+    "focal_length_mm": null,
+    "sensor_width_mm": null,
+    "roof_z": null
   },
   "hdri": {
-    "file": "hdri/hdri_1.hdr",
+    "file": "hdri/environment_1.hdr",
     "strength": 1.0,
     "background": true,
     "flatten_ground": true,
-    "ground_height": -0.71,
-    "ground_radius": 4.67,
-    "ground_rotation_z": 29.91,
+    "ground_height": -0.364,
+    "ground_radius": 1.04,
+    "ground_rotation_z": 30.0,
     "ground_scale": 10.0,
     "ground_offset": [
       0.0,
       0.0
     ],
-    "ground_z_offset": -0.12
+    "ground_z_offset": 0.0
   },
   "hdris": [
     {
-      "name": "HDRI 1",
-      "file": "hdri/hdri_1.hdr",
+      "name": "Environment 1",
+      "file": "hdri/environment_1.hdr",
       "strength": 1.0,
       "background": true,
       "rotation_z": 0.0,
       "flatten_ground": true,
-      "ground_height": -0.71,
-      "ground_radius": 4.67,
-      "ground_rotation_z": 29.91,
+      "ground_height": -0.364,
+      "ground_radius": 1.04,
+      "ground_rotation_z": 30.0,
       "ground_scale": 10.0,
       "ground_offset": [
         0.0,
         0.0
       ],
-      "ground_z_offset": -0.12,
+      "ground_z_offset": 0.0,
       "grade_exposure": 0.65,
-      "grade_brightness": 1.0,
-      "grade_contrast": 1.25,
-      "grade_saturation": 1.25,
+      "grade_brightness": 0.65,
+      "grade_contrast": 1.2,
+      "grade_saturation": 1.2,
       "grade_bloom": 0.1,
-      "default": true
+      "grade_bloom_threshold": 0.91,
+      "default": true,
+      "environment": null,
+      "light": null,
+      "ambient_color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "ambient_strength": 0.0
     }
   ],
+  "environment_sets": [],
+  "light_sets": [
+    "LIGHTS_STUDIO"
+  ],
+  "environment_common_exists": true,
+  "light_common_exists": true,
   "grade": {
     "tone_mapping": "AgX",
-    "view_transform": "AgX",
-    "exposure": 0.65,
-    "env_intensity": 2.0,
+    "view_transform": "Filmic",
+    "exposure": -1.5,
+    "ambient_intensity": 0.25,
+    "env_intensity": 1.0,
     "env_rotation": [
       0.0,
       0.0,
       0.0
     ],
     "env_scale": [
-      0.6,
+      1.0,
       1.0,
       1.0
     ],
-    "brightness": 0.65,
-    "contrast": 1.2,
-    "saturation": 1.5,
-    "bloom": 0.0
+    "brightness": 0.75,
+    "contrast": 1.25,
+    "saturation": 0.9,
+    "bloom": 0.05,
+    "bloom_threshold": 0.88
   },
   "transitions": {
     "material": true,
     "geometry": true,
-    "mat_ms": 400,
-    "geo_ms": 400
+    "mat_ms": 300,
+    "geo_ms": 180
   },
   "ar": {
     "ios_enabled": false,
@@ -536,112 +422,464 @@ const CFG = {
   "animations": {
     "controls": [
       {
-        "name": "Explode",
-        "anim_type": "PROCEDURAL",
+        "name": "ANIM_ROOF_EMPTY",
+        "anim_type": "SCENE",
         "states": 2,
         "trigger": "button",
-        "builtin": "explode"
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_BOOT_EMPTY",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
       }
     ],
     "combos": [
       {
-        "name": "WHEELS",
+        "name": "ROOF_ANIMATION",
         "members": [
-          "FRWHEEL_L",
-          "FRWHEEL_R"
+          "ANIM_ROOF_EMPTY",
+          "ANIM_ROOF",
+          "ANIM_ROOF_MECHANISM_4_L",
+          "ANIM_ROOF_MECHANISM_3_L",
+          "ANIM_ROOF_MECHANISM_1_R",
+          "ANIM_ROOF_MECHANISM_2_L",
+          "ANIM_ROOF_MECHANISM_1_L",
+          "ANIM_ROOF_MECHANISM_2_R",
+          "ANIM_ROOF_MECHANISM_3_R",
+          "ANIM_ROOF_MECHANISM_4_R",
+          "ANIM_ROOF_MECHANISM_6_R",
+          "ANIM_ROOF_MECHANISM_5_R",
+          "ANIM_ROOF_MECHANISM_6_L",
+          "ANIM_ROOF_MECHANISM_5_L",
+          "ANIM_BOOT_EMPTY",
+          "ANIM_ROOF_MECHANISM_EMPTY_L",
+          "ANIM_ROOF_MECHANISM_EMPTY_R"
         ],
         "trigger": "hotspot",
-        "states": 3,
-        "state_names": [
-          "+30",
-          "0",
-          "-30"
-        ],
-        "member_fracs": {
-          "FRWHEEL_L": [
-            0.0,
-            0.5,
-            1.0
-          ],
-          "FRWHEEL_R": [
-            0.0,
-            0.5,
-            1.0
-          ]
-        },
-        "playback_mode": "PINGPONG",
-        "default_state": 1,
-        "hotspot_position": [
-          0.0,
-          -0.639,
-          -2.4288
-        ],
-        "hotspot_scale": 0.1526,
-        "hotspot_color": [
-          1.0,
-          1.0,
-          1.0
-        ],
-        "extra_hotspots": [],
-        "extra_meshes": [],
-        "extra_images": []
-      },
-      {
-        "name": "HOOD",
-        "members": [
-          "HOOD_VENTS",
-          "HOOD_BASE"
-        ],
-        "trigger": "button",
         "states": 2,
         "state_names": [
-          "Closed",
-          "Open"
+          "Start",
+          "End"
         ],
         "member_fracs": {
-          "HOOD_VENTS": [
+          "ANIM_ROOF_EMPTY": [
             0.0,
             1.0
           ],
-          "HOOD_BASE": [
+          "ANIM_ROOF": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_BOOT_EMPTY": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_R": [
             0.0,
             1.0
           ]
         },
         "playback_mode": "PINGPONG",
-        "extra_hotspots": [
-          {
-            "position": [
-              0.0,
-              0.0,
-              -2.4276
-            ],
-            "scale": 0.15,
-            "color": [
-              1.0,
-              0.42,
-              0.21
-            ],
-            "object": "HOTSPOT_HOOD_extra0"
-          }
+        "hotspot_position": [
+          -1.9079,
+          0.0,
+          -0.0
         ],
-        "extra_meshes": [
-          {
-            "mesh": "Plane.020"
-          },
-          {
-            "mesh": "Plane.029"
-          }
+        "hotspot_scale": 0.25,
+        "hotspot_color": [
+          1.0,
+          0.42,
+          0.21
         ],
+        "extra_hotspots": [],
         "extra_images": []
       }
     ],
     "sequences": []
   },
+  "annotations": [
+    {
+      "name": "Annotation_1",
+      "position": [
+        -1.0006,
+        0.0858,
+        1.2941
+      ],
+      "size": 0.43,
+      "opacity": 60.544,
+      "color": [
+        0.784,
+        0.663,
+        0.431
+      ],
+      "show_video": false,
+      "text": "PORSCHE 911",
+      "video": "",
+      "link_type": "none",
+      "link_target": ""
+    }
+  ],
+  "annotation_popup_style": {
+    "bgColor": "#0a0a0c",
+    "bgOpacity": 92,
+    "borderColor": "#c8a96e",
+    "borderWidth": 1,
+    "radius": 6,
+    "textColor": "#ffffff",
+    "textFontSize": 14,
+    "videoWidthPct": 26
+  },
   "cameras": {
     "fly_duration": 1.2,
-    "zoom_min": 2.763,
-    "zoom_max": 13.31,
+    "zoom_min": 2.0,
+    "zoom_max": 15.0,
     "turntable": {
       "enabled": false,
       "name": "Turntable_Camera"
@@ -653,6 +891,13 @@ const CFG = {
     }
   }
 };
+// Material options the artist pulled out of the sidebar in the UI Designer —
+// rendered as floating clickable thumbnails over the canvas instead (see
+// buildThumbnailOverlays() in ui.js).
+const WCE_OVERLAYS = /*WCE_OVERLAYS_START*/[]/*WCE_OVERLAYS_END*/;
+const WCE_THEME = /*WCE_THEME_START*/{"colors": {"bg": "#0a0a0b", "panel": "#101013", "border": "#1c1c22", "accent": "#c8a96e", "a2": "#4a8cff", "ok": "#4caf7d", "hot": "#ff6b35", "cam": "#9b59b6", "text": "#e2ddd6", "muted": "#52526a"}, "panel2Bg": "#000000", "panel2Opacity": 100, "panelLayout": "tabs", "typography": {"family": "Rajdhani", "size": 12, "letterSpacing": 0.07, "weight": 500, "italic": false, "transform": "none"}, "groups": [{"id": "primary", "label": "Global", "selectors": [".pb2", ".gb", ".tb", ".anim-btn", ".cam-btn", ".tt-btn", ".vc", ".tnb", ".cin-btn", "#ar-btn", "#sfx-toggle", ".sr select"], "shape": "rounded", "radius": 3, "padY": 7, "padX": 10, "borderWidth": 1}], "overlays": [], "customGroups": [], "profiles": [], "thumbnailGroups": [], "globalThumbProps": {"size": 46, "shape": "circle", "radius": 12, "borderWidth": 2, "borderColor": "#ffffff"}, "chromeOverrides": {}, "startupPage": {"bgImage": null, "bgOpacity": 100, "iconImage": null, "iconOpacity": 100, "iconSize": 28, "colTxt": "", "colBar": "", "colErr": "#c0392b", "txtBoot": "INITIALISING", "txtInit": "LOADING CONFIG", "txtModel": "LOADING MODEL", "txtErr": "ERROR \u2014", "txtErrSt": "LOAD ERROR", "fontFamily": "", "fontSize": 10, "fontWeight": 400, "fontItalic": false}, "annotationPopup": {"bgColor": "#0a0a0c", "bgOpacity": 92, "borderColor": "#c8a96e", "borderWidth": 1, "radius": 6, "textColor": "#ffffff", "textFontSize": 14, "videoWidthPct": 26}, "annotationContent": {"Annotation_1": {"text": "PORSCHE 911"}}}/*WCE_THEME_END*/;
+const WCE_PROFILES = /*WCE_PROFILES_START*/[]/*WCE_PROFILES_END*/;
+const WCE_THUMBNAIL_GROUPS = /*WCE_THUMBGROUPS_START*/[]/*WCE_THUMBGROUPS_END*/;
 // Whichever HDRI entry is flagged default (or the first one) — used to seed
 // the renderer's initial exposure/bloom/grade before _loadHDRIItem()'s async
 // load resolves and _applyHDRITexture() takes over for live switching.
@@ -660,6 +905,7 @@ const _initHdri = (CFG.hdris && CFG.hdris.length) ? (CFG.hdris.find(h => h.defau
 
 let root=null, matMap={}, varData={}, activeV=null, geoSt={}, matSt={};
 let _panMin=null, _panMax=null;  // set after GLB loads; used by tick to clamp pan
+let _areaLights=[];   // THREE.RectAreaLight[] created from CFG.area_lights, each tagged with its source rig — see _applyEnvironmentAndLight
 window.geoSt=geoSt; window.matSt=matSt;
 try{Object.defineProperty(window,'activeV',{get:()=>activeV,set:v=>{activeV=v;},configurable:true});}catch(e){}
 
@@ -677,8 +923,17 @@ renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMappingExposure=Math.pow(2,_initHdri?(_initHdri.grade_exposure||0):((CFG.grade && CFG.grade.exposure)||0));
 
 const scene=new THREE.Scene();
+
+// Persistent Ambient Light used two ways:
+//  1. The old scene-wide CFG.grade.ambient_intensity (kept for back-compat).
+//  2. Per-panel Ambient Light fallback (see _applyAmbientFallback) — updates
+//     this same light's color/intensity when a panel has no effective HDRI.
+const ambInt = (CFG.grade && CFG.grade.ambient_intensity) || 0.0;
+const _ambientLight = new THREE.AmbientLight(0xffffff, ambInt);
+scene.add(_ambientLight);
+
 const cam=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,500);
-cam.position.set(0,2,CFG.camera.zoom_max*0.65);
+cam.position.set(0,2,((CFG.camera&&CFG.camera.zoom_max)||15.0)*0.65);
 
 // Vertical FOV derived from the Scene's camera focal length + sensor width
 // (physically correct horizontal→vertical conversion at the CURRENT aspect,
@@ -767,11 +1022,101 @@ function _envEulerZ(rotZdeg){
   return new THREE.Euler(0,y,0,'XYZ');
 }
 
+function _applyEnvironmentAndLight(item){
+  // Show/hide ENVIRONMENTS_<Name> / LIGHTS_<Name> nodes for this panel's
+  // choices, additively alongside the always-on common layers
+  // (ENVIRONMENT_common, LIGHTS) — unless a choice is null (meaning that
+  // dropdown was set to None), which opts this panel out of its common
+  // layer too. Mirrors applyGeoToggle's node-visibility approach, reusing
+  // the same findNode mechanism since these are exported the same way
+  // GEOMETRIES_ collections already are.
+  const envSets=CFG.environment_sets||[];
+  const lightSets=CFG.light_sets||[];
+  const envChoice=(item&&item.environment)?item.environment.replace(/ /g,'_'):null;
+  const lightChoice=(item&&item.light)?item.light.replace(/ /g,'_'):null;
+
+  envSets.forEach(name=>{
+    const n=findNode(name);
+    if(n) n.visible=(name.replace(/ /g,'_')===envChoice);
+  });
+  if(CFG.environment_common_exists){
+    const cn=findNode('ENVIRONMENTS_COMMON');
+    if(cn) cn.visible=(envChoice!=null);
+  }
+  lightSets.forEach(name=>{
+    const n=findNode(name);
+    if(n) n.visible=(name.replace(/ /g,'_')===lightChoice);
+  });
+  if(CFG.light_common_exists){
+    const ln=findNode('LIGHTS');
+    if(ln) ln.visible=(lightChoice!=null);
+  }
+
+  // Area lights (RectAreaLight) aren't part of the glTF node hierarchy at
+  // all — KHR_lights_punctual doesn't cover area lights — so they can't
+  // ride along with the node-visibility switching above. They're added
+  // directly to the Three.js scene instead (see the GLTFLoader callback),
+  // each tagged with which rig it came from at export time. Toggle them
+  // here too, using the exact same on/off rule as the mesh-based lights,
+  // so an environment that doesn't include a given rig no longer keeps
+  // that rig's area lights lit forever.
+  _areaLights.forEach(light=>{
+    const rawRig=light.userData.wceRig;
+    if(!rawRig){ light.visible=true; return; }   // pre-fix export, no rig tag — always on
+    const rig=rawRig.replace(/ /g,'_');
+    light.visible=(rig==='LIGHTS')?(lightChoice!=null):(rig===lightChoice);
+  });
+}
+
+function _applyAmbientFallback(item){
+  // Flat fallback lighting for a panel with no effective HDRI (no file of
+  // its own and no usable Common HDRI). Mirrors the Blender-side Ambient
+  // Light branch in _wce_push_hdri_to_world: clear any environment/
+  // background texture and light the scene with a plain AmbientLight
+  // instead, defaulting to solid black rather than leaving whatever was
+  // previously rendered (or an undefined/transparent canvas).
+  scene.environment=null;
+  if(scene.background && scene.background.isTexture) scene.background=null;
+  scene.background=new THREE.Color(0,0,0);
+  if(_groundSky){ scene.remove(_groundSky); _groundSky.geometry?.dispose?.(); _groundSky=null; }
+  const c=(item&&item.ambient_color)||[1,1,1];
+  _ambientLight.color.setRGB(c[0]??1,c[1]??1,c[2]??1);
+  _ambientLight.intensity=(item&&item.ambient_strength!=null)?item.ambient_strength:0.3;
+  // Fallback look/post-process — same fields _snapHDRI applies for a real
+  // HDRI, sourced here from this panel's own (or scene-default) values so a
+  // no-HDRI panel still gets a deliberate grade instead of inheriting
+  // whatever the previously-active HDRI left behind.
+  if(typeof renderer!=='undefined' && renderer)
+    renderer.toneMappingExposure=Math.pow(2,(item&&item.grade_exposure)||0);
+  if(typeof gradePass!=='undefined' && gradePass && gradePass.material){
+    const u=gradePass.material.uniforms;
+    u.brightness.value=(item&&item.grade_brightness!=null)?item.grade_brightness:1.0;
+    u.contrast.value=(item&&item.grade_contrast!=null)?item.grade_contrast:1.0;
+    u.saturation.value=(item&&item.grade_saturation!=null)?item.grade_saturation:1.0;
+  }
+  if(typeof bloomPass!=='undefined' && bloomPass){
+    bloomPass.strength=(item&&item.grade_bloom!=null)?item.grade_bloom:0.25;
+    bloomPass.threshold=(item&&item.grade_bloom_threshold!=null)?item.grade_bloom_threshold:0.88;
+  }
+  scene.environmentIntensity=(item&&item.strength!=null)?item.strength:1.0;
+  _hdriActiveFile=null;
+  if(typeof requestRender==='function') requestRender(400);
+}
+
 function _snapHDRI(item,tex,envRT){
   // Instant application — called directly on first load and at the midpoint
   // of the cross-fade (when intensity is already 0) when transitioning.
   _equirectTex=tex;
   scene.environment=envRT.texture;
+  // A real HDRI is driving lighting now — the per-panel Ambient Light
+  // fallback doesn't apply, so switch it fully off. (Previously this fell
+  // back to the shared scene-wide CFG.grade.ambient_intensity, which is the
+  // same value every no-HDRI environment's Ambient toggle writes to — so an
+  // ambient light left on by one no-HDRI environment would keep bleeding
+  // into any HDRI environment switched to afterwards. This panel's own
+  // ambient_strength is guaranteed 0 whenever it has an image, so 0 here is
+  // always correct.)
+  _ambientLight.intensity=0;
   const targetStrength=(item.strength!=null)?item.strength:1.0;
   scene.environmentIntensity=targetStrength;
   const _eul=_envEulerZ(item.rotation_z);
@@ -803,8 +1148,10 @@ function _snapHDRI(item,tex,envRT){
     u.contrast.value=(item.grade_contrast!=null)?item.grade_contrast:1.0;
     u.saturation.value=(item.grade_saturation!=null)?item.grade_saturation:1.0;
   }
-  if(typeof bloomPass!=='undefined' && bloomPass)
+  if(typeof bloomPass!=='undefined' && bloomPass){
     bloomPass.strength=(item.grade_bloom!=null)?item.grade_bloom:0.25;
+    bloomPass.threshold=(item.grade_bloom_threshold!=null)?item.grade_bloom_threshold:0.88;
+  }
   _hdriActiveFile=item.file;
 }
 
@@ -814,7 +1161,14 @@ function _applyHDRITexture(item,tex,envRT){
 }
 
 function _loadHDRIItem(item){
-  if(!item || !item.file) return;
+  // Environment/Light switching and the Ambient Light fallback both work
+  // independently of whether this panel has an HDRI file — run first,
+  // unconditionally, even when there is no panel at all (item is null,
+  // e.g. zero Environment entries created) so the scene always ends up in a
+  // deliberate state (solid black + flat ambient) rather than whatever
+  // Three.js's own defaults happen to leave it in.
+  _applyEnvironmentAndLight(item);
+  if(!item || !item.file){ _applyAmbientFallback(item); return; }
   const cached=_hdriCache[item.file];
   if(cached){ _applyHDRITexture(item,cached.tex,cached.envRT); return; }
   new RGBELoader().load(item.file,(t)=>{
@@ -910,6 +1264,58 @@ function _geoDissolveNode(node,dir){
   _bumpAnim((_TRANS.geo_ms||180)+200);
 }
 
+// ── Geometry Opacity: On/Off Switch + Flicker ───────────────────────────────
+// Both reuse _geoDissolveNode above — a plain client-side material fade, with
+// zero dependency on glTF animation channels or KHR_animation_pointer.
+function _triggerGeoToggle(def){
+  const nodes=(def.geo_nodes||[]).map(_findGeoTarget).filter(Boolean);
+  if(!nodes.length) return;
+  const prev=animState[def.name]??0;
+  const next=prev>0?0:1;
+  animState[def.name]=next;
+  nodes.forEach(node=>{
+    if(_TRANS.geometry) _geoDissolveNode(node, next>0?1:-1);
+    else node.visible=(next>0);
+  });
+  const btn=document.querySelector(`.anim-btn[data-anim="${def.name}"]`);
+  if(btn) btn.classList.toggle('playing', next>0);
+  if(typeof requestRender==='function') requestRender(300);
+}
+
+const _geoFlickerTimers={};
+function _triggerGeoFlicker(def){
+  const nodes=(def.geo_nodes||[]).map(_findGeoTarget).filter(Boolean);
+  if(!nodes.length) return;
+  // Re-triggering restarts cleanly rather than stacking two competing loops.
+  if(_geoFlickerTimers[def.name]) _geoFlickerTimers[def.name].forEach(t=>clearTimeout(t));
+  const count=Math.max(1, def.flicker_count||5);
+  const totalMs=Math.max(100, (def.flicker_duration||1.5)*1000);
+  const endsOn=(def.flicker_end_state||'ON')!=='OFF';
+  // count*2 alternating OFF/ON steps always naturally lands on ON (the
+  // pattern starts OFF and count*2 is always even, so the last index is
+  // odd → showing=true). Ending OFF instead just needs one more half-step
+  // tacked on at the end to flip it back down. This is already exact, so
+  // there's no extra "settle" step needed after the loop — an earlier
+  // version had one anyway, which fired a redundant fade every single time
+  // regardless of whether it was needed, showing up as a phantom extra
+  // flicker right at the end of every real one.
+  const totalSteps=count*2+(endsOn?0:1);
+  const stepMs=totalMs/totalSteps;
+  const timers=[];
+  for(let i=0;i<totalSteps;i++){
+    const showing=(i%2===1);
+    timers.push(setTimeout(()=>{
+      nodes.forEach(node=>{
+        if(_TRANS.geometry) _geoDissolveNode(node, showing?1:-1);
+        else node.visible=showing;
+      });
+      if(i===totalSteps-1) delete _geoFlickerTimers[def.name];
+    }, stepMs*i));
+  }
+  _geoFlickerTimers[def.name]=timers;
+  if(typeof requestRender==='function') requestRender(totalMs+300);
+}
+
 const ctrl=new OrbitControls(cam,canvas);
 ctrl.enableDamping=true; ctrl.dampingFactor=0.06;
 ctrl.minDistance=CFG.camera.zoom_min;
@@ -993,6 +1399,7 @@ const SFX=(()=>{
 
 const _grade = _initHdri || CFG.grade || {};
 const _bloomStrength = (_initHdri ? _initHdri.grade_bloom : _grade.bloom) ?? 0.25;
+const _bloomThreshold = (_initHdri ? _initHdri.grade_bloom_threshold : _grade.bloom_threshold) ?? 0.88;
 const comp=new EffectComposer(renderer);
 comp.addPass(new RenderPass(scene,cam));
 // Bloom is the most expensive pass (multi-pass down/up sample) — only add it
@@ -1002,7 +1409,7 @@ const _anyBloom = (CFG.hdris||[]).some(h => (h.grade_bloom||0) > 0) || _bloomStr
 let bloomPass=null;
 if(_anyBloom){
   bloomPass=new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),
-    _bloomStrength,0.4,0.88);
+    _bloomStrength,0.4,_bloomThreshold);
   comp.addPass(bloomPass);
 }
 comp.addPass(new OutputPass());
@@ -1202,22 +1609,23 @@ function allAnimDefs(){
 //   • 2 states   → plain toggle 0↔1 (reverse-close), regardless of mode. This
 //                  keeps built-ins and simple open/close controls behaving as a
 //                  bidirectional toggle.
-//   • >2 states  → LOOP (0→1→…→N-1 then snap-to-0 and on to 1) or PINGPONG
-//                  (0→1→…→N-1→…→1→0→…). `wrap` flags the instant snap-to-0 that
-//                  LOOP does at the end of the cycle before re-advancing.
+//   • >2 states  → LOOP (0→1→…→N-1→0→1→…, each step a normal eased transition)
+//                  or PINGPONG (0→1→…→N-1→…→1→0→…).
 function _stepState(prev,total,mode,name){
-  if(total<=1) return {next:0,wrap:false};
-  if(total===2) return {next:(prev+1)%2,wrap:false};
+  if(total<=1) return {next:0};
+  if(total===2) return {next:(prev+1)%2};
   if(mode==='PINGPONG'){
     let dir=_pingDir[name]??1;
     if(prev>=total-1&&dir===1) dir=-1;
     else if(prev<=0&&dir===-1) dir=1;
     _pingDir[name]=dir;
-    return {next:Math.max(0,Math.min(prev+dir,total-1)),wrap:false};
+    return {next:Math.max(0,Math.min(prev+dir,total-1))};
   }
-  // LOOP
-  if(prev>=total-1) return {next:1,wrap:true};   // snap to 0, then advance to 1
-  return {next:prev+1,wrap:false};
+  // LOOP — wrap back to state 0 the same way every other step happens: a
+  // normal eased transition from wherever we are now, not an instant,
+  // invisible teleport that skips straight past it to state 1.
+  if(prev>=total-1) return {next:0};
+  return {next:prev+1};
 }
 
 function triggerAnim(name){
@@ -1228,14 +1636,21 @@ function triggerAnim(name){
   // Hover is a perpetual on/off toggle, handled by its own state machine.
   if(def.builtin==='hover'){ toggleHover(def); return; }
 
-  // Any explicit trigger takes over the vehicle: stop whichever built-in mode
-  // (Explode / Hover) is running, unless it's the one being triggered now.
+  // GEO_TOGGLE / GEO_FLICKER: pure mesh show/hide, driven entirely by the
+  // viewer's existing client-side dissolve fade (_geoDissolveNode) — no
+  // AnimationMixer, no glTF animation clip involved at all. That's what
+  // makes this possible without hitting the KHR_animation_pointer wall that
+  // blocks animating material/light properties: this never touches glTF
+  // animation data in the first place.
+  if(def.anim_type==='GEO_TOGGLE'){ _triggerGeoToggle(def); return; }
+  if(def.anim_type==='GEO_FLICKER'){ _triggerGeoFlicker(def); return; }
+
   _stopOtherBuiltins(name);
 
   const total=def.states??2;
   const mode=def.playback_mode||'LOOP';
   const prev=animState[name]??0;
-  const {next,wrap}=_stepState(prev,total,mode,name);
+  const {next}=_stepState(prev,total,mode,name);
 
   // Resolve what to drive FIRST, and snapshot each drive's TRUE current state
   // before anything below overwrites animState. A control drives itself with
@@ -1276,9 +1691,22 @@ function triggerAnim(name){
   }
 
   drives.forEach(({m,key,fracs},_i)=>{
+    // A combo member might itself be a GEO_TOGGLE/GEO_FLICKER control — those
+    // don't go through _playMemberSegment at all (no mixer, no glTF clip),
+    // so route them the same way the standalone early-return above does.
+    const mDef=Array.isArray(def.members)?defs.find(d=>d.name===m):def;
+    if(mDef&&mDef.anim_type==='GEO_TOGGLE'){
+      const nodes=(mDef.geo_nodes||[]).map(_findGeoTarget).filter(Boolean);
+      const tgt=next>0?1:0;
+      nodes.forEach(node=>{
+        if(_TRANS.geometry) _geoDissolveNode(node, tgt>0?1:-1); else node.visible=(tgt>0);
+      });
+      return;
+    }
+    if(mDef&&mDef.anim_type==='GEO_FLICKER'){ _triggerGeoFlicker(mDef); return; }
     const fLen=Math.max(1,fracs.length);
     const curState=_snapshot[_i];
-    const mFrom=wrap?0:Math.min(curState,fLen-1);
+    const mFrom=Math.min(curState,fLen-1);
     const mTo=Math.min(next,fLen-1);
     animState[key]=mTo;
     _playMemberSegment(key,fracs,mFrom,mTo);
@@ -1311,6 +1739,26 @@ function flyToAnimState(name, targetState){
   const defs=allAnimDefs();
   const def=defs.find(d=>d.name===name);
   if(!def) return;
+
+  // Same pure-visibility handling as triggerAnim — no AnimationMixer or
+  // glTF clip involved, so this is what lets a Sequence step (which calls
+  // this function directly, not triggerAnim) actually drive one of these.
+  if(def.anim_type==='GEO_TOGGLE'){
+    const nodes=(def.geo_nodes||[]).map(_findGeoTarget).filter(Boolean);
+    if(!nodes.length) return;
+    const tgt=targetState>0?1:0;
+    animState[name]=tgt;
+    nodes.forEach(node=>{
+      if(_TRANS.geometry) _geoDissolveNode(node, tgt>0?1:-1);
+      else node.visible=(tgt>0);
+    });
+    const btn=document.querySelector(`.anim-btn[data-anim="${name}"]`);
+    if(btn) btn.classList.toggle('playing', tgt>0);
+    if(typeof requestRender==='function') requestRender(300);
+    return;
+  }
+  if(def.anim_type==='GEO_FLICKER'){ _triggerGeoFlicker(def); return; }
+
   const total=def.states??2;
   const tgt=Math.max(0,Math.min(targetState,total-1));
 
@@ -1332,7 +1780,17 @@ function flyToAnimState(name, targetState){
   animState[name]=tgt;
 
   // Play each drive from its current position to the explicit target.
-  drives.forEach(({key,fracs},i)=>{
+  drives.forEach(({m,key,fracs},i)=>{
+    const mDef=Array.isArray(def.members)?defs.find(d=>d.name===m):def;
+    if(mDef&&mDef.anim_type==='GEO_TOGGLE'){
+      const nodes=(mDef.geo_nodes||[]).map(_findGeoTarget).filter(Boolean);
+      const t=tgt>0?1:0;
+      nodes.forEach(node=>{
+        if(_TRANS.geometry) _geoDissolveNode(node, t>0?1:-1); else node.visible=(t>0);
+      });
+      return;
+    }
+    if(mDef&&mDef.anim_type==='GEO_FLICKER'){ _triggerGeoFlicker(mDef); return; }
     const fLen=Math.max(1,fracs.length);
     const mFrom=Math.min(snap[i],fLen-1);
     const mTo=Math.min(tgt,fLen-1);
@@ -1360,13 +1818,24 @@ function flyToAnimState(name, targetState){
 
 // Snap each control/combo to its configured default_state on first load — no
 // animation, just place it at the target pose. Built-ins (Explode/Hover) and
-// anything without a default_state stay at rest (state 0).
+// anything without a default_state stay at rest (state 0) — EXCEPT
+// Scene-Animation controls: their glTF default pose is the skin's bind pose
+// (usually a T-pose), which is NOT the same as the real pose baked at frame 0
+// of their NLA track. Those need an explicit snap to state 0 too, or they sit
+// in bind pose until first triggered (visible as a "snap" on first play).
 function _applyDefaultAnimStates(){
+  const _ctrlByName={};
+  ((CFG.animations||{}).controls||[]).forEach(c=>{ _ctrlByName[c.name]=c; });
+  function _needsExplicitSnap(def){
+    const isSpecial=d=>d && (d.anim_type==='SCENE' || d.anim_type==='GEO_TOGGLE');
+    if(Array.isArray(def.members)) return def.members.some(m=>isSpecial(_ctrlByName[m]));
+    return isSpecial(def);
+  }
   allAnimDefs().forEach(def=>{
     if(def.builtin) return;
     const total=def.states??2;
     const ds=Math.max(0,Math.min(def.default_state||0,total-1));
-    if(ds<=0) return;                       // already at rest
+    if(ds<=0 && !_needsExplicitSnap(def)) return;   // already at rest
     animState[def.name]=ds;
     // Set ping-pong direction so the next click steps sensibly from this pose.
     if((def.playback_mode||'LOOP')==='PINGPONG')
@@ -1382,6 +1851,16 @@ function _applyDefaultAnimStates(){
       drives=[{m:def.name, key:_resolveAnimKey(def.name), fracs:def.state_fracs||[0,1]}];
     }
     drives.forEach(({m,key,fracs})=>{
+      // GEO_TOGGLE has no mixer at all — an instant node-visibility snap on
+      // load (a fade here would be an odd thing to see on first paint).
+      // GEO_FLICKER is a one-shot action; there's nothing to "load into".
+      const mDef=Array.isArray(def.members)?_ctrlByName[m]:def;
+      if(mDef&&mDef.anim_type==='GEO_TOGGLE'){
+        const nodes=(mDef.geo_nodes||[]).map(_findGeoTarget).filter(Boolean);
+        nodes.forEach(node=>{ node.visible=(ds>0); });
+        return;
+      }
+      if(mDef&&mDef.anim_type==='GEO_FLICKER') return;
       const fLen=Math.max(1,fracs.length);
       const mTo=Math.min(ds,fLen-1);
       animState[key]=mTo;
@@ -1444,27 +1923,41 @@ function _playMemberSegment(key,fracs,fromIdx,toIdx){
   action.enabled=true;
   action.weight=1;
 
+  const timeA=f0*dur, timeB=f1*dur;
+
   if(Math.abs(f1-f0)<1e-6){
     // Clamped / hold — sit at the target pose, no motion.
-    action.timeScale=1;
-    action.time=f1*dur;
+    action.time=timeB;
     action.paused=true;
     action.play();
     // Use 1/60 instead of 0 — Three.js requires a non-zero delta in some
     // builds to actually flush animation bindings to the scene nodes.
-    // The action is paused so its time stays at f1*dur; only the binding
+    // The action is paused so its time stays at timeB; only the binding
     // evaluation step runs.
     mx.update(1/60);
     return;
   }
 
-  const dir=(f1>f0)?1:-1;
-  action.paused=false;
-  action.timeScale=dir;
-  action.time=f0*dur;
+  // Drive `action.time` ourselves every tick (see _tickMixers) instead of
+  // letting Three.js auto-advance it via timeScale/play(). Three.js's
+  // LoopOnce handling has a documented edge case with negative timeScale:
+  // when time crosses below 0 during reverse playback, its own internal
+  // finish/clamp logic snaps time to `duration` (not 0) and pauses there —
+  // which is exactly the full-span reverse segment a state-loop wrap
+  // produces (e.g. state 3 back to state 0). That raced against our own
+  // interior-stop check and could leave a segment sailing past its target.
+  // Scrubbing `time` directly sidesteps the whole mechanism: the eased
+  // motion still comes from the baked keyframe curve itself, only "what
+  // time is it right now" moves from Three.js's play/pause/timeScale
+  // machinery to us. `play()` once to activate/register the action with
+  // the mixer, then immediately pause it so nothing auto-advances it.
+  action.time=timeA;
   action.play();
-  // Watch for the interior target; tick loop pauses exactly there.
-  _segWatch[key]={action,target:f1*dur,dir};
+  action.paused=true;
+
+  const durationMs=Math.abs(timeB-timeA)*1000;
+  _segWatch[key]={action,timeA,timeB,durationMs,startMs:performance.now()};
+  mx.update(0);
 }
 
 /**
@@ -1511,13 +2004,19 @@ function _initAnimMixers(gltf){
     // Phase 3: substring match — but ONLY against standalone controls, never
     // against combos, and never when the clip name is itself a known combo member.
     // This prevents "HOOD_VENTS" matching the combo named "HOOD".
+    // Among standalone matches, the LONGEST name wins (most specific) — so a
+    // clip like "ANIM_Door_Open" matches control "Door_Open" over "Door",
+    // regardless of which one happened to be scanned/created first.
     if(!match && !comboMemberNames.has(clip.name) && !comboMemberNames.has(clip.name.replace(/ /g,'_'))){
-      match=controls.find(d=>{
-        if(Array.isArray(d.members)) return false;   // skip combos entirely
+      const cnLower=clip.name.toLowerCase();
+      let best=null;
+      for(const d of controls){
+        if(Array.isArray(d.members)) continue;   // skip combos entirely
         const s=d.name.replace(/ /g,'_');
-        return clip.name.toLowerCase().includes(d.name.toLowerCase())
-            || clip.name.toLowerCase().includes(s.toLowerCase());
-      });
+        const hit=cnLower.includes(d.name.toLowerCase()) || cnLower.includes(s.toLowerCase());
+        if(hit && (!best || d.name.length>best.name.length)) best=d;
+      }
+      match=best;
     }
 
     if(!match){
@@ -1546,15 +2045,18 @@ function _initAnimMixers(gltf){
 
 function _tickMixers(){
   const dt=_clock.getDelta();
-  Object.values(animMixers).forEach(mx=>mx.update(dt));
-  // Stop segment actions exactly at their interior target time. LoopOnce only
-  // clamps at a clip's natural end, so mid-clip state holds are enforced here.
+  const now=performance.now();
+  // Manually scrub every in-flight segment BEFORE the mixer update below, so
+  // the paused actions get bound at the position we just computed (paused
+  // actions still get their bindings re-applied on update(), they just don't
+  // auto-advance) — see _playMemberSegment for why this is driven manually.
   for(const k in _segWatch){
     const w=_segWatch[k];
     if(!w||!w.action){delete _segWatch[k];continue;}
-    const t=w.action.time;
-    if((w.dir>0&&t>=w.target)||(w.dir<0&&t<=w.target)){
-      w.action.time=w.target;
+    const frac=w.durationMs>0?Math.min((now-w.startMs)/w.durationMs,1):1;
+    w.action.time=w.timeA+(w.timeB-w.timeA)*frac;
+    if(frac>=1){
+      w.action.time=w.timeB;
       w.action.paused=true;
       delete _segWatch[k];
       // Clear this key from its definition's live set.
@@ -1569,6 +2071,7 @@ function _tickMixers(){
       }
     }
   }
+  Object.values(animMixers).forEach(mx=>mx.update(dt));
   if(_hoverMixer) _hoverMixer.update(dt);
   _cinematicMixers.forEach(mx=>mx.update(dt));
 }
@@ -1585,7 +2088,14 @@ let _flyActive=false,_flyPending=false,_flyT=0,_flyDur=FLY_DURATION;
 const _flyFromPos=new THREE.Vector3(),_flyToPos=new THREE.Vector3();
 const _flyFromTgt=new THREE.Vector3(),_flyToTgt=new THREE.Vector3();
 const _flyDestPos=new THREE.Vector3(),_flyDestTgt=new THREE.Vector3();
+// Last known-good camera state — lets the render loop self-heal if
+// OrbitControls' internal math ever produces an Infinity/NaN position
+// (e.g. from an orbit radius too close to zero), rather than the camera
+// staying permanently broken with no way to recover on its own.
+const _camLastGoodPos=new THREE.Vector3(),_camLastGoodTarget=new THREE.Vector3();
+let _camHasGoodState=false;
 let _flyDestSound=null;
+let _flyDestLockTumblePan=false;
 
 let _turntableActive=false,_turntableAngle=0;
 const _turntableSpeed=0.003;
@@ -1610,6 +2120,11 @@ function flyToCamera(camName){
     _flyDestTgt.copy(destPos).addScaledVector(_fwdEst2,-3.0);
   }
   _flyDestSound=def.sound||null;
+  // Lock Tumble/Pan: force the orbit radius to (effectively) zero, so
+  // OrbitControls' own rotation still works as a look-around from this exact
+  // spot, but dragging/zooming can never move the camera away from it or pan
+  // the pivot elsewhere. A normal camera restores the real zoom range.
+  _flyDestLockTumblePan=!!def.lock_tumble_pan;
   _flyT=0; _flyDur=FLY_DURATION; _flyPending=true; _flyActive=false;
   document.querySelectorAll('.cam-btn').forEach(b=>b.classList.toggle('active',b.dataset.cam===camName));
   document.querySelector('.tt-btn')?.classList.remove('active');
@@ -1621,6 +2136,15 @@ function _tickFly(){
   if(_flyT>=1){
     _flyT=1; _flyActive=false;
     document.querySelectorAll('.cam-btn').forEach(b=>b.classList.remove('active'));
+    // Locked: force the orbit radius to (effectively) zero — OrbitControls'
+    // own rotation still works as a look-around from this exact spot, but
+    // dragging/zooming can never move the camera away from it. A normal
+    // camera restores the real zoom range exactly as configured.
+    if(_flyDestLockTumblePan){
+      ctrl.minDistance=0.05; ctrl.maxDistance=0.05;
+    } else {
+      ctrl.minDistance=ZOOM_MIN; ctrl.maxDistance=ZOOM_MAX;
+    }
   }
   const t=_flyT*_flyT*(3-2*_flyT);
   const tgt=new THREE.Vector3().lerpVectors(_flyFromTgt,_flyToTgt,t);
@@ -1845,12 +2369,24 @@ function _hsGlowPx(scale){
 function _initHotspots(){
   const layer=document.getElementById('hotspot-layer');
   allAnimDefs().forEach(def=>{
-    if(def.trigger!=='hotspot'||!def.hotspot_position) return;
-    const pos=def.hotspot_position;
-    const el=_makeHotspotEl(def.hotspot_color, def.hotspot_scale);
-    layer.appendChild(el);
-    hotspots.push({name:def.name,pos:new THREE.Vector3(pos[0],pos[1],pos[2]),el,px:_hsGlowPx(def.hotspot_scale),op:0});
-    el.addEventListener('pointerdown',(e)=>{ e.stopPropagation(); triggerAnim(def.name); });
+    if(def.trigger==='hotspot'&&def.hotspot_position&&!def.hidden_ui){
+      const pos=def.hotspot_position;
+      const el=_makeHotspotEl(def.hotspot_color, def.hotspot_scale);
+      layer.appendChild(el);
+      hotspots.push({name:def.name,pos:new THREE.Vector3(pos[0],pos[1],pos[2]),el,px:_hsGlowPx(def.hotspot_scale),op:null});
+      el.addEventListener('pointerdown',(e)=>{ e.stopPropagation(); triggerAnim(def.name); });
+    }
+    // Extra/additional hotspot triggers — independent of this control's own
+    // main trigger type, each one fires the same animation on click and gets
+    // the same realtime occlusion/scale ticking as the main hotspots.
+    (def.extra_hotspots||[]).forEach((xh,xi)=>{
+      if(!xh||!xh.position||def.hidden_ui) return;
+      const pos=xh.position;
+      const el=_makeHotspotEl(xh.color, xh.scale);
+      layer.appendChild(el);
+      hotspots.push({name:'__extra_'+def.name+'_'+xi,pos:new THREE.Vector3(pos[0],pos[1],pos[2]),el,px:_hsGlowPx(xh.scale),op:null});
+      el.addEventListener('pointerdown',(e)=>{ e.stopPropagation(); triggerAnim(def.name); });
+    });
   });
   // Sequence hotspots
   ((CFG.animations||{}).sequences||[]).forEach(seq=>{   
@@ -1858,18 +2394,151 @@ function _initHotspots(){
     const pos=seq.hotspot_position;
     const el=_makeHotspotEl(seq.hotspot_color||[1,0.42,0.21], seq.hotspot_scale??0.35);
     layer.appendChild(el);
-    hotspots.push({name:'__seq_'+seq.name,pos:new THREE.Vector3(pos[0],pos[1],pos[2]),el,px:_hsGlowPx(seq.hotspot_scale??0.35),op:0});
+    hotspots.push({name:'__seq_'+seq.name,pos:new THREE.Vector3(pos[0],pos[1],pos[2]),el,px:_hsGlowPx(seq.hotspot_scale??0.35),op:null});
     el.addEventListener('pointerdown',(e)=>{ e.stopPropagation(); executeSequence(seq.name); });
   });
-  // Extra hotspots from controls and combos
+  // Cinematic hotspot
   const cin=camCfg.cinematic||{};
   if(cin.trigger==='hotspot'&&cin.hotspot_position){
     const pos=cin.hotspot_position;
     const el=_makeHotspotEl(cin.hotspot_color, cin.hotspot_scale);
     layer.appendChild(el);
-    hotspots.push({name:'__cin__',pos:new THREE.Vector3(pos[0],pos[1],pos[2]),el,px:_hsGlowPx(cin.hotspot_scale),op:0});
+    hotspots.push({name:'__cin__',pos:new THREE.Vector3(pos[0],pos[1],pos[2]),el,px:_hsGlowPx(cin.hotspot_scale),op:null});
     el.addEventListener('pointerdown',(e)=>{ e.stopPropagation(); _cinematicPlaying?_stopCinematic():_startCinematic(); });
   }
+}
+
+// ── 3D Annotations — purely informational markers (text or looping video on
+// click), never trigger an animation/state change. Reuses the hotspot array's
+// existing projection/occlusion tracking in _tickHotspots (proven, already
+// optimized for many markers), just with its own quiet-until-hover visual
+// style instead of the constant hs-pulse animation, and its own click
+// behavior (show a popup) instead of triggering an animation.
+const _annotationDefs=[];
+function _makeAnnotationEl(a){
+  const el=document.createElement('div');
+  el.className='annot-marker';
+  const px=Math.max(8,(a.size||1)*24);
+  el.style.width=px+'px'; el.style.height=px+'px';
+  el.style.transform='translate(-50%,-50%)';
+  const c=a.color||[0.78,0.66,0.43];
+  const col='rgb('+Math.round(c[0]*255)+','+Math.round(c[1]*255)+','+Math.round(c[2]*255)+')';
+  el.style.background=col;
+  el.style.boxShadow='0 0 6px '+col;
+  el.style.opacity=(a.opacity!=null?a.opacity:100)/100;
+  return el;
+}
+function _closeAnnotationPopup(){
+  const p=document.getElementById('annot-popup-active');
+  if(p) p.remove();
+}
+function _showAnnotationPopup(a, el){
+  _closeAnnotationPopup();
+  const pop=document.createElement('div');
+  pop.className='annot-popup'; pop.id='annot-popup-active';
+
+  const s=CFG.annotation_popup_style||{};
+  const bgOpacity=(s.bgOpacity!=null?s.bgOpacity:92)/100;
+  const bgHex=s.bgColor||'#0a0a0c';
+  const bgRgb=[1,3,5].map(i=>parseInt(bgHex.substr(i,2),16)||0);
+  pop.style.background='rgba('+bgRgb[0]+','+bgRgb[1]+','+bgRgb[2]+','+bgOpacity+')';
+  pop.style.borderColor=s.borderColor||'#c8a96e';
+  pop.style.borderWidth=(s.borderWidth!=null?s.borderWidth:1)+'px';
+  pop.style.borderStyle='solid';
+  pop.style.borderRadius=(s.radius!=null?s.radius:6)+'px';
+  pop.style.color=s.textColor||'#ffffff';
+  pop.style.fontSize=(s.textFontSize!=null?s.textFontSize:14)+'px';
+
+  const canvasEl=document.getElementById('c');
+  const canvasRect=canvasEl?canvasEl.getBoundingClientRect():{left:0,top:0,width:innerWidth,height:innerHeight};
+
+  let inner='<div class="annot-popup-close">✕</div>';
+  if(a.show_video && a.video){
+    // Sized purely from the Designer's own setting — matches the mock
+    // preview exactly, no 3D-object dimension involved at all anymore.
+    const vw=Math.max(140,(s.videoWidthPct!=null?s.videoWidthPct:26)/100*canvasRect.width);
+    pop.style.width=vw+'px';
+    pop.style.maxWidth='none';
+    inner+='<video src="'+a.video+'" autoplay loop muted playsinline></video>';
+  } else {
+    pop.style.width='';
+    pop.style.maxWidth='320px';
+    inner+='<div>'+(a.text||'').replace(/</g,'&lt;')+'</div>';
+  }
+  pop.innerHTML=inner;
+  document.body.appendChild(pop);
+
+  // Positioned at the marker's own projected screen location.
+  const pw=pop.offsetWidth, ph=pop.offsetHeight;
+  let left, top;
+  if(a.position){
+    const v=new THREE.Vector3(a.position[0],a.position[1],a.position[2]).project(cam);
+    const sx=canvasRect.left+(v.x*0.5+0.5)*canvasRect.width;
+    const sy=canvasRect.top+(-v.y*0.5+0.5)*canvasRect.height;
+    left=sx-pw/2; top=sy-ph/2;
+  } else {
+    // No position resolved (deleted?) — fall back to centered on the canvas.
+    left=canvasRect.left+canvasRect.width/2-pw/2;
+    top=canvasRect.top+canvasRect.height/2-ph/2;
+  }
+  left=Math.max(8,Math.min(left,innerWidth-pw-8));
+  top=Math.max(8,Math.min(top,innerHeight-ph-8));
+  pop.style.left=left+'px'; pop.style.top=top+'px';
+  pop.querySelector('.annot-popup-close').addEventListener('click', _closeAnnotationPopup);
+}
+function _stateMatchesSubset(current, subsetState){
+  return Object.entries(subsetState||{}).every(([k,v])=>current[k]===v);
+}
+function _annotationConditionMet(a){
+  if(!a.link_type || a.link_type==='none') return true;
+  if(a.link_type==='mat_subset' || a.link_type==='global_set'){
+    const pool=(CFG.mat_subsets||[]).concat(CFG.global_mat_sets||[]);
+    const s=pool.find(x=>x.name===a.link_target);
+    return s ? _stateMatchesSubset(matSt, s.state) : false;
+  }
+  if(a.link_type==='geo_subset'){
+    const s=(CFG.geometry_subsets||[]).find(x=>x.name===a.link_target);
+    if(!s || !s.state) return false;
+    return Object.entries(s.state).every(([parent,child])=>!!geoSt[child.replace(/ /g,'_')]);
+  }
+  return true;
+}
+function _updateAnnotationVisibility(){
+  _annotationDefs.forEach(({def,hs})=>{
+    const visible=_annotationConditionMet(def);
+    hs.hidden=!visible;
+    if(!visible){ hs.el.style.display='none'; hs.op=0; }
+  });
+}
+function _initAnnotations(){
+  const layer=document.getElementById('hotspot-layer');
+  if(!layer) return;
+  (CFG.annotations||[]).forEach(a=>{
+    const pos=a.position;
+    const el=_makeAnnotationEl(a);
+    layer.appendChild(el);
+    const hs={name:'__annot_'+a.name,pos:new THREE.Vector3(pos[0],pos[1],pos[2]),el,px:Math.max(8,(a.size||1)*24),op:null,isAnnotation:true};
+    hotspots.push(hs);
+    _annotationDefs.push({def:a,hs});
+    // Debounced leave: the marker's screen position gets recalculated every
+    // tick even while fully visible and the camera is nominally still (sub-
+    // pixel floating-point/damping jitter is normal) — if the pointer sits
+    // right at the marker's edge, that jitter alone can trigger enter/leave
+    // repeatedly in the same frame or two, which without this reads as the
+    // popup flickering open and shut. A short grace period, cancelled if the
+    // pointer re-enters before it fires, absorbs that without adding any
+    // perceptible delay to a genuine, deliberate leave.
+    let _annotLeaveTimer=null;
+    el.addEventListener('pointerenter',()=>{
+      if(_annotLeaveTimer){ clearTimeout(_annotLeaveTimer); _annotLeaveTimer=null; }
+      _showAnnotationPopup(a, el);
+    });
+    el.addEventListener('pointerleave',()=>{
+      if(_annotLeaveTimer) clearTimeout(_annotLeaveTimer);
+      _annotLeaveTimer=setTimeout(()=>{ _annotLeaveTimer=null; _closeAnnotationPopup(); }, 120);
+    });
+  });
+  _updateAnnotationVisibility();
 }
 
 // Dedicated raycaster for occlusion so we never clobber the pointer raycaster.
@@ -1914,6 +2583,7 @@ function _tickHotspots(){
   _hsCamMoved=(Math.abs(cp.x-_hsCamX)+Math.abs(cp.y-_hsCamY)+Math.abs(cp.z-_hsCamZ))>1e-4;
   if(_hsCamMoved){ _hsCamX=cp.x; _hsCamY=cp.y; _hsCamZ=cp.z; }
   hotspots.forEach((hs,idx)=>{
+    if(hs.hidden){ hs.el.style.display='none'; return; }
     // If already invisible and camera hasn't moved, nothing can have changed.
     // Skip project(), DOM write, and raycast entirely — zero cost per frame.
     if(hs.op!=null && hs.op<0.012 && !_hsCamMoved) return;
@@ -1922,6 +2592,10 @@ function _tickHotspots(){
       return;
     }
     _hsTmpV.copy(hs.pos).project(cam);
+    // Camera not valid yet on this particular tick (e.g. mid-setup during the
+    // initial fly-in) — leave this marker's state completely untouched and
+    // retry next tick, rather than recording a result derived from NaN.
+    if(!isFinite(_hsTmpV.x)||!isFinite(_hsTmpV.y)||!isFinite(_hsTmpV.z)) return;
     let target;
 
     // Cheap early-out: behind the camera, or well outside the viewport
@@ -1941,6 +2615,8 @@ function _tickHotspots(){
       // Stagger is spread across the full interval window relative to the
       // CURRENT hotspot count, so total raycasts/sec stays roughly constant
       // however many hotspots exist, instead of growing with the count.
+      // Annotation markers go through this exact same occlusion check as
+      // hotspots — hidden behind geometry the same way.
       const _nowMs=performance.now();
       const _stagger=idx*(_HS_OCC_INTERVAL_MS/Math.max(1,hotspots.length));
       if(hs.vis==null || (_hsCamMoved && (_nowMs-(hs._lastOcc||0))>=_HS_OCC_INTERVAL_MS)){
@@ -2103,118 +2779,12 @@ function _tickImgTriggers(){
 }
 
 
-// ── MESH TOUCH SYSTEM ────────────────────────────────────────────────────
-
-const meshTriggers=[];
-
-function _initMeshTriggers(){
-  allAnimDefs().forEach(def=>{
-    if(def.trigger==='mesh'&&def.trigger_mesh)
-      meshTriggers.push({meshName:def.trigger_mesh,fn:()=>triggerAnim(def.name)});
-  });
-  // Extra mesh triggers
-  allAnimDefs().forEach(def=>{   
-    (def.extra_meshes||[]).forEach(em=>{   
-      if(em.mesh) meshTriggers.push({meshName:em.mesh,fn:()=>triggerAnim(def.name)});
-    });
-  });
-  const cin=camCfg.cinematic||{};
-  if(cin.trigger==='mesh'&&cin.trigger_mesh)
-    meshTriggers.push({meshName:cin.trigger_mesh,fn:()=>_cinematicPlaying?_stopCinematic():_startCinematic()});
-  
-  // FIX: Sort triggers by name length (longest first) to prevent short names
-  // from greedily stealing clicks meant for objects with similar prefixes.
-  meshTriggers.sort((a,b)=>b.meshName.length-a.meshName.length);
-}
-
-// Helper for adding ad-hoc mesh triggers after _initMeshTriggers has run
-// (used by buildSequenceUI for sequence mesh-click triggers).
-function _addMeshTrigger(meshName, fn){
-  if(!meshName||!fn) return;
-  meshTriggers.push({meshName, fn});
-  meshTriggers.sort((a,b)=>b.meshName.length-a.meshName.length);
-}
-
 // Helper for adding ad-hoc hotspot triggers (used by buildSequenceUI).
 function _registerHotspot(objName, fn){
   if(!objName||!fn) return;
   const hs=hotspots.find(h=>h.name===objName);
   if(hs) hs.fn=fn; // attach callback to existing hotspot element
 }
-
-let _ptrDownX = 0, _ptrDownY = 0;
-
-canvas.addEventListener('pointerdown', e => {
-  _ptrDownX = e.clientX;
-  _ptrDownY = e.clientY;
-});
-
-canvas.addEventListener('pointerup',e=>{
-  if(!root) return;
-  // FIX: Ignore the click if the user dragged the mouse (e.g. to orbit the camera)
-  if(Math.abs(e.clientX - _ptrDownX) > 5 || Math.abs(e.clientY - _ptrDownY) > 5) return;
-  mouse.x=(e.clientX/innerWidth)*2-1;
-  mouse.y=-(e.clientY/innerHeight)*2+1;
-  raycaster.setFromCamera(mouse,cam);
-  if(!meshTriggers.length) return;
-  
-  const hits=raycaster.intersectObject(root,true);
-  
-  for(const hit of hits){
-    if(hit.object.visible === false) continue;
-    
-    let current = hit.object;
-    let triggered = false;
-    
-    while(current && current.type !== 'Scene'){
-      const hitName = current.name;
-      
-      for(const t of meshTriggers){
-        const safeName = t.meshName.replace(/ /g, '_');
-        // FIX: Only match exact names, or valid GLTF primitive suffixes (_ or .)
-        if(hitName === safeName || hitName.startsWith(safeName + '_') || hitName.startsWith(safeName + '.')){
-          t.fn();
-          triggered = true;
-          break;
-        }
-      }
-      if(triggered) break;
-      current = current.parent;
-    }
-    if(triggered) break;
-  }
-});
-
-canvas.addEventListener('pointermove',e=>{
-  if(!meshTriggers.length||!root){ document.body.style.cursor='default'; return; }
-  mouse.x=(e.clientX/innerWidth)*2-1;
-  mouse.y=-(e.clientY/innerHeight)*2+1;
-  raycaster.setFromCamera(mouse,cam);
-  
-  const hits=raycaster.intersectObject(root,true);
-  let isHovering=false;
-  
-  for(const hit of hits){
-    if(hit.object.visible===false) continue;
-    let current=hit.object;
-    
-    while(current && current.type!=='Scene'){
-      const hitName=current.name;
-      for(const t of meshTriggers){
-        const safeName = t.meshName.replace(/ /g, '_');
-        // FIX: Match same strict suffix logic as pointerup
-        if(hitName===safeName || hitName.startsWith(safeName + '_') || hitName.startsWith(safeName + '.')){
-          isHovering=true; break;
-        }
-      }
-      if(isHovering) break;
-      current=current.parent;
-    }
-    if(isHovering) break;
-  }
-  
-  document.body.style.cursor = isHovering ? 'pointer' : 'default';
-});
 
 // ── RENDER LOOP ──────────────────────────────────────────────────────────
 
@@ -2248,6 +2818,32 @@ let _xrActive=false;
     // state synced so there is never stale state between flies.
     // _tickFly() runs AFTER and overrides the position for the fly arc.
     ctrl.update();
+    // Safety net: OrbitControls' internal math can produce Infinity/NaN if
+    // its orbit radius ever gets too close to zero (this happened with an
+    // earlier, too-aggressive Lock Tumble/Pan value) — once corrupted, the
+    // camera never recovers on its own. Restore from the last known-good
+    // position instead of leaving it (and everything that projects through
+    // it, like hotspots) permanently broken.
+    if(!isFinite(cam.position.x)||!isFinite(cam.position.y)||!isFinite(cam.position.z)
+       ||!isFinite(ctrl.target.x)||!isFinite(ctrl.target.y)||!isFinite(ctrl.target.z)){
+      if(_camHasGoodState){
+        cam.position.copy(_camLastGoodPos);
+        ctrl.target.copy(_camLastGoodTarget);
+      } else {
+        // Never had a valid frame at all (e.g. broken from the very first
+        // position set at script load) — nothing to restore from, so fall
+        // back to a hardcoded, always-safe default instead of staying stuck.
+        cam.position.set(0,2,10);
+        ctrl.target.set(0,0.8,0);
+      }
+      ctrl.minDistance=Math.max(ctrl.minDistance,0.05);
+      ctrl.maxDistance=Math.max(ctrl.maxDistance,0.05);
+      ctrl.update();
+    } else {
+      _camLastGoodPos.copy(cam.position);
+      _camLastGoodTarget.copy(ctrl.target);
+      _camHasGoodState=true;
+    }
     if(_flyPending){
       _flyFromPos.copy(cam.position); _flyFromTgt.copy(ctrl.target);
       _flyToPos.copy(_flyDestPos); _flyToTgt.copy(_flyDestTgt);
@@ -2288,7 +2884,7 @@ let _xrActive=false;
     comp.render();
     // Hotspots: skip entirely during AR — the raycaster runs against the full
     // scene (including the AR clone) and causes the frame-rate drop you saw.
-    if(!_xrActive) _tickHotspots();
+    if(!_xrActive) try{ _tickHotspots(); }catch(e){ console.error('[WCE] Hotspot tick failed:', e); }
     if(!_xrActive) _tickImgTriggers();
   }
 })();
@@ -2429,6 +3025,7 @@ async function _initAR(){
     const hasCombos=_arGeoSets.length||_arMatSets.length;
     if(!hasCombos) return;
     btn.style.display='flex';
+    btn.dataset.realArAvailable='1';
     // If there's only one combo, skip the picker and go straight to Quick Look.
     const singleGeo=_arGeoSets.length<=1?(_arGeoSets[0]?.name||null):null;
     const singleMat=_arMatSets.length<=1?(_arMatSets[0]?.name||null):null;
@@ -2452,6 +3049,7 @@ async function _initAR(){
   try{ if(navigator.xr && await navigator.xr.isSessionSupported('immersive-ar')) mode='webxr'; }catch(e){}
   if(!mode) return;
   btn.style.display='flex';
+  btn.dataset.realArAvailable='1';
   btn.onclick=()=>_startWebXR();
 }
 
@@ -2573,13 +3171,13 @@ _initAR();
 // ── LOADING ──────────────────────────────────────────────────────────────
 
 const ldEl=document.getElementById('ld'),lbEl=document.getElementById('lb'),
-      ltEl=document.getElementById('lt'),stEl=document.getElementById('st');
-const prog=(p,m)=>{lbEl.style.width=p+'%';if(m)ltEl.textContent=m;};
+      ltEl=document.getElementById('lt'),stEl=document.getElementById('st'),licEl=document.getElementById('lic');
+const prog=(p,m)=>{lbEl.style.width=p+'%';if(licEl)licEl.style.left=p+'%';if(m)ltEl.textContent=m;};
 const hide=()=>{ldEl.classList.add('hidden');setTimeout(()=>ldEl.style.display='none',600);};
 
-if (_initHdri) { _loadHDRIItem(_initHdri); }
+_loadHDRIItem(_initHdri);
 
-prog(10,'LOADING CONFIG');
+prog(10,"LOADING CONFIG");
 try{
   varData=await fetch('variants.json').then(r=>r.ok?r.json():{}).catch(()=>{});
   try{
@@ -2589,10 +3187,10 @@ try{
   }catch(e){console.warn('[WCE] config.json fetch failed',e);}
 }catch(fetchErr){
   console.error('[WCE] Init fetch error:',fetchErr);
-  ltEl.textContent='ERROR — could not load config files';
-  lbEl.style.background='#c0392b';
+  ltEl.textContent="ERROR \u2014"+' — could not load config files';
+  lbEl.style.background="#c0392b";
 }
-prog(25,'LOADING MODEL');
+prog(25,"LOADING MODEL");
 
 const loader=new GLTFLoader();
 
@@ -2603,23 +3201,40 @@ loader.setDRACOLoader(draco);
 function _onLoadError(e){
   console.error('[WCE] GLB load error:',e);
   const msg=e?.message||(typeof e==='string'?e:'Failed to load model');
-  ltEl.textContent='ERROR — '+msg;
-  lbEl.style.background='#c0392b';
+  ltEl.textContent="ERROR \u2014"+' '+msg;
+  lbEl.style.background="#c0392b";
   ldEl.style.opacity='1';ldEl.style.display='flex';ldEl.classList.remove('hidden');
-  stEl.textContent='LOAD ERROR';
+  stEl.textContent="LOAD ERROR";
 }
 
-loader.load('model.gltf',
-  async(gltf)=>{
+async function _onModelLoaded(gltf){
     root=gltf.scene; root.visible=false; scene.add(root);
+    // Re-apply the default Environment/Light selection now that root
+    // actually exists. The earlier _loadHDRIItem(_initHdri) call (fired
+    // before the model even started fetching, to kick off the HDRI texture
+    // load in parallel) calls _applyEnvironmentAndLight too, but every
+    // findNode() lookup in it silently fails with no `root` to search —
+    // so without this, the initial Environment/Light choice never actually
+    // gets applied and every switch collection is left at whatever raw
+    // visibility state the GLB happened to export with.
+    _applyEnvironmentAndLight(_initHdri);
     // Compute model bounding box once after load — used to clamp pan in the tick loop.
     const _modelBox=new THREE.Box3().setFromObject(root);
-    _panMin=_modelBox.min.clone(); _panMax=_modelBox.max.clone();
-    const _panMargin=Math.max(CFG.camera.zoom_min??2,(_panMax.x-_panMin.x)*0.25);
-    _panMin.x-=_panMargin; _panMin.z-=_panMargin;
-    _panMax.x+=_panMargin; _panMax.z+=_panMargin;
-    _panMin.y=FLOOR_Z;
-    _panMax.y=(ROOF_Z!=null?ROOF_Z:_panMax.y+_panMargin);
+    if(_modelBox.isEmpty()){
+      // No actual geometry in the scene at all — Box3 represents "empty" as
+      // an Infinity/-Infinity sentinel, which would otherwise corrupt the
+      // camera's real position the instant pan-clamping ever ran. Leaving
+      // _panMin/_panMax at null (their existing default) simply disables
+      // pan-clamping entirely rather than computing garbage bounds from it.
+      _panMin=null; _panMax=null;
+    } else {
+      _panMin=_modelBox.min.clone(); _panMax=_modelBox.max.clone();
+      const _panMargin=Math.max((CFG.camera&&CFG.camera.zoom_min)??2,(_panMax.x-_panMin.x)*0.25);
+      _panMin.x-=_panMargin; _panMin.z-=_panMargin;
+      _panMax.x+=_panMargin; _panMax.z+=_panMargin;
+      _panMin.y=FLOOR_Z;
+      _panMax.y=(ROOF_Z!=null?ROOF_Z:_panMax.y+_panMargin);
+    }
     try{
       const allMats=await gltf.parser.getDependencies('materials');
       const sR=['map','emissiveMap','sheenColorMap','specularColorMap'];
@@ -2636,7 +3251,20 @@ loader.load('model.gltf',
     root.traverse(o=>{
       if(o.isMesh){
         o.castShadow=true;o.receiveShadow=true;
-        _occluderMeshes.push(o);
+        
+        // --- NEW BVH LOGIC START ---
+        const isSkinned = o.isSkinnedMesh;
+        const hasShapeKeys = o.morphTargetInfluences && o.morphTargetInfluences.length > 0;
+        if(isSkinned || hasShapeKeys){
+          // Deforming mesh: Skip BVH, use native dynamic raycaster
+          _occluderMeshes.push(o);
+        } else {
+          // Rigid mesh: Build static BVH tree for zero-lag occlusion
+          o.geometry.computeBoundsTree();
+          _occluderMeshes.push(o);
+        }
+        // --- NEW BVH LOGIC END ---
+
         const ms=Array.isArray(o.material)?o.material:[o.material];
         if(!o.userData.origMatNames) o.userData.origMatNames=ms.map(m=>m?.name||'');
         const hasAO=o.geometry&&o.geometry.hasAttribute('color');
@@ -2660,7 +3288,12 @@ loader.load('model.gltf',
       light.name=al.name;light.position.set(...al.position);
       if(al.quaternion) light.quaternion.set(...al.quaternion);
       else if(al.rotation) light.rotation.set(...al.rotation); // legacy config fallback
+      // al.rig is missing on config.json exported before this fix — treat
+      // that as "unknown rig", kept always-on so old exports keep working
+      // exactly as before rather than suddenly going dark.
+      light.userData.wceRig=al.rig||null;
       scene.add(light);
+      _areaLights.push(light);
     });
 
     _initAnimMixers(gltf);
@@ -2671,8 +3304,11 @@ loader.load('model.gltf',
     _applyDefaultAnimStates();
     _initCinematicMixers(gltf);
     _initImageTriggers();
-    _initMeshTriggers();
     _initHotspots();
+    // A failure in here must never be able to block hide() below, or the
+    // globals ui.js depends on from being exposed — that would silently
+    // break the entire page (hotspots included), not just annotations.
+    try{ _initAnnotations(); }catch(e){ console.error('[WCE] Annotations failed to initialize:', e); }
 
     // Debug handle: inspect from the browser console, e.g.
     //   WCE.CFG.animations.combos   |   Object.keys(WCE.animMixers)   |   WCE.trigger('Part_0')
@@ -2688,7 +3324,8 @@ loader.load('model.gltf',
     // applyVariant walks geometry_exposed and would overwrite it otherwise.
 
     // ── Expose all globals ui.js needs BEFORE ensureGeoDefaults runs ─────────
-    window.CFG=CFG; window.varData=varData; window.root=root;
+    window.CFG=CFG; window.varData=varData; window.root=root; window.WCE_OVERLAYS=WCE_OVERLAYS;
+    window.scene=scene; window.WCE_THEME=WCE_THEME; window.WCE_PROFILES=WCE_PROFILES; window.WCE_THUMBNAIL_GROUPS=WCE_THUMBNAIL_GROUPS;
     window.matSt=matSt; window.geoSt=geoSt; window.animState=animState;
     window.camCfg=camCfg; window._TRANS=_TRANS; window.SFX=SFX;
     window.triggerAnim=triggerAnim; window.flyToAnimState=flyToAnimState; window.flyToCamera=flyToCamera;
@@ -2698,10 +3335,11 @@ loader.load('model.gltf',
     window.applyMatSubset=applyMatSubset; window.refreshActive=refreshActive;
     window.refreshAdvMat=refreshAdvMat; window.allAnimDefs=allAnimDefs;
     window.findNode=findNode; window._geoDissolveNode=_geoDissolveNode;
-    window._loadHDRIItem=_loadHDRIItem; window._addMeshTrigger=_addMeshTrigger;
+    window._loadHDRIItem=_loadHDRIItem;
     window._registerHotspot=_registerHotspot;
     window._startCinematic=_startCinematic; window._stopCinematic=_stopCinematic;
     window._startTurntable=_startTurntable; window._stopTurntable=_stopTurntable;
+    window.scene=scene; window.renderer=renderer; window._ambientLight=_ambientLight;
     try{Object.defineProperty(window,'_cinematicPlaying',{get:()=>_cinematicPlaying,set:v=>{_cinematicPlaying=v;},configurable:true});}catch(e){}
     try{Object.defineProperty(window,'_turntableActive',{get:()=>_turntableActive,set:v=>{_turntableActive=v;},configurable:true});}catch(e){}
     try{Object.defineProperty(window,'_hdriActiveFile',{get:()=>_hdriActiveFile,set:v=>{_hdriActiveFile=v;},configurable:true});}catch(e){}
@@ -2764,13 +3402,30 @@ loader.load('model.gltf',
       root.visible=true;
       requestRender(1000);   // ensure the freshly-loaded model is drawn
     }catch(uiErr){console.error('[WCE] UI error:',uiErr);stEl.textContent='UI ERROR';}
-  },
-  e=>{
-    if(e.total&&e.total>0) prog(25+Math.round(e.loaded/e.total*70),'LOADING MODEL');
-    else prog(50,'LOADING MODEL…');
-  },
-  _onLoadError
-);
+}
+
+if(window.WCE_DESIGNER_MODE){
+  // UI Designer mode: skip the (potentially large/slow) model fetch entirely
+  // and hand _onModelLoaded an empty stand-in scene graph instead. Every
+  // downstream call already tolerates findNode() returning nothing, so the
+  // full sidebar/default-state logic still runs — just with no mesh to touch.
+  // The canvas is hidden and replaced with a plain gradient so styling work
+  // isn't blocked on (or slowed down by) the real geometry loading.
+  document.documentElement.style.background='linear-gradient(160deg,#ffffff,#eef0f3)';
+  document.body.style.background='linear-gradient(160deg,#ffffff,#eef0f3)';
+  if(canvas) canvas.style.display='none';
+  const _stubGltf={scene:new THREE.Group(), parser:{getDependencies:async()=>[]}, animations:[]};
+  _onModelLoaded(_stubGltf);
+} else {
+  loader.load('model.gltf',
+    _onModelLoaded,
+    e=>{
+      if(e.total&&e.total>0) prog(25+Math.round(e.loaded/e.total*70),'LOADING MODEL');
+      else prog(50,'LOADING MODEL…');
+    },
+    _onLoadError
+  );
+}
 
 // ── SCENE HELPERS ────────────────────────────────────────────────────────
 
@@ -2779,6 +3434,18 @@ function findNode(name){
   const s=name.replace(/ /g,'_');
   if(root) root.traverse(o=>{if(o.name===name||o.name===s) res=o;});
   return res;
+}
+
+// GEO_TOGGLE/GEO_FLICKER need this fallback specifically for Area lights:
+// findNode() only searches inside root (the glTF model's own hierarchy), but
+// Area lights are rebuilt as RectAreaLights added directly to the top-level
+// scene (see the area_lights loader) — siblings of root, not descendants of
+// it, so a plain findNode() call can never see them.
+function _findGeoTarget(name){
+  const n=findNode(name);
+  if(n) return n;
+  const s=name.replace(/ /g,'_');
+  return _areaLights.find(l=>l.name===name||l.name===s) || null;
 }
 
 // ── MATERIAL / VARIANT SYSTEM ────────────────────────────────────────────
@@ -2829,7 +3496,7 @@ function applyVariant(name){
   document.getElementById('vl').textContent=name.replace(/_/g,' ').toUpperCase();
   stEl.textContent=name;buildAdvGeo();refreshAdvMat(matSt);refreshActive();
 }
-function applyMatSubset(st){Object.entries(st).forEach(([c,m])=>{applyMat(c,m);matSt[c]=m;});refreshActive();}
+function applyMatSubset(st){Object.entries(st).forEach(([c,m])=>{applyMat(c,m);matSt[c]=m;});refreshActive();if(typeof _updateAnnotationVisibility==='function')_updateAnnotationVisibility();}
 function resolveMatName(n){return(CFG.mat_name_map&&CFG.mat_name_map[n])?CFG.mat_name_map[n]:n;}
 const cloneCache={};
 function applyMat(container,matName){

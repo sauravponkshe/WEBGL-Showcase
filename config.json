@@ -1,364 +1,203 @@
 {
-  "containers": {},
-  "mat_colors": {},
-  "geometry_exposed": {
-    "GEOMETRIES_FENDERKIT": {
-      "name": "GEOMETRIES_FENDERKIT",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_FENDERKIT_NORMAL",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_FENDERKIT_RACE",
-          "enabled": true,
-          "children": []
-        }
+  "containers": {
+    "BODY": [
+      "Corn Yellow CARPAINT_METALLIC_GLTF",
+      "Ferrari Red CARPAINT_METALLIC_GLTF"
+    ]
+  },
+  "mat_colors": {
+    "Corn Yellow CARPAINT_METALLIC_GLTF": {
+      "color": [
+        1.0,
+        0.8962693810462952,
+        0.2158605009317398
       ],
-      "subset_only": true
-    },
-    "GEOMETRIES_HOOD": {
-      "name": "GEOMETRIES_HOOD",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_HOOD_WITH_VENTS",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_HOOD_WITHOUT_VENTS",
-          "enabled": true,
-          "children": []
-        }
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
       ],
-      "subset_only": true
+      "emissiveIntensity": 0.0
     },
-    "GEOMETRIES_LICENSEPLATE": {
-      "name": "GEOMETRIES_LICENSEPLATE",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_LICENSEPLATE_GERMANY",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_LICENSEPLATE_INDIA",
-          "enabled": true,
-          "children": []
-        }
+    "Ferrari Red CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.9301108717918396,
+        0.004024717025458813,
+        0.01032982300966978
       ],
-      "subset_only": true
-    },
-    "GEOMETRIES_LIGHTS": {
-      "name": "GEOMETRIES_LIGHTS",
-      "enabled": true,
-      "children": [],
-      "subset_only": true
-    },
-    "GEOMETRIES_ROOF": {
-      "name": "GEOMETRIES_ROOF",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_ROOF_PATTERN",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_ROOF_SPORTY",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_ROOF_WITHOUT_SUNROOF",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_ROOF_WITH_SUNROOF",
-          "enabled": true,
-          "children": []
-        }
-      ]
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
     }
   },
+  "geometry_exposed": {},
   "geometry_subsets": [
     {
-      "name": "BASE",
+      "name": "Geo Set 1",
       "state": {
         "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE",
-        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_NORMAL",
-        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITHOUT VENTS",
-        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_WITHOUT_SUNROOF"
-      }
-    },
-    {
-      "name": "SPORTY",
-      "state": {
-        "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE",
-        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
-        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
-        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_SPORTY"
-      }
-    },
-    {
-      "name": "LUXURY",
-      "state": {
-        "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE",
-        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
-        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
-        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_PATTERN"
+        "ENVIRONMENTS": "NONE"
       }
     }
   ],
-  "mat_subset_categories": [
-    "BITONE",
-    "MONOTONE"
-  ],
-  "mat_subsets": [
-    {
-      "name": "GRAY",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "ROOF": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Iron Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Nardo Gray CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "RED",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Red CARPAINT_METALLIC_GLTF",
-        "ROOF": "Red CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Red CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Red PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Red CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "BLUE",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "ROOF": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "New Midnight Blue PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "MidnightBlue CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE_SILVER",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "ROOF": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "White Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "WhiteSmoke CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Half White CARPAINT_MATTE_GLTF",
-        "ROOF": "Half White CARPAINT_MATTE_GLTF",
-        "HOOD_RACE": "Half White CARPAINT_MATTE_GLTF",
-        "BACKGROUND": "Half White PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Half White CARPAINT_MATTE_GLTF"
-      }
-    },
-    {
-      "name": "BLACK",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Black CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Black CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Jet Black PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Black CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "GRAY",
-      "category": "BITONE",
-      "state": {
-        "BODY": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Iron Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Nardo Gray CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE",
-      "category": "BITONE",
-      "state": {
-        "BODY": "Half White CARPAINT_MATTE_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Half White CARPAINT_MATTE_GLTF",
-        "BACKGROUND": "Half White PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Half White CARPAINT_MATTE_GLTF"
-      }
-    },
-    {
-      "name": "RED",
-      "category": "BITONE",
-      "state": {
-        "BODY": "Red CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Red CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Red PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Red CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "BLUE",
-      "category": "BITONE",
-      "state": {
-        "BODY": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "New Midnight Blue PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "MidnightBlue CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE_SILVER",
-      "category": "BITONE",
-      "state": {
-        "BODY": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "White Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "WhiteSmoke CARPAINT_METALLIC_GLTF"
-      }
-    }
-  ],
+  "mat_subset_categories": [],
+  "mat_subsets": [],
   "global_mat_sets": [],
-  "area_lights": [],
+  "area_lights": [
+    {
+      "name": "Area",
+      "rig": "LIGHTS",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intensity": 5.0,
+      "width": 1.0,
+      "height": 4.7059,
+      "position": [
+        -1.7369,
+        1.3096,
+        0.0
+      ],
+      "quaternion": [
+        -0.637667,
+        -0.305582,
+        0.305582,
+        0.637667
+      ]
+    },
+    {
+      "name": "Area.001",
+      "rig": "LIGHTS",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intensity": 5.0,
+      "width": 1.0,
+      "height": 4.7059,
+      "position": [
+        1.8973,
+        1.3096,
+        0.0
+      ],
+      "quaternion": [
+        -0.616417,
+        0.346454,
+        -0.346454,
+        0.616417
+      ]
+    }
+  ],
   "mat_name_map": {
-    "CARBON_FIBER_1_GLTF": "CARBON_FIBER_1_GLTF",
-    "CARBON_FIBER_GLTF": "CARBON_FIBER_1_GLTF",
-    "CARBON_FIBER_GLTF.001": "CARBON_FIBER_1_GLTF"
+    "GROUNDSHADOW": "GROUNDSHADOW"
   },
   "default_geo_state": {
     "LIGHTS": "NONE",
-    "ENVIRONMENTS": "NONE",
-    "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
-    "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
-    "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-    "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_SPORTY"
+    "ENVIRONMENTS": "NONE"
   },
   "default_variant": "",
-  "default_mat_subset": {
-    "name": "GRAY",
-    "category": "BITONE"
-  },
+  "default_mat_subset": null,
   "camera": {
-    "zoom_min": 2.763,
-    "zoom_max": 13.31,
-    "floor_z": -0.345,
-    "startup_camera": {
-      "position": [
-        -4.1674,
-        1.1274,
-        -6.8269
-      ],
-      "forward": [
-        0.5449,
-        -0.1744,
-        0.8202
-      ],
-      "up": [
-        0.0965,
-        0.9847,
-        0.1453
-      ],
-      "hfov_deg": 39.598
-    },
-    "focal_length_mm": 50.0,
-    "sensor_width_mm": 36.0,
-    "roof_z": 5.9739
+    "zoom_min": 2.0,
+    "zoom_max": 15.0,
+    "floor_z": 0.0,
+    "startup_camera": null,
+    "focal_length_mm": null,
+    "sensor_width_mm": null,
+    "roof_z": null
   },
   "hdri": {
-    "file": "hdri/hdri_1.hdr",
+    "file": "hdri/environment_1.hdr",
     "strength": 1.0,
     "background": true,
     "flatten_ground": true,
-    "ground_height": -0.71,
-    "ground_radius": 4.67,
-    "ground_rotation_z": 29.91,
+    "ground_height": -0.364,
+    "ground_radius": 1.04,
+    "ground_rotation_z": 30.0,
     "ground_scale": 10.0,
     "ground_offset": [
       0.0,
       0.0
     ],
-    "ground_z_offset": -0.12
+    "ground_z_offset": 0.0
   },
   "hdris": [
     {
-      "name": "HDRI 1",
-      "file": "hdri/hdri_1.hdr",
+      "name": "Environment 1",
+      "file": "hdri/environment_1.hdr",
       "strength": 1.0,
       "background": true,
       "rotation_z": 0.0,
       "flatten_ground": true,
-      "ground_height": -0.71,
-      "ground_radius": 4.67,
-      "ground_rotation_z": 29.91,
+      "ground_height": -0.364,
+      "ground_radius": 1.04,
+      "ground_rotation_z": 30.0,
       "ground_scale": 10.0,
       "ground_offset": [
         0.0,
         0.0
       ],
-      "ground_z_offset": -0.12,
+      "ground_z_offset": 0.0,
       "grade_exposure": 0.65,
-      "grade_brightness": 1.0,
-      "grade_contrast": 1.25,
-      "grade_saturation": 1.25,
+      "grade_brightness": 0.65,
+      "grade_contrast": 1.2,
+      "grade_saturation": 1.2,
       "grade_bloom": 0.1,
-      "default": true
+      "grade_bloom_threshold": 0.91,
+      "default": true,
+      "environment": null,
+      "light": null,
+      "ambient_color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "ambient_strength": 0.0
     }
   ],
+  "environment_sets": [],
+  "light_sets": [
+    "LIGHTS_STUDIO"
+  ],
+  "environment_common_exists": true,
+  "light_common_exists": true,
   "grade": {
     "tone_mapping": "AgX",
-    "view_transform": "AgX",
-    "exposure": 0.65,
-    "env_intensity": 2.0,
+    "view_transform": "Filmic",
+    "exposure": -1.5,
+    "ambient_intensity": 0.25,
+    "env_intensity": 1.0,
     "env_rotation": [
       0.0,
       0.0,
       0.0
     ],
     "env_scale": [
-      0.6,
+      1.0,
       1.0,
       1.0
     ],
-    "brightness": 0.65,
-    "contrast": 1.2,
-    "saturation": 1.5,
-    "bloom": 0.0
+    "brightness": 0.75,
+    "contrast": 1.25,
+    "saturation": 0.9,
+    "bloom": 0.05,
+    "bloom_threshold": 0.88
   },
   "transitions": {
     "material": true,
     "geometry": true,
-    "mat_ms": 400,
-    "geo_ms": 400
+    "mat_ms": 300,
+    "geo_ms": 180
   },
   "ar": {
     "ios_enabled": false,
@@ -369,112 +208,464 @@
   "animations": {
     "controls": [
       {
-        "name": "Explode",
-        "anim_type": "PROCEDURAL",
+        "name": "ANIM_ROOF_EMPTY",
+        "anim_type": "SCENE",
         "states": 2,
         "trigger": "button",
-        "builtin": "explode"
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_BOOT_EMPTY",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
       }
     ],
     "combos": [
       {
-        "name": "WHEELS",
+        "name": "ROOF_ANIMATION",
         "members": [
-          "FRWHEEL_L",
-          "FRWHEEL_R"
+          "ANIM_ROOF_EMPTY",
+          "ANIM_ROOF",
+          "ANIM_ROOF_MECHANISM_4_L",
+          "ANIM_ROOF_MECHANISM_3_L",
+          "ANIM_ROOF_MECHANISM_1_R",
+          "ANIM_ROOF_MECHANISM_2_L",
+          "ANIM_ROOF_MECHANISM_1_L",
+          "ANIM_ROOF_MECHANISM_2_R",
+          "ANIM_ROOF_MECHANISM_3_R",
+          "ANIM_ROOF_MECHANISM_4_R",
+          "ANIM_ROOF_MECHANISM_6_R",
+          "ANIM_ROOF_MECHANISM_5_R",
+          "ANIM_ROOF_MECHANISM_6_L",
+          "ANIM_ROOF_MECHANISM_5_L",
+          "ANIM_BOOT_EMPTY",
+          "ANIM_ROOF_MECHANISM_EMPTY_L",
+          "ANIM_ROOF_MECHANISM_EMPTY_R"
         ],
         "trigger": "hotspot",
-        "states": 3,
-        "state_names": [
-          "+30",
-          "0",
-          "-30"
-        ],
-        "member_fracs": {
-          "FRWHEEL_L": [
-            0.0,
-            0.5,
-            1.0
-          ],
-          "FRWHEEL_R": [
-            0.0,
-            0.5,
-            1.0
-          ]
-        },
-        "playback_mode": "PINGPONG",
-        "default_state": 1,
-        "hotspot_position": [
-          0.0,
-          -0.639,
-          -2.4288
-        ],
-        "hotspot_scale": 0.1526,
-        "hotspot_color": [
-          1.0,
-          1.0,
-          1.0
-        ],
-        "extra_hotspots": [],
-        "extra_meshes": [],
-        "extra_images": []
-      },
-      {
-        "name": "HOOD",
-        "members": [
-          "HOOD_VENTS",
-          "HOOD_BASE"
-        ],
-        "trigger": "button",
         "states": 2,
         "state_names": [
-          "Closed",
-          "Open"
+          "Start",
+          "End"
         ],
         "member_fracs": {
-          "HOOD_VENTS": [
+          "ANIM_ROOF_EMPTY": [
             0.0,
             1.0
           ],
-          "HOOD_BASE": [
+          "ANIM_ROOF": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_BOOT_EMPTY": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_R": [
             0.0,
             1.0
           ]
         },
         "playback_mode": "PINGPONG",
-        "extra_hotspots": [
-          {
-            "position": [
-              0.0,
-              0.0,
-              -2.4276
-            ],
-            "scale": 0.15,
-            "color": [
-              1.0,
-              0.42,
-              0.21
-            ],
-            "object": "HOTSPOT_HOOD_extra0"
-          }
+        "hotspot_position": [
+          -1.9079,
+          0.0,
+          -0.0
         ],
-        "extra_meshes": [
-          {
-            "mesh": "Plane.020"
-          },
-          {
-            "mesh": "Plane.029"
-          }
+        "hotspot_scale": 0.25,
+        "hotspot_color": [
+          1.0,
+          0.42,
+          0.21
         ],
+        "extra_hotspots": [],
         "extra_images": []
       }
     ],
     "sequences": []
   },
+  "annotations": [
+    {
+      "name": "Annotation_1",
+      "position": [
+        -1.0006,
+        0.0858,
+        1.2941
+      ],
+      "size": 0.43,
+      "opacity": 60.544,
+      "color": [
+        0.784,
+        0.663,
+        0.431
+      ],
+      "show_video": false,
+      "text": "PORSCHE 911",
+      "video": "",
+      "link_type": "none",
+      "link_target": ""
+    }
+  ],
+  "annotation_popup_style": {
+    "bgColor": "#0a0a0c",
+    "bgOpacity": 92,
+    "borderColor": "#c8a96e",
+    "borderWidth": 1,
+    "radius": 6,
+    "textColor": "#ffffff",
+    "textFontSize": 14,
+    "videoWidthPct": 26
+  },
   "cameras": {
     "fly_duration": 1.2,
-    "zoom_min": 2.763,
-    "zoom_max": 13.31,
+    "zoom_min": 2.0,
+    "zoom_max": 15.0,
     "turntable": {
       "enabled": false,
       "name": "Turntable_Camera"
