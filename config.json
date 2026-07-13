@@ -1,67 +1,289 @@
 {
   "containers": {},
   "mat_colors": {},
-  "geometry_exposed": {},
+  "geometry_exposed": {
+    "GEOMETRIES_FENDERKIT": {
+      "name": "GEOMETRIES_FENDERKIT",
+      "enabled": true,
+      "children": [
+        {
+          "name": "GEOMETRIES_FENDERKIT_NORMAL",
+          "enabled": true,
+          "children": []
+        },
+        {
+          "name": "GEOMETRIES_FENDERKIT_RACE",
+          "enabled": true,
+          "children": []
+        }
+      ],
+      "subset_only": true
+    },
+    "GEOMETRIES_HOOD": {
+      "name": "GEOMETRIES_HOOD",
+      "enabled": true,
+      "children": [
+        {
+          "name": "GEOMETRIES_HOOD_WITH_VENTS",
+          "enabled": true,
+          "children": []
+        },
+        {
+          "name": "GEOMETRIES_HOOD_WITHOUT_VENTS",
+          "enabled": true,
+          "children": []
+        }
+      ],
+      "subset_only": true
+    },
+    "GEOMETRIES_LICENSEPLATE": {
+      "name": "GEOMETRIES_LICENSEPLATE",
+      "enabled": true,
+      "children": [
+        {
+          "name": "GEOMETRIES_LICENSEPLATE_GERMANY",
+          "enabled": true,
+          "children": []
+        },
+        {
+          "name": "GEOMETRIES_LICENSEPLATE_INDIA",
+          "enabled": true,
+          "children": []
+        }
+      ],
+      "subset_only": true
+    },
+    "GEOMETRIES_LIGHTS": {
+      "name": "GEOMETRIES_LIGHTS",
+      "enabled": true,
+      "children": [],
+      "subset_only": true
+    },
+    "GEOMETRIES_ROOF": {
+      "name": "GEOMETRIES_ROOF",
+      "enabled": true,
+      "children": [
+        {
+          "name": "GEOMETRIES_ROOF_PATTERN",
+          "enabled": true,
+          "children": []
+        },
+        {
+          "name": "GEOMETRIES_ROOF_SPORTY",
+          "enabled": true,
+          "children": []
+        },
+        {
+          "name": "GEOMETRIES_ROOF_WITHOUT_SUNROOF",
+          "enabled": true,
+          "children": []
+        },
+        {
+          "name": "GEOMETRIES_ROOF_WITH_SUNROOF",
+          "enabled": true,
+          "children": []
+        }
+      ]
+    }
+  },
   "geometry_subsets": [
     {
-      "name": "Geo Set 1",
+      "name": "BASE",
       "state": {
         "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE"
+        "ENVIRONMENTS": "NONE",
+        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_NORMAL",
+        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITHOUT VENTS",
+        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
+        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_WITHOUT_SUNROOF"
+      }
+    },
+    {
+      "name": "SPORTY",
+      "state": {
+        "LIGHTS": "NONE",
+        "ENVIRONMENTS": "NONE",
+        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
+        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
+        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
+        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_SPORTY"
+      }
+    },
+    {
+      "name": "LUXURY",
+      "state": {
+        "LIGHTS": "NONE",
+        "ENVIRONMENTS": "NONE",
+        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
+        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
+        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
+        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_PATTERN"
       }
     }
   ],
-  "mat_subset_categories": [],
-  "mat_subsets": [],
-  "global_mat_sets": [],
-  "area_lights": [
+  "mat_subset_categories": [
+    "MONOTONE",
+    "BITONE"
+  ],
+  "mat_subsets": [
     {
-      "name": "Area",
-      "rig": "LIGHTS",
-      "color": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "intensity": 1.0,
-      "width": 1.0,
-      "height": 1.0,
-      "position": [
-        -0.0,
-        0.4942,
-        -3.4329
-      ],
-      "quaternion": [
-        -0.999274,
-        -0.0,
-        0.0,
-        0.038106
-      ]
+      "name": "GRAY",
+      "category": "MONOTONE",
+      "state": {
+        "BODY": "Nardo Gray CARPAINT_METALLIC_GLTF",
+        "ROOF": "Nardo Gray CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "Nardo Gray CARPAINT_METALLIC_GLTF",
+        "BACKGROUND": "Iron Gray PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "Nardo Gray CARPAINT_METALLIC_GLTF"
+      }
+    },
+    {
+      "name": "RED",
+      "category": "MONOTONE",
+      "state": {
+        "BODY": "Red CARPAINT_METALLIC_GLTF",
+        "ROOF": "Red CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "Red CARPAINT_METALLIC_GLTF",
+        "BACKGROUND": "Red PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "Red CARPAINT_METALLIC_GLTF"
+      }
+    },
+    {
+      "name": "BLUE",
+      "category": "MONOTONE",
+      "state": {
+        "BODY": "MidnightBlue CARPAINT_METALLIC_GLTF",
+        "ROOF": "MidnightBlue CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "MidnightBlue CARPAINT_METALLIC_GLTF",
+        "BACKGROUND": "New Midnight Blue PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "MidnightBlue CARPAINT_METALLIC_GLTF"
+      }
+    },
+    {
+      "name": "WHITE_SILVER",
+      "category": "MONOTONE",
+      "state": {
+        "BODY": "WhiteSmoke CARPAINT_METALLIC_GLTF",
+        "ROOF": "WhiteSmoke CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "WhiteSmoke CARPAINT_METALLIC_GLTF",
+        "BACKGROUND": "White Gray PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "WhiteSmoke CARPAINT_METALLIC_GLTF"
+      }
+    },
+    {
+      "name": "WHITE",
+      "category": "MONOTONE",
+      "state": {
+        "BODY": "Half White CARPAINT_MATTE_GLTF",
+        "ROOF": "Half White CARPAINT_MATTE_GLTF",
+        "HOOD_RACE": "Half White CARPAINT_MATTE_GLTF",
+        "BACKGROUND": "Half White PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "Half White CARPAINT_MATTE_GLTF"
+      }
+    },
+    {
+      "name": "BLACK",
+      "category": "MONOTONE",
+      "state": {
+        "BODY": "Black CARPAINT_METALLIC_GLTF",
+        "ROOF": "Black CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "Black CARPAINT_METALLIC_GLTF",
+        "BACKGROUND": "Jet Black PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "Black CARPAINT_METALLIC_GLTF"
+      }
+    },
+    {
+      "name": "GRAY",
+      "category": "BITONE",
+      "state": {
+        "BODY": "Nardo Gray CARPAINT_METALLIC_GLTF",
+        "ROOF": "Black CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "Nardo Gray CARPAINT_METALLIC_GLTF",
+        "BACKGROUND": "Iron Gray PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "Nardo Gray CARPAINT_METALLIC_GLTF"
+      }
+    },
+    {
+      "name": "WHITE",
+      "category": "BITONE",
+      "state": {
+        "BODY": "Half White CARPAINT_MATTE_GLTF",
+        "ROOF": "Black CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "Half White CARPAINT_MATTE_GLTF",
+        "BACKGROUND": "Half White PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "Half White CARPAINT_MATTE_GLTF"
+      }
+    },
+    {
+      "name": "RED",
+      "category": "BITONE",
+      "state": {
+        "BODY": "Red CARPAINT_METALLIC_GLTF",
+        "ROOF": "Black CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "Red CARPAINT_METALLIC_GLTF",
+        "BACKGROUND": "Red PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "Red CARPAINT_METALLIC_GLTF"
+      }
+    },
+    {
+      "name": "BLUE",
+      "category": "BITONE",
+      "state": {
+        "BODY": "MidnightBlue CARPAINT_METALLIC_GLTF",
+        "ROOF": "Black CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "MidnightBlue CARPAINT_METALLIC_GLTF",
+        "BACKGROUND": "New Midnight Blue PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "MidnightBlue CARPAINT_METALLIC_GLTF"
+      }
+    },
+    {
+      "name": "WHITE_SILVER",
+      "category": "BITONE",
+      "state": {
+        "BODY": "WhiteSmoke CARPAINT_METALLIC_GLTF",
+        "ROOF": "Black CARPAINT_METALLIC_GLTF",
+        "HOOD_RACE": "WhiteSmoke CARPAINT_METALLIC_GLTF",
+        "BACKGROUND": "White Gray PLASTIC_MATTE_GLTF",
+        "SIDE_MIRROR": "WhiteSmoke CARPAINT_METALLIC_GLTF"
+      }
     }
   ],
-  "mat_name_map": {},
+  "global_mat_sets": [],
+  "area_lights": [],
+  "mat_name_map": {
+    "CARBON_FIBER_1_GLTF": "CARBON_FIBER_1_GLTF",
+    "CARBON_FIBER_GLTF": "CARBON_FIBER_1_GLTF",
+    "CARBON_FIBER_GLTF.001": "CARBON_FIBER_1_GLTF"
+  },
   "default_geo_state": {
     "LIGHTS": "NONE",
-    "ENVIRONMENTS": "NONE"
+    "ENVIRONMENTS": "NONE",
+    "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
+    "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
+    "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
+    "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_SPORTY"
   },
   "default_variant": "",
-  "default_mat_subset": null,
+  "default_mat_subset": {
+    "name": "GRAY",
+    "category": "BITONE"
+  },
   "camera": {
-    "zoom_min": 2.0,
-    "zoom_max": 15.0,
-    "floor_z": 0.0,
+    "zoom_min": 2.763,
+    "zoom_max": 7.36,
+    "floor_z": -0.6412,
     "startup_camera": null,
-    "focal_length_mm": 50.0,
-    "sensor_width_mm": 36.0,
-    "roof_z": null
+    "focal_length_mm": null,
+    "sensor_width_mm": null,
+    "roof_z": 5.5706
   },
   "hdri": {
     "file": null,
-    "strength": 1.0,
-    "background": false,
-    "flatten_ground": false,
-    "ground_height": 1.0,
-    "ground_radius": 25.0,
+    "strength": 5.0,
+    "background": true,
+    "flatten_ground": true,
+    "ground_height": -0.78,
+    "ground_radius": 3.28,
     "ground_rotation_z": 0.0,
     "ground_scale": 1.0,
     "ground_offset": [
@@ -78,23 +300,23 @@
   "grade": {
     "tone_mapping": "AgX",
     "view_transform": "AgX",
-    "exposure": -1.5,
+    "exposure": 0.65,
     "ambient_intensity": 0.25,
-    "env_intensity": 1.0,
+    "env_intensity": 2.0,
     "env_rotation": [
       0.0,
       0.0,
-      0.0
+      20.0
     ],
     "env_scale": [
-      1.0,
+      0.6,
       1.0,
       1.0
     ],
-    "brightness": 0.75,
-    "contrast": 1.25,
-    "saturation": 0.9,
-    "bloom": 0.05,
+    "brightness": 0.65,
+    "contrast": 1.2,
+    "saturation": 1.5,
+    "bloom": 0.0,
     "bloom_threshold": 0.88
   },
   "transitions": {
@@ -111,7 +333,88 @@
   },
   "animations": {
     "controls": [],
-    "combos": [],
+    "combos": [
+      {
+        "name": "WHEELS",
+        "members": [
+          "FRWHEEL_L",
+          "FRWHEEL_R"
+        ],
+        "trigger": "image",
+        "states": 3,
+        "state_names": [
+          "+30",
+          "0",
+          "-30"
+        ],
+        "member_fracs": {
+          "FRWHEEL_L": [
+            0.0,
+            0.5,
+            1.0
+          ],
+          "FRWHEEL_R": [
+            0.0,
+            0.5,
+            1.0
+          ]
+        },
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "image_file": "",
+        "image_opacity": 0.85,
+        "image_position": [
+          0,
+          0,
+          0
+        ],
+        "image_rotation_x": 0.0,
+        "image_rotation_y": 0.0,
+        "image_rotation_z": 0.0,
+        "image_width": 1.0,
+        "image_height": 1.0,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "HOOD",
+        "members": [
+          "HOOD_VENTS",
+          "HOOD_BASE"
+        ],
+        "trigger": "image",
+        "states": 2,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "member_fracs": {
+          "HOOD_VENTS": [
+            0.0,
+            1.0
+          ],
+          "HOOD_BASE": [
+            0.0,
+            1.0
+          ]
+        },
+        "playback_mode": "PINGPONG",
+        "image_file": "",
+        "image_opacity": 0.85,
+        "image_position": [
+          0,
+          0,
+          0
+        ],
+        "image_rotation_x": 0.0,
+        "image_rotation_y": 0.0,
+        "image_rotation_z": 0.0,
+        "image_width": 1.0,
+        "image_height": 1.0,
+        "extra_hotspots": [],
+        "extra_images": []
+      }
+    ],
     "sequences": []
   },
   "annotations": [],
@@ -131,8 +434,8 @@
   },
   "cameras": {
     "fly_duration": 1.2,
-    "zoom_min": 2.0,
-    "zoom_max": 15.0,
+    "zoom_min": 2.763,
+    "zoom_max": 7.36,
     "turntable": {
       "enabled": false,
       "name": "Turntable_Camera"
