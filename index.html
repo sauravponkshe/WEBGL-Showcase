@@ -1406,7 +1406,17 @@ const FLOOR_Z = CFG.camera.floor_z ?? 0.0;
 let _renderUntil=performance.now()+1500;   // draw for a moment on first load
 let _animActiveUntil=0;                    // extended by triggerAnim / hover
 function requestRender(ms){ _renderUntil=Math.max(_renderUntil, performance.now()+(ms||300)); }
-ctrl.addEventListener('change',()=>requestRender(150));
+// 400ms, not 150ms — this is the only thing keeping the render loop alive
+// during camera rotation (the broader _active check below has no dedicated
+// "user is currently dragging" state of its own). Touch input on mobile can
+// legitimately have small gaps between delivered events that continuous
+// desktop mouse movement doesn't, and with alpha:true + no
+// preserveDrawingBuffer on the renderer, even a single skipped render call
+// isn't guaranteed to keep showing the previous frame — it can flash black
+// instead. 400ms matches the margin already used elsewhere in this file for
+// similar interactions, and is far too short to be perceptible as "still
+// rendering after you stopped moving" on any device.
+ctrl.addEventListener('change',()=>requestRender(400));
 ['pointerdown','pointerup','wheel','keydown','click','input','touchstart','touchend']
   .forEach(ev=>window.addEventListener(ev,()=>requestRender(400),{passive:true}));
 
@@ -2132,6 +2142,22 @@ const ZOOM_MAX=camCfg.zoom_max??CFG.camera.zoom_max??15.0;
 let _flyActive=false,_flyPending=false,_flyT=0,_flyDur=FLY_DURATION;
 let _flyDestFov=null,_flyFromFov=null,_flyToFov=null;
 let _flyDestSkipRadiusClamp=false;
+// Distance-lock state for Lock Tumble/Pan cameras. minDistance===maxDistance
+// (an exact, zero-width range) isn't a case OrbitControls handles cleanly —
+// it was resolving to a consistent, wrong distance instead of the real
+// arrival point. A small fixed epsilon gap avoids that degenerate case
+// entirely. _camLockedDist is captured ONCE at arrival and never
+// recalculated from the live camera position — every frame re-asserts
+// against this same fixed value, so the constraint can't be silently
+// overridden by anything else, but also can't drift by chasing a moving
+// target either.
+const _CAM_LOCK_EPS=0.02;
+let _camDistanceLocked=false,_camLockedDist=0;
+function _applyCamDistanceLock(){
+  if(!_camDistanceLocked) return;
+  ctrl.minDistance=Math.max(0.01,_camLockedDist-_CAM_LOCK_EPS);
+  ctrl.maxDistance=_camLockedDist+_CAM_LOCK_EPS;
+}
 const _flyFromPos=new THREE.Vector3(),_flyToPos=new THREE.Vector3();
 const _flyFromTgt=new THREE.Vector3(),_flyToTgt=new THREE.Vector3();
 const _flyDestPos=new THREE.Vector3(),_flyDestTgt=new THREE.Vector3();
@@ -2162,6 +2188,11 @@ function flyToCamera(camName){
   // (e.g. an older export, or a non-standard camera) — falling back to
   // leaving FOV exactly as it already is, rather than guessing at one.
   const destFov=_computeVFov(def.focal_length_mm, def.sensor_width_mm);
+  // Clear any previous camera's distance lock immediately — otherwise the
+  // per-frame re-assertion below would keep enforcing the OLD camera's
+  // locked distance throughout this entire flight, since arrival (which
+  // sets the new lock state) hasn't happened yet.
+  _camDistanceLocked=false;
 
   if(def.transition==='dip'){
     _stopTurntable(); _stopCinematic();
@@ -2178,9 +2209,11 @@ function flyToCamera(camName){
       // update() clamps this new position against the OLD (stale) bounds
       // first, undoing the jump before there's ever a chance to widen them.
       if(!!def.lock_tumble_pan){
-        const arrivalDist=destPos.distanceTo(destTgt);
-        ctrl.minDistance=arrivalDist; ctrl.maxDistance=arrivalDist;
+        _camDistanceLocked=true;
+        _camLockedDist=destPos.distanceTo(destTgt);
+        _applyCamDistanceLock();
       } else {
+        _camDistanceLocked=false;
         ctrl.minDistance=ZOOM_MIN; ctrl.maxDistance=ZOOM_MAX;
       }
       // Drain damping residuals — see the identical comment in _tickFly()'s
@@ -2240,9 +2273,11 @@ function _tickFly(){
     // never moved. A normal camera restores the real zoom range exactly as
     // configured.
     if(_flyDestLockTumblePan){
-      const arrivalDist=cam.position.distanceTo(ctrl.target);
-      ctrl.minDistance=arrivalDist; ctrl.maxDistance=arrivalDist;
+      _camDistanceLocked=true;
+      _camLockedDist=cam.position.distanceTo(ctrl.target);
+      _applyCamDistanceLock();
     } else {
+      _camDistanceLocked=false;
       ctrl.minDistance=ZOOM_MIN; ctrl.maxDistance=ZOOM_MAX;
     }
     // Drain damping residuals — _tickFly() set position/target directly every
@@ -2989,6 +3024,7 @@ let _xrActive=false;
     // ctrl.update() runs every frame — keeps OrbitControls internal spherical
     // state synced so there is never stale state between flies.
     // _tickFly() runs AFTER and overrides the position for the fly arc.
+    _applyCamDistanceLock();
     ctrl.update();
     // Safety net: OrbitControls' internal math can produce Infinity/NaN if
     // its orbit radius ever gets too close to zero (this happened with an
