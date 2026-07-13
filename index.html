@@ -127,9 +127,9 @@ body:not(.wce-editing-mode) .wce-group-body{transition:height .25s ease,width .2
 <style id="wce-theme-overrides">
 :root{--bg:#0a0a0b;--panel:#101013;--border:#1c1c22;--accent:#c8a96e;--a2:#4a8cff;--ok:#4caf7d;--hot:#ff6b35;--cam:#9b59b6;--text:#e2ddd6;--muted:#52526a;--panel-bg:rgba(0,0,0,1.0)}
 html,body{font-family:'Rajdhani',sans-serif;font-size:13px}
-.pb2,.gb,.tb,.anim-btn,.cam-btn,.tt-btn,.vc,.tnb,.cin-btn,#ar-btn,#sfx-toggle,.sr select{border-radius:3px;clip-path:none;padding:7px 10px;border-width:1px;font-family:'Rajdhani',sans-serif;font-size:100%;letter-spacing:0.07em;font-weight:500;font-style:normal;text-transform:lowercase;}
-.sr select{font-family:'Rajdhani',sans-serif;font-size:100%;letter-spacing:0.07em;font-weight:500;font-style:normal;text-transform:lowercase;}
-#st{font-family:'Rajdhani',sans-serif;font-size:100%;letter-spacing:0.07em;font-weight:500;font-style:normal;text-transform:lowercase;}
+.pb2,.gb,.tb,.anim-btn,.cam-btn,.tt-btn,.vc,.tnb,.cin-btn,#ar-btn,#sfx-toggle,.sr select{border-radius:3px;clip-path:none;padding:7px 10px;border-width:1px;font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
+.sr select{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
+#st{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
 </style>
 <script type="importmap">
 {"imports":{
@@ -215,329 +215,184 @@ RectAreaLightUniformsLib.init();
 const CFG = {
   "containers": {},
   "mat_colors": {},
-  "geometry_exposed": {
-    "GEOMETRIES_FENDERKIT": {
-      "name": "GEOMETRIES_FENDERKIT",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_FENDERKIT_NORMAL",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_FENDERKIT_RACE",
-          "enabled": true,
-          "children": []
-        }
-      ],
-      "subset_only": true
-    },
-    "GEOMETRIES_HOOD": {
-      "name": "GEOMETRIES_HOOD",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_HOOD_WITH_VENTS",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_HOOD_WITHOUT_VENTS",
-          "enabled": true,
-          "children": []
-        }
-      ],
-      "subset_only": true
-    },
-    "GEOMETRIES_LICENSEPLATE": {
-      "name": "GEOMETRIES_LICENSEPLATE",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_LICENSEPLATE_GERMANY",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_LICENSEPLATE_INDIA",
-          "enabled": true,
-          "children": []
-        }
-      ],
-      "subset_only": true
-    },
-    "GEOMETRIES_LIGHTS": {
-      "name": "GEOMETRIES_LIGHTS",
-      "enabled": true,
-      "children": [],
-      "subset_only": true
-    },
-    "GEOMETRIES_ROOF": {
-      "name": "GEOMETRIES_ROOF",
-      "enabled": true,
-      "children": [
-        {
-          "name": "GEOMETRIES_ROOF_PATTERN",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_ROOF_SPORTY",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_ROOF_WITHOUT_SUNROOF",
-          "enabled": true,
-          "children": []
-        },
-        {
-          "name": "GEOMETRIES_ROOF_WITH_SUNROOF",
-          "enabled": true,
-          "children": []
-        }
-      ]
-    }
-  },
+  "geometry_exposed": {},
   "geometry_subsets": [
     {
-      "name": "BASE",
+      "name": "Geo Set 1",
       "state": {
         "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE",
-        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_NORMAL",
-        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITHOUT VENTS",
-        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_WITHOUT_SUNROOF"
-      }
-    },
-    {
-      "name": "SPORTY",
-      "state": {
-        "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE",
-        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
-        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
-        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_SPORTY"
-      }
-    },
-    {
-      "name": "LUXURY",
-      "state": {
-        "LIGHTS": "NONE",
-        "ENVIRONMENTS": "NONE",
-        "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
-        "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
-        "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-        "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_PATTERN"
+        "ENVIRONMENTS": "NONE"
       }
     }
   ],
   "mat_subset_categories": [
-    "MONOTONE",
-    "BITONE"
+    "PAINT"
   ],
   "mat_subsets": [
     {
-      "name": "GRAY",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "ROOF": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Iron Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Nardo Gray CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
       "name": "RED",
-      "category": "MONOTONE",
+      "category": "PAINT",
       "state": {
-        "BODY": "Red CARPAINT_METALLIC_GLTF",
-        "ROOF": "Red CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Red CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Red PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Red CARPAINT_METALLIC_GLTF"
+        "BODY": "Ferrari Red CARPAINT_METALLIC_GLTF"
       }
     },
     {
-      "name": "BLUE",
-      "category": "MONOTONE",
+      "name": "YELLOW",
+      "category": "PAINT",
       "state": {
-        "BODY": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "ROOF": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "New Midnight Blue PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "MidnightBlue CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE_SILVER",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "ROOF": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "White Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "WhiteSmoke CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Half White CARPAINT_MATTE_GLTF",
-        "ROOF": "Half White CARPAINT_MATTE_GLTF",
-        "HOOD_RACE": "Half White CARPAINT_MATTE_GLTF",
-        "BACKGROUND": "Half White PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Half White CARPAINT_MATTE_GLTF"
-      }
-    },
-    {
-      "name": "BLACK",
-      "category": "MONOTONE",
-      "state": {
-        "BODY": "Black CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Black CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Jet Black PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Black CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "GRAY",
-      "category": "BITONE",
-      "state": {
-        "BODY": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Nardo Gray CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Iron Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Nardo Gray CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE",
-      "category": "BITONE",
-      "state": {
-        "BODY": "Half White CARPAINT_MATTE_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Half White CARPAINT_MATTE_GLTF",
-        "BACKGROUND": "Half White PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Half White CARPAINT_MATTE_GLTF"
-      }
-    },
-    {
-      "name": "RED",
-      "category": "BITONE",
-      "state": {
-        "BODY": "Red CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "Red CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "Red PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "Red CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "BLUE",
-      "category": "BITONE",
-      "state": {
-        "BODY": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "MidnightBlue CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "New Midnight Blue PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "MidnightBlue CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "WHITE_SILVER",
-      "category": "BITONE",
-      "state": {
-        "BODY": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "ROOF": "Black CARPAINT_METALLIC_GLTF",
-        "HOOD_RACE": "WhiteSmoke CARPAINT_METALLIC_GLTF",
-        "BACKGROUND": "White Gray PLASTIC_MATTE_GLTF",
-        "SIDE_MIRROR": "WhiteSmoke CARPAINT_METALLIC_GLTF"
+        "BODY": "Corn Yellow CARPAINT_METALLIC_GLTF"
       }
     }
   ],
   "global_mat_sets": [],
-  "area_lights": [],
+  "area_lights": [
+    {
+      "name": "Area",
+      "rig": "LIGHTS",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intensity": 5.0,
+      "width": 0.8039,
+      "height": 0.8039,
+      "position": [
+        0.0047,
+        0.8814,
+        0.3204
+      ],
+      "quaternion": [
+        -0.707107,
+        0.0,
+        0.0,
+        0.707107
+      ]
+    }
+  ],
   "mat_name_map": {
-    "CARBON_FIBER_1_GLTF": "CARBON_FIBER_1_GLTF",
-    "CARBON_FIBER_GLTF": "CARBON_FIBER_1_GLTF",
-    "CARBON_FIBER_GLTF.001": "CARBON_FIBER_1_GLTF"
+    "GLASS_GLTF": "GLASS_1_GLTF"
   },
   "default_geo_state": {
     "LIGHTS": "NONE",
-    "ENVIRONMENTS": "NONE",
-    "GEOMETRIES_FENDERKIT": "GEOMETRIES_FENDERKIT_RACE",
-    "GEOMETRIES_HOOD": "GEOMETRIES_HOOD_WITH VENTS",
-    "GEOMETRIES_LICENSEPLATE": "GEOMETRIES_LICENSEPLATE_GERMANY",
-    "GEOMETRIES_ROOF": "GEOMETRIES_ROOF_SPORTY"
+    "ENVIRONMENTS": "NONE"
   },
   "default_variant": "",
   "default_mat_subset": {
-    "name": "GRAY",
-    "category": "BITONE"
+    "name": "RED",
+    "category": "PAINT"
   },
   "camera": {
-    "zoom_min": 2.763,
-    "zoom_max": 7.36,
-    "floor_z": -0.6412,
-    "startup_camera": null,
-    "focal_length_mm": null,
-    "sensor_width_mm": null,
-    "roof_z": 5.5706
+    "zoom_min": 1.539,
+    "zoom_max": 5.611,
+    "floor_z": 0.0,
+    "startup_camera": {
+      "position": [
+        2.696,
+        0.7193,
+        -4.7864
+      ],
+      "forward": [
+        -0.634,
+        -0.0729,
+        0.7699
+      ],
+      "up": [
+        -0.0463,
+        0.9973,
+        0.0562
+      ],
+      "hfov_deg": 61.928
+    },
+    "focal_length_mm": 30.0,
+    "sensor_width_mm": 36.0,
+    "roof_z": 3.0
   },
   "hdri": {
-    "file": null,
-    "strength": 5.0,
+    "file": "hdri/environment_1.hdr",
+    "strength": 1.0,
     "background": true,
-    "flatten_ground": true,
-    "ground_height": -0.78,
-    "ground_radius": 3.28,
+    "flatten_ground": false,
+    "ground_height": -0.484,
+    "ground_radius": 2.99,
     "ground_rotation_z": 0.0,
-    "ground_scale": 1.0,
+    "ground_scale": 10.0,
     "ground_offset": [
       0.0,
       0.0
     ],
     "ground_z_offset": 0.0
   },
-  "hdris": [],
-  "environment_sets": [],
-  "light_sets": [],
+  "hdris": [
+    {
+      "name": "Environment 1",
+      "file": "hdri/environment_1.hdr",
+      "strength": 1.0,
+      "background": true,
+      "rotation_z": 0.0,
+      "flatten_ground": false,
+      "ground_height": -0.484,
+      "ground_radius": 2.99,
+      "ground_rotation_z": 0.0,
+      "ground_scale": 10.0,
+      "ground_offset": [
+        0.0,
+        0.0
+      ],
+      "ground_z_offset": 0.0,
+      "grade_exposure": 0.0,
+      "grade_brightness": 1.0,
+      "grade_contrast": 1.3,
+      "grade_saturation": 1.3,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
+      "default": true,
+      "environment": "ENVIRONMENTS_STUDIO",
+      "light": "LIGHTS_STUDIO",
+      "ambient_color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "ambient_strength": 0.0
+    }
+  ],
+  "environment_sets": [
+    "ENVIRONMENTS_OUTDOOR",
+    "ENVIRONMENTS_STUDIO"
+  ],
+  "light_sets": [
+    "LIGHTS_STUDIO"
+  ],
   "environment_common_exists": true,
   "light_common_exists": true,
   "grade": {
     "tone_mapping": "AgX",
-    "view_transform": "AgX",
-    "exposure": 0.65,
-    "ambient_intensity": 0.25,
-    "env_intensity": 2.0,
+    "view_transform": "Filmic",
+    "exposure": -1.5,
+    "ambient_intensity": 1.0,
+    "env_intensity": 1.0,
     "env_rotation": [
       0.0,
       0.0,
-      20.0
+      0.0
     ],
     "env_scale": [
-      0.6,
+      1.0,
       1.0,
       1.0
     ],
-    "brightness": 0.65,
-    "contrast": 1.2,
-    "saturation": 1.5,
-    "bloom": 0.0,
+    "brightness": 0.75,
+    "contrast": 1.25,
+    "saturation": 0.9,
+    "bloom": 0.05,
     "bloom_threshold": 0.88
   },
   "transitions": {
     "material": true,
-    "geometry": true,
+    "geometry": false,
     "mat_ms": 300,
-    "geo_ms": 180
+    "geo_ms": 50
   },
   "ar": {
     "ios_enabled": false,
@@ -546,87 +401,470 @@ const CFG = {
     "mat_sets": []
   },
   "animations": {
-    "controls": [],
-    "combos": [
+    "controls": [
       {
-        "name": "WHEELS",
-        "members": [
-          "FRWHEEL_L",
-          "FRWHEEL_R"
-        ],
-        "trigger": "image",
-        "states": 3,
-        "state_names": [
-          "+30",
-          "0",
-          "-30"
-        ],
-        "member_fracs": {
-          "FRWHEEL_L": [
-            0.0,
-            0.5,
-            1.0
-          ],
-          "FRWHEEL_R": [
-            0.0,
-            0.5,
-            1.0
-          ]
-        },
-        "playback_mode": "PINGPONG",
-        "default_state": 1,
-        "image_file": "",
-        "image_opacity": 0.85,
-        "image_position": [
-          0,
-          0,
-          0
-        ],
-        "image_rotation_x": 0.0,
-        "image_rotation_y": 0.0,
-        "image_rotation_z": 0.0,
-        "image_width": 1.0,
-        "image_height": 1.0,
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "HOOD",
-        "members": [
-          "HOOD_VENTS",
-          "HOOD_BASE"
-        ],
-        "trigger": "image",
+        "name": "FRDOOR_L",
+        "anim_type": "PROCEDURAL",
         "states": 2,
+        "trigger": "button",
         "state_names": [
           "Closed",
           "Open"
         ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "FRDOOR_R",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "TRUNK",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_EMPTY",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_BOOT_EMPTY",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      }
+    ],
+    "combos": [
+      {
+        "name": "CONVERTIBLE ROOF",
+        "members": [
+          "ANIM_ROOF_EMPTY",
+          "ANIM_ROOF",
+          "ANIM_ROOF_MECHANISM_4_L",
+          "ANIM_ROOF_MECHANISM_3_L",
+          "ANIM_ROOF_MECHANISM_1_R",
+          "ANIM_ROOF_MECHANISM_2_L",
+          "ANIM_ROOF_MECHANISM_1_L",
+          "ANIM_ROOF_MECHANISM_2_R",
+          "ANIM_ROOF_MECHANISM_3_R",
+          "ANIM_ROOF_MECHANISM_4_R",
+          "ANIM_ROOF_MECHANISM_6_R",
+          "ANIM_ROOF_MECHANISM_5_R",
+          "ANIM_ROOF_MECHANISM_6_L",
+          "ANIM_ROOF_MECHANISM_5_L",
+          "ANIM_BOOT_EMPTY",
+          "ANIM_ROOF_MECHANISM_EMPTY_L",
+          "ANIM_ROOF_MECHANISM_EMPTY_R"
+        ],
+        "trigger": "button",
+        "states": 2,
+        "state_names": [
+          "Start",
+          "End"
+        ],
         "member_fracs": {
-          "HOOD_VENTS": [
+          "ANIM_ROOF_EMPTY": [
             0.0,
             1.0
           ],
-          "HOOD_BASE": [
+          "ANIM_ROOF": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_BOOT_EMPTY": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_R": [
             0.0,
             1.0
           ]
         },
         "playback_mode": "PINGPONG",
-        "image_file": "",
-        "image_opacity": 0.85,
-        "image_position": [
-          0,
-          0,
-          0
-        ],
-        "image_rotation_x": 0.0,
-        "image_rotation_y": 0.0,
-        "image_rotation_z": 0.0,
-        "image_width": 1.0,
-        "image_height": 1.0,
         "extra_hotspots": [],
-        "extra_images": []
+        "extra_images": [],
+        "sounds": [
+          "sounds/Porsche_911_Targa_Roof_Open_and_Close_1_e4e0b2.mp3",
+          "sounds/Porsche_911_Targa_Roof_Open_and_Close_2_859fd7.mp3"
+        ]
       }
     ],
     "sequences": []
@@ -640,21 +878,56 @@ const CFG = {
     "radius": 6,
     "textColor": "#ffffff",
     "textFontSize": 14,
-    "videoWidthPct": 26,
-    "markerColor": "#c8a96e",
+    "videoWidthPct": 19,
+    "markerBorderWidth": 3,
     "markerOpacity": 100,
-    "markerBorderWidth": 2,
-    "markerGlow": 6
+    "markerGlow": 0,
+    "markerColor": "#ffffff"
   },
   "cameras": {
     "fly_duration": 1.2,
-    "zoom_min": 2.763,
-    "zoom_max": 7.36,
+    "zoom_min": 1.539,
+    "zoom_max": 5.611,
     "turntable": {
       "enabled": false,
       "name": "Turntable_Camera"
     },
-    "static": [],
+    "static": [
+      {
+        "name": "Camera",
+        "position": [
+          0.0044,
+          0.5662,
+          0.4151
+        ],
+        "target": [
+          0.0044,
+          0.4727,
+          -0.0879
+        ],
+        "lock_tumble_pan": true,
+        "transition": "fly",
+        "focal_length_mm": 20.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "CAM",
+        "position": [
+          1.9352,
+          1.3313,
+          -5.2236
+        ],
+        "target": [
+          -0.7438,
+          0.266,
+          -0.3508
+        ],
+        "lock_tumble_pan": false,
+        "transition": "fly",
+        "focal_length_mm": 30.0,
+        "sensor_width_mm": 36.0
+      }
+    ],
     "cinematic": {
       "sequence": [],
       "trigger": "button"
@@ -665,7 +938,7 @@ const CFG = {
 // rendered as floating clickable thumbnails over the canvas instead (see
 // buildThumbnailOverlays() in ui.js).
 const WCE_OVERLAYS = /*WCE_OVERLAYS_START*/[]/*WCE_OVERLAYS_END*/;
-const WCE_THEME = /*WCE_THEME_START*/{"colors": {"bg": "#0a0a0b", "panel": "#101013", "border": "#1c1c22", "accent": "#c8a96e", "a2": "#4a8cff", "ok": "#4caf7d", "hot": "#ff6b35", "cam": "#9b59b6", "text": "#e2ddd6", "muted": "#52526a"}, "panel2Bg": "#000000", "panel2Opacity": 100, "panelLayout": "tabs", "typography": {"family": "Rajdhani", "size": 100, "letterSpacing": 0.07, "weight": 500, "italic": false, "transform": "lowercase"}, "groups": [{"id": "primary", "label": "Global", "selectors": [".pb2", ".gb", ".tb", ".anim-btn", ".cam-btn", ".tt-btn", ".vc", ".tnb", ".cin-btn", "#ar-btn", "#sfx-toggle", ".sr select"], "shape": "rounded", "radius": 3, "padY": 7, "padX": 10, "borderWidth": 1}], "overlays": [], "customGroups": [], "profiles": [], "thumbnailGroups": [], "globalThumbProps": {"size": 46, "shape": "circle", "radius": 12, "borderWidth": 2, "borderColor": "#ffffff"}, "chromeOverrides": {}, "startupPage": {"bgImage": null, "bgOpacity": 100, "iconImage": null, "iconOpacity": 100, "iconSize": 28, "colTxt": "", "colBar": "", "colErr": "#c0392b", "txtBoot": "INITIALISING", "txtInit": "LOADING CONFIG", "txtModel": "LOADING MODEL", "txtErr": "ERROR \u2014", "txtErrSt": "LOAD ERROR", "fontFamily": "", "fontSize": 10, "fontWeight": 400, "fontItalic": false}, "annotationPopup": {"bgColor": "#0a0a0c", "bgOpacity": 92, "borderColor": "#c8a96e", "borderWidth": 1, "radius": 6, "textColor": "#ffffff", "textFontSize": 14, "videoWidthPct": 26, "markerColor": "#c8a96e", "markerOpacity": 100, "markerBorderWidth": 2, "markerGlow": 6}, "annotationContent": {}}/*WCE_THEME_END*/;
+const WCE_THEME = /*WCE_THEME_START*/{"colors": {"bg": "#0a0a0b", "panel": "#101013", "border": "#1c1c22", "accent": "#c8a96e", "a2": "#4a8cff", "ok": "#4caf7d", "hot": "#ff6b35", "cam": "#9b59b6", "text": "#e2ddd6", "muted": "#52526a"}, "panel2Bg": "#000000", "panel2Opacity": 100, "panelLayout": "tabs", "typography": {"family": "Rajdhani", "size": 75, "letterSpacing": 0.11, "weight": 500, "italic": false, "transform": "none"}, "groups": [{"id": "primary", "label": "Global", "selectors": [".pb2", ".gb", ".tb", ".anim-btn", ".cam-btn", ".tt-btn", ".vc", ".tnb", ".cin-btn", "#ar-btn", "#sfx-toggle", ".sr select"], "shape": "rounded", "radius": 3, "padY": 7, "padX": 10, "borderWidth": 1}], "overlays": [], "customGroups": [], "profiles": [], "thumbnailGroups": [], "globalThumbProps": {"size": 46, "shape": "circle", "radius": 12, "borderWidth": 2, "borderColor": "#ffffff"}, "chromeOverrides": {}, "startupPage": {"bgImage": null, "bgOpacity": 100, "iconImage": null, "iconOpacity": 100, "iconSize": 28, "colTxt": "", "colBar": "", "colErr": "#c0392b", "txtBoot": "INITIALISING", "txtInit": "LOADING CONFIG", "txtModel": "LOADING MODEL", "txtErr": "ERROR \u2014", "txtErrSt": "LOAD ERROR", "fontFamily": "", "fontSize": 10, "fontWeight": 400, "fontItalic": false}, "annotationPopup": {"bgColor": "#0a0a0c", "bgOpacity": 92, "borderColor": "#c8a96e", "borderWidth": 1, "radius": 6, "textColor": "#ffffff", "textFontSize": 14, "videoWidthPct": 19, "markerBorderWidth": 3, "markerOpacity": 100, "markerGlow": 0, "markerColor": "#ffffff"}, "annotationContent": {"Annotation_1": {"text": "PORSCHE 911"}}}/*WCE_THEME_END*/;
 const WCE_PROFILES = /*WCE_PROFILES_START*/[]/*WCE_PROFILES_END*/;
 const WCE_THUMBNAIL_GROUPS = /*WCE_THUMBGROUPS_START*/[]/*WCE_THUMBGROUPS_END*/;
 // Whichever HDRI entry is flagged default (or the first one) — used to seed
@@ -1146,6 +1419,22 @@ function requestRender(ms){ _renderUntil=Math.max(_renderUntil, performance.now(
 ctrl.addEventListener('change',()=>requestRender(400));
 ['pointerdown','pointerup','wheel','keydown','click','input','touchstart','touchend']
   .forEach(ev=>window.addEventListener(ev,()=>requestRender(400),{passive:true}));
+
+// Explicit "user is actively dragging" state — the render loop's _active
+// check otherwise has no dedicated awareness of this at all, relying
+// entirely on requestRender's timeout being re-triggered often enough by
+// events like the 'change' listener above. Under load (a heavier model,
+// a slower device, delayed touch event delivery — all more common on
+// mobile), that timeout can expire mid-gesture, skipping a render call —
+// and with alpha:true + no preserveDrawingBuffer, a skipped frame isn't
+// guaranteed to still show the previous one; it can flash black instead.
+// This flag removes the dependency on timing entirely: while it's true,
+// the render loop always attempts to draw, no matter how the timeout
+// would otherwise have resolved.
+let _userInteracting=false;
+canvas.addEventListener('pointerdown',()=>{ _userInteracting=true; });
+window.addEventListener('pointerup',()=>{ _userInteracting=false; });
+window.addEventListener('pointercancel',()=>{ _userInteracting=false; });
 
 // ── SOUND FX ──────────────────────────────────────────────────────────────
 const SFX=(()=>{
@@ -2813,7 +3102,7 @@ let _xrActive=false;
   const _now=performance.now();
   const _active = _flyActive || _turntableActive || _cinematicPlaying || _hoverOn
                 || _now<_animActiveUntil || Object.keys(_segWatch).length>0
-                || _matTweens.length>0 || _geoTweens.length>0;
+                || _matTweens.length>0 || _geoTweens.length>0 || _userInteracting;
   if(_active) _renderUntil=_now+100;
 
   if(_now<=_renderUntil){
