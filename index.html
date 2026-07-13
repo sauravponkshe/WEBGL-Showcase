@@ -127,9 +127,9 @@ body:not(.wce-editing-mode) .wce-group-body{transition:height .25s ease,width .2
 <style id="wce-theme-overrides">
 :root{--bg:#0a0a0b;--panel:#101013;--border:#1c1c22;--accent:#c8a96e;--a2:#4a8cff;--ok:#4caf7d;--hot:#ff6b35;--cam:#9b59b6;--text:#e2ddd6;--muted:#52526a;--panel-bg:rgba(0,0,0,1.0)}
 html,body{font-family:'Rajdhani',sans-serif;font-size:13px}
-.pb2,.gb,.tb,.anim-btn,.cam-btn,.tt-btn,.vc,.tnb,.cin-btn,#ar-btn,#sfx-toggle,.sr select{border-radius:3px;clip-path:none;padding:7px 10px;border-width:1px;font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
-.sr select{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
-#st{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
+.pb2,.gb,.tb,.anim-btn,.cam-btn,.tt-btn,.vc,.tnb,.cin-btn,#ar-btn,#sfx-toggle,.sr select{border-radius:3px;clip-path:none;padding:7px 10px;border-width:1px;font-family:'Rajdhani',sans-serif;font-size:100%;letter-spacing:0.07em;font-weight:500;font-style:normal;text-transform:lowercase;}
+.sr select{font-family:'Rajdhani',sans-serif;font-size:100%;letter-spacing:0.07em;font-weight:500;font-style:normal;text-transform:lowercase;}
+#st{font-family:'Rajdhani',sans-serif;font-size:100%;letter-spacing:0.07em;font-weight:500;font-style:normal;text-transform:lowercase;}
 </style>
 <script type="importmap">
 {"imports":{
@@ -225,25 +225,8 @@ const CFG = {
       }
     }
   ],
-  "mat_subset_categories": [
-    "PAINT"
-  ],
-  "mat_subsets": [
-    {
-      "name": "RED",
-      "category": "PAINT",
-      "state": {
-        "BODY": "Ferrari Red CARPAINT_METALLIC_GLTF"
-      }
-    },
-    {
-      "name": "YELLOW",
-      "category": "PAINT",
-      "state": {
-        "BODY": "Corn Yellow CARPAINT_METALLIC_GLTF"
-      }
-    }
-  ],
+  "mat_subset_categories": [],
+  "mat_subsets": [],
   "global_mat_sets": [],
   "area_lights": [
     {
@@ -254,123 +237,63 @@ const CFG = {
         1.0,
         1.0
       ],
-      "intensity": 5.0,
-      "width": 0.8039,
-      "height": 0.8039,
+      "intensity": 1.0,
+      "width": 1.0,
+      "height": 1.0,
       "position": [
-        0.0047,
-        0.8814,
-        0.3204
+        -0.0,
+        0.4942,
+        -3.4329
       ],
       "quaternion": [
-        -0.707107,
+        -0.999274,
+        -0.0,
         0.0,
-        0.0,
-        0.707107
+        0.038106
       ]
     }
   ],
-  "mat_name_map": {
-    "GLASS_GLTF": "GLASS_1_GLTF"
-  },
+  "mat_name_map": {},
   "default_geo_state": {
     "LIGHTS": "NONE",
     "ENVIRONMENTS": "NONE"
   },
   "default_variant": "",
-  "default_mat_subset": {
-    "name": "RED",
-    "category": "PAINT"
-  },
+  "default_mat_subset": null,
   "camera": {
-    "zoom_min": 1.539,
-    "zoom_max": 5.611,
+    "zoom_min": 2.0,
+    "zoom_max": 15.0,
     "floor_z": 0.0,
-    "startup_camera": {
-      "position": [
-        2.696,
-        0.7193,
-        -4.7864
-      ],
-      "forward": [
-        -0.634,
-        -0.0729,
-        0.7699
-      ],
-      "up": [
-        -0.0463,
-        0.9973,
-        0.0562
-      ],
-      "hfov_deg": 61.928
-    },
-    "focal_length_mm": 30.0,
+    "startup_camera": null,
+    "focal_length_mm": 50.0,
     "sensor_width_mm": 36.0,
-    "roof_z": 3.0
+    "roof_z": null
   },
   "hdri": {
-    "file": "hdri/environment_1.hdr",
+    "file": null,
     "strength": 1.0,
-    "background": true,
+    "background": false,
     "flatten_ground": false,
-    "ground_height": -0.484,
-    "ground_radius": 2.99,
+    "ground_height": 1.0,
+    "ground_radius": 25.0,
     "ground_rotation_z": 0.0,
-    "ground_scale": 10.0,
+    "ground_scale": 1.0,
     "ground_offset": [
       0.0,
       0.0
     ],
     "ground_z_offset": 0.0
   },
-  "hdris": [
-    {
-      "name": "Environment 1",
-      "file": "hdri/environment_1.hdr",
-      "strength": 1.0,
-      "background": true,
-      "rotation_z": 0.0,
-      "flatten_ground": false,
-      "ground_height": -0.484,
-      "ground_radius": 2.99,
-      "ground_rotation_z": 0.0,
-      "ground_scale": 10.0,
-      "ground_offset": [
-        0.0,
-        0.0
-      ],
-      "ground_z_offset": 0.0,
-      "grade_exposure": 0.0,
-      "grade_brightness": 1.0,
-      "grade_contrast": 1.3,
-      "grade_saturation": 1.3,
-      "grade_bloom": 0.1,
-      "grade_bloom_threshold": 0.9,
-      "default": true,
-      "environment": "ENVIRONMENTS_STUDIO",
-      "light": "LIGHTS_STUDIO",
-      "ambient_color": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "ambient_strength": 0.0
-    }
-  ],
-  "environment_sets": [
-    "ENVIRONMENTS_OUTDOOR",
-    "ENVIRONMENTS_STUDIO"
-  ],
-  "light_sets": [
-    "LIGHTS_STUDIO"
-  ],
+  "hdris": [],
+  "environment_sets": [],
+  "light_sets": [],
   "environment_common_exists": true,
   "light_common_exists": true,
   "grade": {
     "tone_mapping": "AgX",
-    "view_transform": "Filmic",
+    "view_transform": "AgX",
     "exposure": -1.5,
-    "ambient_intensity": 1.0,
+    "ambient_intensity": 0.25,
     "env_intensity": 1.0,
     "env_rotation": [
       0.0,
@@ -390,9 +313,9 @@ const CFG = {
   },
   "transitions": {
     "material": true,
-    "geometry": false,
+    "geometry": true,
     "mat_ms": 300,
-    "geo_ms": 50
+    "geo_ms": 180
   },
   "ar": {
     "ios_enabled": false,
@@ -401,472 +324,8 @@ const CFG = {
     "mat_sets": []
   },
   "animations": {
-    "controls": [
-      {
-        "name": "FRDOOR_L",
-        "anim_type": "PROCEDURAL",
-        "states": 2,
-        "trigger": "button",
-        "state_names": [
-          "Closed",
-          "Open"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "FRDOOR_R",
-        "anim_type": "PROCEDURAL",
-        "states": 2,
-        "trigger": "button",
-        "state_names": [
-          "Closed",
-          "Open"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "TRUNK",
-        "anim_type": "PROCEDURAL",
-        "states": 2,
-        "trigger": "button",
-        "state_names": [
-          "Closed",
-          "Open"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_EMPTY",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_3_L",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_4_L",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_1_R",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_2_L",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_1_L",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_2_R",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_3_R",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_4_R",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_6_R",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_5_R",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_6_L",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_5_L",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_BOOT_EMPTY",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_EMPTY_L",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      },
-      {
-        "name": "ANIM_ROOF_MECHANISM_EMPTY_R",
-        "anim_type": "SCENE",
-        "states": 2,
-        "trigger": "button",
-        "hidden_ui": true,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "state_fracs": [
-          0.0,
-          1.0
-        ],
-        "playback_mode": "LOOP",
-        "extra_hotspots": [],
-        "extra_images": []
-      }
-    ],
-    "combos": [
-      {
-        "name": "CONVERTIBLE ROOF",
-        "members": [
-          "ANIM_ROOF_EMPTY",
-          "ANIM_ROOF",
-          "ANIM_ROOF_MECHANISM_4_L",
-          "ANIM_ROOF_MECHANISM_3_L",
-          "ANIM_ROOF_MECHANISM_1_R",
-          "ANIM_ROOF_MECHANISM_2_L",
-          "ANIM_ROOF_MECHANISM_1_L",
-          "ANIM_ROOF_MECHANISM_2_R",
-          "ANIM_ROOF_MECHANISM_3_R",
-          "ANIM_ROOF_MECHANISM_4_R",
-          "ANIM_ROOF_MECHANISM_6_R",
-          "ANIM_ROOF_MECHANISM_5_R",
-          "ANIM_ROOF_MECHANISM_6_L",
-          "ANIM_ROOF_MECHANISM_5_L",
-          "ANIM_BOOT_EMPTY",
-          "ANIM_ROOF_MECHANISM_EMPTY_L",
-          "ANIM_ROOF_MECHANISM_EMPTY_R"
-        ],
-        "trigger": "button",
-        "states": 2,
-        "state_names": [
-          "Start",
-          "End"
-        ],
-        "member_fracs": {
-          "ANIM_ROOF_EMPTY": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_4_L": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_3_L": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_1_R": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_2_L": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_1_L": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_2_R": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_3_R": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_4_R": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_6_R": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_5_R": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_6_L": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_5_L": [
-            0.0,
-            1.0
-          ],
-          "ANIM_BOOT_EMPTY": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_EMPTY_L": [
-            0.0,
-            1.0
-          ],
-          "ANIM_ROOF_MECHANISM_EMPTY_R": [
-            0.0,
-            1.0
-          ]
-        },
-        "playback_mode": "PINGPONG",
-        "extra_hotspots": [],
-        "extra_images": [],
-        "sounds": [
-          "sounds/Porsche_911_Targa_Roof_Open_and_Close_1_e4e0b2.mp3",
-          "sounds/Porsche_911_Targa_Roof_Open_and_Close_2_859fd7.mp3"
-        ]
-      }
-    ],
+    "controls": [],
+    "combos": [],
     "sequences": []
   },
   "annotations": [],
@@ -878,56 +337,21 @@ const CFG = {
     "radius": 6,
     "textColor": "#ffffff",
     "textFontSize": 14,
-    "videoWidthPct": 19,
-    "markerBorderWidth": 3,
+    "videoWidthPct": 26,
+    "markerColor": "#c8a96e",
     "markerOpacity": 100,
-    "markerGlow": 0,
-    "markerColor": "#ffffff"
+    "markerBorderWidth": 2,
+    "markerGlow": 6
   },
   "cameras": {
     "fly_duration": 1.2,
-    "zoom_min": 1.539,
-    "zoom_max": 5.611,
+    "zoom_min": 2.0,
+    "zoom_max": 15.0,
     "turntable": {
       "enabled": false,
       "name": "Turntable_Camera"
     },
-    "static": [
-      {
-        "name": "Camera",
-        "position": [
-          0.0044,
-          0.5662,
-          0.4151
-        ],
-        "target": [
-          0.0044,
-          0.4727,
-          -0.0879
-        ],
-        "lock_tumble_pan": true,
-        "transition": "fly",
-        "focal_length_mm": 20.0,
-        "sensor_width_mm": 36.0
-      },
-      {
-        "name": "CAM",
-        "position": [
-          1.9352,
-          1.3313,
-          -5.2236
-        ],
-        "target": [
-          -0.7438,
-          0.266,
-          -0.3508
-        ],
-        "lock_tumble_pan": false,
-        "transition": "fly",
-        "focal_length_mm": 30.0,
-        "sensor_width_mm": 36.0
-      }
-    ],
+    "static": [],
     "cinematic": {
       "sequence": [],
       "trigger": "button"
@@ -938,7 +362,7 @@ const CFG = {
 // rendered as floating clickable thumbnails over the canvas instead (see
 // buildThumbnailOverlays() in ui.js).
 const WCE_OVERLAYS = /*WCE_OVERLAYS_START*/[]/*WCE_OVERLAYS_END*/;
-const WCE_THEME = /*WCE_THEME_START*/{"colors": {"bg": "#0a0a0b", "panel": "#101013", "border": "#1c1c22", "accent": "#c8a96e", "a2": "#4a8cff", "ok": "#4caf7d", "hot": "#ff6b35", "cam": "#9b59b6", "text": "#e2ddd6", "muted": "#52526a"}, "panel2Bg": "#000000", "panel2Opacity": 100, "panelLayout": "tabs", "typography": {"family": "Rajdhani", "size": 75, "letterSpacing": 0.11, "weight": 500, "italic": false, "transform": "none"}, "groups": [{"id": "primary", "label": "Global", "selectors": [".pb2", ".gb", ".tb", ".anim-btn", ".cam-btn", ".tt-btn", ".vc", ".tnb", ".cin-btn", "#ar-btn", "#sfx-toggle", ".sr select"], "shape": "rounded", "radius": 3, "padY": 7, "padX": 10, "borderWidth": 1}], "overlays": [], "customGroups": [], "profiles": [], "thumbnailGroups": [], "globalThumbProps": {"size": 46, "shape": "circle", "radius": 12, "borderWidth": 2, "borderColor": "#ffffff"}, "chromeOverrides": {}, "startupPage": {"bgImage": null, "bgOpacity": 100, "iconImage": null, "iconOpacity": 100, "iconSize": 28, "colTxt": "", "colBar": "", "colErr": "#c0392b", "txtBoot": "INITIALISING", "txtInit": "LOADING CONFIG", "txtModel": "LOADING MODEL", "txtErr": "ERROR \u2014", "txtErrSt": "LOAD ERROR", "fontFamily": "", "fontSize": 10, "fontWeight": 400, "fontItalic": false}, "annotationPopup": {"bgColor": "#0a0a0c", "bgOpacity": 92, "borderColor": "#c8a96e", "borderWidth": 1, "radius": 6, "textColor": "#ffffff", "textFontSize": 14, "videoWidthPct": 19, "markerBorderWidth": 3, "markerOpacity": 100, "markerGlow": 0, "markerColor": "#ffffff"}, "annotationContent": {"Annotation_1": {"text": "PORSCHE 911"}}}/*WCE_THEME_END*/;
+const WCE_THEME = /*WCE_THEME_START*/{"colors": {"bg": "#0a0a0b", "panel": "#101013", "border": "#1c1c22", "accent": "#c8a96e", "a2": "#4a8cff", "ok": "#4caf7d", "hot": "#ff6b35", "cam": "#9b59b6", "text": "#e2ddd6", "muted": "#52526a"}, "panel2Bg": "#000000", "panel2Opacity": 100, "panelLayout": "tabs", "typography": {"family": "Rajdhani", "size": 100, "letterSpacing": 0.07, "weight": 500, "italic": false, "transform": "lowercase"}, "groups": [{"id": "primary", "label": "Global", "selectors": [".pb2", ".gb", ".tb", ".anim-btn", ".cam-btn", ".tt-btn", ".vc", ".tnb", ".cin-btn", "#ar-btn", "#sfx-toggle", ".sr select"], "shape": "rounded", "radius": 3, "padY": 7, "padX": 10, "borderWidth": 1}], "overlays": [], "customGroups": [], "profiles": [], "thumbnailGroups": [], "globalThumbProps": {"size": 46, "shape": "circle", "radius": 12, "borderWidth": 2, "borderColor": "#ffffff"}, "chromeOverrides": {}, "startupPage": {"bgImage": null, "bgOpacity": 100, "iconImage": null, "iconOpacity": 100, "iconSize": 28, "colTxt": "", "colBar": "", "colErr": "#c0392b", "txtBoot": "INITIALISING", "txtInit": "LOADING CONFIG", "txtModel": "LOADING MODEL", "txtErr": "ERROR \u2014", "txtErrSt": "LOAD ERROR", "fontFamily": "", "fontSize": 10, "fontWeight": 400, "fontItalic": false}, "annotationPopup": {"bgColor": "#0a0a0c", "bgOpacity": 92, "borderColor": "#c8a96e", "borderWidth": 1, "radius": 6, "textColor": "#ffffff", "textFontSize": 14, "videoWidthPct": 26, "markerColor": "#c8a96e", "markerOpacity": 100, "markerBorderWidth": 2, "markerGlow": 6}, "annotationContent": {}}/*WCE_THEME_END*/;
 const WCE_PROFILES = /*WCE_PROFILES_START*/[]/*WCE_PROFILES_END*/;
 const WCE_THUMBNAIL_GROUPS = /*WCE_THUMBGROUPS_START*/[]/*WCE_THUMBGROUPS_END*/;
 // Whichever HDRI entry is flagged default (or the first one) — used to seed
@@ -3626,7 +3050,7 @@ if(window.WCE_DESIGNER_MODE){
   const _stubGltf={scene:new THREE.Group(), parser:{getDependencies:async()=>[]}, animations:[]};
   _onModelLoaded(_stubGltf);
 } else {
-  loader.load('model.gltf',
+  loader.load('model.glb',
     _onModelLoaded,
     e=>{
       if(e.total&&e.total>0) prog(25+Math.round(e.loaded/e.total*70),'LOADING MODEL');
