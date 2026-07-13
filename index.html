@@ -1432,6 +1432,25 @@ ctrl.addEventListener('change',()=>requestRender(400));
 // the render loop always attempts to draw, no matter how the timeout
 // would otherwise have resolved.
 let _userInteracting=false;
+// Detects "still settling from damping" independently of drag state or
+// event timing — compares the camera's actual position/target against the
+// previous frame's, every frame, regardless of whether that frame renders.
+// Covers the gap _userInteracting alone doesn't: after release, damping
+// keeps moving the camera for a bit, decelerating — that motion was
+// previously only being kept alive by the same event-timeout mechanism the
+// drag-state flag was built to stop relying on.
+let _prevCamPos=null,_prevCamTarget=null;
+const _SETTLE_EPS=1e-5;
+function _cameraStillSettling(){
+  if(_prevCamPos===null){
+    _prevCamPos=cam.position.clone(); _prevCamTarget=ctrl.target.clone();
+    return true;   // no prior frame to compare against yet — assume active
+  }
+  const moved = cam.position.distanceToSquared(_prevCamPos)>_SETTLE_EPS
+             || ctrl.target.distanceToSquared(_prevCamTarget)>_SETTLE_EPS;
+  _prevCamPos.copy(cam.position); _prevCamTarget.copy(ctrl.target);
+  return moved;
+}
 canvas.addEventListener('pointerdown',()=>{ _userInteracting=true; });
 window.addEventListener('pointerup',()=>{ _userInteracting=false; });
 window.addEventListener('pointercancel',()=>{ _userInteracting=false; });
@@ -3100,9 +3119,15 @@ let _xrActive=false;
   // Continuous activity keeps the draw window open; otherwise we draw only for
   // the short window opened by interaction / camera damping (requestRender).
   const _now=performance.now();
+  // Called unconditionally, not inline in the || chain below — it has a
+  // position-tracking side effect that must run every single frame, which
+  // short-circuit evaluation could otherwise skip whenever an earlier
+  // condition in that chain is already true.
+  const _settling=_cameraStillSettling();
   const _active = _flyActive || _turntableActive || _cinematicPlaying || _hoverOn
                 || _now<_animActiveUntil || Object.keys(_segWatch).length>0
-                || _matTweens.length>0 || _geoTweens.length>0 || _userInteracting;
+                || _matTweens.length>0 || _geoTweens.length>0 || _userInteracting
+                || _settling;
   if(_active) _renderUntil=_now+100;
 
   if(_now<=_renderUntil){
