@@ -1439,8 +1439,21 @@ let _userInteracting=false;
 // keeps moving the camera for a bit, decelerating — that motion was
 // previously only being kept alive by the same event-timeout mechanism the
 // drag-state flag was built to stop relying on.
+//
+// Hysteresis, not a single-frame reading: under irregular frame timing
+// (a loaded phone especially), one frame's movement can measure below
+// _SETTLE_EPS even while damping is still genuinely, continuously
+// progressing underneath it — ctrl.update() runs every animation frame
+// regardless of whether that frame renders, so damping's own progress
+// never actually pauses just because one measurement looked still. Acting
+// on that single frame would let rendering stop mid-damping. Requiring
+// several CONSECUTIVE stable frames before ever reporting "settled"
+// absorbs that — one apparently-still frame no longer ends the window;
+// only a real, sustained stop does.
 let _prevCamPos=null,_prevCamTarget=null;
 const _SETTLE_EPS=1e-5;
+const _SETTLE_STABLE_FRAMES_NEEDED=8;
+let _settleStableFrames=0;
 function _cameraStillSettling(){
   if(_prevCamPos===null){
     _prevCamPos=cam.position.clone(); _prevCamTarget=ctrl.target.clone();
@@ -1449,7 +1462,12 @@ function _cameraStillSettling(){
   const moved = cam.position.distanceToSquared(_prevCamPos)>_SETTLE_EPS
              || ctrl.target.distanceToSquared(_prevCamTarget)>_SETTLE_EPS;
   _prevCamPos.copy(cam.position); _prevCamTarget.copy(ctrl.target);
-  return moved;
+  if(moved){
+    _settleStableFrames=0;
+    return true;
+  }
+  _settleStableFrames++;
+  return _settleStableFrames<_SETTLE_STABLE_FRAMES_NEEDED;
 }
 canvas.addEventListener('pointerdown',()=>{ _userInteracting=true; });
 window.addEventListener('pointerup',()=>{ _userInteracting=false; });
