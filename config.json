@@ -640,11 +640,11 @@
     "markerGlow": 0,
     "markerColor": "#ffffff"
   },
-  "model_file": "High/915092e5e08d_high.gltf",
+  "model_file": "Low/915092e5e08d_low.gltf",
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "high"
+    "low"
   ],
   "cameras": {
     "fly_duration": 1.2,
