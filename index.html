@@ -245,34 +245,8 @@ const CFG = {
     }
   ],
   "global_mat_sets": [],
-  "area_lights": [
-    {
-      "name": "Area",
-      "rig": "LIGHTS",
-      "color": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "intensity": 5.0,
-      "width": 0.8039,
-      "height": 0.8039,
-      "position": [
-        0.0047,
-        0.8814,
-        0.3204
-      ],
-      "quaternion": [
-        -0.707107,
-        0.0,
-        0.0,
-        0.707107
-      ]
-    }
-  ],
-  "mat_name_map": {
-    "GLASS_GLTF": "GLASS_1_GLTF"
-  },
+  "area_lights": [],
+  "mat_name_map": {},
   "default_geo_state": {
     "LIGHTS": "NONE",
     "ENVIRONMENTS": "NONE"
@@ -283,24 +257,24 @@ const CFG = {
     "category": "PAINT"
   },
   "camera": {
-    "zoom_min": 1.539,
+    "zoom_min": 1.13,
     "zoom_max": 5.611,
     "floor_z": 0.0,
     "startup_camera": {
       "position": [
-        2.696,
-        0.7193,
-        -4.7864
+        2.1978,
+        1.5616,
+        3.8825
       ],
       "forward": [
-        -0.634,
-        -0.0729,
-        0.7699
+        -0.3982,
+        -0.2472,
+        -0.8834
       ],
       "up": [
-        -0.0463,
-        0.9973,
-        0.0562
+        -0.1016,
+        0.969,
+        -0.2254
       ],
       "hfov_deg": 61.928
     },
@@ -341,7 +315,7 @@ const CFG = {
       ],
       "ground_z_offset": 0.0,
       "grade_exposure": 0.0,
-      "grade_brightness": 1.0,
+      "grade_brightness": 0.8,
       "grade_contrast": 1.3,
       "grade_saturation": 1.3,
       "grade_bloom": 0.1,
@@ -390,9 +364,9 @@ const CFG = {
   },
   "transitions": {
     "material": true,
-    "geometry": false,
+    "geometry": true,
     "mat_ms": 300,
-    "geo_ms": 50
+    "geo_ms": 180
   },
   "ar": {
     "ios_enabled": false,
@@ -762,7 +736,7 @@ const CFG = {
     ],
     "combos": [
       {
-        "name": "CONVERTIBLE ROOF",
+        "name": "ROOF_ANIMATION",
         "members": [
           "ANIM_ROOF_EMPTY",
           "ANIM_ROOF",
@@ -860,11 +834,7 @@ const CFG = {
         },
         "playback_mode": "PINGPONG",
         "extra_hotspots": [],
-        "extra_images": [],
-        "sounds": [
-          "sounds/Porsche_911_Targa_Roof_Open_and_Close_1_e4e0b2.mp3",
-          "sounds/Porsche_911_Targa_Roof_Open_and_Close_2_859fd7.mp3"
-        ]
+        "extra_images": []
       }
     ],
     "sequences": []
@@ -884,50 +854,21 @@ const CFG = {
     "markerGlow": 0,
     "markerColor": "#ffffff"
   },
+  "model_file": "High/915092e5e08d_high.gltf",
+  "model_token": "915092e5e08d",
+  "model_ext": "gltf",
+  "available_variants": [
+    "high"
+  ],
   "cameras": {
     "fly_duration": 1.2,
-    "zoom_min": 1.539,
+    "zoom_min": 1.13,
     "zoom_max": 5.611,
     "turntable": {
       "enabled": false,
       "name": "Turntable_Camera"
     },
-    "static": [
-      {
-        "name": "Camera",
-        "position": [
-          0.0044,
-          0.5662,
-          0.4151
-        ],
-        "target": [
-          0.0044,
-          0.4727,
-          -0.0879
-        ],
-        "lock_tumble_pan": true,
-        "transition": "fly",
-        "focal_length_mm": 20.0,
-        "sensor_width_mm": 36.0
-      },
-      {
-        "name": "CAM",
-        "position": [
-          1.9352,
-          1.3313,
-          -5.2236
-        ],
-        "target": [
-          -0.7438,
-          0.266,
-          -0.3508
-        ],
-        "lock_tumble_pan": false,
-        "transition": "fly",
-        "focal_length_mm": 30.0,
-        "sensor_width_mm": 36.0
-      }
-    ],
+    "static": [],
     "cinematic": {
       "sequence": [],
       "trigger": "button"
@@ -951,6 +892,22 @@ let _panMin=null, _panMax=null;  // set after GLB loads; used by tick to clamp p
 let _areaLights=[];   // THREE.RectAreaLight[] created from CFG.area_lights, each tagged with its source rig — see _applyEnvironmentAndLight
 window.geoSt=geoSt; window.matSt=matSt;
 try{Object.defineProperty(window,'activeV',{get:()=>activeV,set:v=>{activeV=v;},configurable:true});}catch(e){}
+
+// Deterrent only, not real protection — anyone who knows to open dev tools
+// via the browser's own menu (rather than a shortcut) bypasses this
+// entirely, and the model is still fully downloadable via the Network tab
+// regardless. This only raises the bar against the most casual case: a
+// visitor right-clicking to view source, or reflexively hitting F12.
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  const k = e.key;
+  const blocked =
+    k === 'F12' ||
+    (e.ctrlKey && e.shiftKey && (k === 'I' || k === 'i' || k === 'J' || k === 'j' || k === 'C' || k === 'c')) ||
+    (e.metaKey && e.altKey && (k === 'I' || k === 'i' || k === 'J' || k === 'j')) ||   // macOS Cmd+Opt+I/J
+    (e.ctrlKey && (k === 'U' || k === 'u'));   // view-source
+  if(blocked) e.preventDefault();
+});
 
 const canvas=document.getElementById('c');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
@@ -978,6 +935,16 @@ scene.add(_ambientLight);
 const cam=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,0.1,500);
 cam.position.set(0,2,((CFG.camera&&CFG.camera.zoom_max)||15.0)*0.65);
 
+// Whichever static camera's focal length is currently active (null when
+// none — i.e. the main/default scene camera is in use). _updateCamFov()
+// used to unconditionally fall back to CFG.camera (the main camera's own
+// focal length) even while a DIFFERENT, specific static camera was active
+// and its FOV had already been correctly set — a resize event (or anything
+// else calling _updateCamFov()) would silently overwrite the correct,
+// camera-specific FOV with the main camera's, with no relation to whichever
+// camera the visitor actually had active at the time.
+let _activeCamFocal=null,_activeCamSensor=null;
+
 // Vertical FOV derived from the Scene's camera focal length + sensor width
 // (physically correct horizontal→vertical conversion at the CURRENT aspect,
 // so resizing the window keeps the same "lens feel" as Blender) — falls
@@ -990,7 +957,9 @@ function _computeVFov(focal, sensorW){
 }
 function _updateCamFov(){
   const c=CFG.camera||{};
-  const vFovDeg=_computeVFov(c.focal_length_mm, c.sensor_width_mm);
+  const focal=_activeCamFocal!=null?_activeCamFocal:c.focal_length_mm;
+  const sensorW=_activeCamSensor!=null?_activeCamSensor:c.sensor_width_mm;
+  const vFovDeg=_computeVFov(focal, sensorW);
   if(vFovDeg!=null) cam.fov=vFovDeg;
 }
 _updateCamFov();
@@ -1565,10 +1534,14 @@ _updateFXAA();
 comp.addPass(fxaaPass);
 
 window.addEventListener('resize',()=>{
+  console.log('[Resize debug] resize event fired — innerWidth='+innerWidth+' innerHeight='+innerHeight
+    +' | OLD cam.aspect='+cam.aspect+' | NEW aspect='+(innerWidth/innerHeight)
+    +' | cam.fov BEFORE='+cam.fov);
   cam.aspect=innerWidth/innerHeight; _updateCamFov(); cam.updateProjectionMatrix();
   renderer.setSize(innerWidth,innerHeight); comp.setSize(innerWidth,innerHeight);
   _updateFXAA();
   requestRender(400);
+  console.log('[Resize debug] after resize handling — cam.fov AFTER='+cam.fov);
 });
 
 const raycaster=new THREE.Raycaster();
@@ -2206,10 +2179,69 @@ let _flyDestSkipRadiusClamp=false;
 // target either.
 const _CAM_LOCK_EPS=0.02;
 let _camDistanceLocked=false,_camLockedDist=0;
+const _camLockedTarget=new THREE.Vector3();
 function _applyCamDistanceLock(){
   if(!_camDistanceLocked) return;
   ctrl.minDistance=Math.max(0.01,_camLockedDist-_CAM_LOCK_EPS);
   ctrl.maxDistance=_camLockedDist+_CAM_LOCK_EPS;
+}
+// Direct, forceful correction — not just relying on min/maxDistance bounds.
+// OrbitControls can carry residual internal zoom momentum (the same class
+// of thing the existing pan-offset drain elsewhere already handles for
+// panning) that continuously pushes toward zooming in further than
+// allowed — the bounds correctly clamp it at the edge, but that edge sits
+// _CAM_LOCK_EPS away from the actual intended distance, not AT it. This
+// recomputes the camera's position to sit at exactly _camLockedDist,
+// preserving the current direction (so rotation/look-around still works
+// normally). Extracted into its own function so it can run after BOTH
+// ctrl.update() calls each frame, not just the second — the very first
+// ctrl.update() after arrival was already landing on the wrong distance,
+// and that wrong frame was what actually got rendered and seen, since the
+// correction previously only ran after the second call.
+function _correctCamDistanceLock(){
+  if(!_camDistanceLocked) return;
+  const _dir=new THREE.Vector3().subVectors(cam.position,ctrl.target);
+  const _curDist=_dir.length();
+  if(_curDist>1e-6 && Math.abs(_curDist-_camLockedDist)>1e-6){
+    _dir.multiplyScalar(_camLockedDist/_curDist);
+    cam.position.copy(ctrl.target).add(_dir);
+    // Re-sync look direction immediately — OrbitControls' own update() sets
+    // camera rotation from position/target internally, before this
+    // correction runs. Moving position afterward without this could leave
+    // the camera pointed in a very slightly stale direction for exactly one
+    // frame, until the NEXT ctrl.update() call corrects it — a possible
+    // one-frame visual snap distinct from anything a position/distance
+    // check alone would ever catch.
+    cam.lookAt(ctrl.target);
+  }
+}
+let _camLockDebugLastLog=0;
+let _camLockFrameCounter=999;   // starts high so it doesn't unthrottle-log before any arrival ever happens
+function _camLockDebugLog(tag){
+  if(!_camDistanceLocked) return;
+  const unthrottled=_camLockFrameCounter<60;
+  if(!unthrottled){
+    const now=performance.now();
+    if(now-_camLockDebugLastLog<150) return;
+    _camLockDebugLastLog=now;
+  } else {
+    _camLockFrameCounter++;
+  }
+  const actualDist=cam.position.distanceTo(ctrl.target);
+  const targetDrift=ctrl.target.distanceTo(_camLockedTarget);
+  console.log((unthrottled?'[CamLock #'+_camLockFrameCounter+'] ':'[CamLock] ')+tag
+    +' | actualDist='+actualDist.toFixed(5)
+    +' | lockedDist='+_camLockedDist.toFixed(5)
+    +' | minDistance='+ctrl.minDistance.toFixed(5)
+    +' | maxDistance='+ctrl.maxDistance.toFixed(5)
+    +' | outOfBounds='+(actualDist<ctrl.minDistance-1e-6||actualDist>ctrl.maxDistance+1e-6)
+    +' | targetDrift='+targetDrift.toFixed(5)
+    +' | target=['+ctrl.target.x.toFixed(4)+','+ctrl.target.y.toFixed(4)+','+ctrl.target.z.toFixed(4)+']'
+    +' | lockedTarget=['+_camLockedTarget.x.toFixed(4)+','+_camLockedTarget.y.toFixed(4)+','+_camLockedTarget.z.toFixed(4)+']'
+    +' | camPos=['+cam.position.x.toFixed(4)+','+cam.position.y.toFixed(4)+','+cam.position.z.toFixed(4)+']'
+    +' | camQuat=['+cam.quaternion.x.toFixed(5)+','+cam.quaternion.y.toFixed(5)+','+cam.quaternion.z.toFixed(5)+','+cam.quaternion.w.toFixed(5)+']'
+    +' | camUp=['+cam.up.x.toFixed(4)+','+cam.up.y.toFixed(4)+','+cam.up.z.toFixed(4)+']'
+    +' | camFov='+cam.fov.toFixed(4)+' | flyToFov='+(_flyToFov!=null?_flyToFov.toFixed(4):'null'));
 }
 const _flyFromPos=new THREE.Vector3(),_flyToPos=new THREE.Vector3();
 const _flyFromTgt=new THREE.Vector3(),_flyToTgt=new THREE.Vector3();
@@ -2241,11 +2273,14 @@ function flyToCamera(camName){
   // (e.g. an older export, or a non-standard camera) — falling back to
   // leaving FOV exactly as it already is, rather than guessing at one.
   const destFov=_computeVFov(def.focal_length_mm, def.sensor_width_mm);
+  _activeCamFocal=def.focal_length_mm||null;
+  _activeCamSensor=def.sensor_width_mm||null;
   // Clear any previous camera's distance lock immediately — otherwise the
   // per-frame re-assertion below would keep enforcing the OLD camera's
   // locked distance throughout this entire flight, since arrival (which
   // sets the new lock state) hasn't happened yet.
   _camDistanceLocked=false;
+  ctrl.enableZoom=true;
 
   if(def.transition==='dip'){
     _stopTurntable(); _stopCinematic();
@@ -2263,11 +2298,15 @@ function flyToCamera(camName){
       // first, undoing the jump before there's ever a chance to widen them.
       if(!!def.lock_tumble_pan){
         _camDistanceLocked=true;
+        _camLockFrameCounter=0;
         _camLockedDist=destPos.distanceTo(destTgt);
+        _camLockedTarget.copy(destTgt);
         _applyCamDistanceLock();
+        ctrl.enableZoom=false;
       } else {
         _camDistanceLocked=false;
         ctrl.minDistance=ZOOM_MIN; ctrl.maxDistance=ZOOM_MAX;
+        ctrl.enableZoom=true;
       }
       // Drain damping residuals — see the identical comment in _tickFly()'s
       // arrival block. Matters just as much for an instant jump as a smooth
@@ -2311,40 +2350,24 @@ function flyToCamera(camName){
 function _tickFly(){
   if(!_flyActive) return;
   _flyT+=1/60/_flyDur;
-  if(_flyT>=1){
-    _flyT=1; _flyActive=false;
-    document.querySelectorAll('.cam-btn').forEach(b=>b.classList.remove('active'));
-    // Locked: freeze the orbit radius at whatever distance this camera
-    // actually arrived at — OrbitControls' own rotation still works as a
-    // look-around from this exact spot, but dragging/zooming can never move
-    // the camera away from it. A hardcoded distance here (rather than the
-    // real arrival distance) was the actual cause of a visible snap right at
-    // arrival: OrbitControls immediately re-clamps to whatever min/max
-    // distance was just set, and if that didn't match where the camera
-    // really was, the very next control update yanked it to match — which
-    // looked exactly like a sudden FOV/zoom change, even though FOV itself
-    // never moved. A normal camera restores the real zoom range exactly as
-    // configured.
-    if(_flyDestLockTumblePan){
-      _camDistanceLocked=true;
-      _camLockedDist=cam.position.distanceTo(ctrl.target);
-      _applyCamDistanceLock();
-    } else {
-      _camDistanceLocked=false;
-      ctrl.minDistance=ZOOM_MIN; ctrl.maxDistance=ZOOM_MAX;
-    }
-    // Drain damping residuals — _tickFly() set position/target directly every
-    // frame throughout the fly, which can leave OrbitControls' own internal
-    // damped state out of sync with where the camera actually ended up. Once
-    // direct position-setting stops here, plain ctrl.update() calls (with
-    // damping on) would otherwise visibly correct/settle toward whatever
-    // stale internal state accumulated — exactly the drift/snap this fixes.
-    {
-      const _dWas=ctrl.enableDamping; ctrl.enableDamping=false;
-      for(let _i=0;_i<20;_i++) ctrl.update();
-      ctrl.enableDamping=_dWas;
-    }
-  }
+  const _arriving=_flyT>=1;
+  if(_arriving) _flyT=1;
+
+  // Position/target/FOV are set to their (possibly final, t=1) values FIRST,
+  // before any arrival/lock logic below runs — not after. This ordering
+  // matters: _camLockedDist and the damping-drain loop further down both
+  // need the camera's REAL final position, not wherever it was on the
+  // PREVIOUS frame. Setting position after arrival logic (the original,
+  // buggy order) meant the lock distance got computed from stale data, and
+  // OrbitControls' internal spherical state got synced via 20 drain calls
+  // against that same stale position — leaving it silently disagreeing
+  // with the correct position this code would then overwrite it with a
+  // moment later. That mismatch was invisible to any logging that only
+  // reads the public position/target values, since those get forcibly
+  // corrected — but OrbitControls' own hidden internal state stayed wrong,
+  // and would visibly fight that correction on a later frame. This exact
+  // ordering bug is also why Dip to Black never showed this: that path
+  // already sets position directly BEFORE draining damping, not after.
   const t=_flyT*_flyT*(3-2*_flyT);
   const tgt=new THREE.Vector3().lerpVectors(_flyFromTgt,_flyToTgt,t);
   const fromDir=new THREE.Vector3().subVectors(_flyFromPos,_flyFromTgt).normalize();
@@ -2367,6 +2390,45 @@ function _tickFly(){
   if(_flyToFov!=null){
     cam.fov=THREE.MathUtils.lerp(_flyFromFov!=null?_flyFromFov:_flyToFov,_flyToFov,t);
     cam.updateProjectionMatrix();
+  }
+
+  if(_arriving){
+    _flyActive=false;
+    document.querySelectorAll('.cam-btn').forEach(b=>b.classList.remove('active'));
+    // Locked: freeze the orbit radius at whatever distance this camera
+    // actually arrived at — OrbitControls' own rotation still works as a
+    // look-around from this exact spot, but dragging/zooming can never move
+    // the camera away from it. A hardcoded distance here (rather than the
+    // real arrival distance) was the actual cause of a visible snap right at
+    // arrival: OrbitControls immediately re-clamps to whatever min/max
+    // distance was just set, and if that didn't match where the camera
+    // really was, the very next control update yanked it to match — which
+    // looked exactly like a sudden FOV/zoom change, even though FOV itself
+    // never moved. A normal camera restores the real zoom range exactly as
+    // configured.
+    if(_flyDestLockTumblePan){
+      _camDistanceLocked=true;
+      _camLockFrameCounter=0;
+      _camLockedDist=cam.position.distanceTo(ctrl.target);
+      _camLockedTarget.copy(ctrl.target);
+      _applyCamDistanceLock();
+      ctrl.enableZoom=false;
+    } else {
+      _camDistanceLocked=false;
+      ctrl.minDistance=ZOOM_MIN; ctrl.maxDistance=ZOOM_MAX;
+      ctrl.enableZoom=true;
+    }
+    // Drain damping residuals — _tickFly() set position/target directly every
+    // frame throughout the fly, which can leave OrbitControls' own internal
+    // damped state out of sync with where the camera actually ended up. Once
+    // direct position-setting stops here, plain ctrl.update() calls (with
+    // damping on) would otherwise visibly correct/settle toward whatever
+    // stale internal state accumulated — exactly the drift/snap this fixes.
+    {
+      const _dWas=ctrl.enableDamping; ctrl.enableDamping=false;
+      for(let _i=0;_i<20;_i++) ctrl.update();
+      ctrl.enableDamping=_dWas;
+    }
   }
 }
 
@@ -3079,6 +3141,8 @@ let _xrActive=false;
     // _tickFly() runs AFTER and overrides the position for the fly arc.
     _applyCamDistanceLock();
     ctrl.update();
+    _correctCamDistanceLock();
+    _camLockDebugLog('after 1st ctrl.update()');
     // Safety net: OrbitControls' internal math can produce Infinity/NaN if
     // its orbit radius ever gets too close to zero (this happened with an
     // earlier, too-aggressive Lock Tumble/Pan value) — once corrupted, the
@@ -3116,11 +3180,28 @@ let _xrActive=false;
       _tickFly();
       cam.lookAt(ctrl.target);
     } else {
+    // Re-asserted again here, not just before the earlier update() call above
+    // — this second update() is the one actually processing live user input
+    // (rotation/zoom), and several other things run in between the two
+    // calls each frame. Without reasserting immediately before this one too,
+    // the lock could still be bypassed right where it mattered most.
+    _applyCamDistanceLock();
     ctrl.update();
+    _camLockDebugLog('after 2nd ctrl.update() (pre pan-clamp)');
+    _correctCamDistanceLock();
+    _camLockDebugLog('after direct correction');
     // Clamp pan target. Shift cam.position by the same delta so orbit
     // relationship is preserved with no visual jump. Also drain any
     // residual damped pan offset stored in OrbitControls.
-    if(_panMin!==null){
+    // Locked cameras are excluded entirely — this clamps against the
+    // model's general bounding box, which has no awareness of a specific,
+    // deliberately close/precise locked shot. It doesn't break the locked
+    // DISTANCE (position and target shift by the same delta, preserving the
+    // radius between them) — but it silently relocates where that fixed
+    // view is centered, which is exactly a locked camera drifting off its
+    // configured shot even while technically staying "locked" to wherever
+    // it drifted to.
+    if(_panMin!==null && !_camDistanceLocked){
       const _dx=Math.max(_panMin.x,Math.min(_panMax.x,ctrl.target.x))-ctrl.target.x;
       const _dy=Math.max(_panMin.y,Math.min(_panMax.y,ctrl.target.y))-ctrl.target.y;
       const _dz=Math.max(_panMin.z,Math.min(_panMax.z,ctrl.target.z))-ctrl.target.z;
@@ -3131,6 +3212,7 @@ let _xrActive=false;
         if(ctrl._panOffset) ctrl._panOffset.set(0,0,0);
       }
     }
+    _camLockDebugLog('end of frame (post pan-clamp)');
   }
   }
 
@@ -3672,6 +3754,79 @@ async function _onModelLoaded(gltf){
     }catch(uiErr){console.error('[WCE] UI error:',uiErr);stEl.textContent='UI ERROR';}
 }
 
+// Converts a variant name ('current'/'high'/'medium'/'low') into its actual
+// file path. 'current' is the one irregular case — it's the plain default
+// model file at the export root (or Normal subfolder), not a per-variant
+// subfolder pattern like the other three.
+function _wceVariantPath(variant){
+  if(variant === 'current') return 'High/915092e5e08d_high.gltf';
+  const token = CFG.model_token || 'High/915092e5e08d_high.gltf'.replace(/^.*\//,'').replace(/\.[^.]+$/,'');
+  const ext = CFG.model_ext || 'High/915092e5e08d_high.gltf'.split('.').pop();
+  const folderName = variant.charAt(0).toUpperCase()+variant.slice(1);
+  return folderName+'/'+token+'_'+variant+'.'+ext;
+}
+
+// Heuristic only — there's no reliable way to read a visitor's actual GPU
+// strength from the browser. Touch-only (no real hover) is the strongest
+// available signal for phone/tablet; CPU core count is broadly supported;
+// device memory is Chrome/Edge-only (undefined elsewhere), so it can only
+// ever refine the guess, never be depended on alone.
+//
+// Score-based, not fixed thresholds: a hardcoded set of cutoffs (e.g. "≤4
+// cores → Medium, >4 → Current") silently breaks depending on which
+// variants happen to be checked for a given export — a tier the thresholds
+// never produce as an output is unreachable even if it was exported, and
+// which tier that is changes depending on the combination. Computing a
+// continuous 0-100 score and distributing it evenly across however many
+// variants are ACTUALLY available guarantees every checked combination is
+// fully reachable, regardless of which subset of Current/High/Medium/Low
+// that turns out to be.
+function _wceDetectDeviceTier(){
+  const hasHover = window.matchMedia('(hover: hover)').matches;
+  const cores = navigator.hardwareConcurrency || 4;
+  const mem = navigator.deviceMemory;   // undefined on Safari/Firefox
+
+  let score = Math.min(100, Math.max(0, (cores-2)/(16-2)*100));
+  if(mem !== undefined){
+    const memScore = Math.min(100, Math.max(0, (mem-2)/(16-2)*100));
+    score = (score+memScore)/2;
+  }
+
+  const order = ['low','medium','high','current'];
+  let eligible = order.filter(v => (CFG.available_variants||['current']).includes(v));
+  if(eligible.length === 0) eligible = ['current'];
+
+  // Touch devices never exceed Medium — capped here regardless of score,
+  // not by clamping the score itself, so a touch device with a high
+  // capability score still lands on the BEST tier available up to (and
+  // never past) Medium, rather than being pushed toward Low unnecessarily.
+  if(!hasHover){
+    const mIdx = eligible.indexOf('medium');
+    if(mIdx !== -1) eligible = eligible.slice(0, mIdx+1);
+    else eligible = eligible.filter(v => v === 'low');
+    if(eligible.length === 0) eligible = [order.filter(v=>(CFG.available_variants||['current']).includes(v))[0]];
+  }
+
+  const bucket = 100/eligible.length;
+  const idx = Math.min(eligible.length-1, Math.floor(score/bucket));
+  return eligible[idx];
+}
+
+// Test Offline can pass ?preview_variant=high/medium/low/current to force a
+// specific variant for manual preview — takes priority over auto-detection
+// whenever present. With no override (a real visitor, not a preview
+// session), the variant is chosen automatically from detected device
+// capability instead. _wceDetectDeviceTier() already only ever selects from
+// CFG.available_variants, so its result is always valid — no separate
+// fallback/re-check needed on top of it.
+function _wceResolveModelFile(){
+  const params = new URLSearchParams(window.location.search);
+  const forced = params.get('preview_variant');
+  const variant = forced ? forced : _wceDetectDeviceTier();
+  return _wceVariantPath(variant);
+}
+const _actualModelFile = _wceResolveModelFile();
+
 if(window.WCE_DESIGNER_MODE){
   // UI Designer mode: skip the (potentially large/slow) model fetch entirely
   // and hand _onModelLoaded an empty stand-in scene graph instead. Every
@@ -3685,7 +3840,7 @@ if(window.WCE_DESIGNER_MODE){
   const _stubGltf={scene:new THREE.Group(), parser:{getDependencies:async()=>[]}, animations:[]};
   _onModelLoaded(_stubGltf);
 } else {
-  loader.load('model.gltf',
+  loader.load(_actualModelFile,
     _onModelLoaded,
     e=>{
       if(e.total&&e.total>0) prog(25+Math.round(e.loaded/e.total*70),'LOADING MODEL');
