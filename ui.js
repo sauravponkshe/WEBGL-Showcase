@@ -30,6 +30,28 @@ function buildHDRISwitcher(){
   sec.appendChild(g);
 }
 
+function buildFilterSwitcher(){
+  const items=(CFG.post_process&&CFG.post_process.filters)||[];
+  const shown=items.filter(f=>f.show_as_button);
+  const sec2=document.getElementById('sfilters');
+  if(!sec2) return;
+  if(!shown.length){ sec2.innerHTML=''; return; }
+  sec2.innerHTML='<div class="st">Filters</div>';
+  const g2=mk('div','pg');
+  shown.forEach(item=>{
+    const b=mk('button','pb2'); b.textContent=item.name; b.dataset.pf=item.filter_type;
+    if(window._wceActivePPFilter===item.filter_type) b.classList.add('active');
+    b.onclick=()=>{
+      if(typeof _wceApplyPPFilter==='function') _wceApplyPPFilter(item.filter_type);
+      window._wceActivePPFilter=item.filter_type;
+      qsa('.pb2[data-pf]').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    };
+    g2.appendChild(b);
+  });
+  sec2.appendChild(g2);
+}
+
 const SELECTABLE_SELECTOR = '.vc,.gb,.pb2,.anim-btn,.cam-btn,.tt-btn,.cin-btn,.tnb,.tb,h1,#vl,.st,#atb,#sfx-toggle,#ar-btn,#force-refresh-btn,#st,.sr-label,.hotspot-lbl,.empty-note';
 function _wceHexToRgba(hex, alpha){
   const h=(hex||'#808080').replace('#','');
@@ -167,8 +189,56 @@ window._wceSetDesignerEditMode = function(on){
   window._wceDesignerEditMode = !!on;
   _wceApplyDesignerVisibility();
 };
+// Detects touch + viewport width for Desktop vs Mobile, then
+// matchMedia(orientation) for Horizontal vs Vertical within Mobile. Applies
+// whichever deviceOverrides snapshot matches to the JS-driven (non-CSS)
+// parts of the theme -- overlays, panelLayout, chromeOverrides,
+// thumbnailGroups, globalThumbProps -- colors, panel background, and
+// typography are already handled natively via CSS media queries baked in
+// at export time (see _wce_theme_css), requiring no JS here at all.
+function _wceDetectDeviceView(){
+  const isTouch = window.matchMedia("(hover:none) and (pointer:coarse)").matches;
+  if(!isTouch) return "desktop";
+  return window.matchMedia("(orientation:landscape)").matches ? "mobileH" : "mobileV";
+}
+function _wceApplyDeviceOverrides(){
+  const base = window.WCE_THEME || {};
+  const view = _wceDetectDeviceView();
+  const dev = base.deviceOverrides || {};
+  const override = (view!=="desktop") ? dev[view] : null;
+  const src = override || base;
+  window.WCE_OVERLAYS = src.overlays || [];
+  window.WCE_PROFILES = src.profiles || base.profiles || [];
+  window.WCE_THUMBNAIL_GROUPS = src.thumbnailGroups || [];
+  base.panelLayout = src.panelLayout || "tabs";
+  base.chromeOverrides = src.chromeOverrides || {};
+  base.globalThumbProps = src.globalThumbProps || base.globalThumbProps;
+  base.panelHidden = (override ? override.panelHidden : base.panelHidden);
+}
+let _wceOrientationListenerAttached = false;
+function _wceAttachOrientationListener(){
+  if(_wceOrientationListenerAttached) return;
+  _wceOrientationListenerAttached = true;
+  const mq = window.matchMedia("(orientation:landscape)");
+  const onChange = function(){
+    if(_wceDetectDeviceView()==="desktop") return;
+    _wceApplyDeviceOverrides();
+    if(typeof buildThumbnailOverlays==="function") buildThumbnailOverlays();
+    if(typeof _wceApplyChromeOverrides==="function") _wceApplyChromeOverrides();
+    const pan = document.getElementById("panel"), ptab = document.getElementById("ptab");
+    if(pan && ptab){
+      const hidden = !!(window.WCE_THEME||{}).panelHidden;
+      pan.style.display = hidden ? "none" : "";
+      ptab.style.display = hidden ? "none" : "";
+    }
+  };
+  if(mq.addEventListener) mq.addEventListener("change", onChange);
+  else if(mq.addListener) mq.addListener(onChange);
+}
 function buildUI(){
-  buildVariants();buildGlobalSets();buildGeoPkgs();buildMatSubs();buildHDRISwitcher();
+  _wceApplyDeviceOverrides();
+  _wceAttachOrientationListener();
+  buildVariants();buildGlobalSets();buildGeoPkgs();buildMatSubs();buildHDRISwitcher();buildFilterSwitcher();
   buildAdvGeo();buildAdvMat();buildAnimUI();buildSequenceUI();buildCameraUI();buildThumbnailOverlays();
   _wceInitProfiles();
   document.getElementById('atb').addEventListener('click',()=>{
@@ -176,6 +246,7 @@ function buildUI(){
     document.getElementById('aa').textContent=s.classList.contains('open')?'▴':'▾';
   });
   const ptab=document.getElementById('ptab'),pan=document.getElementById('panel');
+  if((window.WCE_THEME||{}).panelHidden){pan.style.display='none';ptab.style.display='none';}
   ptab.onclick=()=>{pan.classList.toggle('closed');ptab.textContent=pan.classList.contains('closed')?'❮':'❯';};
   if(window.innerWidth<768){pan.classList.add('closed');ptab.textContent='❮';}
   document.querySelectorAll('.tnb').forEach(btn=>{

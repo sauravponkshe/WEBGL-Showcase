@@ -125,11 +125,21 @@ body:not(.wce-editing-mode) .wce-group-body{transition:height .25s ease,width .2
 .wce-group-body .wce-overlay-thumb,.wce-group-body .wce-overlay-text{position:absolute}
 </style>
 <style id="wce-theme-overrides">
-:root{--bg:#0a0a0b;--panel:#101013;--border:#1c1c22;--accent:#c8a96e;--a2:#4a8cff;--ok:#4caf7d;--hot:#ff6b35;--cam:#9b59b6;--text:#e2ddd6;--muted:#52526a;--panel-bg:rgba(0,0,0,1.0)}
+:root{--bg:#0a0a0b;--panel:#101013;--border:#1c1c22;--accent:#c8a96e;--a2:#4a8cff;--ok:#4caf7d;--hot:#ff6b35;--cam:#9b59b6;--text:#e2ddd6;--muted:#52526a;--panel-bg:rgba(0,0,0,1.0);--pw:300px}
 html,body{font-family:'Rajdhani',sans-serif;font-size:13px}
 .pb2,.gb,.tb,.anim-btn,.cam-btn,.tt-btn,.vc,.tnb,.cin-btn,#ar-btn,#sfx-toggle,.sr select{border-radius:3px;clip-path:none;padding:7px 10px;border-width:1px;font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
 .sr select{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
 #st{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
+@media (hover:none) and (pointer:coarse) and (orientation:portrait){:root{--bg:#0a0a0b;--panel:#101013;--border:#1c1c22;--accent:#c8a96e;--a2:#4a8cff;--ok:#4caf7d;--hot:#ff6b35;--cam:#9b59b6;--text:#e2ddd6;--muted:#52526a;--panel-bg:rgba(0,0,0,1.0);--pw:300px}
+html,body{font-family:'Rajdhani',sans-serif;font-size:13px}
+.pb2,.gb,.tb,.anim-btn,.cam-btn,.tt-btn,.vc,.tnb,.cin-btn,#ar-btn,#sfx-toggle,.sr select{border-radius:3px;clip-path:none;padding:7px 10px;border-width:1px;font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
+.sr select{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
+#st{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}}
+@media (hover:none) and (pointer:coarse) and (orientation:landscape){:root{--bg:#0a0a0b;--panel:#101013;--border:#1c1c22;--accent:#c8a96e;--a2:#4a8cff;--ok:#4caf7d;--hot:#ff6b35;--cam:#9b59b6;--text:#e2ddd6;--muted:#52526a;--panel-bg:rgba(0,0,0,1.0);--pw:300px}
+html,body{font-family:'Rajdhani',sans-serif;font-size:13px}
+.pb2,.gb,.tb,.anim-btn,.cam-btn,.tt-btn,.vc,.tnb,.cin-btn,#ar-btn,#sfx-toggle,.sr select{border-radius:3px;clip-path:none;padding:7px 10px;border-width:1px;font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
+.sr select{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}
+#st{font-family:'Rajdhani',sans-serif;font-size:75%;letter-spacing:0.11em;font-weight:500;font-style:normal;text-transform:none;}}
 </style>
 <script type="importmap">
 {"imports":{
@@ -171,6 +181,7 @@ html,body{font-family:'Rajdhani',sans-serif;font-size:13px}
       <div class="sec" id="sgp"></div>
       <div class="sec" id="sms"></div>
       <div class="sec" id="shdri"></div>
+      <div class="sec" id="sfilters"></div>
       <button class="at" id="atb">Advanced <span id="aa">▾</span></button>
       <div id="as"><div class="sec" id="sag"></div><div class="sec" id="sam"></div></div>
     </div>
@@ -207,14 +218,281 @@ import {EffectComposer}  from 'three/addons/postprocessing/EffectComposer.js';
 import {RenderPass}      from 'three/addons/postprocessing/RenderPass.js';
 import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
 import {ShaderPass}      from 'three/addons/postprocessing/ShaderPass.js';
+import {BokehPass}       from 'three/addons/postprocessing/BokehPass.js';
 import {FXAAShader}      from 'three/addons/shaders/FXAAShader.js';
 import {OutputPass}      from 'three/addons/postprocessing/OutputPass.js';
 
 RectAreaLightUniformsLib.init();
 
 const CFG = {
-  "containers": {},
-  "mat_colors": {},
+  "containers": {
+    "BODY": [
+      "Stormy Gray CARPAINT_METALLIC_GLTF",
+      "Scarlet Red CARPAINT_METALLIC_GLTF",
+      "Deep Yellow CARPAINT_METALLIC_GLTF",
+      "Dark Forest Green CARPAINT_METALLIC_GLTF",
+      "Black CARPAINT_MATTE_GLTF",
+      "WhiteSmoke CARPAINT_GLOSSY_GLTF",
+      "MidnightBlue CARPAINT_GLOSSY_GLTF",
+      "SkyBlue CARPAINT_GLOSSY_GLTF"
+    ],
+    "SEATS": [
+      "Light French Beige LEATHER_GLTF",
+      "Maroon Red LEATHER_GLTF"
+    ],
+    "EMBLEM": [
+      "GOLD_1_GLTF",
+      "PLASTIC_MATTE_3_GLTF",
+      "CHROME_2_GLTF"
+    ],
+    "ROOF": [
+      "Black FABRIC_2_GLTF",
+      "Maroon Red FABRIC_2_GLTF",
+      "Light French Beige FABRIC_2_GLTF"
+    ]
+  },
+  "mat_colors": {
+    "Stormy Gray CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.0423114113509655,
+        0.04373503103852272,
+        0.045186202973127365
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Scarlet Red CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.533312976360321,
+        0.011120004579424858,
+        0.0
+      ],
+      "metallic": 0.6227,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Deep Yellow CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.9215818643569946,
+        0.5149176716804504,
+        0.0
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Dark Forest Green CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.01850022003054619,
+        0.052860647439956665,
+        0.008568125776946545
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Black CARPAINT_MATTE_GLTF": {
+      "color": [
+        0.056979842483997345,
+        0.056979842483997345,
+        0.056979842483997345
+      ],
+      "metallic": 0.5,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "WhiteSmoke CARPAINT_GLOSSY_GLTF": {
+      "color": [
+        0.7172693610191345,
+        0.7172693610191345,
+        0.7172693610191345
+      ],
+      "metallic": 0.1,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "MidnightBlue CARPAINT_GLOSSY_GLTF": {
+      "color": [
+        0.006492260843515396,
+        0.006492277607321739,
+        0.0906919538974762
+      ],
+      "metallic": 0.0,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "SkyBlue CARPAINT_GLOSSY_GLTF": {
+      "color": [
+        0.13958381116390228,
+        0.5591534376144409,
+        0.8307760953903198
+      ],
+      "metallic": 0.1,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Light French Beige LEATHER_GLTF": {
+      "color": [
+        0.5775805711746216,
+        0.4910208582878113,
+        0.3613068461418152
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Maroon Red LEATHER_GLTF": {
+      "color": [
+        0.20735204219818115,
+        0.04643629118800163,
+        0.031773556023836136
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "GOLD_1_GLTF": {
+      "color": [
+        1.0,
+        0.7003670930862427,
+        0.2504533529281616
+      ],
+      "metallic": 0.8636,
+      "roughness": 0.4227,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PLASTIC_MATTE_3_GLTF": {
+      "color": [
+        0.03310399502515793,
+        0.03310399502515793,
+        0.03310399502515793
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "CHROME_2_GLTF": {
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "metallic": 1.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Black FABRIC_2_GLTF": {
+      "color": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Maroon Red FABRIC_2_GLTF": {
+      "color": [
+        0.11611873656511307,
+        0.0022330612409859896,
+        0.0022330612409859896
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Light French Beige FABRIC_2_GLTF": {
+      "color": [
+        0.5775781869888306,
+        0.4740818738937378,
+        0.32371580600738525
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    }
+  },
   "geometry_exposed": {},
   "geometry_subsets": [
     {
@@ -225,28 +503,109 @@ const CFG = {
       }
     }
   ],
-  "mat_subset_categories": [
-    "PAINT"
-  ],
-  "mat_subsets": [
+  "mat_subset_categories": [],
+  "mat_subsets": [],
+  "global_mat_sets": [],
+  "area_lights": [
     {
-      "name": "RED",
-      "category": "PAINT",
-      "state": {
-        "BODY": "Ferrari Red CARPAINT_METALLIC_GLTF"
-      }
+      "name": "Area",
+      "rig": "LIGHTS",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intensity": 1.0,
+      "width": 1.02,
+      "height": 5.4613,
+      "position": [
+        -1.9614,
+        0.9508,
+        0.0323
+      ],
+      "quaternion": [
+        -0.635941,
+        -0.309159,
+        0.309159,
+        0.635941
+      ]
     },
     {
-      "name": "YELLOW",
-      "category": "PAINT",
-      "state": {
-        "BODY": "Corn Yellow CARPAINT_METALLIC_GLTF"
-      }
+      "name": "Area1",
+      "rig": "LIGHTS",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intensity": 1.0,
+      "width": -1.02,
+      "height": -5.4613,
+      "position": [
+        1.9614,
+        0.9508,
+        0.0323
+      ],
+      "quaternion": [
+        0.278167,
+        0.650095,
+        0.650095,
+        0.278166
+      ]
     }
   ],
-  "global_mat_sets": [],
-  "area_lights": [],
-  "mat_name_map": {},
+  "light_shadows": {
+    "Area": true,
+    "Spot": true,
+    "Area1": true,
+    "Spot1": true
+  },
+  "post_process": {
+    "noise": {
+      "enabled": true,
+      "amount": 0.1
+    },
+    "vignette": {
+      "enabled": true,
+      "intensity": 0.5,
+      "softness": 1.0
+    },
+    "dof": {
+      "enabled": true,
+      "focus_distance": 8.78,
+      "aperture": 0.001,
+      "max_blur": 0.01
+    },
+    "filters": [
+      {
+        "name": "Normal",
+        "filter_type": "NORMAL",
+        "show_as_button": true
+      },
+      {
+        "name": "Filter 2",
+        "filter_type": "FADED",
+        "show_as_button": true
+      },
+      {
+        "name": "Filter 3",
+        "filter_type": "VINTAGE",
+        "show_as_button": true
+      },
+      {
+        "name": "Filter 4",
+        "filter_type": "DRAMATIC",
+        "show_as_button": true
+      }
+    ],
+    "active_filter_index": -1
+  },
+  "mat_name_map": {
+    "black metal train wheels-01": "CHROME_1_GLTF",
+    "Iron Touched": "METAL_BRUSHED_3_GLTF",
+    "Metal and wood rail": "CHROME_1_GLTF",
+    "Rubber": "Black CARPAINT_GLOSSY_GLTF"
+  },
   "default_geo_state": {
     "LIGHTS": "NONE",
     "ENVIRONMENTS": "NONE"
@@ -257,70 +616,102 @@ const CFG = {
     "category": "PAINT"
   },
   "camera": {
-    "zoom_min": 1.13,
-    "zoom_max": 5.611,
-    "floor_z": 0.0,
+    "zoom_min": 3.278,
+    "zoom_max": 9.268,
+    "floor_z": -0.2412,
     "startup_camera": {
       "position": [
-        2.1978,
-        1.5616,
-        3.8825
+        -8.2716,
+        1.5983,
+        -7.3953
       ],
       "forward": [
-        -0.3982,
-        -0.2472,
-        -0.8834
+        0.7471,
+        -0.1192,
+        0.654
       ],
       "up": [
-        -0.1016,
-        0.969,
-        -0.2254
+        0.0897,
+        0.9929,
+        0.0785
       ],
-      "hfov_deg": 61.928
+      "hfov_deg": 39.598
     },
-    "focal_length_mm": 30.0,
+    "focal_length_mm": 45.0,
     "sensor_width_mm": 36.0,
-    "roof_z": 3.0
+    "roof_z": 4.5629
   },
   "hdri": {
-    "file": "hdri/environment_1.hdr",
+    "file": "hdri/day.hdr",
     "strength": 1.0,
     "background": true,
     "flatten_ground": false,
-    "ground_height": -0.484,
-    "ground_radius": 2.99,
+    "ground_height": -3.634,
+    "ground_radius": 17.75,
     "ground_rotation_z": 0.0,
-    "ground_scale": 10.0,
+    "ground_scale": 9.91,
     "ground_offset": [
       0.0,
       0.0
     ],
-    "ground_z_offset": 0.0
+    "ground_z_offset": -20.0
   },
   "hdris": [
     {
-      "name": "Environment 1",
-      "file": "hdri/environment_1.hdr",
+      "name": "DAY",
+      "file": "hdri/day.hdr",
       "strength": 1.0,
       "background": true,
       "rotation_z": 0.0,
       "flatten_ground": false,
-      "ground_height": -0.484,
-      "ground_radius": 2.99,
+      "ground_height": -3.634,
+      "ground_radius": 17.75,
       "ground_rotation_z": 0.0,
-      "ground_scale": 10.0,
+      "ground_scale": 9.91,
+      "ground_offset": [
+        0.0,
+        0.0
+      ],
+      "ground_z_offset": -20.0,
+      "grade_exposure": 0.0,
+      "grade_brightness": 1.0,
+      "grade_contrast": 1.4,
+      "grade_saturation": 1.0,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
+      "default": true,
+      "environment": "ENVIRONMENTS_STUDIO",
+      "light": "LIGHTS_STUDIO",
+      "ambient_color": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ambient_strength": 0.0
+    },
+    {
+      "name": "NIGHT",
+      "file": "hdri/night.hdr",
+      "strength": 0.07,
+      "background": true,
+      "rotation_z": 0.0,
+      "flatten_ground": false,
+      "ground_height": 1.0,
+      "ground_radius": 25.0,
+      "ground_rotation_z": 0.0,
+      "ground_scale": 1.0,
       "ground_offset": [
         0.0,
         0.0
       ],
       "ground_z_offset": 0.0,
       "grade_exposure": 0.0,
-      "grade_brightness": 0.8,
-      "grade_contrast": 1.3,
-      "grade_saturation": 1.3,
+      "grade_brightness": 1.0,
+      "grade_contrast": 1.4,
+      "grade_saturation": 1.0,
       "grade_bloom": 0.1,
       "grade_bloom_threshold": 0.9,
-      "default": true,
+      "default": false,
       "environment": "ENVIRONMENTS_STUDIO",
       "light": "LIGHTS_STUDIO",
       "ambient_color": [
@@ -332,7 +723,6 @@ const CFG = {
     }
   ],
   "environment_sets": [
-    "ENVIRONMENTS_OUTDOOR",
     "ENVIRONMENTS_STUDIO"
   ],
   "light_sets": [
@@ -342,7 +732,7 @@ const CFG = {
   "light_common_exists": true,
   "grade": {
     "tone_mapping": "AgX",
-    "view_transform": "Filmic",
+    "view_transform": "AgX",
     "exposure": -1.5,
     "ambient_intensity": 1.0,
     "env_intensity": 1.0,
@@ -424,6 +814,48 @@ const CFG = {
           1.0
         ],
         "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "FRWHEEL_L",
+        "anim_type": "PROCEDURAL",
+        "states": 3,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "-30",
+          "0",
+          "30"
+        ],
+        "state_fracs": [
+          0.0,
+          0.5,
+          1.0
+        ],
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "FRWHEEL_R",
+        "anim_type": "PROCEDURAL",
+        "states": 3,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "-30",
+          "0",
+          "30"
+        ],
+        "state_fracs": [
+          0.0,
+          0.5,
+          1.0
+        ],
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -732,6 +1164,41 @@ const CFG = {
         "playback_mode": "LOOP",
         "extra_hotspots": [],
         "extra_images": []
+      },
+      {
+        "name": "FRONT_HEADLAMP",
+        "anim_type": "GEO_TOGGLE",
+        "states": 2,
+        "trigger": "button",
+        "geo_nodes": [
+          "Spot",
+          "Spot1",
+          "shell#3220",
+          "shell#3221",
+          "shell#3240",
+          "shell#3243",
+          "shell#364",
+          "shell#365"
+        ]
+      },
+      {
+        "name": "FRONT_HEADLAMP_Flicker",
+        "anim_type": "GEO_FLICKER",
+        "states": 1,
+        "trigger": "button",
+        "geo_nodes": [
+          "Spot",
+          "Spot1",
+          "shell#3220",
+          "shell#3221",
+          "shell#3240",
+          "shell#3243",
+          "shell#364",
+          "shell#365"
+        ],
+        "flicker_count": 2,
+        "flicker_duration": 1.5,
+        "flicker_end_state": "ON"
       }
     ],
     "combos": [
@@ -835,6 +1302,62 @@ const CFG = {
         "playback_mode": "PINGPONG",
         "extra_hotspots": [],
         "extra_images": []
+      },
+      {
+        "name": "LAMPS",
+        "members": [
+          "REAR_TAILLAMP",
+          "FRONT_HEADLAMP"
+        ],
+        "trigger": "button",
+        "states": 2,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "member_fracs": {
+          "REAR_TAILLAMP": [
+            0.0,
+            1.0
+          ],
+          "FRONT_HEADLAMP": [
+            0.0,
+            1.0
+          ]
+        },
+        "playback_mode": "LOOP",
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "WHEELS",
+        "members": [
+          "FRWHEEL_L",
+          "FRWHEEL_R"
+        ],
+        "trigger": "button",
+        "states": 3,
+        "state_names": [
+          "-30",
+          "0",
+          "30"
+        ],
+        "member_fracs": {
+          "FRWHEEL_L": [
+            0.0,
+            0.5,
+            1.0
+          ],
+          "FRWHEEL_R": [
+            0.0,
+            0.5,
+            1.0
+          ]
+        },
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "extra_hotspots": [],
+        "extra_images": []
       }
     ],
     "sequences": []
@@ -854,32 +1377,126 @@ const CFG = {
     "markerGlow": 0,
     "markerColor": "#ffffff"
   },
-  "model_file": "Low/915092e5e08d_low.gltf",
+  "model_file": "915092e5e08d.gltf",
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "low"
+    "current"
   ],
   "cameras": {
     "fly_duration": 1.2,
-    "zoom_min": 1.13,
-    "zoom_max": 5.611,
+    "zoom_min": 3.278,
+    "zoom_max": 9.268,
     "turntable": {
       "enabled": false,
       "name": "Turntable_Camera"
     },
-    "static": [],
+    "static": [
+      {
+        "name": "Camera",
+        "position": [
+          -0.3557,
+          0.6067,
+          0.4362
+        ],
+        "target": [
+          -0.1258,
+          0.4716,
+          -0.1563
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 10.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "CAM_START.001",
+        "position": [
+          -8.2716,
+          1.5983,
+          -7.3953
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -0.0
+        ],
+        "lock": "free",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 50.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "Camera.002",
+        "position": [
+          -1.8548,
+          0.0648,
+          -2.4363
+        ],
+        "target": [
+          0.0118,
+          -0.0634,
+          -0.0125
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 40.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "Camera.003",
+        "position": [
+          3.5368,
+          2.5852,
+          4.7457
+        ],
+        "target": [
+          0.0634,
+          -0.177,
+          0.0573
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 45.0,
+        "sensor_width_mm": 36.0
+      }
+    ],
     "cinematic": {
       "sequence": [],
       "trigger": "button"
     }
   }
 };
+// Blender's own glTF exporter bakes its watt→candela conversion into each
+// punctual light's KHR_lights_punctual intensity before it ever reaches this
+// page — that raw value reads far too bright once loaded here, so it's
+// divided down by this single constant on load (see the o.isLight branch in
+// the model-load traverse below). Area lights never pass through here at all
+// (they're built separately from CFG.area_lights, not via GLTFLoader), so
+// this can never touch them. Tune this one number if the overall light level
+// ends up too bright/dark after a real export — nothing else needs to change.
+const WCE_LIGHT_INTENSITY_DIVISOR = 1000;
 // Material options the artist pulled out of the sidebar in the UI Designer —
 // rendered as floating clickable thumbnails over the canvas instead (see
 // buildThumbnailOverlays() in ui.js).
-const WCE_OVERLAYS = /*WCE_OVERLAYS_START*/[]/*WCE_OVERLAYS_END*/;
-const WCE_THEME = /*WCE_THEME_START*/{"colors": {"bg": "#0a0a0b", "panel": "#101013", "border": "#1c1c22", "accent": "#c8a96e", "a2": "#4a8cff", "ok": "#4caf7d", "hot": "#ff6b35", "cam": "#9b59b6", "text": "#e2ddd6", "muted": "#52526a"}, "panel2Bg": "#000000", "panel2Opacity": 100, "panelLayout": "tabs", "typography": {"family": "Rajdhani", "size": 75, "letterSpacing": 0.11, "weight": 500, "italic": false, "transform": "none"}, "groups": [{"id": "primary", "label": "Global", "selectors": [".pb2", ".gb", ".tb", ".anim-btn", ".cam-btn", ".tt-btn", ".vc", ".tnb", ".cin-btn", "#ar-btn", "#sfx-toggle", ".sr select"], "shape": "rounded", "radius": 3, "padY": 7, "padX": 10, "borderWidth": 1}], "overlays": [], "customGroups": [], "profiles": [], "thumbnailGroups": [], "globalThumbProps": {"size": 46, "shape": "circle", "radius": 12, "borderWidth": 2, "borderColor": "#ffffff"}, "chromeOverrides": {}, "startupPage": {"bgImage": null, "bgOpacity": 100, "iconImage": null, "iconOpacity": 100, "iconSize": 28, "colTxt": "", "colBar": "", "colErr": "#c0392b", "txtBoot": "INITIALISING", "txtInit": "LOADING CONFIG", "txtModel": "LOADING MODEL", "txtErr": "ERROR \u2014", "txtErrSt": "LOAD ERROR", "fontFamily": "", "fontSize": 10, "fontWeight": 400, "fontItalic": false}, "annotationPopup": {"bgColor": "#0a0a0c", "bgOpacity": 92, "borderColor": "#c8a96e", "borderWidth": 1, "radius": 6, "textColor": "#ffffff", "textFontSize": 14, "videoWidthPct": 19, "markerBorderWidth": 3, "markerOpacity": 100, "markerGlow": 0, "markerColor": "#ffffff"}, "annotationContent": {"Annotation_1": {"text": "PORSCHE 911"}}}/*WCE_THEME_END*/;
+const WCE_OVERLAYS = /*WCE_OVERLAYS_START*/[{"kind": "color", "image": "", "imageScale": 100, "x": 21.929824561403507, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Stormy Gray CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Stormy Gray CARPAINT_METALLIC_GLTF", "color": "#3a3b3c", "id": "material::BODY::Stormy Gray CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 43.859649122807014, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Scarlet Red CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Scarlet Red CARPAINT_METALLIC_GLTF", "color": "#c11b00", "id": "material::BODY::Scarlet Red CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 58.47953216374269, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Deep Yellow CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Deep Yellow CARPAINT_METALLIC_GLTF", "color": "#f6be00", "id": "material::BODY::Deep Yellow CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 65.78947368421052, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Dark Forest Green CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Dark Forest Green CARPAINT_METALLIC_GLTF", "color": "#254117", "id": "material::BODY::Dark Forest Green CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 73.09941520467837, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Black CARPAINT MATTE GLTF", "type": "material", "container": "BODY", "material": "Black CARPAINT_MATTE_GLTF", "color": "#444444", "id": "material::BODY::Black CARPAINT_MATTE_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 29.239766081871345, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "WhiteSmoke CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "WhiteSmoke CARPAINT_GLOSSY_GLTF", "color": "#dcdcdc", "id": "material::BODY::WhiteSmoke CARPAINT_GLOSSY_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 36.54970760233918, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "MidnightBlue CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "MidnightBlue CARPAINT_GLOSSY_GLTF", "color": "#131355", "id": "material::BODY::MidnightBlue CARPAINT_GLOSSY_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 51.16959064327485, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "SkyBlue CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "SkyBlue CARPAINT_GLOSSY_GLTF", "color": "#68c5eb", "id": "material::BODY::SkyBlue CARPAINT_GLOSSY_GLTF", "size": 42}]/*WCE_OVERLAYS_END*/;
+const WCE_THEME = /*WCE_THEME_START*/{"colors": {"bg": "#0a0a0b", "panel": "#101013", "border": "#1c1c22", "accent": "#c8a96e", "a2": "#4a8cff", "ok": "#4caf7d", "hot": "#ff6b35", "cam": "#9b59b6", "text": "#e2ddd6", "muted": "#52526a"}, "panel2Bg": "#000000", "panel2Opacity": 100, "panelLayout": "tabs", "panelWidth": 300, "panelHidden": false, "mirrorEnabled": false, "deviceOverrides": {"mobileH": {"colors": {"bg": "#0a0a0b", "panel": "#101013", "border": "#1c1c22", "accent": "#c8a96e", "a2": "#4a8cff", "ok": "#4caf7d", "hot": "#ff6b35", "cam": "#9b59b6", "text": "#e2ddd6", "muted": "#52526a"}, "panel2Bg": "#000000", "panel2Opacity": 100, "panelLayout": "tabs", "panelWidth": 300, "panelHidden": false, "mirrorEnabled": false, "typography": {"family": "Rajdhani", "size": 75, "letterSpacing": 0.11, "weight": 500, "italic": false, "transform": "none"}, "groups": [{"id": "primary", "label": "Global", "selectors": [".pb2", ".gb", ".tb", ".anim-btn", ".cam-btn", ".tt-btn", ".vc", ".tnb", ".cin-btn", "#ar-btn", "#sfx-toggle", ".sr select"], "shape": "rounded", "radius": 3, "padY": 7, "padX": 10, "borderWidth": 1}], "overlays": [{"kind": "color", "image": "", "imageScale": 100, "x": 21.929824561403507, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Stormy Gray CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Stormy Gray CARPAINT_METALLIC_GLTF", "color": "#3a3b3c", "id": "material::BODY::Stormy Gray CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 43.859649122807014, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Scarlet Red CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Scarlet Red CARPAINT_METALLIC_GLTF", "color": "#c11b00", "id": "material::BODY::Scarlet Red CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 58.47953216374269, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Deep Yellow CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Deep Yellow CARPAINT_METALLIC_GLTF", "color": "#f6be00", "id": "material::BODY::Deep Yellow CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 65.78947368421052, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Dark Forest Green CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Dark Forest Green CARPAINT_METALLIC_GLTF", "color": "#254117", "id": "material::BODY::Dark Forest Green CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 73.09941520467837, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Black CARPAINT MATTE GLTF", "type": "material", "container": "BODY", "material": "Black CARPAINT_MATTE_GLTF", "color": "#444444", "id": "material::BODY::Black CARPAINT_MATTE_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 29.239766081871345, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "WhiteSmoke CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "WhiteSmoke CARPAINT_GLOSSY_GLTF", "color": "#dcdcdc", "id": "material::BODY::WhiteSmoke CARPAINT_GLOSSY_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 36.54970760233918, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "MidnightBlue CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "MidnightBlue CARPAINT_GLOSSY_GLTF", "color": "#131355", "id": "material::BODY::MidnightBlue CARPAINT_GLOSSY_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 51.16959064327485, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "SkyBlue CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "SkyBlue CARPAINT_GLOSSY_GLTF", "color": "#68c5eb", "id": "material::BODY::SkyBlue CARPAINT_GLOSSY_GLTF", "size": 42}], "customGroups": [], "profiles": [], "thumbnailGroups": [], "globalThumbProps": {"size": 90, "shape": "circle", "radius": 12, "borderWidth": 2, "borderColor": "#ffffff"}, "chromeOverrides": {".pb2[data-hf=\"hdri/day.hdr\"]": {}, "#sfilters .st[data-st-idx=\"0\"]": {}, ".pb2[data-hf=\"hdri/night.hdr\"]": {}, ".pb2[data-tp=\"gp\"][data-gi=\"0\"]": {}, "#atb": {"removed": true}, "#ar-btn": {"removed": true}}, "startupPage": {"bgImage": null, "bgOpacity": 100, "iconImage": null, "iconOpacity": 100, "iconSize": 28, "colTxt": "", "colBar": "", "colErr": "#c0392b", "txtBoot": "INITIALISING", "txtInit": "LOADING CONFIG", "txtModel": "LOADING MODEL", "txtErr": "ERROR \u2014", "txtErrSt": "LOAD ERROR", "fontFamily": "", "fontSize": 10, "fontWeight": 400, "fontItalic": false}, "annotationPopup": {"bgColor": "#0a0a0c", "bgOpacity": 92, "borderColor": "#c8a96e", "borderWidth": 1, "radius": 6, "textColor": "#ffffff", "textFontSize": 14, "videoWidthPct": 19, "markerBorderWidth": 3, "markerOpacity": 100, "markerGlow": 0, "markerColor": "#ffffff"}, "annotationContent": {"Annotation_1": {"text": "PORSCHE 911"}}, "customFonts": {}, "toggleAutoRemove": false}, "mobileV": {"colors": {"bg": "#0a0a0b", "panel": "#101013", "border": "#1c1c22", "accent": "#c8a96e", "a2": "#4a8cff", "ok": "#4caf7d", "hot": "#ff6b35", "cam": "#9b59b6", "text": "#e2ddd6", "muted": "#52526a"}, "panel2Bg": "#000000", "panel2Opacity": 100, "panelLayout": "tabs", "panelWidth": 300, "panelHidden": false, "mirrorEnabled": false, "typography": {"family": "Rajdhani", "size": 75, "letterSpacing": 0.11, "weight": 500, "italic": false, "transform": "none"}, "groups": [{"id": "primary", "label": "Global", "selectors": [".pb2", ".gb", ".tb", ".anim-btn", ".cam-btn", ".tt-btn", ".vc", ".tnb", ".cin-btn", "#ar-btn", "#sfx-toggle", ".sr select"], "shape": "rounded", "radius": 3, "padY": 7, "padX": 10, "borderWidth": 1}], "overlays": [{"kind": "color", "image": "", "imageScale": 100, "x": 3.7593984962406015, "y": 25.981522418260646, "styleGroupId": "__global__", "groupId": null, "label": "Stormy Gray CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Stormy Gray CARPAINT_METALLIC_GLTF", "color": "#3a3b3c", "id": "material::BODY::Stormy Gray CARPAINT_METALLIC_GLTF", "size": 25}, {"kind": "color", "image": "", "imageScale": 100, "x": 3.7593984962406015, "y": 34.6420298910142, "styleGroupId": "__global__", "groupId": null, "label": "Scarlet Red CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Scarlet Red CARPAINT_METALLIC_GLTF", "color": "#c11b00", "id": "material::BODY::Scarlet Red CARPAINT_METALLIC_GLTF", "size": 25}, {"kind": "color", "image": "", "imageScale": 100, "x": 3.7593984962406015, "y": 51.96304483652129, "styleGroupId": "__global__", "groupId": null, "label": "Deep Yellow CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Deep Yellow CARPAINT_METALLIC_GLTF", "color": "#f6be00", "id": "material::BODY::Deep Yellow CARPAINT_METALLIC_GLTF", "size": 25}, {"kind": "color", "image": "", "imageScale": 100, "x": 3.7593984962406015, "y": 60.62355230927484, "styleGroupId": "__global__", "groupId": null, "label": "Dark Forest Green CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Dark Forest Green CARPAINT_METALLIC_GLTF", "color": "#254117", "id": "material::BODY::Dark Forest Green CARPAINT_METALLIC_GLTF", "size": 25}, {"kind": "color", "image": "", "imageScale": 100, "x": 3.7593984962406015, "y": 69.2840597820284, "styleGroupId": "__global__", "groupId": null, "label": "Black CARPAINT MATTE GLTF", "type": "material", "container": "BODY", "material": "Black CARPAINT_MATTE_GLTF", "color": "#444444", "id": "material::BODY::Black CARPAINT_MATTE_GLTF", "size": 25}, {"kind": "color", "image": "", "imageScale": 100, "x": 3.7593984962406015, "y": 8.66050747275355, "styleGroupId": "__global__", "groupId": null, "label": "WhiteSmoke CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "WhiteSmoke CARPAINT_GLOSSY_GLTF", "color": "#dcdcdc", "id": "material::BODY::WhiteSmoke CARPAINT_GLOSSY_GLTF", "size": 25}, {"kind": "color", "image": "", "imageScale": 100, "x": 3.7593984962406015, "y": 17.3210149455071, "styleGroupId": "__global__", "groupId": null, "label": "MidnightBlue CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "MidnightBlue CARPAINT_GLOSSY_GLTF", "color": "#131355", "id": "material::BODY::MidnightBlue CARPAINT_GLOSSY_GLTF", "size": 25}, {"kind": "color", "image": "", "imageScale": 100, "x": 3.7593984962406015, "y": 43.30253736376775, "styleGroupId": "__global__", "groupId": null, "label": "SkyBlue CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "SkyBlue CARPAINT_GLOSSY_GLTF", "color": "#68c5eb", "id": "material::BODY::SkyBlue CARPAINT_GLOSSY_GLTF", "size": 25}], "customGroups": [], "profiles": [], "thumbnailGroups": [], "globalThumbProps": {"size": 90, "shape": "circle", "radius": 12, "borderWidth": 2, "borderColor": "#ffffff"}, "chromeOverrides": {".pb2[data-hf=\"hdri/day.hdr\"]": {}, "#sfilters .st[data-st-idx=\"0\"]": {}, ".pb2[data-hf=\"hdri/night.hdr\"]": {}, ".pb2[data-tp=\"gp\"][data-gi=\"0\"]": {}, "#atb": {"removed": true}, "#ar-btn": {"removed": true}}, "startupPage": {"bgImage": null, "bgOpacity": 100, "iconImage": null, "iconOpacity": 100, "iconSize": 28, "colTxt": "", "colBar": "", "colErr": "#c0392b", "txtBoot": "INITIALISING", "txtInit": "LOADING CONFIG", "txtModel": "LOADING MODEL", "txtErr": "ERROR \u2014", "txtErrSt": "LOAD ERROR", "fontFamily": "", "fontSize": 10, "fontWeight": 400, "fontItalic": false}, "annotationPopup": {"bgColor": "#0a0a0c", "bgOpacity": 92, "borderColor": "#c8a96e", "borderWidth": 1, "radius": 6, "textColor": "#ffffff", "textFontSize": 14, "videoWidthPct": 19, "markerBorderWidth": 3, "markerOpacity": 100, "markerGlow": 0, "markerColor": "#ffffff"}, "annotationContent": {"Annotation_1": {"text": "PORSCHE 911"}}, "customFonts": {}, "toggleAutoRemove": false}}, "typography": {"family": "Rajdhani", "size": 75, "letterSpacing": 0.11, "weight": 500, "italic": false, "transform": "none"}, "groups": [{"id": "primary", "label": "Global", "selectors": [".pb2", ".gb", ".tb", ".anim-btn", ".cam-btn", ".tt-btn", ".vc", ".tnb", ".cin-btn", "#ar-btn", "#sfx-toggle", ".sr select"], "shape": "rounded", "radius": 3, "padY": 7, "padX": 10, "borderWidth": 1}], "overlays": [{"kind": "color", "image": "", "imageScale": 100, "x": 21.929824561403507, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Stormy Gray CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Stormy Gray CARPAINT_METALLIC_GLTF", "color": "#3a3b3c", "id": "material::BODY::Stormy Gray CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 43.859649122807014, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Scarlet Red CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Scarlet Red CARPAINT_METALLIC_GLTF", "color": "#c11b00", "id": "material::BODY::Scarlet Red CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 58.47953216374269, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Deep Yellow CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Deep Yellow CARPAINT_METALLIC_GLTF", "color": "#f6be00", "id": "material::BODY::Deep Yellow CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 65.78947368421052, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Dark Forest Green CARPAINT METALLIC GLTF", "type": "material", "container": "BODY", "material": "Dark Forest Green CARPAINT_METALLIC_GLTF", "color": "#254117", "id": "material::BODY::Dark Forest Green CARPAINT_METALLIC_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 73.09941520467837, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "Black CARPAINT MATTE GLTF", "type": "material", "container": "BODY", "material": "Black CARPAINT_MATTE_GLTF", "color": "#444444", "id": "material::BODY::Black CARPAINT_MATTE_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 29.239766081871345, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "WhiteSmoke CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "WhiteSmoke CARPAINT_GLOSSY_GLTF", "color": "#dcdcdc", "id": "material::BODY::WhiteSmoke CARPAINT_GLOSSY_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 36.54970760233918, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "MidnightBlue CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "MidnightBlue CARPAINT_GLOSSY_GLTF", "color": "#131355", "id": "material::BODY::MidnightBlue CARPAINT_GLOSSY_GLTF", "size": 42}, {"kind": "color", "image": "", "imageScale": 100, "x": 51.16959064327485, "y": 90.93532846391224, "styleGroupId": "__global__", "groupId": null, "label": "SkyBlue CARPAINT GLOSSY GLTF", "type": "material", "container": "BODY", "material": "SkyBlue CARPAINT_GLOSSY_GLTF", "color": "#68c5eb", "id": "material::BODY::SkyBlue CARPAINT_GLOSSY_GLTF", "size": 42}], "customGroups": [], "profiles": [], "thumbnailGroups": [], "globalThumbProps": {"size": 90, "shape": "circle", "radius": 12, "borderWidth": 2, "borderColor": "#ffffff"}, "chromeOverrides": {".pb2[data-hf=\"hdri/day.hdr\"]": {}, "#sfilters .st[data-st-idx=\"0\"]": {}, ".pb2[data-hf=\"hdri/night.hdr\"]": {}, ".pb2[data-tp=\"gp\"][data-gi=\"0\"]": {}, "#atb": {"removed": true}, "#ar-btn": {"removed": true}}, "startupPage": {"bgImage": null, "bgOpacity": 100, "iconImage": null, "iconOpacity": 100, "iconSize": 28, "colTxt": "", "colBar": "", "colErr": "#c0392b", "txtBoot": "INITIALISING", "txtInit": "LOADING CONFIG", "txtModel": "LOADING MODEL", "txtErr": "ERROR \u2014", "txtErrSt": "LOAD ERROR", "fontFamily": "", "fontSize": 10, "fontWeight": 400, "fontItalic": false}, "annotationPopup": {"bgColor": "#0a0a0c", "bgOpacity": 92, "borderColor": "#c8a96e", "borderWidth": 1, "radius": 6, "textColor": "#ffffff", "textFontSize": 14, "videoWidthPct": 19, "markerBorderWidth": 3, "markerOpacity": 100, "markerGlow": 0, "markerColor": "#ffffff"}, "annotationContent": {"Annotation_1": {"text": "PORSCHE 911"}}}/*WCE_THEME_END*/;
 const WCE_PROFILES = /*WCE_PROFILES_START*/[]/*WCE_PROFILES_END*/;
 const WCE_THUMBNAIL_GROUPS = /*WCE_THUMBGROUPS_START*/[]/*WCE_THUMBGROUPS_END*/;
 // Whichever HDRI entry is flagged default (or the first one) — used to seed
@@ -921,6 +1538,78 @@ renderer.toneMapping=(CFG.grade && CFG.grade.tone_mapping==='AgX' && THREE.AgXTo
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 // Exposure in stops (EV), mirroring Blender Color Management › Exposure.
 renderer.toneMappingExposure=Math.pow(2,_initHdri?(_initHdri.grade_exposure||0):((CFG.grade && CFG.grade.exposure)||0));
+
+// ── Performance Stats ────────────────────────────────────────────────────
+// FPS/frame-time are measured directly and are fully accurate. CPU/GPU here
+// are NOT what a system monitor shows — CPU is the fraction of each frame's
+// time budget actually spent doing work on the main thread; GPU is the
+// measured render-command execution time reported by the browser's own
+// WebGL timer query extension, where supported. Real signals, real
+// measurements — just not the same thing an OS-level monitor reports.
+const _wceStats = {
+  enabled: false,
+  frameTimes: [],
+  maxSamples: 120,
+  lastFrameStart: null,
+  fps: 0,
+  frameTimeMs: 0,
+  cpuPct: 0,
+  gpuMs: null,
+  gpuSupported: false,
+  gpuExt: null,
+  gpuQueryPool: [],
+  gpuPending: [],
+};
+(function _wceStatsInitGpu(){
+  const gl = renderer.getContext();
+  const ext2 = gl.getExtension('EXT_disjoint_timer_query_webgl2');
+  if(ext2){ _wceStats.gpuExt = ext2; _wceStats.gpuIsWebGL2 = true; _wceStats.gpuSupported = true; return; }
+  const ext1 = gl.getExtension('EXT_disjoint_timer_query');
+  if(ext1){ _wceStats.gpuExt = ext1; _wceStats.gpuIsWebGL2 = false; _wceStats.gpuSupported = true; }
+})();
+function _wceStatsBeginGpuQuery(){
+  if(!_wceStats.enabled || !_wceStats.gpuSupported) return null;
+  const gl = renderer.getContext();
+  const ext = _wceStats.gpuExt;
+  let query = _wceStats.gpuQueryPool.pop();
+  if(!query) query = _wceStats.gpuIsWebGL2 ? gl.createQuery() : ext.createQueryEXT();
+  if(_wceStats.gpuIsWebGL2) gl.beginQuery(ext.TIME_ELAPSED_EXT, query);
+  else ext.beginQueryEXT(ext.TIME_ELAPSED_EXT, query);
+  return query;
+}
+function _wceStatsEndGpuQuery(query){
+  if(!query) return;
+  const gl = renderer.getContext();
+  const ext = _wceStats.gpuExt;
+  if(_wceStats.gpuIsWebGL2) gl.endQuery(ext.TIME_ELAPSED_EXT);
+  else ext.endQueryEXT(ext.TIME_ELAPSED_EXT);
+  _wceStats.gpuPending.push(query);
+}
+function _wceStatsPollGpuQueries(){
+  if(!_wceStats.gpuSupported) return;
+  const gl = renderer.getContext();
+  const ext = _wceStats.gpuExt;
+  const stillPending = [];
+  for(const query of _wceStats.gpuPending){
+    const available = _wceStats.gpuIsWebGL2
+      ? gl.getQueryParameter(query, gl.QUERY_RESULT_AVAILABLE)
+      : ext.getQueryObjectEXT(query, ext.QUERY_RESULT_AVAILABLE_EXT);
+    const disjoint = gl.getParameter(ext.GPU_DISJOINT_EXT);
+    if(available && !disjoint){
+      const ns = _wceStats.gpuIsWebGL2
+        ? gl.getQueryParameter(query, gl.QUERY_RESULT)
+        : ext.getQueryObjectEXT(query, ext.QUERY_RESULT_EXT);
+      _wceStats.gpuMs = ns/1e6;
+      _wceStats.gpuQueryPool.push(query);
+    } else if(available && disjoint){
+      _wceStats.gpuQueryPool.push(query);
+    } else {
+      stillPending.push(query);
+    }
+  }
+  _wceStats.gpuPending = stillPending;
+}
+
 
 const scene=new THREE.Scene();
 
@@ -1334,6 +2023,15 @@ const ctrl=new OrbitControls(cam,canvas);
 ctrl.enableDamping=true; ctrl.dampingFactor=0.06;
 ctrl.minDistance=CFG.camera.zoom_min;
 ctrl.maxDistance=CFG.camera.zoom_max;
+// Pan moves the camera AND its orbit target together, by definition — that's
+// what distinguishes it from orbiting. Left enabled, it silently drags the
+// pivot away from the fixed point every non-locked camera is meant to share
+// (CAM_PIVOT), and its horizontal bounds are far looser than vertical's
+// (roof/floor are tightly clamped; horizontal gets a generous margin off the
+// model's own bounding box), so it could feel unbounded even where a clamp
+// technically existed. Disabling it entirely removes both problems at once,
+// rather than patching bounds that still let the pivot drift on every pan.
+ctrl.enablePan=false;
 ctrl.target.set(0,0.8,0);
 (function _applyStartupCamera(){
   const sc=CFG.camera&&CFG.camera.startup_camera;
@@ -1479,6 +2177,29 @@ const _bloomStrength = (_initHdri ? _initHdri.grade_bloom : _grade.bloom) ?? 0.2
 const _bloomThreshold = (_initHdri ? _initHdri.grade_bloom_threshold : _grade.bloom_threshold) ?? 0.88;
 const comp=new EffectComposer(renderer);
 comp.addPass(new RenderPass(scene,cam));
+
+// ── Global Post Process: Depth of Field ─────────────────────────────────
+// Fully independent of the per-HDRI grade below. Focus auto-follows a
+// raycast into the geometry (see _wceUpdateDofFocus in the render loop);
+// pp.focus_distance is only the fallback for when that ray hits nothing.
+const _pp = CFG.post_process || {};
+let dofPass=null;
+if(_pp.dof && _pp.dof.enabled){
+  dofPass=new BokehPass(scene, cam, {
+    focus:   _pp.dof.focus_distance ?? 5.0,
+    aperture: _pp.dof.aperture ?? 0.02,
+    maxblur:  _pp.dof.max_blur ?? 0.01,
+  });
+  comp.addPass(dofPass);
+}
+function _wceUpdateDofFocus(){
+  if(!dofPass) return;
+  raycaster.setFromCamera({x:0,y:0}, cam);
+  const hits=raycaster.intersectObjects(_occluderMeshes, false);
+  const dist=hits.length ? hits[0].distance : (_pp.dof.focus_distance ?? 5.0);
+  dofPass.uniforms['focus'].value=dist;
+}
+
 // Bloom is the most expensive pass (multi-pass down/up sample) — only add it
 // if at least one switchable HDRI actually wants it. If added, its strength
 // becomes live-adjustable per item in _applyHDRITexture() below.
@@ -1523,6 +2244,87 @@ const _GradeShader = {
 const gradePass=new ShaderPass(_GradeShader);
 comp.addPass(gradePass);
 
+// ── Global Post Process: stylized Filter look ───────────────────────────
+// A separate, purely cosmetic look pass — never touches the grade above.
+// filterType: 0=Normal/none 1=B&W 2=Sepia 3=Warm 4=Cool 5=Vintage
+// 6=Teal&Orange 7=High Contrast B&W 8=Noir 9=Duotone 10=Faded 11=Dramatic
+// 12=Pastel 13=Cross Process 14=Golden Hour. Switched live at runtime via
+// _wceApplyPPFilter(). 'NORMAL' has no entry below — it deliberately falls
+// through the ||0 fallback in _wceApplyPPFilter, same as any unknown value.
+const _WCE_FILTER_CODES = {
+  BW:1, SEPIA:2, WARM:3, COOL:4, VINTAGE:5, TEAL_ORANGE:6, HIGH_CONTRAST:7,
+  NOIR:8, DUOTONE:9, FADED:10, DRAMATIC:11, PASTEL:12, CROSS_PROCESS:13, GOLDEN_HOUR:14,
+};
+const _FilterShader = {
+  uniforms: { tDiffuse: { value: null }, filterType: { value: 0 } },
+  vertexShader: `
+    varying vec2 vUv;
+    void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }
+  `,
+  fragmentShader: `
+    uniform sampler2D tDiffuse;
+    uniform int filterType;
+    varying vec2 vUv;
+    void main(){
+      vec4 c=texture2D(tDiffuse,vUv);
+      vec3 col=c.rgb;
+      float gray=dot(col,vec3(0.299,0.587,0.114));
+      if(filterType==1){
+        col=vec3(gray);
+      } else if(filterType==2){
+        col=vec3(gray*1.07,gray*0.86,gray*0.63);
+      } else if(filterType==3){
+        col=col+vec3(0.06,0.02,-0.05);
+      } else if(filterType==4){
+        col=col+vec3(-0.05,0.0,0.06);
+      } else if(filterType==5){
+        col=mix(col,vec3(gray),0.35);
+        col=col*0.9+vec3(0.08,0.06,0.02);
+      } else if(filterType==6){
+        col.r=col.r+(1.0-gray)*0.08-gray*0.05;
+        col.g=col.g+gray*0.04;
+        col.b=col.b+gray*0.10;
+      } else if(filterType==7){
+        float g2=clamp((gray-0.5)*1.6+0.5,0.0,1.0);
+        col=vec3(g2);
+      } else if(filterType==8){
+        float g3=clamp((gray-0.5)*1.8+0.42,0.0,1.0);
+        col=vec3(g3);
+      } else if(filterType==9){
+        vec3 shadowC=vec3(0.05,0.05,0.2), highC=vec3(1.0,0.85,0.5);
+        col=mix(shadowC,highC,gray);
+      } else if(filterType==10){
+        col=mix(vec3(gray),col,0.85);
+        col=col*0.75+0.15;
+      } else if(filterType==11){
+        col=(col-0.5)*1.6+0.45;
+      } else if(filterType==12){
+        col=mix(vec3(gray),col,0.5);
+        col=col*0.7+0.3;
+      } else if(filterType==13){
+        col.g=col.g+(1.0-gray)*0.06;
+        col.b=col.b-gray*0.08+0.03;
+        col=(col-0.5)*1.25+0.5;
+      } else if(filterType==14){
+        col.r=col.r+0.08; col.g=col.g+0.04; col.b=col.b-0.06;
+        col=mix(col,col*1.1,gray);
+      }
+      gl_FragColor=vec4(clamp(col,0.0,1.0),c.a);
+    }
+  `,
+};
+const filterPass=new ShaderPass(_FilterShader);
+comp.addPass(filterPass);
+function _wceApplyPPFilter(filterType){
+  filterPass.uniforms.filterType.value = filterType ? (_WCE_FILTER_CODES[filterType]||0) : 0;
+  requestRender(400);
+}
+(function _wceInitPPFilter(){
+  const idx=_pp.active_filter_index;
+  const list=_pp.filters||[];
+  if(idx!=null && idx>=0 && idx<list.length) _wceApplyPPFilter(list[idx].filter_type);
+})();
+
 // Cheap antialiasing: a single FXAA pass at the very end smooths edges for a
 // fraction of MSAA's cost (one fragment shader pass, no extra render targets).
 const fxaaPass=new ShaderPass(FXAAShader);
@@ -1532,6 +2334,64 @@ function _updateFXAA(){
 }
 _updateFXAA();
 comp.addPass(fxaaPass);
+
+// ── Global Post Process: Vignette + Noise ───────────────────────────────
+// Deliberately placed AFTER FXAA — FXAA smooths edges by detecting local
+// contrast, and would otherwise soften the noise grain (high-frequency by
+// design) right back out. Vignette is low-frequency so ordering matters
+// less for it, but it's kept here to stay next to Noise, both being the
+// final "on top of everything" layer.
+let vignettePass=null, noisePass=null;
+if(_pp.vignette && _pp.vignette.enabled){
+  const _VignetteShader = {
+    uniforms: {
+      tDiffuse:  { value: null },
+      intensity: { value: _pp.vignette.intensity ?? 0.5 },
+      softness:  { value: _pp.vignette.softness ?? 0.5 },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }
+    `,
+    fragmentShader: `
+      uniform sampler2D tDiffuse;
+      uniform float intensity; uniform float softness;
+      varying vec2 vUv;
+      void main(){
+        vec4 c=texture2D(tDiffuse,vUv);
+        float d=length(vUv-0.5);
+        float inner=0.2+(1.0-softness)*0.3;
+        float outer=0.75+softness*0.2;
+        float vig=1.0-smoothstep(inner,outer,d)*intensity;
+        gl_FragColor=vec4(c.rgb*vig,c.a);
+      }
+    `,
+  };
+  vignettePass=new ShaderPass(_VignetteShader);
+  comp.addPass(vignettePass);
+}
+if(_pp.noise && _pp.noise.enabled){
+  const _NoiseShader = {
+    uniforms: { tDiffuse: { value: null }, amount: { value: _pp.noise.amount ?? 0.05 }, time: { value: 0 } },
+    vertexShader: `
+      varying vec2 vUv;
+      void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }
+    `,
+    fragmentShader: `
+      uniform sampler2D tDiffuse;
+      uniform float amount; uniform float time;
+      varying vec2 vUv;
+      float _wceRand(vec2 co){ return fract(sin(dot(co.xy,vec2(12.9898,78.233)))*43758.5453); }
+      void main(){
+        vec4 c=texture2D(tDiffuse,vUv);
+        float n=(_wceRand(vUv*vec2(1000.0,1000.0)+time)-0.5)*amount;
+        gl_FragColor=vec4(c.rgb+vec3(n),c.a);
+      }
+    `,
+  };
+  noisePass=new ShaderPass(_NoiseShader);
+  comp.addPass(noisePass);
+}
 
 window.addEventListener('resize',()=>{
   console.log('[Resize debug] resize event fired — innerWidth='+innerWidth+' innerHeight='+innerHeight
@@ -2165,7 +3025,7 @@ const FLY_DURATION=camCfg.fly_duration??1.2;
 const ZOOM_MIN=camCfg.zoom_min??CFG.camera.zoom_min??2.0;
 const ZOOM_MAX=camCfg.zoom_max??CFG.camera.zoom_max??15.0;
 
-let _flyActive=false,_flyPending=false,_flyT=0,_flyDur=FLY_DURATION;
+let _flyActive=false,_flyPending=false,_flyT=0,_flyDur=FLY_DURATION,_flyEaseIn=false,_flyEaseOut=true;
 let _flyDestFov=null,_flyFromFov=null,_flyToFov=null;
 let _flyDestSkipRadiusClamp=false;
 // Distance-lock state for Lock Tumble/Pan cameras. minDistance===maxDistance
@@ -2198,6 +3058,56 @@ function _applyCamDistanceLock(){
 // ctrl.update() after arrival was already landing on the wrong distance,
 // and that wrong frame was what actually got rendered and seen, since the
 // correction previously only ran after the second call.
+// Zoom/Pan Lock: anchor the orbit pivot a tiny epsilon IN FRONT OF THE
+// CAMERA ITSELF (in whatever direction it's currently looking), not at the
+// real subject some real-world distance away. OrbitControls always orbits
+// around ctrl.target — locking the radius at the real subject distance still
+// lets the camera sweep a wide arc around that faraway point (looks like the
+// camera revolving around the subject). With the radius forced to ~0 instead,
+// "orbiting the target" and "rotating in place" become the same motion: the
+// camera's position stays pinned within _CAM_LOCK_EPS of where it is now,
+// while dragging still freely rotates its look direction — a tripod-style
+// pan/tilt, exactly what Zoom/Pan Lock is meant to feel like.
+function _wceEngageZoomPanLock(camPos, lookTgt){
+  const _dir=new THREE.Vector3().subVectors(lookTgt,camPos);
+  if(_dir.lengthSq()<1e-10) _dir.set(0,0,-1); else _dir.normalize();
+  _camDistanceLocked=true;
+  _camLockFrameCounter=0;
+  _camLockedDist=_CAM_LOCK_EPS;
+  _camLockedTarget.copy(camPos).addScaledVector(_dir,_camLockedDist);
+  ctrl.target.copy(_camLockedTarget);
+  ctrl.enableRotate=true;
+  _applyCamDistanceLock();
+  ctrl.enableZoom=false;
+}
+// Lock in Place: the view is completely frozen — no rotate, no pan (pan is
+// already globally off), no zoom. Reuses the Zoom/Pan Lock machinery below
+// purely for its side effects: _camDistanceLocked=true is what exempts a
+// locked camera from BOTH the generic ZOOM_MIN/MAX free-zoom range (which
+// could otherwise snap a deliberately close-up shot back out to ZOOM_MIN)
+// and the scene-wide pan clamp further down in the render loop (which could
+// otherwise drag an off-center locked shot back toward the model's general
+// bounding box). Missing this was exactly the "snaps back near the zoom
+// minimum" bug — Place looked identical to Free the moment either kicked in,
+// since nothing was actually anchoring it at its own configured distance.
+// Rotate is then disabled completely on top, so nothing can move the camera
+// at all, in any direction — unlike Zoom/Pan Lock, which leaves rotate on.
+function _wceEngagePlaceLock(){
+  _wceEngageZoomPanLock(cam.position, ctrl.target);
+  ctrl.enableRotate=false;
+}
+function _wceReleaseCamLock(){
+  _camDistanceLocked=false;
+  ctrl.enableRotate=true;
+  ctrl.enableZoom=true;
+  ctrl.minDistance=ZOOM_MIN; ctrl.maxDistance=ZOOM_MAX;
+}
+// Reads the exported lock mode, falling back to the deprecated boolean for
+// any config.json exported before this update.
+function _wceCamLockMode(def){
+  if(def.lock) return def.lock;
+  return def.lock_tumble_pan ? 'zoom_pan' : 'free';
+}
 function _correctCamDistanceLock(){
   if(!_camDistanceLocked) return;
   const _dir=new THREE.Vector3().subVectors(cam.position,ctrl.target);
@@ -2253,7 +3163,7 @@ const _flyDestPos=new THREE.Vector3(),_flyDestTgt=new THREE.Vector3();
 const _camLastGoodPos=new THREE.Vector3(),_camLastGoodTarget=new THREE.Vector3();
 let _camHasGoodState=false;
 let _flyDestSound=null;
-let _flyDestLockTumblePan=false;
+let _flyDestLockMode='free';
 
 let _turntableActive=false,_turntableAngle=0;
 const _turntableSpeed=0.003;
@@ -2282,40 +3192,47 @@ function flyToCamera(camName){
   _camDistanceLocked=false;
   ctrl.enableZoom=true;
 
+  function _wceInstantCameraJump(){
+    if(def.sound) SFX.playFile(def.sound);
+    cam.position.copy(destPos);
+    ctrl.target.copy(destTgt);
+    if(destFov!=null){ cam.fov=destFov; cam.updateProjectionMatrix(); }
+    cam.lookAt(ctrl.target);
+    // Bounds must be set BEFORE ctrl.update() below, not after — otherwise
+    // update() clamps this new position against the OLD (stale) bounds
+    // first, undoing the jump before there's ever a chance to widen them.
+    const _lockMode=_wceCamLockMode(def);
+    if(_lockMode==='place'){
+      _wceEngagePlaceLock();
+    } else if(_lockMode==='zoom_pan'){
+      _wceEngageZoomPanLock(cam.position, ctrl.target);
+    } else {
+      _wceReleaseCamLock();
+    }
+    // Drain damping residuals — see the identical comment in _tickFly()'s
+    // arrival block. Matters just as much for an instant jump as a smooth
+    // fly: OrbitControls' own internal damped state was still tracking
+    // wherever the camera was before this jump.
+    const _dWas=ctrl.enableDamping; ctrl.enableDamping=false;
+    for(let _i=0;_i<20;_i++) ctrl.update();
+    ctrl.enableDamping=_dWas;
+  }
+
+  if(def.transition==='snap'){
+    _stopTurntable(); _stopCinematic();
+    document.querySelectorAll('.cam-btn').forEach(b=>b.classList.toggle('active',b.dataset.cam===camName));
+    document.querySelector('.tt-btn')?.classList.remove('active');
+    _flyActive=false; _flyPending=false;
+    _wceInstantCameraJump();   // no fade, no fly — instant cut, nothing else
+    return;
+  }
+
   if(def.transition==='dip'){
     _stopTurntable(); _stopCinematic();
     document.querySelectorAll('.cam-btn').forEach(b=>b.classList.toggle('active',b.dataset.cam===camName));
     document.querySelector('.tt-btn')?.classList.remove('active');
     _flyActive=false; _flyPending=false;
-    _dip(()=>{
-      if(def.sound) SFX.playFile(def.sound);
-      cam.position.copy(destPos);
-      ctrl.target.copy(destTgt);
-      if(destFov!=null){ cam.fov=destFov; cam.updateProjectionMatrix(); }
-      cam.lookAt(ctrl.target);
-      // Bounds must be set BEFORE ctrl.update() below, not after — otherwise
-      // update() clamps this new position against the OLD (stale) bounds
-      // first, undoing the jump before there's ever a chance to widen them.
-      if(!!def.lock_tumble_pan){
-        _camDistanceLocked=true;
-        _camLockFrameCounter=0;
-        _camLockedDist=destPos.distanceTo(destTgt);
-        _camLockedTarget.copy(destTgt);
-        _applyCamDistanceLock();
-        ctrl.enableZoom=false;
-      } else {
-        _camDistanceLocked=false;
-        ctrl.minDistance=ZOOM_MIN; ctrl.maxDistance=ZOOM_MAX;
-        ctrl.enableZoom=true;
-      }
-      // Drain damping residuals — see the identical comment in _tickFly()'s
-      // arrival block. Matters just as much for an instant jump as a smooth
-      // fly: OrbitControls' own internal damped state was still tracking
-      // wherever the camera was before this jump.
-      const _dWas=ctrl.enableDamping; ctrl.enableDamping=false;
-      for(let _i=0;_i<20;_i++) ctrl.update();
-      ctrl.enableDamping=_dWas;
-    });
+    _dip(_wceInstantCameraJump, (def.dip_duration!=null?def.dip_duration:0.35)*1000);
     return;
   }
 
@@ -2326,11 +3243,10 @@ function flyToCamera(camName){
   _flyDestTgt.copy(destTgt);
   _flyDestFov=destFov;
   _flyDestSound=def.sound||null;
-  // Lock Tumble/Pan: force the orbit radius to (effectively) zero, so
-  // OrbitControls' own rotation still works as a look-around from this exact
-  // spot, but dragging/zooming can never move the camera away from it or pan
-  // the pivot elsewhere. A normal camera restores the real zoom range.
-  _flyDestLockTumblePan=!!def.lock_tumble_pan;
+  // Zoom/Pan Lock and Lock in Place: the camera must arrive at exactly the
+  // artist-placed position, not clamped into the general free-zoom range —
+  // "locked" only makes sense relative to wherever it actually is.
+  _flyDestLockMode=_wceCamLockMode(def);
   // Unclamped destination distance is scoped to locked cameras only. A
   // locked camera ends up with minDistance===maxDistance — an exact single
   // value, not a range — which structurally can't have a "snap to the
@@ -2341,8 +3257,12 @@ function flyToCamera(camName){
   // ZOOM_MIN/MAX behavior instead, rather than trade a "lands close, then
   // immediately snaps back out" glitch for the plain "lands a bit farther
   // back than configured" one this was meant to fix.
-  _flyDestSkipRadiusClamp=_flyDestLockTumblePan;
-  _flyT=0; _flyDur=FLY_DURATION; _flyPending=true; _flyActive=false;
+  _flyDestSkipRadiusClamp=(_flyDestLockMode!=='free');
+  _flyT=0;
+  _flyDur=(def.fly_duration!=null && def.fly_duration>=0) ? def.fly_duration : FLY_DURATION;
+  _flyEaseIn=!!def.ease_in;
+  _flyEaseOut=!!def.ease_out;
+  _flyPending=true; _flyActive=false;
   document.querySelectorAll('.cam-btn').forEach(b=>b.classList.toggle('active',b.dataset.cam===camName));
   document.querySelector('.tt-btn')?.classList.remove('active');
 }
@@ -2368,7 +3288,14 @@ function _tickFly(){
   // and would visibly fight that correction on a later frame. This exact
   // ordering bug is also why Dip to Black never showed this: that path
   // already sets position directly BEFORE draining damping, not after.
-  const t=_flyT*_flyT*(3-2*_flyT);
+  // Per-camera ease in/out: both → smoothstep (original, symmetric curve);
+  // ease-in only → starts slow, arrives abruptly; ease-out only → starts
+  // abruptly, settles in smoothly; neither → linear, no easing at all.
+  let t;
+  if(_flyEaseIn && _flyEaseOut) t=_flyT*_flyT*(3-2*_flyT);
+  else if(_flyEaseIn) t=_flyT*_flyT;
+  else if(_flyEaseOut) t=_flyT*(2-_flyT);
+  else t=_flyT;
   const tgt=new THREE.Vector3().lerpVectors(_flyFromTgt,_flyToTgt,t);
   const fromDir=new THREE.Vector3().subVectors(_flyFromPos,_flyFromTgt).normalize();
   const toDir=new THREE.Vector3().subVectors(_flyToPos,_flyToTgt).normalize();
@@ -2395,28 +3322,23 @@ function _tickFly(){
   if(_arriving){
     _flyActive=false;
     document.querySelectorAll('.cam-btn').forEach(b=>b.classList.remove('active'));
-    // Locked: freeze the orbit radius at whatever distance this camera
-    // actually arrived at — OrbitControls' own rotation still works as a
-    // look-around from this exact spot, but dragging/zooming can never move
-    // the camera away from it. A hardcoded distance here (rather than the
-    // real arrival distance) was the actual cause of a visible snap right at
-    // arrival: OrbitControls immediately re-clamps to whatever min/max
-    // distance was just set, and if that didn't match where the camera
-    // really was, the very next control update yanked it to match — which
-    // looked exactly like a sudden FOV/zoom change, even though FOV itself
-    // never moved. A normal camera restores the real zoom range exactly as
+    // Locked: engage whichever lock state this camera was configured with.
+    // Zoom/Pan Lock anchors the orbit near the camera's own position (see
+    // _wceEngageZoomPanLock) so it reads as an in-place pan/tilt rather than
+    // orbiting the subject from wherever it actually arrived. Setting the
+    // bounds/target BEFORE any further ctrl.update() call matters here too:
+    // OrbitControls immediately re-clamps to whatever min/max distance was
+    // just set, and if that didn't match where the camera really was, the
+    // very next control update would yank it to match — which looked
+    // exactly like a sudden FOV/zoom change, even though FOV itself never
+    // moved. A normal (Free) camera restores the real zoom range exactly as
     // configured.
-    if(_flyDestLockTumblePan){
-      _camDistanceLocked=true;
-      _camLockFrameCounter=0;
-      _camLockedDist=cam.position.distanceTo(ctrl.target);
-      _camLockedTarget.copy(ctrl.target);
-      _applyCamDistanceLock();
-      ctrl.enableZoom=false;
+    if(_flyDestLockMode==='place'){
+      _wceEngagePlaceLock();
+    } else if(_flyDestLockMode==='zoom_pan'){
+      _wceEngageZoomPanLock(cam.position, ctrl.target);
     } else {
-      _camDistanceLocked=false;
-      ctrl.minDistance=ZOOM_MIN; ctrl.maxDistance=ZOOM_MAX;
-      ctrl.enableZoom=true;
+      _wceReleaseCamLock();
     }
     // Drain damping residuals — _tickFly() set position/target directly every
     // frame throughout the fly, which can leave OrbitControls' own internal
@@ -3115,6 +4037,7 @@ function _registerHotspot(objName, fn){
 let _xrActive=false;
 (function tick(){
   requestAnimationFrame(tick);
+  const _wceFrameStart = _wceStats.enabled ? performance.now() : 0;
   if(_xrActive) return;   // XR drives its own loop
   const dist=ctrl.getDistance();
   const cosPhi=Math.max(-1,Math.min(1,(FLOOR_Z-ctrl.target.y)/dist));
@@ -3231,11 +4154,30 @@ let _xrActive=false;
   if(_active) _renderUntil=_now+100;
 
   if(_now<=_renderUntil){
+    if(dofPass) _wceUpdateDofFocus();
+    if(noisePass) noisePass.uniforms.time.value = _now*0.001;
+    const _wceGpuQuery = _wceStatsBeginGpuQuery();
     comp.render();
+    _wceStatsEndGpuQuery(_wceGpuQuery);
     // Hotspots: skip entirely during AR — the raycaster runs against the full
     // scene (including the AR clone) and causes the frame-rate drop you saw.
     if(!_xrActive) try{ _tickHotspots(); }catch(e){ console.error('[WCE] Hotspot tick failed:', e); }
     if(!_xrActive) _tickImgTriggers();
+  }
+  if(_wceStats.enabled){
+    _wceStatsPollGpuQueries();
+    const _wceNow = performance.now();
+    if(_wceStats.lastFrameStart != null){
+      const _delta = _wceNow - _wceStats.lastFrameStart;
+      _wceStats.frameTimeMs = _delta;
+      _wceStats.fps = _delta>0 ? 1000/_delta : 0;
+      _wceStats.frameTimes.push(_delta);
+      if(_wceStats.frameTimes.length > _wceStats.maxSamples) _wceStats.frameTimes.shift();
+    }
+    _wceStats.lastFrameStart = _wceNow;
+    const _busyMs = _wceNow - _wceFrameStart;
+    _wceStats.cpuPct = _wceStats.frameTimeMs>0 ? Math.min(100,(_busyMs/_wceStats.frameTimeMs)*100) : 0;
+    if(typeof _wceStatsRenderOverlay==='function') _wceStatsRenderOverlay();
   }
 })();
 
@@ -3520,7 +4462,7 @@ _initAR();
 
 // ── LOADING ──────────────────────────────────────────────────────────────
 
-const ldEl=document.getElementById('ld'),lbEl=document.getElementById('lb'),
+const ldEl=document.getElementById('ld'),lbEl=document.getElementById('lb'),lbwEl=document.getElementById('lbw'),
       ltEl=document.getElementById('lt'),stEl=document.getElementById('st'),licEl=document.getElementById('lic');
 const prog=(p,m)=>{lbEl.style.width=p+'%';if(licEl)licEl.style.left=p+'%';if(m)ltEl.textContent=m;};
 const hide=()=>{ldEl.classList.add('hidden');setTimeout(()=>ldEl.style.display='none',600);};
@@ -3538,7 +4480,7 @@ try{
 }catch(fetchErr){
   console.error('[WCE] Init fetch error:',fetchErr);
   ltEl.textContent="ERROR \u2014"+' — could not load config files';
-  lbEl.style.background="#c0392b";
+  lbEl.style.background="#c0392b";lbEl.style.opacity='1';if(lbwEl)lbwEl.style.opacity='1';
 }
 prog(25,"LOADING MODEL");
 
@@ -3552,13 +4494,23 @@ function _onLoadError(e){
   console.error('[WCE] GLB load error:',e);
   const msg=e?.message||(typeof e==='string'?e:'Failed to load model');
   ltEl.textContent="ERROR \u2014"+' '+msg;
-  lbEl.style.background="#c0392b";
+  lbEl.style.background="#c0392b";lbEl.style.opacity='1';if(lbwEl)lbwEl.style.opacity='1';
   ldEl.style.opacity='1';ldEl.style.display='flex';ldEl.classList.remove('hidden');
   stEl.textContent="LOAD ERROR";
 }
 
 async function _onModelLoaded(gltf){
     root=gltf.scene; root.visible=false; scene.add(root);
+    // The mat-cache dummy mesh (Blender-side __WCE_MAT_CACHE__) has to exist
+    // in the actual export for its materials to be forced in at all, AND
+    // stay reachable in the live scene graph afterward — removing it
+    // outright (tried earlier) broke material switching again, confirmed by
+    // direct testing, meaning something later in this function depends on
+    // it still being present. Hidden instead (visible=false), never
+    // actually removed.
+    const _wceMatCacheNodes = [];
+    root.traverse(o=>{ if(o.name && o.name.indexOf('__WCE_MAT_CACHE__')===0) _wceMatCacheNodes.push(o); });
+    _wceMatCacheNodes.forEach(o=>{ o.visible=false; });
     // Re-apply the default Environment/Light selection now that root
     // actually exists. The earlier _loadHDRIItem(_initHdri) call (fired
     // before the model even started fetching, to kick off the HDRI texture
@@ -3568,8 +4520,17 @@ async function _onModelLoaded(gltf){
     // gets applied and every switch collection is left at whatever raw
     // visibility state the GLB happened to export with.
     _applyEnvironmentAndLight(_initHdri);
-    // Compute model bounding box once after load — used to clamp pan in the tick loop.
+    // Compute model bounding box once after load — used to clamp pan in the
+    // tick loop. The mat-cache node(s) are temporarily detached JUST for
+    // this calculation (Box3.setFromObject() includes invisible descendants
+    // too, and this mesh sits far below the real model — including it would
+    // badly distort the pan-clamp bounds) then immediately reattached to
+    // their original parents right after, so they're back in the scene
+    // graph for whatever later code needs them reachable.
+    const _wceMatCacheParents = _wceMatCacheNodes.map(o=>o.parent);
+    _wceMatCacheNodes.forEach(o=>{ if(o.parent) o.parent.remove(o); });
     const _modelBox=new THREE.Box3().setFromObject(root);
+    _wceMatCacheNodes.forEach((o,i)=>{ if(_wceMatCacheParents[i]) _wceMatCacheParents[i].add(o); });
     if(_modelBox.isEmpty()){
       // No actual geometry in the scene at all — Box3 represents "empty" as
       // an Infinity/-Infinity sentinel, which would otherwise corrupt the
@@ -3628,7 +4589,9 @@ async function _onModelLoaded(gltf){
         });
       }
       if(o.isLight){
-        o.castShadow=true;
+        o.intensity = o.intensity / WCE_LIGHT_INTENSITY_DIVISOR;
+        const _shadowCfg = (CFG.light_shadows||{})[o.name];
+        o.castShadow = (_shadowCfg!=null) ? !!_shadowCfg : true;
         if(o.shadow){o.shadow.mapSize.set(1024,1024);o.shadow.bias=-0.001;o.shadow.normalBias=0.02;}
       }
     });
@@ -3686,6 +4649,7 @@ async function _onModelLoaded(gltf){
     window.refreshAdvMat=refreshAdvMat; window.allAnimDefs=allAnimDefs;
     window.findNode=findNode; window._geoDissolveNode=_geoDissolveNode;
     window._loadHDRIItem=_loadHDRIItem;
+    window._wceApplyPPFilter=_wceApplyPPFilter;
     window._registerHotspot=_registerHotspot;
     window._startCinematic=_startCinematic; window._stopCinematic=_stopCinematic;
     window._startTurntable=_startTurntable; window._stopTurntable=_stopTurntable;
@@ -3717,6 +4681,10 @@ async function _onModelLoaded(gltf){
       if(sub) Object.assign(matSt,sub.state);
       Object.entries(matSt).forEach(([c,m])=>applyMat(c,m));
       buildUI();
+      if(!window.WCE_DESIGNER_MODE){
+        _wceStatsInitUI();
+        _wceInitVariantSwitcher();
+      }
       // Apply defaults in order — all state must be settled before marking buttons.
       const dv=CFG.default_variant&&varData[CFG.default_variant]?CFG.default_variant:null;
       if(dv) applyVariant(dv); else refreshAdvMat(matSt);
@@ -3754,16 +4722,260 @@ async function _onModelLoaded(gltf){
     }catch(uiErr){console.error('[WCE] UI error:',uiErr);stEl.textContent='UI ERROR';}
 }
 
-// Converts a variant name ('current'/'high'/'medium'/'low') into its actual
-// file path. 'current' is the one irregular case — it's the plain default
-// model file at the export root (or Normal subfolder), not a per-variant
-// subfolder pattern like the other three.
+// Converts a variant name ('current'/'high'/'medium'/'low'/'verylow') into
+// its actual file path. 'current' is the one irregular case — it's the
+// plain default model file at the export root (or Normal subfolder), not a
+// per-variant subfolder pattern like the other four. Folder names are an
+// explicit map, not a generic capitalize-first-letter transform — 'verylow'
+// needs "VeryLow" (capital L too), which a generic transform would get wrong.
+const _WCE_VARIANT_FOLDER_NAMES = {high:'High', medium:'Medium', low:'Low', verylow:'VeryLow'};
 function _wceVariantPath(variant){
-  if(variant === 'current') return 'Low/915092e5e08d_low.gltf';
-  const token = CFG.model_token || 'Low/915092e5e08d_low.gltf'.replace(/^.*\//,'').replace(/\.[^.]+$/,'');
-  const ext = CFG.model_ext || 'Low/915092e5e08d_low.gltf'.split('.').pop();
-  const folderName = variant.charAt(0).toUpperCase()+variant.slice(1);
+  if(variant === 'current') return '915092e5e08d.gltf';
+  const token = CFG.model_token || '915092e5e08d.gltf'.replace(/^.*\//,'').replace(/\.[^.]+$/,'');
+  const ext = CFG.model_ext || '915092e5e08d.gltf'.split('.').pop();
+  const folderName = _WCE_VARIANT_FOLDER_NAMES[variant] || (variant.charAt(0).toUpperCase()+variant.slice(1));
   return folderName+'/'+token+'_'+variant+'.'+ext;
+}
+
+// ── Performance Stats Overlay ─────────────────────────────────────────────
+// FPS/frame-time are measured directly via performance.now() deltas between
+// frames — fully accurate, the same technique tools like stats.js use. CPU
+// is the fraction of each frame's time budget actually spent doing work on
+// the main thread (rendering + everything else in tick()) versus idle — a
+// real, measured signal, not an estimate. GPU is the render-command
+// execution time reported by the browser's own WebGL timer query extension
+// where the browser supports it (inconsistent across browsers — some have
+// deprecated it over timing-attack security concerns, so this always shows
+// "unavailable" rather than a fake number when unsupported).
+//
+// Display refresh is throttled independently of frame-data collection — the
+// graph buffer collects a new sample every single frame (so the graph line
+// itself stays smooth and accurate), but the TEXT (FPS/ms/CPU/GPU numbers)
+// only actually repaints roughly every 350ms, since repainting numbers on
+// every rendered frame updates far faster than is actually readable.
+const _WCE_STATS_TEXT_REFRESH_MS = 350;
+let _wceStatsLastTextUpdate = 0;
+
+function _wceStatsInitUI(){
+  const btn = document.createElement('button');
+  btn.id = 'wce-stats-toggle';
+  btn.textContent = 'Show Statistics';
+  _wceStatsApplyWinButtonStyle(btn);
+  document.body.appendChild(btn);
+
+  const panel = document.createElement('div');
+  panel.id = 'wce-stats-panel';
+  panel.style.cssText = 'position:fixed;z-index:10000;'+
+    'background:rgba(240,240,240,.97);color:#111;border:1px solid #888;border-radius:4px;'+
+    'padding:10px;font-family:Arial,Helvetica,sans-serif;font-size:12px;width:220px;display:none;'+
+    'box-shadow:0 2px 8px rgba(0,0,0,.3);';
+  panel.innerHTML =
+    '<div id="wce-stats-drag" style="display:flex;justify-content:space-between;margin-bottom:8px;cursor:move;user-select:none;font-weight:bold">'+
+      '<span>Performance</span>'+
+      '<span id="wce-stats-close" style="cursor:pointer;padding:0 4px">✕</span>'+
+    '</div>'+
+    '<canvas id="wce-stats-graph" width="196" height="46" style="width:100%;display:block;background:#000;border-radius:2px;margin-bottom:8px"></canvas>'+
+    '<div id="wce-stats-fps" style="font-size:20px;font-weight:bold;line-height:1.2"></div>'+
+    '<div id="wce-stats-frametime" style="color:#555;margin-bottom:4px"></div>'+
+    '<div id="wce-stats-cpu" style="color:#333"></div>'+
+    '<div id="wce-stats-gpu" style="color:#333"></div>';
+  document.body.appendChild(panel);
+
+  // Default positions — button top-left, panel just below it.
+  btn.style.left='16px'; btn.style.top='16px';
+  panel.style.left='16px'; panel.style.top='56px';
+
+  function _wceOpenPanel(){
+    panel.style.display = 'block';
+    _wceStats.enabled = true;
+    _wceStats.frameTimes = []; _wceStats.lastFrameStart = null;
+    sessionStorage.setItem('wce_stats_open', '1');
+  }
+  function _wceClosePanel(){
+    panel.style.display = 'none';
+    _wceStats.enabled = false;
+    sessionStorage.removeItem('wce_stats_open');
+  }
+
+  btn.addEventListener('click', ()=>{
+    if(btn.dataset.wceDragged === '1'){ btn.dataset.wceDragged=''; return; }   // a drag isn't a click
+    const showing = panel.style.display !== 'none';
+    if(showing) _wceClosePanel(); else _wceOpenPanel();
+  });
+  document.getElementById('wce-stats-close').onclick = _wceClosePanel;
+
+  // Both draggable, moving as ONE linked pair — dragging either element
+  // keeps their relative offset, so grabbing the button drags the panel
+  // with it and vice versa, per the requested behavior.
+  _wceStatsMakeDraggablePair(btn, panel);
+
+  // Auto-reopens after a variant-switch page reload — sessionStorage
+  // survives a full reload (unlike in-memory JS state), which a fresh
+  // page load otherwise has no way to know about. This is the site's own,
+  // independent exported output — a different context from Claude.ai's
+  // own artifact-preview sandbox, where browser storage is disallowed.
+  if(sessionStorage.getItem('wce_stats_open') === '1') _wceOpenPanel();
+}
+
+function _wceStatsApplyWinButtonStyle(btn){
+  btn.style.cssText = 'position:fixed;z-index:10001;'+
+    'font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#000;'+
+    'background:linear-gradient(to bottom,#f5f5f5,#e1e1e1);'+
+    'border:1px solid #adadad;border-radius:2px;'+
+    'padding:6px 12px;cursor:move;user-select:none;'+
+    'box-shadow:inset 1px 1px 0 #fff, 1px 1px 2px rgba(0,0,0,.15);';
+  btn.addEventListener('mousedown', ()=>{ btn.style.background='linear-gradient(to bottom,#e1e1e1,#d0d0d0)'; });
+  window.addEventListener('mouseup', ()=>{ btn.style.background='linear-gradient(to bottom,#f5f5f5,#e1e1e1)'; });
+}
+
+function _wceStatsMakeDraggablePair(btn, panel){
+  let dragging=false, lastX=0, lastY=0, moved=false;
+  function onDown(e){
+    dragging=true; moved=false; lastX=e.clientX; lastY=e.clientY;
+    e.preventDefault();
+  }
+  btn.addEventListener('pointerdown', onDown);
+  document.addEventListener('pointerdown', e=>{
+    if(e.target.closest && e.target.closest('#wce-stats-drag')) onDown(e);
+  });
+  window.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const dx=e.clientX-lastX, dy=e.clientY-lastY;
+    if(Math.abs(dx)>2 || Math.abs(dy)>2) moved=true;
+    lastX=e.clientX; lastY=e.clientY;
+    [btn, panel].forEach(el=>{
+      const r=el.getBoundingClientRect();
+      el.style.left=(r.left+dx)+'px'; el.style.top=(r.top+dy)+'px';
+    });
+  });
+  window.addEventListener('pointerup', ()=>{
+    if(dragging && moved) btn.dataset.wceDragged='1';   // suppress the click that follows a real drag
+    dragging=false;
+  });
+}
+
+function _wceStatsRenderOverlay(){
+  const canvas = document.getElementById('wce-stats-graph');
+  if(!canvas) return;   // panel not yet built
+
+  // Graph redraws every frame for smooth motion — only the text below is
+  // throttled, since a scrolling line reads fine at full frame rate but
+  // rapidly-changing numbers don't.
+  const ctx = canvas.getContext('2d');
+  const w=canvas.width, h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  const samples = _wceStats.frameTimes;
+  if(samples.length>=2){
+    const maxMs = Math.max(33, ...samples);
+    const y60 = h - Math.min(1, 16.67/maxMs)*h;
+    ctx.strokeStyle='rgba(0,0,0,.2)'; ctx.lineWidth=1; ctx.beginPath();
+    ctx.moveTo(0,y60); ctx.lineTo(w,y60); ctx.stroke();
+    ctx.strokeStyle='#2ecc40'; ctx.lineWidth=1.5; ctx.beginPath();
+    samples.forEach((v,i)=>{
+      const x=(i/(samples.length-1))*w, y=h-Math.min(1,v/maxMs)*h;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+  }
+
+  const now = performance.now();
+  if(now - _wceStatsLastTextUpdate < _WCE_STATS_TEXT_REFRESH_MS) return;
+  _wceStatsLastTextUpdate = now;
+
+  const fpsEl = document.getElementById('wce-stats-fps');
+  const fps = Math.round(_wceStats.fps);
+  fpsEl.textContent = fps+' FPS';
+  fpsEl.style.color = fps>=50 ? '#1a8a1a' : (fps>=30 ? '#c98a00' : '#c0392b');
+  document.getElementById('wce-stats-frametime').textContent = _wceStats.frameTimeMs.toFixed(2)+' ms/frame';
+  document.getElementById('wce-stats-cpu').textContent = 'CPU: '+_wceStats.cpuPct.toFixed(1)+'%';
+  document.getElementById('wce-stats-gpu').textContent = _wceStats.gpuSupported
+    ? ('GPU: '+(_wceStats.gpuMs!=null ? _wceStats.gpuMs.toFixed(2)+' ms' : '—'))
+    : 'GPU: unavailable in this browser';
+}
+
+// ── Top-center variant switcher ───────────────────────────────────────────
+// Fully independent of the Statistics panel — switching variants never
+// requires opening it. Every tier always shows in the same fixed layout;
+// whichever weren't actually checked for this export appear visibly
+// disabled/greyed rather than being omitted, keeping the layout consistent
+// export to export. Clicking a variant does a genuine page reload with
+// ?preview_variant=<key> — reusing the exact same, already-correct
+// initialization path a fresh page load goes through, rather than trying
+// to patch materials/armatures/textures into an already-running scene.
+function _wceInitVariantSwitcher(){
+  const available = CFG.available_variants || ['current'];
+  const tiers = [
+    {key:'current', label:'Default'},
+    {key:'high',    label:'High'},
+    {key:'medium',  label:'Medium'},
+    {key:'low',     label:'Low'},
+    {key:'verylow', label:'Very Low'},
+  ];
+  const params = new URLSearchParams(window.location.search);
+  const activeVariant = params.get('preview_variant') || 'current';
+
+  const bar = document.createElement('div');
+  bar.id = 'wce-variant-switcher';
+  bar.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10000;'+
+    'display:flex;gap:6px;font-family:Arial,Helvetica,sans-serif;';
+
+  let dragging=false, moved=false, lastX=0, lastY=0;
+  function onDown(e){
+    dragging=true; moved=false; lastX=e.clientX; lastY=e.clientY;
+    // Once dragged, positioning switches to plain left/top — the initial
+    // centering transform only makes sense before the user has ever moved it.
+    if(bar.style.transform){
+      const r = bar.getBoundingClientRect();
+      bar.style.transform = ''; bar.style.left=r.left+'px'; bar.style.top=r.top+'px';
+    }
+  }
+  window.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const dx=e.clientX-lastX, dy=e.clientY-lastY;
+    if(Math.abs(dx)>2 || Math.abs(dy)>2) moved=true;
+    lastX=e.clientX; lastY=e.clientY;
+    const r=bar.getBoundingClientRect();
+    bar.style.left=(r.left+dx)+'px'; bar.style.top=(r.top+dy)+'px';
+  });
+  window.addEventListener('pointerup', ()=>{ dragging=false; });
+
+  tiers.forEach(t=>{
+    const isAvailable = available.includes(t.key);
+    const isActive = t.key === activeVariant;
+    const b = document.createElement('button');
+    b.textContent = t.label;
+    b.disabled = !isAvailable;
+    // Windows-button look, adapted per state: active = pressed-in (darker,
+    // inset shadow), available = standard raised button, disabled = flat,
+    // muted — matching how Windows itself renders a disabled control.
+    if(!isAvailable){
+      b.style.cssText = 'padding:6px 12px;font-size:11px;border-radius:2px;cursor:not-allowed;'+
+        'font-family:Arial,Helvetica,sans-serif;color:#999;background:#e8e8e8;border:1px solid #ccc;';
+    } else if(isActive){
+      b.style.cssText = 'padding:6px 12px;font-size:11px;border-radius:2px;cursor:move;'+
+        'font-family:Arial,Helvetica,sans-serif;color:#000;'+
+        'background:linear-gradient(to bottom,#d8d8d8,#c3c3c3);border:1px solid #999;'+
+        'box-shadow:inset 1px 1px 2px rgba(0,0,0,.25);';
+    } else {
+      b.style.cssText = 'padding:6px 12px;font-size:11px;border-radius:2px;cursor:move;'+
+        'font-family:Arial,Helvetica,sans-serif;color:#000;'+
+        'background:linear-gradient(to bottom,#f5f5f5,#e1e1e1);border:1px solid #adadad;'+
+        'box-shadow:inset 1px 1px 0 #fff, 1px 1px 2px rgba(0,0,0,.15);';
+    }
+    b.addEventListener('pointerdown', onDown);   // every button can drag the bar, disabled or not
+    if(isAvailable){
+      b.addEventListener('click', ()=>{
+        if(moved) return;   // a drag isn't a click — the pointerup handler already stopped the drag
+        if(isActive) return;
+        const url = new URL(window.location.href);
+        if(t.key==='current') url.searchParams.delete('preview_variant');
+        else url.searchParams.set('preview_variant', t.key);
+        window.location.href = url.toString();
+      });
+    }
+    bar.appendChild(b);
+  });
+  document.body.appendChild(bar);
 }
 
 // Heuristic only — there's no reliable way to read a visitor's actual GPU
@@ -3773,14 +4985,14 @@ function _wceVariantPath(variant){
 // ever refine the guess, never be depended on alone.
 //
 // Score-based, not fixed thresholds: a hardcoded set of cutoffs (e.g. "≤4
-// cores → Medium, >4 → Current") silently breaks depending on which
+// cores → Medium, >4 → Default") silently breaks depending on which
 // variants happen to be checked for a given export — a tier the thresholds
 // never produce as an output is unreachable even if it was exported, and
 // which tier that is changes depending on the combination. Computing a
 // continuous 0-100 score and distributing it evenly across however many
 // variants are ACTUALLY available guarantees every checked combination is
-// fully reachable, regardless of which subset of Current/High/Medium/Low
-// that turns out to be.
+// fully reachable, regardless of which subset of Default/High/Medium/Low/
+// Very Low that turns out to be.
 function _wceDetectDeviceTier(){
   const hasHover = window.matchMedia('(hover: hover)').matches;
   const cores = navigator.hardwareConcurrency || 4;
@@ -3792,18 +5004,19 @@ function _wceDetectDeviceTier(){
     score = (score+memScore)/2;
   }
 
-  const order = ['low','medium','high','current'];
+  const order = ['verylow','low','medium','high','current'];
   let eligible = order.filter(v => (CFG.available_variants||['current']).includes(v));
   if(eligible.length === 0) eligible = ['current'];
 
   // Touch devices never exceed Medium — capped here regardless of score,
   // not by clamping the score itself, so a touch device with a high
   // capability score still lands on the BEST tier available up to (and
-  // never past) Medium, rather than being pushed toward Low unnecessarily.
+  // never past) Medium, rather than being pushed toward Low/Very Low
+  // unnecessarily.
   if(!hasHover){
     const mIdx = eligible.indexOf('medium');
     if(mIdx !== -1) eligible = eligible.slice(0, mIdx+1);
-    else eligible = eligible.filter(v => v === 'low');
+    else eligible = eligible.filter(v => v === 'low' || v === 'verylow');
     if(eligible.length === 0) eligible = [order.filter(v=>(CFG.available_variants||['current']).includes(v))[0]];
   }
 
@@ -3931,7 +5144,12 @@ function applyMat(container,matName){
   }
   const resolved=resolveMatName(matName);
   const srcMat=matMap[resolved]||matMap[matName];
-  if(!srcMat||!root) return;
+  if(!srcMat||!root){
+    console.error('[WCE DIAGNOSTIC] applyMat FAILED — container:', container, '| matName:', matName,
+      '| resolved:', resolved, '| srcMat found:', !!srcMat, '| root exists:', !!root);
+    console.error('[WCE DIAGNOSTIC] available matMap keys ('+Object.keys(matMap).length+'):', Object.keys(matMap).join(' | '));
+    return;
+  }
   let cu=container.toUpperCase();if(cu.startsWith('MAT_')) cu=cu.slice(4);
   const target='MAT_'+cu;
   function slotMatches(n){const u=n.toUpperCase();return u===target||u.startsWith(target+'.')||u===cu||u.startsWith(cu+'.');}
