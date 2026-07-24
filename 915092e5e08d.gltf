@@ -29,7 +29,7 @@
 						1,
 						1
 					],
-					"intensity":43.48113110062514,
+					"intensity":43481.1304527058,
 					"spot":{
 						"innerConeAngle":0.3337942263919169,
 						"outerConeAngle":0.39269909262657166
@@ -43,7 +43,7 @@
 						1,
 						1
 					],
-					"intensity":43.48113110062514,
+					"intensity":43481.1304527058,
 					"spot":{
 						"innerConeAngle":0.3337942263919169,
 						"outerConeAngle":0.39269909262657166
@@ -17092,6 +17092,11 @@
 				0.006213733926415443,
 				0.00014687604561913759
 			],
+			"extensions":{
+				"KHR_materials_emissive_strength":{
+					"emissiveStrength":10
+				}
+			},
 			"name":"REAR_LIGHT_GLTF",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[

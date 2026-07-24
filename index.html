@@ -770,7 +770,7 @@ const CFG = {
         "name": "FRDOOR_L",
         "anim_type": "PROCEDURAL",
         "states": 2,
-        "trigger": "button",
+        "trigger": "hotspot",
         "state_names": [
           "Closed",
           "Open"
@@ -780,6 +780,18 @@ const CFG = {
           1.0
         ],
         "playback_mode": "LOOP",
+        "hotspot_position": [
+          -0.907,
+          0.37,
+          0.4776
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_object": "HOTSPOT_FRDOOR_L",
+        "hotspot_color": [
+          0.0134,
+          1.0,
+          0.0
+        ],
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -787,7 +799,7 @@ const CFG = {
         "name": "FRDOOR_R",
         "anim_type": "PROCEDURAL",
         "states": 2,
-        "trigger": "button",
+        "trigger": "hotspot",
         "state_names": [
           "Closed",
           "Open"
@@ -797,6 +809,18 @@ const CFG = {
           1.0
         ],
         "playback_mode": "LOOP",
+        "hotspot_position": [
+          0.8911,
+          0.3779,
+          0.4766
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_object": "HOTSPOT_FRDOOR_R",
+        "hotspot_color": [
+          0.019,
+          1.0,
+          0.0022
+        ],
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -804,7 +828,7 @@ const CFG = {
         "name": "TRUNK",
         "anim_type": "PROCEDURAL",
         "states": 2,
-        "trigger": "button",
+        "trigger": "hotspot",
         "state_names": [
           "Closed",
           "Open"
@@ -814,6 +838,18 @@ const CFG = {
           1.0
         ],
         "playback_mode": "LOOP",
+        "hotspot_position": [
+          0.0,
+          0.3234,
+          -1.9555
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_object": "HOTSPOT_TRUNK",
+        "hotspot_color": [
+          1.0,
+          1.0,
+          1.0
+        ],
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -1166,22 +1202,6 @@ const CFG = {
         "extra_images": []
       },
       {
-        "name": "FRONT_HEADLAMP",
-        "anim_type": "GEO_TOGGLE",
-        "states": 2,
-        "trigger": "button",
-        "geo_nodes": [
-          "Spot",
-          "Spot1",
-          "shell#3220",
-          "shell#3221",
-          "shell#3240",
-          "shell#3243",
-          "shell#364",
-          "shell#365"
-        ]
-      },
-      {
         "name": "FRONT_HEADLAMP_Flicker",
         "anim_type": "GEO_FLICKER",
         "states": 1,
@@ -1223,7 +1243,7 @@ const CFG = {
           "ANIM_ROOF_MECHANISM_EMPTY_L",
           "ANIM_ROOF_MECHANISM_EMPTY_R"
         ],
-        "trigger": "button",
+        "trigger": "hotspot",
         "states": 2,
         "state_names": [
           "Start",
@@ -1300,13 +1320,27 @@ const CFG = {
           ]
         },
         "playback_mode": "PINGPONG",
+        "hotspot_position": [
+          0.0,
+          1.0596,
+          0.2246
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_color": [
+          1.0,
+          0.42,
+          0.21
+        ],
         "extra_hotspots": [],
-        "extra_images": []
+        "extra_images": [],
+        "sounds": [
+          "sounds/Porsche_911_Targa_Roof_Open_and_Close_1_e4e0b2.mp3",
+          "sounds/Porsche_911_Targa_Roof_Open_and_Close_2_859fd7.mp3"
+        ]
       },
       {
         "name": "LAMPS",
         "members": [
-          "REAR_TAILLAMP",
           "FRONT_HEADLAMP"
         ],
         "trigger": "button",
@@ -1316,10 +1350,6 @@ const CFG = {
           "End"
         ],
         "member_fracs": {
-          "REAR_TAILLAMP": [
-            0.0,
-            1.0
-          ],
           "FRONT_HEADLAMP": [
             0.0,
             1.0
@@ -1335,7 +1365,7 @@ const CFG = {
           "FRWHEEL_L",
           "FRWHEEL_R"
         ],
-        "trigger": "button",
+        "trigger": "hotspot",
         "states": 3,
         "state_names": [
           "-30",
@@ -1356,7 +1386,33 @@ const CFG = {
         },
         "playback_mode": "PINGPONG",
         "default_state": 1,
-        "extra_hotspots": [],
+        "hotspot_position": [
+          -0.8944,
+          0.0,
+          -1.2315
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_color": [
+          0.0,
+          0.01,
+          1.0
+        ],
+        "extra_hotspots": [
+          {
+            "position": [
+              0.9104,
+              0.0,
+              -1.2399
+            ],
+            "scale": 0.1,
+            "color": [
+              0.0,
+              0.01,
+              1.0
+            ],
+            "object": "HOTSPOT_WHEELS_extra0"
+          }
+        ],
         "extra_images": []
       }
     ],
