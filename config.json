@@ -64,8 +64,8 @@
     }
   ],
   "mat_subset_categories": [
-    "SECONDARY_ACCENT",
-    "PRIMARY_COLOR"
+    "PRIMARY_COLOR",
+    "SECONDARY_ACCENT"
   ],
   "mat_subsets": [
     {
@@ -339,38 +339,6 @@
         0.0,
         0.0,
         0.0
-      ],
-      "ambient_strength": 0.0
-    },
-    {
-      "name": "NIGHT",
-      "file": "hdri/night.exr",
-      "strength": 1.0,
-      "background": true,
-      "rotation_z": 0.0,
-      "flatten_ground": true,
-      "ground_height": -4.61,
-      "ground_radius": 15.58,
-      "ground_rotation_z": 0.0,
-      "ground_scale": 1.15,
-      "ground_offset": [
-        0.0,
-        0.0
-      ],
-      "ground_z_offset": 0.99,
-      "grade_exposure": 0.0,
-      "grade_brightness": 1.0,
-      "grade_contrast": 1.4,
-      "grade_saturation": 1.0,
-      "grade_bloom": 0.1,
-      "grade_bloom_threshold": 0.9,
-      "default": false,
-      "environment": "ENVIRONMENTS_STUDIO",
-      "light": "LIGHTS_STUDIO",
-      "ambient_color": [
-        1.0,
-        1.0,
-        1.0
       ],
       "ambient_strength": 0.0
     }
