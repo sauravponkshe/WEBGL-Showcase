@@ -64,8 +64,8 @@
     }
   ],
   "mat_subset_categories": [
-    "PRIMARY_COLOR",
-    "SECONDARY_ACCENT"
+    "SECONDARY_ACCENT",
+    "PRIMARY_COLOR"
   ],
   "mat_subsets": [
     {
@@ -341,6 +341,38 @@
         0.0
       ],
       "ambient_strength": 0.0
+    },
+    {
+      "name": "NIGHT",
+      "file": "hdri/night.exr",
+      "strength": 0.16,
+      "background": true,
+      "rotation_z": 0.0,
+      "flatten_ground": true,
+      "ground_height": -4.61,
+      "ground_radius": 15.58,
+      "ground_rotation_z": 0.0,
+      "ground_scale": 1.15,
+      "ground_offset": [
+        0.0,
+        0.0
+      ],
+      "ground_z_offset": 0.99,
+      "grade_exposure": 0.0,
+      "grade_brightness": 0.7,
+      "grade_contrast": 1.4,
+      "grade_saturation": 0.22,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
+      "default": false,
+      "environment": "ENVIRONMENTS_STUDIO",
+      "light": "LIGHTS_STUDIO",
+      "ambient_color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "ambient_strength": 0.0
     }
   ],
   "environment_sets": [
@@ -403,11 +435,12 @@
         "playback_mode": "LOOP",
         "default_state": 1,
         "play_from_startup": true,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "sounds": [
-          "sounds/dragon-studio-open-car-door-372469_ca5987.mp3",
-          "sounds/dragon-studio-close-car-door-372469__mp3cut.net__022f60.mp3"
+          null,
+          null
         ],
         "hotspot_position": [
           -0.907,
@@ -446,11 +479,12 @@
         "playback_mode": "LOOP",
         "default_state": 1,
         "play_from_startup": true,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "sounds": [
-          "sounds/dragon-studio-open-car-door-372469_ca5987.mp3",
-          "sounds/dragon-studio-close-car-door-372469__mp3cut.net__022f60.mp3"
+          null,
+          null
         ],
         "hotspot_position": [
           0.8911,
@@ -489,11 +523,12 @@
         "playback_mode": "LOOP",
         "default_state": 1,
         "play_from_startup": true,
+        "play_from_startup_mobile": false,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "sounds": [
-          "sounds/dragon-studio-open-car-door-372469_ca5987.mp3",
-          "sounds/dragon-studio-close-car-door-372469__mp3cut.net__022f60.mp3"
+          null,
+          null
         ],
         "hotspot_position": [
           0.0,
@@ -535,6 +570,7 @@
         "playback_mode": "PINGPONG",
         "default_state": 1,
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -559,6 +595,7 @@
         "playback_mode": "PINGPONG",
         "default_state": 1,
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -580,6 +617,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -601,6 +639,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -622,6 +661,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -643,6 +683,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -664,6 +705,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -685,6 +727,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -706,6 +749,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -727,6 +771,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -748,6 +793,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -769,6 +815,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -790,6 +837,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -811,6 +859,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -832,6 +881,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -853,6 +903,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -874,6 +925,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -895,6 +947,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -916,6 +969,7 @@
         ],
         "playback_mode": "LOOP",
         "play_from_startup": false,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
@@ -1049,6 +1103,7 @@
         "playback_mode": "PINGPONG",
         "default_state": 1,
         "play_from_startup": true,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "hotspot_position": [
@@ -1065,8 +1120,8 @@
         "extra_hotspots": [],
         "extra_images": [],
         "sounds": [
-          "sounds/Porsche_911_Targa_Roof_Open_and_Close_1_e4e0b2.mp3",
-          "sounds/Porsche_911_Targa_Roof_Open_and_Close_2_859fd7.mp3"
+          null,
+          null
         ]
       },
       {
@@ -1097,6 +1152,7 @@
         "playback_mode": "PINGPONG",
         "default_state": 1,
         "play_from_startup": true,
+        "play_from_startup_mobile": true,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "hotspot_position": [
@@ -1231,11 +1287,10 @@
     "markerGlow": 0,
     "markerColor": "#ffffff"
   },
-  "model_file": "Normal/915092e5e08d.gltf",
+  "model_file": "Low/915092e5e08d_low.gltf",
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "current",
     "low"
   ],
   "cameras": {
@@ -1297,11 +1352,11 @@
           -2.4363
         ],
         "target": [
-          0.0,
-          0.0,
-          -0.0
+          0.0118,
+          -0.0634,
+          -0.0125
         ],
-        "lock": "free",
+        "lock": "place",
         "transition": "fly",
         "fly_duration": 2.0,
         "ease_in": true,
@@ -1318,11 +1373,11 @@
           4.7457
         ],
         "target": [
-          0.0,
-          0.0,
-          -0.0
+          0.0634,
+          -0.177,
+          0.0573
         ],
-        "lock": "free",
+        "lock": "place",
         "transition": "fly",
         "fly_duration": 2.0,
         "ease_in": true,
