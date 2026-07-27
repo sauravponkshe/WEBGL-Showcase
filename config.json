@@ -1,0 +1,1434 @@
+{
+  "containers": {
+    "ROOF": [
+      "Black FABRIC_2_GLTF",
+      "Maroon Red FABRIC_2_GLTF",
+      "Light French Beige FABRIC_2_GLTF"
+    ]
+  },
+  "mat_colors": {
+    "Black FABRIC_2_GLTF": {
+      "color": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Maroon Red FABRIC_2_GLTF": {
+      "color": [
+        0.11611873656511307,
+        0.0022330612409859896,
+        0.0022330612409859896
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Light French Beige FABRIC_2_GLTF": {
+      "color": [
+        0.5775781869888306,
+        0.4740818738937378,
+        0.32371580600738525
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    }
+  },
+  "geometry_exposed": {},
+  "geometry_subsets": [
+    {
+      "name": "Geo Set 1",
+      "state": {
+        "LIGHTS": "NONE",
+        "ENVIRONMENTS": "NONE"
+      }
+    }
+  ],
+  "mat_subset_categories": [
+    "SECONDARY_ACCENT",
+    "PRIMARY_COLOR"
+  ],
+  "mat_subsets": [
+    {
+      "name": "RED",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Scarlet Red CARPAINT_METALLIC_GLTF",
+        "EMBLEM": "CHROME_2_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_3_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_4"
+      }
+    },
+    {
+      "name": "WHITE",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "WhiteSmoke CARPAINT_GLOSSY_GLTF",
+        "EMBLEM": "PLASTIC_MATTE_3_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_7_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_3"
+      }
+    },
+    {
+      "name": "GREEN",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Dark Forest Green CARPAINT_METALLIC_GLTF",
+        "EMBLEM": "GOLD_1_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_5_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_5"
+      }
+    },
+    {
+      "name": "SKY BLUE",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "SkyBlue CARPAINT_GLOSSY_GLTF",
+        "EMBLEM": "PLASTIC_MATTE_3_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_6_GLTF.001",
+        "SEATBACK": "SimpleTexturedMaterial_1"
+      }
+    },
+    {
+      "name": "MIDNIGHT BLUE",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "MidnightBlue CARPAINT_GLOSSY_GLTF",
+        "EMBLEM": "CHROME_2_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_6_GLTF.002",
+        "SEATBACK": "SimpleTexturedMaterial_6"
+      }
+    },
+    {
+      "name": "YELLOW",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Deep Yellow CARPAINT_METALLIC_GLTF",
+        "EMBLEM": "PLASTIC_MATTE_3_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_4_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_2"
+      }
+    },
+    {
+      "name": "GLOSSY BLACK",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Stormy Gray CARPAINT_METALLIC_GLTF",
+        "EMBLEM": "GOLD_1_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_8_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_8"
+      }
+    },
+    {
+      "name": "MATTE BLACK",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Black CARPAINT_MATTE_GLTF",
+        "EMBLEM": "GOLD_1_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_8_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_8"
+      }
+    },
+    {
+      "name": "BEIGE",
+      "category": "SECONDARY_ACCENT",
+      "state": {
+        "INTERIOR_ACCENT_2": "INT_PLASTIC_2_1_GLTF",
+        "SEAT": "SimpleTexturedMaterial"
+      }
+    },
+    {
+      "name": "BLACK",
+      "category": "SECONDARY_ACCENT",
+      "state": {
+        "INTERIOR_ACCENT_2": "INT_PLASTIC_2_1_GLTF_1",
+        "SEAT": "SimpleTexturedMaterial.001"
+      }
+    }
+  ],
+  "global_mat_sets": [],
+  "mat_animations": [],
+  "geo_animations": [],
+  "area_lights": [
+    {
+      "name": "Area",
+      "rig": "LIGHTS",
+      "color": [
+        1.0,
+        0.8468736410140991,
+        0.479320228099823
+      ],
+      "intensity": 1.0,
+      "width": 1.02,
+      "height": 5.4613,
+      "position": [
+        -1.9614,
+        0.9508,
+        0.0323
+      ],
+      "quaternion": [
+        -0.635941,
+        -0.309159,
+        0.309159,
+        0.635941
+      ]
+    },
+    {
+      "name": "Area1",
+      "rig": "LIGHTS",
+      "color": [
+        1.0,
+        0.8468736410140991,
+        0.479320228099823
+      ],
+      "intensity": 1.0,
+      "width": -1.02,
+      "height": -5.4613,
+      "position": [
+        1.9614,
+        0.9508,
+        0.0323
+      ],
+      "quaternion": [
+        0.278167,
+        0.650095,
+        0.650095,
+        0.278166
+      ]
+    }
+  ],
+  "light_shadows": {
+    "Area": true,
+    "Spot": true,
+    "Area1": true,
+    "Spot1": true
+  },
+  "post_process": {
+    "noise": {
+      "enabled": true,
+      "amount": 0.1,
+      "disable_below_medium": true
+    },
+    "vignette": {
+      "enabled": true,
+      "intensity": 0.5,
+      "softness": 1.0,
+      "disable_below_medium": true
+    },
+    "dof": {
+      "enabled": true,
+      "focus_distance": 8.78,
+      "aperture": 0.0004,
+      "max_blur": 0.01,
+      "disable_below_medium": true
+    },
+    "filters": [
+      {
+        "name": "Normal",
+        "filter_type": "NORMAL",
+        "intensity": 0.75
+      },
+      {
+        "name": "Filter 1",
+        "filter_type": "VINTAGE",
+        "intensity": 0.75
+      }
+    ],
+    "active_filter_index": 1
+  },
+  "mat_name_map": {
+    "Iron Touched": "METAL_BRUSHED_3_GLTF",
+    "Rubber": "Black CARPAINT_GLOSSY_GLTF"
+  },
+  "default_geo_state": {
+    "LIGHTS": "NONE",
+    "ENVIRONMENTS": "NONE"
+  },
+  "default_variant": "",
+  "default_mat_subset": {
+    "name": "GREEN",
+    "category": "PRIMARY_COLOR"
+  },
+  "camera": {
+    "zoom_min": 3.278,
+    "zoom_max": 9.268,
+    "floor_z": -0.2412,
+    "startup_camera": {
+      "position": [
+        -8.2716,
+        1.5983,
+        -7.3953
+      ],
+      "forward": [
+        0.7471,
+        -0.1192,
+        0.654
+      ],
+      "up": [
+        0.0897,
+        0.9929,
+        0.0785
+      ],
+      "hfov_deg": 39.598
+    },
+    "focal_length_mm": 40.0,
+    "sensor_width_mm": 36.0,
+    "roof_z": 4.5629
+  },
+  "hdri": {
+    "file": "hdri/day.exr",
+    "strength": 1.0,
+    "background": true,
+    "flatten_ground": true,
+    "ground_height": -0.184,
+    "ground_radius": 1.91,
+    "ground_rotation_z": 0.0,
+    "ground_scale": 9.91,
+    "ground_offset": [
+      0.0,
+      0.0
+    ],
+    "ground_z_offset": -0.65
+  },
+  "hdris": [
+    {
+      "name": "DAY",
+      "file": "hdri/day.exr",
+      "strength": 1.0,
+      "background": true,
+      "rotation_z": 0.0,
+      "flatten_ground": true,
+      "ground_height": -0.184,
+      "ground_radius": 1.91,
+      "ground_rotation_z": 0.0,
+      "ground_scale": 9.91,
+      "ground_offset": [
+        0.0,
+        0.0
+      ],
+      "ground_z_offset": -0.65,
+      "grade_exposure": 0.0,
+      "grade_brightness": 1.0,
+      "grade_contrast": 1.4,
+      "grade_saturation": 1.0,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
+      "default": true,
+      "environment": "ENVIRONMENTS_STUDIO",
+      "light": "LIGHTS_STUDIO",
+      "ambient_color": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ambient_strength": 0.0
+    },
+    {
+      "name": "NIGHT",
+      "file": "hdri/night.exr",
+      "strength": 1.0,
+      "background": true,
+      "rotation_z": 0.0,
+      "flatten_ground": true,
+      "ground_height": -4.61,
+      "ground_radius": 15.58,
+      "ground_rotation_z": 0.0,
+      "ground_scale": 1.15,
+      "ground_offset": [
+        0.0,
+        0.0
+      ],
+      "ground_z_offset": 0.99,
+      "grade_exposure": 0.0,
+      "grade_brightness": 1.0,
+      "grade_contrast": 1.4,
+      "grade_saturation": 1.0,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
+      "default": false,
+      "environment": "ENVIRONMENTS_STUDIO",
+      "light": "LIGHTS_STUDIO",
+      "ambient_color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "ambient_strength": 0.0
+    }
+  ],
+  "environment_sets": [
+    "ENVIRONMENTS_STUDIO"
+  ],
+  "light_sets": [
+    "LIGHTS_STUDIO"
+  ],
+  "environment_common_exists": true,
+  "light_common_exists": true,
+  "grade": {
+    "tone_mapping": "AgX",
+    "view_transform": "AgX",
+    "exposure": -1.5,
+    "ambient_intensity": 1.0,
+    "env_intensity": 1.0,
+    "env_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "env_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "brightness": 0.75,
+    "contrast": 1.25,
+    "saturation": 0.9,
+    "bloom": 0.05,
+    "bloom_threshold": 0.88
+  },
+  "transitions": {
+    "material": true,
+    "geometry": true,
+    "mat_ms": 1000,
+    "geo_ms": 180
+  },
+  "ar": {
+    "ios_enabled": false,
+    "android_enabled": false,
+    "geo_sets": [],
+    "mat_sets": []
+  },
+  "animations": {
+    "controls": [
+      {
+        "name": "FRDOOR_L",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "hotspot",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "sounds": [
+          "sounds/dragon-studio-open-car-door-372469_ca5987.mp3",
+          "sounds/dragon-studio-close-car-door-372469__mp3cut.net__022f60.mp3"
+        ],
+        "hotspot_position": [
+          -0.907,
+          0.37,
+          0.4776
+        ],
+        "track_node": "ANIM_FRDOOR_L",
+        "track_offset": [
+          -0.03354,
+          0.03322,
+          1.19156
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_object": "HOTSPOT_FRDOOR_L",
+        "hotspot_color": [
+          0.0134,
+          1.0,
+          0.0
+        ],
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "FRDOOR_R",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "hotspot",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "sounds": [
+          "sounds/dragon-studio-open-car-door-372469_ca5987.mp3",
+          "sounds/dragon-studio-close-car-door-372469__mp3cut.net__022f60.mp3"
+        ],
+        "hotspot_position": [
+          0.8911,
+          0.3779,
+          0.4766
+        ],
+        "track_node": "ANIM_FRDOOR_R",
+        "track_offset": [
+          0.01762,
+          0.04164,
+          1.19032
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_object": "HOTSPOT_FRDOOR_R",
+        "hotspot_color": [
+          0.019,
+          1.0,
+          0.0022
+        ],
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "TRUNK",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "hotspot",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "sounds": [
+          "sounds/dragon-studio-open-car-door-372469_ca5987.mp3",
+          "sounds/dragon-studio-close-car-door-372469__mp3cut.net__022f60.mp3"
+        ],
+        "hotspot_position": [
+          0.0,
+          0.3234,
+          -1.9555
+        ],
+        "track_node": "ANIM_TRUNK",
+        "track_offset": [
+          0.0113,
+          -0.22066,
+          -1.30938
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_object": "HOTSPOT_TRUNK",
+        "hotspot_color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "FRWHEEL_L",
+        "anim_type": "PROCEDURAL",
+        "states": 3,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "-30",
+          "0",
+          "30"
+        ],
+        "state_fracs": [
+          0.0,
+          0.5,
+          1.0
+        ],
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "FRWHEEL_R",
+        "anim_type": "PROCEDURAL",
+        "states": 3,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "-30",
+          "0",
+          "30"
+        ],
+        "state_fracs": [
+          0.0,
+          0.5,
+          1.0
+        ],
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_EMPTY",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_BOOT_EMPTY",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "LAMP",
+        "anim_type": "GEO_TOGGLE",
+        "states": 2,
+        "trigger": "button",
+        "geo_nodes": [
+          "Spot",
+          "Spot1",
+          "shell#3220",
+          "shell#3221",
+          "shell#3240",
+          "shell#3243",
+          "shell#364",
+          "shell#365"
+        ]
+      },
+      {
+        "name": "STREET_LIGHT",
+        "anim_type": "GEO_TOGGLE",
+        "states": 2,
+        "trigger": "button",
+        "geo_nodes": [
+          "Area",
+          "Area1"
+        ]
+      }
+    ],
+    "combos": [
+      {
+        "name": "ROOF_ANIMATION",
+        "members": [
+          "ANIM_ROOF_EMPTY",
+          "ANIM_ROOF",
+          "ANIM_ROOF_MECHANISM_4_L",
+          "ANIM_ROOF_MECHANISM_3_L",
+          "ANIM_ROOF_MECHANISM_1_R",
+          "ANIM_ROOF_MECHANISM_2_L",
+          "ANIM_ROOF_MECHANISM_1_L",
+          "ANIM_ROOF_MECHANISM_2_R",
+          "ANIM_ROOF_MECHANISM_3_R",
+          "ANIM_ROOF_MECHANISM_4_R",
+          "ANIM_ROOF_MECHANISM_6_R",
+          "ANIM_ROOF_MECHANISM_5_R",
+          "ANIM_ROOF_MECHANISM_6_L",
+          "ANIM_ROOF_MECHANISM_5_L",
+          "ANIM_BOOT_EMPTY",
+          "ANIM_ROOF_MECHANISM_EMPTY_L",
+          "ANIM_ROOF_MECHANISM_EMPTY_R"
+        ],
+        "trigger": "hotspot",
+        "states": 2,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "member_fracs": {
+          "ANIM_ROOF_EMPTY": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_BOOT_EMPTY": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_R": [
+            0.0,
+            1.0
+          ]
+        },
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "play_from_startup": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "hotspot_position": [
+          0.0,
+          1.0596,
+          0.2246
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_color": [
+          1.0,
+          0.42,
+          0.21
+        ],
+        "extra_hotspots": [],
+        "extra_images": [],
+        "sounds": [
+          "sounds/Porsche_911_Targa_Roof_Open_and_Close_1_e4e0b2.mp3",
+          "sounds/Porsche_911_Targa_Roof_Open_and_Close_2_859fd7.mp3"
+        ]
+      },
+      {
+        "name": "WHEELS",
+        "members": [
+          "FRWHEEL_L",
+          "FRWHEEL_R"
+        ],
+        "trigger": "hotspot",
+        "states": 3,
+        "state_names": [
+          "-30",
+          "0",
+          "30"
+        ],
+        "member_fracs": {
+          "FRWHEEL_L": [
+            0.0,
+            0.5,
+            1.0
+          ],
+          "FRWHEEL_R": [
+            0.0,
+            0.5,
+            1.0
+          ]
+        },
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "play_from_startup": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "hotspot_position": [
+          -0.8944,
+          0.0,
+          -1.2315
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_color": [
+          0.0,
+          0.01,
+          1.0
+        ],
+        "extra_hotspots": [
+          {
+            "position": [
+              0.9104,
+              0.0,
+              -1.2399
+            ],
+            "scale": 0.1,
+            "color": [
+              0.0,
+              0.01,
+              1.0
+            ],
+            "object": "HOTSPOT_WHEELS_extra0"
+          }
+        ],
+        "extra_images": []
+      }
+    ],
+    "sequences": [
+      {
+        "name": "NIGHT",
+        "trigger": "button",
+        "label": "NIGHT",
+        "hotspot_object": "",
+        "hotspot_color": [
+          0.21,
+          0.62,
+          1.0
+        ],
+        "hotspot_scale": 0.25,
+        "sound": "",
+        "steps": [
+          {
+            "together": false,
+            "action_type": "environment",
+            "action_name": "",
+            "target_name": "NIGHT",
+            "target_state": 1,
+            "playback_mode": "once",
+            "camera": ""
+          },
+          {
+            "together": false,
+            "action_type": "control",
+            "action_name": "LAMP",
+            "target_name": "",
+            "target_state": 1,
+            "playback_mode": "once",
+            "camera": ""
+          },
+          {
+            "together": true,
+            "action_type": "control",
+            "action_name": "STREET_LIGHT",
+            "target_name": "",
+            "target_state": 1,
+            "playback_mode": "once",
+            "camera": ""
+          }
+        ]
+      },
+      {
+        "name": "DAY",
+        "trigger": "button",
+        "label": "DAY",
+        "hotspot_object": "",
+        "hotspot_color": [
+          0.21,
+          0.62,
+          1.0
+        ],
+        "hotspot_scale": 0.25,
+        "sound": "",
+        "steps": [
+          {
+            "together": false,
+            "action_type": "environment",
+            "action_name": "",
+            "target_name": "DAY",
+            "target_state": 1,
+            "playback_mode": "once",
+            "camera": ""
+          },
+          {
+            "together": false,
+            "action_type": "control",
+            "action_name": "LAMP",
+            "target_name": "",
+            "target_state": 0,
+            "playback_mode": "once",
+            "camera": ""
+          },
+          {
+            "together": true,
+            "action_type": "control",
+            "action_name": "STREET_LIGHT",
+            "target_name": "",
+            "target_state": 0,
+            "playback_mode": "once",
+            "camera": ""
+          }
+        ]
+      }
+    ]
+  },
+  "annotations": [],
+  "annotation_popup_style": {
+    "bgColor": "#0a0a0c",
+    "bgOpacity": 92,
+    "borderColor": "#c8a96e",
+    "borderWidth": 1,
+    "radius": 6,
+    "textColor": "#ffffff",
+    "textFontSize": 14,
+    "videoWidthPct": 19,
+    "markerBorderWidth": 3,
+    "markerOpacity": 100,
+    "markerGlow": 0,
+    "markerColor": "#ffffff"
+  },
+  "model_file": "915092e5e08d.gltf",
+  "model_token": "915092e5e08d",
+  "model_ext": "gltf",
+  "available_variants": [
+    "current"
+  ],
+  "cameras": {
+    "fly_duration": 1.2,
+    "zoom_min": 3.278,
+    "zoom_max": 9.268,
+    "turntable": {
+      "enabled": false,
+      "name": "Turntable_Camera"
+    },
+    "static": [
+      {
+        "name": "INTERIOR_1",
+        "position": [
+          -0.3557,
+          0.6067,
+          0.4362
+        ],
+        "target": [
+          -0.1258,
+          0.4716,
+          -0.1563
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 10.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "ROTATION",
+        "position": [
+          -8.2716,
+          1.5983,
+          -7.3953
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -0.0
+        ],
+        "lock": "free",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 50.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "ALLOY",
+        "position": [
+          -1.8548,
+          0.0648,
+          -2.4363
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -0.0
+        ],
+        "lock": "free",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 40.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "REAR_TOP",
+        "position": [
+          3.5368,
+          2.5852,
+          4.7457
+        ],
+        "target": [
+          0.0,
+          0.0,
+          -0.0
+        ],
+        "lock": "free",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 45.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "INTERIOR_2",
+        "position": [
+          -0.0046,
+          0.9412,
+          0.4849
+        ],
+        "target": [
+          -0.001,
+          0.3806,
+          -0.2792
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 25.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "HEADLAMP",
+        "position": [
+          1.2097,
+          0.4824,
+          -2.7393
+        ],
+        "target": [
+          -0.3477,
+          0.1337,
+          -0.1945
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 50.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "REAR_LAMP",
+        "position": [
+          1.1353,
+          1.1519,
+          3.0256
+        ],
+        "target": [
+          -0.7956,
+          -0.1285,
+          0.7461
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "focal_length_mm": 50.0,
+        "sensor_width_mm": 36.0
+      }
+    ],
+    "cinematic": {
+      "sequence": [],
+      "trigger": "button"
+    }
+  }
+}
