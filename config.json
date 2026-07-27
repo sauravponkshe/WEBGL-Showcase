@@ -435,7 +435,7 @@
         "playback_mode": "LOOP",
         "default_state": 1,
         "play_from_startup": true,
-        "play_from_startup_mobile": true,
+        "play_from_startup_mobile": false,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "sounds": [
@@ -479,7 +479,7 @@
         "playback_mode": "LOOP",
         "default_state": 1,
         "play_from_startup": true,
-        "play_from_startup_mobile": true,
+        "play_from_startup_mobile": false,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "sounds": [
@@ -1103,7 +1103,7 @@
         "playback_mode": "PINGPONG",
         "default_state": 1,
         "play_from_startup": true,
-        "play_from_startup_mobile": true,
+        "play_from_startup_mobile": false,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "hotspot_position": [
@@ -1152,7 +1152,7 @@
         "playback_mode": "PINGPONG",
         "default_state": 1,
         "play_from_startup": true,
-        "play_from_startup_mobile": true,
+        "play_from_startup_mobile": false,
         "keep_playing": false,
         "keep_playing_pause_ms": 1000,
         "hotspot_position": [
@@ -1287,11 +1287,11 @@
     "markerGlow": 0,
     "markerColor": "#ffffff"
   },
-  "model_file": "Low/915092e5e08d_low.gltf",
+  "model_file": "VeryLow/915092e5e08d_verylow.gltf",
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "low"
+    "verylow"
   ],
   "cameras": {
     "fly_duration": 1.2,
