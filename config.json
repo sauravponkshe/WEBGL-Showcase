@@ -1263,11 +1263,12 @@
     "markerGlow": 0,
     "markerColor": "#ffffff"
   },
-  "model_file": "915092e5e08d.gltf",
+  "model_file": "Normal/915092e5e08d.gltf",
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "current"
+    "current",
+    "low"
   ],
   "cameras": {
     "fly_duration": 1.2,
