@@ -64,8 +64,8 @@
     }
   ],
   "mat_subset_categories": [
-    "SECONDARY_ACCENT",
-    "PRIMARY_COLOR"
+    "PRIMARY_COLOR",
+    "SECONDARY_ACCENT"
   ],
   "mat_subsets": [
     {
@@ -166,8 +166,6 @@
     }
   ],
   "global_mat_sets": [],
-  "mat_animations": [],
-  "geo_animations": [],
   "area_lights": [
     {
       "name": "Area",
@@ -245,12 +243,14 @@
       {
         "name": "Normal",
         "filter_type": "NORMAL",
-        "intensity": 0.75
+        "intensity": 0.75,
+        "show_as_button": false
       },
       {
         "name": "Filter 1",
         "filter_type": "VINTAGE",
-        "intensity": 0.75
+        "intensity": 0.75,
+        "show_as_button": false
       }
     ],
     "active_filter_index": 1
@@ -434,10 +434,6 @@
         ],
         "playback_mode": "LOOP",
         "default_state": 1,
-        "play_from_startup": true,
-        "play_from_startup_mobile": false,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "sounds": [
           null,
           null
@@ -478,10 +474,6 @@
         ],
         "playback_mode": "LOOP",
         "default_state": 1,
-        "play_from_startup": true,
-        "play_from_startup_mobile": false,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "sounds": [
           null,
           null
@@ -522,10 +514,6 @@
         ],
         "playback_mode": "LOOP",
         "default_state": 1,
-        "play_from_startup": true,
-        "play_from_startup_mobile": false,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "sounds": [
           null,
           null
@@ -569,10 +557,6 @@
         ],
         "playback_mode": "PINGPONG",
         "default_state": 1,
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -594,10 +578,6 @@
         ],
         "playback_mode": "PINGPONG",
         "default_state": 1,
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -616,10 +596,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -638,10 +614,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -660,10 +632,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -682,10 +650,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -704,10 +668,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -726,10 +686,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -748,10 +704,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -770,10 +722,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -792,10 +740,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -814,10 +758,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -836,10 +776,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -858,10 +794,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -880,10 +812,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -902,10 +830,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -924,10 +848,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -946,10 +866,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -968,10 +884,6 @@
           1.0
         ],
         "playback_mode": "LOOP",
-        "play_from_startup": false,
-        "play_from_startup_mobile": true,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -1102,10 +1014,6 @@
         },
         "playback_mode": "PINGPONG",
         "default_state": 1,
-        "play_from_startup": true,
-        "play_from_startup_mobile": false,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "hotspot_position": [
           0.0,
           1.0596,
@@ -1151,10 +1059,6 @@
         },
         "playback_mode": "PINGPONG",
         "default_state": 1,
-        "play_from_startup": true,
-        "play_from_startup_mobile": false,
-        "keep_playing": false,
-        "keep_playing_pause_ms": 1000,
         "hotspot_position": [
           -0.8944,
           0.0,
