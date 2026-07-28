@@ -32,7 +32,7 @@ function buildHDRISwitcher(){
 
 function buildFilterSwitcher(){
   const items=(CFG.post_process&&CFG.post_process.filters)||[];
-  const shown=items;   // every filter always shows as a button now, unconditionally
+  const shown=items.filter(f=>f.show_as_button);
   const sec2=document.getElementById('sfilters');
   if(!sec2) return;
   if(!shown.length){ sec2.innerHTML=''; return; }
@@ -257,7 +257,7 @@ function buildUI(){
   _wceApplyDeviceOverrides();
   _wceAttachOrientationListener();
   buildVariants();buildGlobalSets();buildGeoPkgs();buildMatSubs();buildHDRISwitcher();buildFilterSwitcher();
-  buildAdvGeo();buildAdvMat();buildAnimUI();buildSequenceUI();buildCameraUI();buildThumbnailOverlays();if(typeof buildMatGeoAnimUI==='function') buildMatGeoAnimUI();
+  buildAdvGeo();buildAdvMat();buildAnimUI();buildSequenceUI();buildCameraUI();buildThumbnailOverlays();
   _wceInitProfiles();
   document.getElementById('atb').addEventListener('click',()=>{
     const s=document.getElementById('as');s.classList.toggle('open');
@@ -620,10 +620,6 @@ function buildVariants(){
 }
 function buildGlobalSets(){
   const sets=CFG.global_mat_sets||[];if(!sets.length)return;
-  // Suppressed entirely if Global Sets has been claimed by an enabled
-  // Materials auto-cycling entry -- avoids a manual picker and an auto-
-  // cycle hotspot both sitting there doing overlapping jobs.
-  if((CFG.mat_animations||[]).some(d=>d.source_key==='__global_sets__')) return;
   const overlaySet=_wceOverlaySet();
   const sec=document.getElementById('sgs');sec.innerHTML='<div class="st">Full Configurations</div>';
   sets.forEach(s=>{
@@ -702,9 +698,6 @@ function buildGeoNode(container,children,depth,parentName){
 }
 function buildGeoPkgs(){
   const subs=CFG.geometry_subsets||[];if(!subs.length)return;
-  // Suppressed entirely if Geo Subsets has been claimed by an enabled
-  // Geometries auto-cycling entry.
-  if((CFG.geo_animations||[]).some(d=>d.source_key==='__geo_subsets__')) return;
   const overlaySet=_wceOverlaySet();
   const sec=document.getElementById('sgp');sec.innerHTML='<div class="st">Packages</div>';
   const g=mk('div','pg');
@@ -718,9 +711,6 @@ function buildMatSubs(){
   const byCat={};subs.forEach(s=>{(byCat[s.category]=byCat[s.category]||[]).push(s);});
   const sec=document.getElementById('sms');sec.innerHTML='';
   Object.entries(byCat).forEach(([cat,items])=>{
-    // Suppressed if this category has been claimed by an enabled
-    // Materials auto-cycling entry.
-    if((CFG.mat_animations||[]).some(d=>d.source_key===cat)) return;
     const t=mk('div','st');t.textContent=cat;sec.appendChild(t);const g=mk('div','pg');
     items.forEach(s=>{const b=mk('button','pb2');b.dataset.sc=cat;b.dataset.mn=s.name;b.textContent=s.name;
       b.onclick=()=>{applyMatSubset(s.state);qsa('.gb').forEach(x=>x.classList.remove('active'));qsa('.pb2[data-sc]').forEach(x=>x.classList.remove('active'));b.classList.add('active');refreshAdvMat(s.state);};g.appendChild(b);});
@@ -771,7 +761,7 @@ function _wceRoundedPolygonPath(sizePx, vertsPct, radiusPx){
   }
   return d+'Z';
 }
-const THUMB_GROUP_PROPS = ['size','shape','radius','borderWidth','borderColor','color','imageScale','opacity'];
+const THUMB_GROUP_PROPS = ['size','shape','radius','borderWidth','borderColor','color','imageScale','opacity','shadowEnabled','shadowColor','shadowBlur','shadowOffsetX','shadowOffsetY','shadowOpacity'];
 // Groups only ever share these (never color/image — a whole group should
 // never be forced onto the same image).
 const THUMB_GROUP_STYLE_PROPS = ['size','shape','radius','borderWidth','borderColor','opacity'];
@@ -835,6 +825,12 @@ function _wceApplyThumbShape(el, o0){
     return;
   }
   el.style.opacity = (o.opacity!=null ? o.opacity : 100)/100;
+  if(o.shadowEnabled){
+    const _sc=_wceHexToRgba(o.shadowColor||'#000000', (o.shadowOpacity!=null?o.shadowOpacity:50)/100);
+    el.style.filter='drop-shadow('+(o.shadowOffsetX||0)+'px '+(o.shadowOffsetY!=null?o.shadowOffsetY:2)+'px '+(o.shadowBlur!=null?o.shadowBlur:6)+'px '+_sc+')';
+  } else {
+    el.style.filter='none';
+  }
   const shape = o.shape || 'circle';
   const size = o.size || 46;
   const bw = o.borderWidth != null ? o.borderWidth : 2;
@@ -920,6 +916,12 @@ function _wceApplyGroupStyle(el, g){
   if(label){
     label.style.fontFamily=g.titleFont?("'"+g.titleFont+"',sans-serif"):'';
     label.style.fontSize=(g.titleFontSize||13)+'px';
+  }
+  if(g.shadowEnabled){
+    const _sc=_wceHexToRgba(g.shadowColor||'#000000', (g.shadowOpacity!=null?g.shadowOpacity:50)/100);
+    el.style.filter='drop-shadow('+(g.shadowOffsetX||0)+'px '+(g.shadowOffsetY!=null?g.shadowOffsetY:2)+'px '+(g.shadowBlur!=null?g.shadowBlur:6)+'px '+_sc+')';
+  } else {
+    el.style.filter='none';
   }
 }
 function _wceApplyGroupCollapse(el, g){
@@ -1039,6 +1041,12 @@ function buildThumbnailOverlays(){
     el.style.color=o.color||'#ffffff';
     el.style.fontSize=(o.fontSize||13)+'px';
     if(o.fontFamily){ el.style.fontFamily=`'${o.fontFamily}',sans-serif`; _wceEnsureFontLoaded(o.fontFamily); }
+    if(o.shadowEnabled){
+      const _sc=_wceHexToRgba(o.shadowColor||'#000000', (o.shadowOpacity!=null?o.shadowOpacity:50)/100);
+      el.style.textShadow=(o.shadowOffsetX||0)+'px '+(o.shadowOffsetY!=null?o.shadowOffsetY:2)+'px '+(o.shadowBlur!=null?o.shadowBlur:6)+'px '+_sc;
+    } else {
+      el.style.textShadow='none';
+    }
     el.style.left=o0.x+'%'; el.style.top=o0.y+'%';
     if(o.link){
       el.classList.add('wce-overlay-linked');
