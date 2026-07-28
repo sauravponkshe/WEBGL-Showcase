@@ -1516,11 +1516,11 @@ const CFG = {
     "markerGlow": 0,
     "markerColor": "#ffffff"
   },
-  "model_file": "915092e5e08d.gltf",
+  "model_file": "VeryLow/915092e5e08d_verylow.gltf",
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "current"
+    "verylow"
   ],
   "cameras": {
     "fly_duration": 1.2,
@@ -5351,9 +5351,9 @@ async function _onModelLoaded(gltf){
 // needs "VeryLow" (capital L too), which a generic transform would get wrong.
 const _WCE_VARIANT_FOLDER_NAMES = {high:'High', medium:'Medium', low:'Low', verylow:'VeryLow'};
 function _wceVariantPath(variant){
-  if(variant === 'current') return '915092e5e08d.gltf';
-  const token = CFG.model_token || '915092e5e08d.gltf'.replace(/^.*\//,'').replace(/\.[^.]+$/,'');
-  const ext = CFG.model_ext || '915092e5e08d.gltf'.split('.').pop();
+  if(variant === 'current') return 'VeryLow/915092e5e08d_verylow.gltf';
+  const token = CFG.model_token || 'VeryLow/915092e5e08d_verylow.gltf'.replace(/^.*\//,'').replace(/\.[^.]+$/,'');
+  const ext = CFG.model_ext || 'VeryLow/915092e5e08d_verylow.gltf'.split('.').pop();
   const folderName = _WCE_VARIANT_FOLDER_NAMES[variant] || (variant.charAt(0).toUpperCase()+variant.slice(1));
   return folderName+'/'+token+'_'+variant+'.'+ext;
 }
