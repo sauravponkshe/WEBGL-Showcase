@@ -166,6 +166,8 @@
     }
   ],
   "global_mat_sets": [],
+  "mat_animations": [],
+  "geo_animations": [],
   "area_lights": [
     {
       "name": "Area",
@@ -243,14 +245,12 @@
       {
         "name": "Normal",
         "filter_type": "NORMAL",
-        "intensity": 0.75,
-        "show_as_button": false
+        "intensity": 0.75
       },
       {
         "name": "Filter 1",
         "filter_type": "VINTAGE",
-        "intensity": 0.75,
-        "show_as_button": false
+        "intensity": 0.75
       }
     ],
     "active_filter_index": 1
@@ -295,7 +295,7 @@
     "roof_z": 4.5629
   },
   "hdri": {
-    "file": null,
+    "file": "hdri/day.hdr",
     "strength": 1.0,
     "background": true,
     "flatten_ground": true,
@@ -312,7 +312,7 @@
   "hdris": [
     {
       "name": "DAY",
-      "file": null,
+      "file": "hdri/day.hdr",
       "strength": 1.0,
       "background": true,
       "rotation_z": 0.0,
@@ -326,25 +326,25 @@
         0.0
       ],
       "ground_z_offset": -0.65,
-      "grade_exposure": -1.5,
-      "grade_brightness": 0.75,
-      "grade_contrast": 1.25,
-      "grade_saturation": 0.9,
-      "grade_bloom": 0.05,
-      "grade_bloom_threshold": 0.88,
+      "grade_exposure": 0.0,
+      "grade_brightness": 1.0,
+      "grade_contrast": 1.4,
+      "grade_saturation": 1.0,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
       "default": true,
       "environment": "ENVIRONMENTS_STUDIO",
       "light": "LIGHTS_STUDIO",
       "ambient_color": [
-        0.981,
-        0.981,
-        0.981
+        0.0,
+        0.0,
+        0.0
       ],
-      "ambient_strength": 1.0
+      "ambient_strength": 0.0
     },
     {
       "name": "NIGHT",
-      "file": null,
+      "file": "hdri/night.hdr",
       "strength": 1.0,
       "background": true,
       "rotation_z": 0.0,
@@ -358,21 +358,21 @@
         0.0
       ],
       "ground_z_offset": 0.99,
-      "grade_exposure": -1.5,
-      "grade_brightness": 0.75,
-      "grade_contrast": 1.25,
-      "grade_saturation": 0.9,
-      "grade_bloom": 0.05,
-      "grade_bloom_threshold": 0.88,
+      "grade_exposure": 0.0,
+      "grade_brightness": 0.7,
+      "grade_contrast": 1.4,
+      "grade_saturation": 0.22,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
       "default": false,
       "environment": "ENVIRONMENTS_STUDIO",
       "light": "LIGHTS_STUDIO",
       "ambient_color": [
-        0.0691,
-        0.0691,
-        0.0691
+        1.0,
+        1.0,
+        1.0
       ],
-      "ambient_strength": 1.0
+      "ambient_strength": 0.0
     }
   ],
   "environment_sets": [
@@ -433,6 +433,11 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "sounds": [
           null,
           null
@@ -472,6 +477,11 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "sounds": [
           null,
           null
@@ -511,6 +521,11 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "sounds": [
           null,
           null
@@ -554,6 +569,10 @@
         ],
         "playback_mode": "PINGPONG",
         "default_state": 1,
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -575,6 +594,10 @@
         ],
         "playback_mode": "PINGPONG",
         "default_state": 1,
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -593,6 +616,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -611,6 +638,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -629,6 +660,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -647,6 +682,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -665,6 +704,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -683,6 +726,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -701,6 +748,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -719,6 +770,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -737,6 +792,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -755,6 +814,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -773,6 +836,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -791,6 +858,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -809,6 +880,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -827,6 +902,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -845,6 +924,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -863,6 +946,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -881,6 +968,10 @@
           1.0
         ],
         "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -1011,6 +1102,10 @@
         },
         "playback_mode": "PINGPONG",
         "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "hotspot_position": [
           0.0,
           1.0596,
@@ -1056,6 +1151,10 @@
         },
         "playback_mode": "PINGPONG",
         "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "hotspot_position": [
           -0.8944,
           0.0,
@@ -1188,12 +1287,11 @@
     "markerGlow": 0,
     "markerColor": "#ffffff"
   },
-  "model_file": "Medium/915092e5e08d_medium.gltf",
+  "model_file": "915092e5e08d.gltf",
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "medium",
-    "verylow"
+    "current"
   ],
   "cameras": {
     "fly_duration": 1.2,
