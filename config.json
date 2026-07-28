@@ -295,10 +295,10 @@
     "roof_z": 4.5629
   },
   "hdri": {
-    "file": null,
+    "file": "hdri/day.hdr",
     "strength": 1.0,
-    "background": false,
-    "flatten_ground": false,
+    "background": true,
+    "flatten_ground": true,
     "ground_height": -0.184,
     "ground_radius": 1.91,
     "ground_rotation_z": 0.0,
@@ -312,11 +312,11 @@
   "hdris": [
     {
       "name": "DAY",
-      "file": null,
+      "file": "hdri/day.hdr",
       "strength": 1.0,
-      "background": false,
+      "background": true,
       "rotation_z": 0.0,
-      "flatten_ground": false,
+      "flatten_ground": true,
       "ground_height": -0.184,
       "ground_radius": 1.91,
       "ground_rotation_z": 0.0,
@@ -326,12 +326,12 @@
         0.0
       ],
       "ground_z_offset": -0.65,
-      "grade_exposure": -1.5,
-      "grade_brightness": 0.75,
-      "grade_contrast": 1.25,
-      "grade_saturation": 0.9,
-      "grade_bloom": 0.05,
-      "grade_bloom_threshold": 0.88,
+      "grade_exposure": 0.0,
+      "grade_brightness": 1.0,
+      "grade_contrast": 1.4,
+      "grade_saturation": 1.0,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
       "default": true,
       "environment": "ENVIRONMENTS_STUDIO",
       "light": "LIGHTS_STUDIO",
@@ -340,15 +340,15 @@
         1.0,
         1.0
       ],
-      "ambient_strength": 1.0
+      "ambient_strength": 0.0
     },
     {
       "name": "NIGHT",
-      "file": null,
+      "file": "hdri/night.hdr",
       "strength": 1.0,
-      "background": false,
+      "background": true,
       "rotation_z": 0.0,
-      "flatten_ground": false,
+      "flatten_ground": true,
       "ground_height": -4.61,
       "ground_radius": 15.58,
       "ground_rotation_z": 0.0,
@@ -358,12 +358,12 @@
         0.0
       ],
       "ground_z_offset": 0.99,
-      "grade_exposure": -1.5,
-      "grade_brightness": 0.75,
-      "grade_contrast": 1.25,
-      "grade_saturation": 0.9,
-      "grade_bloom": 0.05,
-      "grade_bloom_threshold": 0.88,
+      "grade_exposure": 0.0,
+      "grade_brightness": 0.7,
+      "grade_contrast": 1.4,
+      "grade_saturation": 0.22,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
       "default": false,
       "environment": "ENVIRONMENTS_STUDIO",
       "light": "LIGHTS_STUDIO",
@@ -372,7 +372,7 @@
         0.0196,
         0.0196
       ],
-      "ambient_strength": 1.0
+      "ambient_strength": 0.0
     }
   ],
   "environment_sets": [
