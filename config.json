@@ -467,7 +467,7 @@
     "roof_z": 4.5629
   },
   "hdri": {
-    "file": "hdri/day.exr",
+    "file": "hdri/day.hdr",
     "strength": 4.0,
     "background": true,
     "flatten_ground": false,
@@ -484,7 +484,7 @@
   "hdris": [
     {
       "name": "DAY",
-      "file": "hdri/day.exr",
+      "file": "hdri/day.hdr",
       "strength": 4.0,
       "background": true,
       "rotation_z": 16.35,
@@ -520,7 +520,7 @@
     },
     {
       "name": "NIGHT",
-      "file": "hdri/night.exr",
+      "file": "hdri/night.hdr",
       "strength": 1.5,
       "background": true,
       "rotation_z": -170.79,
@@ -574,7 +574,7 @@
     "env_rotation": [
       0.0,
       0.0,
-      -170.79
+      16.35
     ],
     "env_scale": [
       1.0,
