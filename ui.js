@@ -173,7 +173,7 @@ function _wceApplyDesignerVisibility(){
   // Hide empty ANIM / CAMERA tabs in Preview and the real exported build,
   // but keep them switchable in the Designer's Edit mode so they can still
   // be set up even before anything has been added to them.
-  [['anim', ['sa-ctrl','sa-combo','sa-builtin','sa-seq']], ['camera', ['sc-static','sc-turntable','sc-cinematic']]].forEach(pair=>{
+  [['anim', ['sa-ctrl','sa-combo','sa-builtin','sa-seq']], ['camera', ['sc-static','sc-turntable','sc-cinematic']], ['section', ['ssection']]].forEach(pair=>{
     const tabName = pair[0], sectionIds = pair[1];
     const isEmpty = sectionIds.every(id=>{
       const el=document.getElementById(id);
@@ -257,7 +257,7 @@ function buildUI(){
   _wceApplyDeviceOverrides();
   _wceAttachOrientationListener();
   buildVariants();buildGlobalSets();buildGeoPkgs();buildMatSubs();buildHDRISwitcher();buildFilterSwitcher();
-  buildAdvGeo();buildAdvMat();buildAnimUI();buildSequenceUI();buildCameraUI();buildThumbnailOverlays();if(typeof buildMatGeoAnimUI==='function') buildMatGeoAnimUI();
+  buildAdvGeo();buildAdvMat();buildAnimUI();buildSequenceUI();buildCameraUI();buildSectionViewUI();buildThumbnailOverlays();if(typeof buildMatGeoAnimUI==='function') buildMatGeoAnimUI();
   _wceInitProfiles();
   document.getElementById('atb').addEventListener('click',()=>{
     const s=document.getElementById('as');s.classList.toggle('open');
@@ -365,7 +365,6 @@ function buildAnimUI(){
       if(def.trigger==='button'){
         const btn=mk('button','anim-btn');btn.dataset.anim=def.name;
         const ms=(def.members||[]).join(' + ')||'—';
-        btn.title='Parts: '+ms;   // member list on hover (was crowding the row)
         btn.innerHTML=def.name.replace(/_/g,' ')+'<span class="anim-play-icon">▶</span>';
         btn.onclick=()=>triggerAnim(def.name);comboSec.appendChild(btn);
       }else if(def.trigger==='hotspot'){
@@ -526,6 +525,41 @@ function buildSequenceUI() {
   });
 }
 
+function buildSectionViewUI(){
+  const sec=document.getElementById('ssection');
+  if(!sec) return;
+  const keys=Object.keys(window._wceSectionAxes||{});
+  if(!keys.length){ sec.innerHTML=''; return; }
+  sec.innerHTML='<div class="st">Section View</div>';
+  const order=['x','y','z'];
+  order.filter(k=>window._wceSectionAxes[k]).forEach(axisKey=>{
+    const ax=window._wceSectionAxes[axisKey];
+    const row=mk('div','sr');
+    const btn=mk('button','pb2 sec-axis-btn');
+    btn.textContent=axisKey.toUpperCase();
+    btn.dataset.axis=axisKey;
+    if(ax.active) btn.classList.add('active');
+    const slider=document.createElement('input');
+    slider.type='range'; slider.min='0'; slider.max='100'; slider.step='0.5';
+    slider.value=ax.position;
+    slider.disabled=!ax.active;
+    slider.className='sec-axis-slider';
+    btn.onclick=()=>{
+      ax.active=!ax.active;
+      btn.classList.toggle('active', ax.active);
+      slider.disabled=!ax.active;
+      if(typeof window._wceSectionSetActive==='function') window._wceSectionSetActive(axisKey, ax.active);
+    };
+    row.appendChild(btn);
+    slider.oninput=()=>{
+      ax.position=parseFloat(slider.value);
+      if(typeof window._wceSectionSetPosition==='function') window._wceSectionSetPosition(axisKey, ax.position);
+    };
+    row.appendChild(slider);
+    sec.appendChild(row);
+  });
+}
+
 function buildCameraUI(){
   const overlaySet=_wceOverlaySet();
   const staticList=(camCfg.static||[]);
@@ -575,7 +609,7 @@ function _wceOverlayKey(o){
   if(o.type==='hdri') return 'hdri::'+(o.item&&o.item.file);
   if(o.type==='turntable') return 'turntable::singleton';
   if(o.type==='cinematic') return 'cinematic::singleton';
-  if(o.type==='text' || o.type==='group') return o.id || (o.type+'::'+Math.random().toString(36).slice(2));
+  if(o.type==='text' || o.type==='group' || o.type==='section_slider') return o.id || (o.type+'::'+Math.random().toString(36).slice(2));
   return o.type+'::'+o.name;
 }
 function _wceOverlaySet(){
@@ -987,7 +1021,7 @@ function buildThumbnailOverlays(){
   // the UI Designer -- variants, configs, packages, materials, animations,
   // cameras, sequences, environment, plus free-floating text labels and
   // collapsible groups that can nest several of the above together.
-  document.querySelectorAll('.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-group').forEach(el=>el.remove());
+  document.querySelectorAll('.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-group,.wce-overlay-section-slider').forEach(el=>el.remove());
   const list=window.WCE_OVERLAYS||[];
 
   const groupEls={};
@@ -1109,7 +1143,90 @@ function buildThumbnailOverlays(){
     setTimeout(()=>document.addEventListener('pointerdown', closeHandler, true), 0);
   }
 
-  list.filter(o=>o.type!=='group' && o.type!=='text').forEach(o=>{
+  list.filter(o=>o.type==='section_slider').forEach(o=>{
+    try{
+      const el=mk('div','wce-overlay-section-slider');
+      el.dataset.overlayId=o.id;
+      el.style.left=(o.x??10)+'%'; el.style.top=(o.y??10)+'%'; el.style.width=(o.width||200)+'px';
+      el.style.setProperty('--sec-track-color', o.trackColor||'#333333');
+      el.style.setProperty('--sec-track-height', (o.trackHeight!=null?o.trackHeight:6)+'px');
+      el.style.setProperty('--sec-thumb-color', o.thumbColor||'#c8a96e');
+      el.style.setProperty('--sec-thumb-size', (o.thumbSize!=null?o.thumbSize:16)+'px');
+      const axes=window._wceSectionAxes||{};
+      const axisKeys=['x','y','z'].filter(k=>axes[k]);
+      if(axisKeys.length){
+        if(o.controlMode==='combined'){
+          let currentAxis=axisKeys.find(k=>axes[k].active)||axisKeys[0];
+          const radiosDiv=mk('div','wce-sec-radios');
+          const radioEls={};
+          axisKeys.forEach(k=>{
+            const r=mk('span','wce-sec-radio'+(k===currentAxis?' active':''));
+            r.textContent=k.toUpperCase();
+            if(k===currentAxis) r.style.background=o.activeColor||'#c8a96e';
+            radioEls[k]=r;
+            radiosDiv.appendChild(r);
+          });
+          el.appendChild(radiosDiv);
+          const row=mk('div','wce-sec-row');
+          const lbl = o.showLabels!==false ? mk('span','wce-sec-axislabel') : null;
+          if(lbl){ lbl.textContent=currentAxis.toUpperCase(); row.appendChild(lbl); }
+          const slider=document.createElement('input');
+          slider.type='range'; slider.min='0'; slider.max='100'; slider.step='0.5'; slider.className='wce-sec-native-slider';
+          slider.value=axes[currentAxis].position;
+          slider.oninput=()=>{
+            axes[currentAxis].position=parseFloat(slider.value);
+            if(typeof window._wceSectionSetPosition==='function') window._wceSectionSetPosition(currentAxis, axes[currentAxis].position);
+          };
+          row.appendChild(slider);
+          el.appendChild(row);
+          axisKeys.forEach(k=>{
+            radioEls[k].onclick=()=>{
+              currentAxis=k;
+              axisKeys.forEach(kk=>{
+                const shouldBeActive=(kk===k);
+                if(axes[kk].active!==shouldBeActive){
+                  axes[kk].active=shouldBeActive;
+                  if(typeof window._wceSectionSetActive==='function') window._wceSectionSetActive(kk, shouldBeActive);
+                }
+                radioEls[kk].classList.toggle('active', kk===currentAxis);
+                radioEls[kk].style.background = kk===currentAxis ? (o.activeColor||'#c8a96e') : '';
+              });
+              slider.value=axes[currentAxis].position;
+              if(lbl) lbl.textContent=currentAxis.toUpperCase();
+            };
+          });
+        } else {
+          axisKeys.forEach(k=>{
+            const ax=axes[k];
+            const row=mk('div','wce-sec-row');
+            if(o.showLabels!==false){ const lbl=mk('span','wce-sec-axislabel'); lbl.textContent=k.toUpperCase(); row.appendChild(lbl); }
+            const btn=mk('button','wce-sec-axisbtn'+(ax.active?' active':''));
+            btn.textContent=k.toUpperCase();
+            if(ax.active) btn.style.background=o.activeColor||'#c8a96e';
+            const slider=document.createElement('input');
+            slider.type='range'; slider.min='0'; slider.max='100'; slider.step='0.5'; slider.className='wce-sec-native-slider';
+            slider.value=ax.position; slider.disabled=!ax.active;
+            btn.onclick=()=>{
+              ax.active=!ax.active;
+              btn.classList.toggle('active', ax.active);
+              btn.style.background = ax.active ? (o.activeColor||'#c8a96e') : '';
+              slider.disabled=!ax.active;
+              if(typeof window._wceSectionSetActive==='function') window._wceSectionSetActive(k, ax.active);
+            };
+            slider.oninput=()=>{
+              ax.position=parseFloat(slider.value);
+              if(typeof window._wceSectionSetPosition==='function') window._wceSectionSetPosition(k, ax.position);
+            };
+            row.appendChild(btn); row.appendChild(slider);
+            el.appendChild(row);
+          });
+        }
+      }
+      hostFor(o).appendChild(el);
+    }catch(e){ console.error('[WCE] failed to render a section slider:', e); }
+  });
+
+  list.filter(o=>o.type!=='group' && o.type!=='text' && o.type!=='section_slider').forEach(o=>{
     if(!o.type && o.container && o.material) o.type='material';
     const el=mk('div','wce-overlay-thumb');
     el.style.left=(o.x??10)+'%';

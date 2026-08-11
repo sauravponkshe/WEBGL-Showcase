@@ -1,56 +1,127 @@
 {
   "containers": {
+    "CUBE": [
+      "WHITE",
+      "RED",
+      "GREEN",
+      "YELLOW"
+    ]
+  },
+  "containers_all": {
+    "BODY": [
+      "Scarlet Red CARPAINT_METALLIC_GLTF",
+      "Stormy Gray CARPAINT_METALLIC_GLTF",
+      "Deep Yellow CARPAINT_METALLIC_GLTF",
+      "Dark Forest Green CARPAINT_METALLIC_GLTF",
+      "Black CARPAINT_MATTE_GLTF",
+      "WhiteSmoke CARPAINT_GLOSSY_GLTF",
+      "MidnightBlue CARPAINT_GLOSSY_GLTF",
+      "SkyBlue CARPAINT_GLOSSY_GLTF"
+    ],
+    "EMBLEM": [
+      "PLASTIC_MATTE_3_GLTF",
+      "GOLD_1_GLTF",
+      "CHROME_2_GLTF"
+    ],
     "ROOF": [
-      "Black FABRIC_2_GLTF",
       "Maroon Red FABRIC_2_GLTF",
+      "Black FABRIC_2_GLTF",
       "Light French Beige FABRIC_2_GLTF"
+    ],
+    "INTERIOR_ACCENT_1": [
+      "INT_PLASTIC_2_3_GLTF",
+      "INT_PLASTIC_2_4_GLTF",
+      "INT_PLASTIC_2_5_GLTF",
+      "INT_PLASTIC_2_6_GLTF",
+      "INT_PLASTIC_2_6_GLTF.002",
+      "INT_PLASTIC_2_7_GLTF",
+      "INT_PLASTIC_2_6_GLTF.001",
+      "INT_PLASTIC_2_8_GLTF"
+    ],
+    "INTERIOR_ACCENT_2": [
+      "INT_PLASTIC_2_1_GLTF",
+      "INT_PLASTIC_2_1_GLTF_1"
+    ],
+    "SEATBACK": [
+      "SimpleTexturedMaterial_4",
+      "SimpleTexturedMaterial_1",
+      "SimpleTexturedMaterial_2",
+      "SimpleTexturedMaterial_3",
+      "SimpleTexturedMaterial_5",
+      "SimpleTexturedMaterial_6",
+      "SimpleTexturedMaterial_8"
+    ],
+    "SEAT": [
+      "SimpleTexturedMaterial",
+      "SimpleTexturedMaterial.001"
+    ],
+    "CUBE": [
+      "WHITE",
+      "RED",
+      "GREEN",
+      "YELLOW"
     ]
   },
   "mat_colors": {
-    "Black FABRIC_2_GLTF": {
+    "WHITE": {
       "color": [
-        0.0,
-        0.0,
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 10.0
+    },
+    "RED": {
+      "color": [
+        0.8000156879425049,
+        0.8000156879425049,
+        0.8000156879425049
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        0.003982336726039648,
         0.0
       ],
-      "metallic": 0.0,
-      "roughness": 0.5,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
+      "emissiveIntensity": 1.0
     },
-    "Maroon Red FABRIC_2_GLTF": {
+    "GREEN": {
       "color": [
-        0.11611873656511307,
-        0.0022330612409859896,
-        0.0022330612409859896
+        0.8000156879425049,
+        0.8000156879425049,
+        0.8000156879425049
       ],
       "metallic": 0.0,
       "roughness": 0.5,
       "emissive": [
+        0.0,
         1.0,
-        1.0,
-        1.0
+        0.008120217360556126
       ],
-      "emissiveIntensity": 0.0
+      "emissiveIntensity": 1.0
     },
-    "Light French Beige FABRIC_2_GLTF": {
+    "YELLOW": {
       "color": [
-        0.5775781869888306,
-        0.4740818738937378,
-        0.32371580600738525
+        0.8000156879425049,
+        0.8000156879425049,
+        0.8000156879425049
       ],
       "metallic": 0.0,
       "roughness": 0.5,
       "emissive": [
         1.0,
-        1.0,
-        1.0
+        0.911400318145752,
+        0.0
       ],
-      "emissiveIntensity": 0.0
+      "emissiveIntensity": 1.0
     }
   },
   "geometry_exposed": {},
@@ -170,12 +241,81 @@
   "geo_animations": [],
   "area_lights": [
     {
-      "name": "Area",
-      "rig": "LIGHTS",
+      "name": "Area.002",
+      "rig": "LIGHTS_NIGHT",
       "color": [
         1.0,
-        0.8468736410140991,
-        0.479320228099823
+        0.5401699542999268,
+        0.7438685297966003
+      ],
+      "intensity": 1.75,
+      "width": 0.8614,
+      "height": 14.8376,
+      "position": [
+        -8.5386,
+        -0.249,
+        -14.2819
+      ],
+      "quaternion": [
+        -0.150607,
+        0.270884,
+        -0.69055,
+        0.653513
+      ]
+    },
+    {
+      "name": "Area.004",
+      "rig": "LIGHTS_NIGHT",
+      "color": [
+        1.0,
+        0.5401699542999268,
+        0.7438685297966003
+      ],
+      "intensity": 1.75,
+      "width": 0.9016,
+      "height": 33.7985,
+      "position": [
+        -5.6521,
+        -0.249,
+        5.8921
+      ],
+      "quaternion": [
+        -0.598044,
+        0.655947,
+        -0.376676,
+        0.264937
+      ]
+    },
+    {
+      "name": "Area.005",
+      "rig": "LIGHTS_NIGHT",
+      "color": [
+        1.0,
+        0.5401699542999268,
+        0.7438685297966003
+      ],
+      "intensity": 1.75,
+      "width": 0.8614,
+      "height": 14.8376,
+      "position": [
+        11.4462,
+        -0.249,
+        16.5417
+      ],
+      "quaternion": [
+        0.69055,
+        -0.653513,
+        -0.150607,
+        0.270884
+      ]
+    },
+    {
+      "name": "Area",
+      "rig": "LIGHTS_UNUNSED",
+      "color": [
+        0.7156937718391418,
+        0.9473065733909607,
+        1.0
       ],
       "intensity": 1.0,
       "width": 1.02,
@@ -193,12 +333,35 @@
       ]
     },
     {
-      "name": "Area1",
-      "rig": "LIGHTS",
+      "name": "Area.001",
+      "rig": "LIGHTS_UNUNSED",
       "color": [
-        1.0,
-        0.8468736410140991,
-        0.479320228099823
+        0.7156937718391418,
+        0.9473065733909607,
+        1.0
+      ],
+      "intensity": 1.0,
+      "width": 1.02,
+      "height": 5.4613,
+      "position": [
+        -0.0252,
+        1.8211,
+        0.0323
+      ],
+      "quaternion": [
+        -0.707079,
+        -0.006271,
+        0.006271,
+        0.707079
+      ]
+    },
+    {
+      "name": "Area1",
+      "rig": "LIGHTS_UNUNSED",
+      "color": [
+        0.7156937718391418,
+        0.9473065733909607,
+        1.0
       ],
       "intensity": 1.0,
       "width": -1.02,
@@ -217,26 +380,31 @@
     }
   ],
   "light_shadows": {
+    "Sun": true,
+    "Spot": false,
+    "Spot1": false,
+    "Area.002": true,
+    "Area.004": true,
+    "Area.005": true,
     "Area": true,
-    "Spot": true,
-    "Area1": true,
-    "Spot1": true
+    "Area.001": true,
+    "Area1": true
   },
   "post_process": {
     "noise": {
       "enabled": true,
-      "amount": 0.1,
+      "amount": 0.08,
       "disable_below_medium": true
     },
     "vignette": {
-      "enabled": true,
+      "enabled": false,
       "intensity": 0.5,
       "softness": 1.0,
       "disable_below_medium": true
     },
     "dof": {
-      "enabled": true,
-      "focus_distance": 8.78,
+      "enabled": false,
+      "focus_distance": 3.56,
       "aperture": 0.0004,
       "max_blur": 0.01,
       "disable_below_medium": true
@@ -249,34 +417,37 @@
       },
       {
         "name": "Filter 1",
-        "filter_type": "VINTAGE",
-        "intensity": 0.75
+        "filter_type": "DRAMATIC",
+        "intensity": 0.15
       }
     ],
     "active_filter_index": 1
   },
-  "mat_name_map": {
-    "Iron Touched": "METAL_BRUSHED_3_GLTF",
-    "Rubber": "Black CARPAINT_GLOSSY_GLTF"
-  },
+  "mat_name_map": {},
   "default_geo_state": {
     "LIGHTS": "NONE",
     "ENVIRONMENTS": "NONE"
   },
   "default_variant": "",
-  "default_mat_subset": {
-    "name": "GREEN",
-    "category": "PRIMARY_COLOR"
-  },
+  "default_mat_subsets": [
+    {
+      "name": "RED",
+      "category": "PRIMARY_COLOR"
+    },
+    {
+      "name": "BEIGE",
+      "category": "SECONDARY_ACCENT"
+    }
+  ],
   "camera": {
     "zoom_min": 3.278,
     "zoom_max": 9.268,
-    "floor_z": -0.2412,
+    "floor_z": -0.0205,
     "startup_camera": {
       "position": [
-        -8.2716,
-        1.5983,
-        -7.3953
+        -4.7518,
+        0.8634,
+        -4.5306
       ],
       "forward": [
         0.7471,
@@ -290,51 +461,56 @@
       ],
       "hfov_deg": 39.598
     },
+    "lock_zoom_phone": false,
     "focal_length_mm": 40.0,
     "sensor_width_mm": 36.0,
     "roof_z": 4.5629
   },
   "hdri": {
-    "file": "hdri/day.hdr",
-    "strength": 1.0,
+    "file": "hdri/day.exr",
+    "strength": 4.0,
     "background": true,
-    "flatten_ground": true,
-    "ground_height": -0.184,
-    "ground_radius": 1.91,
-    "ground_rotation_z": 0.0,
-    "ground_scale": 9.91,
+    "flatten_ground": false,
+    "ground_height": -0.904,
+    "ground_radius": 1.09,
+    "ground_rotation_z": 13.41,
+    "ground_scale": 40.0,
     "ground_offset": [
       0.0,
       0.0
     ],
-    "ground_z_offset": -0.65
+    "ground_z_offset": -8.93
   },
   "hdris": [
     {
       "name": "DAY",
-      "file": "hdri/day.hdr",
-      "strength": 1.0,
+      "file": "hdri/day.exr",
+      "strength": 4.0,
       "background": true,
-      "rotation_z": 0.0,
-      "flatten_ground": true,
-      "ground_height": -0.184,
-      "ground_radius": 1.91,
-      "ground_rotation_z": 0.0,
-      "ground_scale": 9.91,
+      "rotation_z": 16.35,
+      "flatten_ground": false,
+      "ground_height": -0.904,
+      "ground_radius": 1.09,
+      "ground_rotation_z": 13.41,
+      "ground_scale": 40.0,
       "ground_offset": [
         0.0,
         0.0
       ],
-      "ground_z_offset": -0.65,
+      "ground_z_offset": -8.93,
+      "ground_hue": 0.5,
+      "ground_saturation": 0.5,
+      "ground_brightness": 1.0,
+      "ground_contrast": 0.0,
       "grade_exposure": 0.0,
       "grade_brightness": 1.0,
-      "grade_contrast": 1.4,
-      "grade_saturation": 1.0,
+      "grade_contrast": 1.3,
+      "grade_saturation": 1.4,
       "grade_bloom": 0.1,
       "grade_bloom_threshold": 0.9,
       "default": true,
-      "environment": "ENVIRONMENTS_STUDIO",
-      "light": "LIGHTS_STUDIO",
+      "environment": null,
+      "light": "LIGHTS_DAY",
       "ambient_color": [
         1.0,
         1.0,
@@ -344,33 +520,37 @@
     },
     {
       "name": "NIGHT",
-      "file": "hdri/night.hdr",
-      "strength": 1.0,
+      "file": "hdri/night.exr",
+      "strength": 1.5,
       "background": true,
-      "rotation_z": 0.0,
-      "flatten_ground": true,
-      "ground_height": -4.61,
-      "ground_radius": 15.58,
+      "rotation_z": -170.79,
+      "flatten_ground": false,
+      "ground_height": -6.35,
+      "ground_radius": 9.79,
       "ground_rotation_z": 0.0,
       "ground_scale": 1.15,
       "ground_offset": [
         0.0,
         0.0
       ],
-      "ground_z_offset": 0.99,
+      "ground_z_offset": -1.2,
+      "ground_hue": 0.5,
+      "ground_saturation": 0.0,
+      "ground_brightness": 0.0,
+      "ground_contrast": 0.0,
       "grade_exposure": 0.0,
-      "grade_brightness": 0.7,
-      "grade_contrast": 1.4,
-      "grade_saturation": 0.22,
+      "grade_brightness": 1.15,
+      "grade_contrast": 1.3,
+      "grade_saturation": 1.3,
       "grade_bloom": 0.1,
       "grade_bloom_threshold": 0.9,
       "default": false,
-      "environment": "ENVIRONMENTS_STUDIO",
-      "light": "LIGHTS_STUDIO",
+      "environment": null,
+      "light": "LIGHTS_NIGHT",
       "ambient_color": [
-        0.0196,
-        0.0196,
-        0.0196
+        0.0908,
+        0.0908,
+        0.0908
       ],
       "ambient_strength": 0.0
     }
@@ -379,29 +559,31 @@
     "ENVIRONMENTS_STUDIO"
   ],
   "light_sets": [
-    "LIGHTS_STUDIO"
+    "LIGHTS_DAY",
+    "LIGHTS_NIGHT",
+    "LIGHTS_UNUNSED"
   ],
   "environment_common_exists": true,
   "light_common_exists": true,
   "grade": {
     "tone_mapping": "AgX",
     "view_transform": "AgX",
-    "exposure": -1.5,
+    "exposure": -1.0,
     "ambient_intensity": 1.0,
     "env_intensity": 1.0,
     "env_rotation": [
       0.0,
       0.0,
-      0.0
+      -170.79
     ],
     "env_scale": [
       1.0,
       1.0,
       1.0
     ],
-    "brightness": 0.75,
-    "contrast": 1.25,
-    "saturation": 0.9,
+    "brightness": 1.0,
+    "contrast": 1.0,
+    "saturation": 1.0,
     "bloom": 0.05,
     "bloom_threshold": 0.88
   },
@@ -504,6 +686,69 @@
           1.0,
           0.0022
         ],
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "RRDOOR_L",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "RRDOOR_R",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "HOOD",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
         "extra_hotspots": [],
         "extra_images": []
       },
@@ -976,30 +1221,46 @@
         "extra_images": []
       },
       {
-        "name": "LAMP",
-        "anim_type": "GEO_TOGGLE",
+        "name": "RRWHEEL_L",
+        "anim_type": "PROCEDURAL",
         "states": 2,
         "trigger": "button",
-        "geo_nodes": [
-          "Spot",
-          "Spot1",
-          "shell#3220",
-          "shell#3221",
-          "shell#3240",
-          "shell#3243",
-          "shell#364",
-          "shell#365"
-        ]
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
       },
       {
-        "name": "STREET_LIGHT",
-        "anim_type": "GEO_TOGGLE",
+        "name": "RRWHEEL_R",
+        "anim_type": "PROCEDURAL",
         "states": 2,
         "trigger": "button",
-        "geo_nodes": [
-          "Area",
-          "Area1"
-        ]
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
       }
     ],
     "combos": [
@@ -1287,11 +1548,11 @@
     "markerGlow": 0,
     "markerColor": "#ffffff"
   },
-  "model_file": "VeryLow/915092e5e08d_verylow.gltf",
+  "model_file": "Medium/915092e5e08d_medium.gltf",
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "verylow"
+    "medium"
   ],
   "cameras": {
     "fly_duration": 1.2,
@@ -1326,9 +1587,9 @@
       {
         "name": "ROTATION",
         "position": [
-          -8.2716,
-          1.5983,
-          -7.3953
+          -4.7518,
+          0.8634,
+          -4.5306
         ],
         "target": [
           0.0,
@@ -1347,14 +1608,14 @@
       {
         "name": "ALLOY",
         "position": [
-          -1.8548,
-          0.0648,
-          -2.4363
+          -2.0405,
+          0.5039,
+          -2.6743
         ],
         "target": [
-          0.0118,
-          -0.0634,
-          -0.0125
+          -0.1373,
+          -0.3815,
+          -0.0289
         ],
         "lock": "place",
         "transition": "fly",
@@ -1454,5 +1715,6 @@
       "sequence": [],
       "trigger": "button"
     }
-  }
+  },
+  "section_view": {}
 }
