@@ -1552,7 +1552,8 @@
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "medium"
+    "medium",
+    "verylow"
   ],
   "cameras": {
     "fly_duration": 1.2,
