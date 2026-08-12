@@ -135,8 +135,8 @@
     }
   ],
   "mat_subset_categories": [
-    "PRIMARY_COLOR",
-    "SECONDARY_ACCENT"
+    "SECONDARY_ACCENT",
+    "PRIMARY_COLOR"
   ],
   "mat_subsets": [
     {

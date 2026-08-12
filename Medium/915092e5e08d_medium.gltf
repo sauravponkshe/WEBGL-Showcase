@@ -30205,290 +30205,59 @@
       }
     },
     {
-      "name": "WHITE",
+      "name": "Scarlet Red CARPAINT_METALLIC_GLTF",
       "doubleSided": true,
       "pbrMetallicRoughness": {
         "baseColorFactor": [
-          0.800000011920929,
-          0.800000011920929,
-          0.800000011920929,
-          1
-        ],
-        "roughnessFactor": 0.5,
-        "metallicFactor": 0
-      },
-      "emissiveFactor": [
-        1,
-        1,
-        1
-      ],
-      "extensions": {
-        "KHR_materials_emissive_strength": {
-          "emissiveStrength": 10
-        }
-      }
-    },
-    {
-      "name": "RED",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.8000156879425049,
-          0.8000156879425049,
-          0.8000156879425049,
-          1
-        ],
-        "roughnessFactor": 0.5,
-        "metallicFactor": 0
-      },
-      "emissiveFactor": [
-        1,
-        0.003982336726039648,
-        0
-      ]
-    },
-    {
-      "name": "MidnightBlue CARPAINT_GLOSSY_GLTF",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.006512092426419258,
-          0.006512092426419258,
-          0.09084172546863556,
-          1
-        ],
-        "roughnessFactor": 0.30000001192092896,
-        "metallicFactor": 0
-      },
-      "normalTexture": {
-        "index": 26,
-        "scale": 0.5,
-        "extensions": {
-          "KHR_texture_transform": {
-            "offset": [
-              0,
-              -9
-            ],
-            "scale": [
-              10,
-              10
-            ]
-          }
-        }
-      },
-      "extensions": {
-        "KHR_materials_clearcoat": {
-          "clearcoatFactor": 1,
-          "clearcoatRoughnessFactor": 0,
-          "clearcoatNormalTexture": {
-            "index": 52,
-            "scale": 0.20000000298023224,
-            "extensions": {
-              "KHR_texture_transform": {
-                "offset": [
-                  0,
-                  -9
-                ],
-                "scale": [
-                  10,
-                  10
-                ]
-              }
-            }
-          }
-        },
-        "KHR_materials_specular": {
-          "specularFactor": 0.5468277931213379
-        }
-      }
-    },
-    {
-      "name": "SkyBlue CARPAINT_GLOSSY_GLTF",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.13958381116390228,
-          0.5591534376144409,
-          0.8307760953903198,
-          1
-        ],
-        "roughnessFactor": 0.30000001192092896,
-        "metallicFactor": 0.10000000149011612
-      },
-      "normalTexture": {
-        "index": 26,
-        "scale": 0.5,
-        "extensions": {
-          "KHR_texture_transform": {
-            "offset": [
-              0,
-              -9
-            ],
-            "scale": [
-              10,
-              10
-            ]
-          }
-        }
-      },
-      "extensions": {
-        "KHR_materials_clearcoat": {
-          "clearcoatFactor": 1,
-          "clearcoatRoughnessFactor": 0,
-          "clearcoatNormalTexture": {
-            "index": 52,
-            "scale": 0.20000000298023224,
-            "extensions": {
-              "KHR_texture_transform": {
-                "offset": [
-                  0,
-                  -9
-                ],
-                "scale": [
-                  10,
-                  10
-                ]
-              }
-            }
-          }
-        },
-        "KHR_materials_specular": {
-          "specularFactor": 0.5468277931213379
-        }
-      }
-    },
-    {
-      "name": "INT_PLASTIC_2_6_GLTF",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.10946174710988998,
-          0.39675527811050415,
-          0.6866854429244995,
-          1
-        ],
-        "metallicFactor": 0,
-        "metallicRoughnessTexture": {
-          "index": 17
-        }
-      },
-      "normalTexture": {
-        "index": 16,
-        "scale": 0.5
-      }
-    },
-    {
-      "name": "SimpleTexturedMaterial.001",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.007380045484751463,
-          0.007380045484751463,
-          0.007380045484751463,
-          1
-        ],
-        "roughnessFactor": 0.626510500907898,
-        "metallicFactor": 0
-      },
-      "normalTexture": {
-        "index": 51,
-        "scale": 0.5
-      },
-      "extensions": {
-        "KHR_materials_specular": {
-          "specularColorFactor": [
-            2,
-            2,
-            2
-          ]
-        }
-      }
-    },
-    {
-      "name": "INT_PLASTIC_2_3_GLTF",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.1946178823709488,
+          0.533312976360321,
+          0.011120004579424858,
           0,
-          0.006995411589741707,
           1
         ],
-        "metallicFactor": 0,
-        "metallicRoughnessTexture": {
-          "index": 17
+        "roughnessFactor": 0.30000001192092896,
+        "metallicFactor": 0.6227269768714905
+      },
+      "normalTexture": {
+        "index": 26,
+        "scale": 0.5,
+        "extensions": {
+          "KHR_texture_transform": {
+            "offset": [
+              0,
+              -9
+            ],
+            "scale": [
+              10,
+              10
+            ]
+          }
         }
-      },
-      "normalTexture": {
-        "index": 16,
-        "scale": 0.5
-      }
-    },
-    {
-      "name": "INT_PLASTIC_2_7_GLTF",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.6866981387138367,
-          0.6866981387138367,
-          0.6866981387138367,
-          1
-        ],
-        "metallicFactor": 0,
-        "metallicRoughnessTexture": {
-          "index": 17
-        }
-      },
-      "normalTexture": {
-        "index": 16,
-        "scale": 0.5
-      }
-    },
-    {
-      "name": "SimpleTexturedMaterial_3",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.8775038719177246,
-          0.8775038719177246,
-          0.8775038719177246,
-          1
-        ],
-        "roughnessFactor": 0.626510500907898,
-        "metallicFactor": 0.21752266585826874
-      },
-      "normalTexture": {
-        "index": 51,
-        "scale": 0.25
       },
       "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 1,
+          "clearcoatRoughnessFactor": 0,
+          "clearcoatNormalTexture": {
+            "index": 52,
+            "scale": 0.20000000298023224,
+            "extensions": {
+              "KHR_texture_transform": {
+                "offset": [
+                  0,
+                  -9
+                ],
+                "scale": [
+                  10,
+                  10
+                ]
+              }
+            }
+          }
+        },
         "KHR_materials_specular": {
-          "specularColorFactor": [
-            2,
-            2,
-            2
-          ]
+          "specularFactor": 0.5468277931213379
         }
       }
-    },
-    {
-      "name": "GREEN",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.8000156879425049,
-          0.8000156879425049,
-          0.8000156879425049,
-          1
-        ],
-        "roughnessFactor": 0.5,
-        "metallicFactor": 0
-      },
-      "emissiveFactor": [
-        0,
-        1,
-        0.008120217360556126
-      ]
     },
     {
       "name": "Black FABRIC_2_GLTF",
@@ -30531,6 +30300,26 @@
             ]
           }
         }
+      }
+    },
+    {
+      "name": "INT_PLASTIC_2_4_GLTF",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.5906190276145935,
+          0.4019778072834015,
+          0.051269471645355225,
+          1
+        ],
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 17
+        }
+      },
+      "normalTexture": {
+        "index": 16,
+        "scale": 0.5
       }
     },
     {
@@ -30679,30 +30468,17 @@
       }
     },
     {
-      "name": "SimpleTexturedMaterial_5",
+      "name": "GOLD_1_GLTF",
       "doubleSided": true,
       "pbrMetallicRoughness": {
         "baseColorFactor": [
-          0,
-          0.042311422526836395,
-          0,
+          1,
+          0.7003670930862427,
+          0.2504533529281616,
           1
         ],
-        "roughnessFactor": 0.626510500907898,
-        "metallicFactor": 0.21752266585826874
-      },
-      "normalTexture": {
-        "index": 51,
-        "scale": 0.25
-      },
-      "extensions": {
-        "KHR_materials_specular": {
-          "specularColorFactor": [
-            2,
-            2,
-            2
-          ]
-        }
+        "roughnessFactor": 0.4227272570133209,
+        "metallicFactor": 0.8636363744735718
       }
     },
     {
@@ -30761,20 +30537,6 @@
       }
     },
     {
-      "name": "GOLD_1_GLTF",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          1,
-          0.7003670930862427,
-          0.2504533529281616,
-          1
-        ],
-        "roughnessFactor": 0.4227272570133209,
-        "metallicFactor": 0.8636363744735718
-      }
-    },
-    {
       "name": "INT_PLASTIC_2_6_GLTF.001",
       "doubleSided": true,
       "pbrMetallicRoughness": {
@@ -30822,81 +30584,6 @@
       }
     },
     {
-      "name": "Scarlet Red CARPAINT_METALLIC_GLTF",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.533312976360321,
-          0.011120004579424858,
-          0,
-          1
-        ],
-        "roughnessFactor": 0.30000001192092896,
-        "metallicFactor": 0.6227269768714905
-      },
-      "normalTexture": {
-        "index": 26,
-        "scale": 0.5,
-        "extensions": {
-          "KHR_texture_transform": {
-            "offset": [
-              0,
-              -9
-            ],
-            "scale": [
-              10,
-              10
-            ]
-          }
-        }
-      },
-      "extensions": {
-        "KHR_materials_clearcoat": {
-          "clearcoatFactor": 1,
-          "clearcoatRoughnessFactor": 0,
-          "clearcoatNormalTexture": {
-            "index": 52,
-            "scale": 0.20000000298023224,
-            "extensions": {
-              "KHR_texture_transform": {
-                "offset": [
-                  0,
-                  -9
-                ],
-                "scale": [
-                  10,
-                  10
-                ]
-              }
-            }
-          }
-        },
-        "KHR_materials_specular": {
-          "specularFactor": 0.5468277931213379
-        }
-      }
-    },
-    {
-      "name": "INT_PLASTIC_2_4_GLTF",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0.5906190276145935,
-          0.4019778072834015,
-          0.051269471645355225,
-          1
-        ],
-        "metallicFactor": 0,
-        "metallicRoughnessTexture": {
-          "index": 17
-        }
-      },
-      "normalTexture": {
-        "index": 16,
-        "scale": 0.5
-      }
-    },
-    {
       "name": "INT_PLASTIC_2_8_GLTF",
       "doubleSided": true,
       "pbrMetallicRoughness": {
@@ -30941,6 +30628,26 @@
             2
           ]
         }
+      }
+    },
+    {
+      "name": "INT_PLASTIC_2_5_GLTF",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0,
+          0.042311422526836395,
+          0,
+          1
+        ],
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 17
+        }
+      },
+      "normalTexture": {
+        "index": 16,
+        "scale": 0.5
       }
     },
     {
@@ -30996,26 +30703,6 @@
         "KHR_materials_specular": {
           "specularFactor": 0.5468277931213379
         }
-      }
-    },
-    {
-      "name": "INT_PLASTIC_2_5_GLTF",
-      "doubleSided": true,
-      "pbrMetallicRoughness": {
-        "baseColorFactor": [
-          0,
-          0.042311422526836395,
-          0,
-          1
-        ],
-        "metallicFactor": 0,
-        "metallicRoughnessTexture": {
-          "index": 17
-        }
-      },
-      "normalTexture": {
-        "index": 16,
-        "scale": 0.5
       }
     },
     {
@@ -31195,6 +30882,53 @@
       }
     },
     {
+      "name": "SimpleTexturedMaterial_3",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8775038719177246,
+          0.8775038719177246,
+          0.8775038719177246,
+          1
+        ],
+        "roughnessFactor": 0.626510500907898,
+        "metallicFactor": 0.21752266585826874
+      },
+      "normalTexture": {
+        "index": 51,
+        "scale": 0.25
+      },
+      "extensions": {
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            2,
+            2,
+            2
+          ]
+        }
+      }
+    },
+    {
+      "name": "INT_PLASTIC_2_3_GLTF",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.1946178823709488,
+          0,
+          0.006995411589741707,
+          1
+        ],
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 17
+        }
+      },
+      "normalTexture": {
+        "index": 16,
+        "scale": 0.5
+      }
+    },
+    {
       "name": "Black CARPAINT_MATTE_GLTF",
       "doubleSided": true,
       "pbrMetallicRoughness": {
@@ -31247,6 +30981,272 @@
         "KHR_materials_specular": {
           "specularFactor": 0.5468277931213379
         }
+      }
+    },
+    {
+      "name": "SimpleTexturedMaterial_5",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0,
+          0.042311422526836395,
+          0,
+          1
+        ],
+        "roughnessFactor": 0.626510500907898,
+        "metallicFactor": 0.21752266585826874
+      },
+      "normalTexture": {
+        "index": 51,
+        "scale": 0.25
+      },
+      "extensions": {
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            2,
+            2,
+            2
+          ]
+        }
+      }
+    },
+    {
+      "name": "WHITE",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1
+        ],
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0
+      },
+      "emissiveFactor": [
+        1,
+        1,
+        1
+      ],
+      "extensions": {
+        "KHR_materials_emissive_strength": {
+          "emissiveStrength": 10
+        }
+      }
+    },
+    {
+      "name": "RED",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8000156879425049,
+          0.8000156879425049,
+          0.8000156879425049,
+          1
+        ],
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0
+      },
+      "emissiveFactor": [
+        1,
+        0.003982336726039648,
+        0
+      ]
+    },
+    {
+      "name": "GREEN",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.8000156879425049,
+          0.8000156879425049,
+          0.8000156879425049,
+          1
+        ],
+        "roughnessFactor": 0.5,
+        "metallicFactor": 0
+      },
+      "emissiveFactor": [
+        0,
+        1,
+        0.008120217360556126
+      ]
+    },
+    {
+      "name": "MidnightBlue CARPAINT_GLOSSY_GLTF",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.006512092426419258,
+          0.006512092426419258,
+          0.09084172546863556,
+          1
+        ],
+        "roughnessFactor": 0.30000001192092896,
+        "metallicFactor": 0
+      },
+      "normalTexture": {
+        "index": 26,
+        "scale": 0.5,
+        "extensions": {
+          "KHR_texture_transform": {
+            "offset": [
+              0,
+              -9
+            ],
+            "scale": [
+              10,
+              10
+            ]
+          }
+        }
+      },
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 1,
+          "clearcoatRoughnessFactor": 0,
+          "clearcoatNormalTexture": {
+            "index": 52,
+            "scale": 0.20000000298023224,
+            "extensions": {
+              "KHR_texture_transform": {
+                "offset": [
+                  0,
+                  -9
+                ],
+                "scale": [
+                  10,
+                  10
+                ]
+              }
+            }
+          }
+        },
+        "KHR_materials_specular": {
+          "specularFactor": 0.5468277931213379
+        }
+      }
+    },
+    {
+      "name": "SkyBlue CARPAINT_GLOSSY_GLTF",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.13958381116390228,
+          0.5591534376144409,
+          0.8307760953903198,
+          1
+        ],
+        "roughnessFactor": 0.30000001192092896,
+        "metallicFactor": 0.10000000149011612
+      },
+      "normalTexture": {
+        "index": 26,
+        "scale": 0.5,
+        "extensions": {
+          "KHR_texture_transform": {
+            "offset": [
+              0,
+              -9
+            ],
+            "scale": [
+              10,
+              10
+            ]
+          }
+        }
+      },
+      "extensions": {
+        "KHR_materials_clearcoat": {
+          "clearcoatFactor": 1,
+          "clearcoatRoughnessFactor": 0,
+          "clearcoatNormalTexture": {
+            "index": 52,
+            "scale": 0.20000000298023224,
+            "extensions": {
+              "KHR_texture_transform": {
+                "offset": [
+                  0,
+                  -9
+                ],
+                "scale": [
+                  10,
+                  10
+                ]
+              }
+            }
+          }
+        },
+        "KHR_materials_specular": {
+          "specularFactor": 0.5468277931213379
+        }
+      }
+    },
+    {
+      "name": "INT_PLASTIC_2_6_GLTF",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.10946174710988998,
+          0.39675527811050415,
+          0.6866854429244995,
+          1
+        ],
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 17
+        }
+      },
+      "normalTexture": {
+        "index": 16,
+        "scale": 0.5
+      }
+    },
+    {
+      "name": "SimpleTexturedMaterial.001",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.007380045484751463,
+          0.007380045484751463,
+          0.007380045484751463,
+          1
+        ],
+        "roughnessFactor": 0.626510500907898,
+        "metallicFactor": 0
+      },
+      "normalTexture": {
+        "index": 51,
+        "scale": 0.5
+      },
+      "extensions": {
+        "KHR_materials_specular": {
+          "specularColorFactor": [
+            2,
+            2,
+            2
+          ]
+        }
+      }
+    },
+    {
+      "name": "INT_PLASTIC_2_7_GLTF",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6866981387138367,
+          0.6866981387138367,
+          0.6866981387138367,
+          1
+        ],
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 17
+        }
+      },
+      "normalTexture": {
+        "index": 16,
+        "scale": 0.5
       }
     }
   ],
@@ -47932,7 +47932,7 @@
             "TEXCOORD_0": 3063
           },
           "mode": 4,
-          "material": 79,
+          "material": 89,
           "indices": 3060,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -47952,7 +47952,7 @@
             "TEXCOORD_0": 3067
           },
           "mode": 4,
-          "material": 89,
+          "material": 90,
           "indices": 3064,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -47972,7 +47972,7 @@
             "TEXCOORD_0": 3071
           },
           "mode": 4,
-          "material": 90,
+          "material": 91,
           "indices": 3068,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -47992,7 +47992,7 @@
             "TEXCOORD_0": 3075
           },
           "mode": 4,
-          "material": 91,
+          "material": 92,
           "indices": 3072,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48012,7 +48012,7 @@
             "TEXCOORD_0": 3079
           },
           "mode": 4,
-          "material": 92,
+          "material": 93,
           "indices": 3076,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48032,7 +48032,7 @@
             "TEXCOORD_0": 3083
           },
           "mode": 4,
-          "material": 93,
+          "material": 94,
           "indices": 3080,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48052,7 +48052,7 @@
             "TEXCOORD_0": 3087
           },
           "mode": 4,
-          "material": 94,
+          "material": 95,
           "indices": 3084,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48072,7 +48072,7 @@
             "TEXCOORD_0": 3091
           },
           "mode": 4,
-          "material": 95,
+          "material": 96,
           "indices": 3088,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48092,7 +48092,7 @@
             "TEXCOORD_0": 3095
           },
           "mode": 4,
-          "material": 96,
+          "material": 97,
           "indices": 3092,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48112,7 +48112,7 @@
             "TEXCOORD_0": 3099
           },
           "mode": 4,
-          "material": 97,
+          "material": 98,
           "indices": 3096,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48132,7 +48132,7 @@
             "TEXCOORD_0": 3103
           },
           "mode": 4,
-          "material": 98,
+          "material": 99,
           "indices": 3100,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48152,7 +48152,7 @@
             "TEXCOORD_0": 3107
           },
           "mode": 4,
-          "material": 99,
+          "material": 36,
           "indices": 3104,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48212,7 +48212,7 @@
             "TEXCOORD_0": 3119
           },
           "mode": 4,
-          "material": 102,
+          "material": 75,
           "indices": 3116,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48232,7 +48232,7 @@
             "TEXCOORD_0": 3123
           },
           "mode": 4,
-          "material": 103,
+          "material": 102,
           "indices": 3120,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48252,7 +48252,7 @@
             "TEXCOORD_0": 3127
           },
           "mode": 4,
-          "material": 104,
+          "material": 103,
           "indices": 3124,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48272,7 +48272,7 @@
             "TEXCOORD_0": 3131
           },
           "mode": 4,
-          "material": 105,
+          "material": 104,
           "indices": 3128,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48292,7 +48292,7 @@
             "TEXCOORD_0": 3135
           },
           "mode": 4,
-          "material": 106,
+          "material": 105,
           "indices": 3132,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48312,7 +48312,7 @@
             "TEXCOORD_0": 3139
           },
           "mode": 4,
-          "material": 107,
+          "material": 106,
           "indices": 3136,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48332,7 +48332,7 @@
             "TEXCOORD_0": 3143
           },
           "mode": 4,
-          "material": 108,
+          "material": 107,
           "indices": 3140,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48352,7 +48352,7 @@
             "TEXCOORD_0": 3147
           },
           "mode": 4,
-          "material": 36,
+          "material": 108,
           "indices": 3144,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48492,7 +48492,7 @@
             "TEXCOORD_0": 3175
           },
           "mode": 4,
-          "material": 115,
+          "material": 79,
           "indices": 3172,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48512,7 +48512,7 @@
             "TEXCOORD_0": 3179
           },
           "mode": 4,
-          "material": 116,
+          "material": 115,
           "indices": 3176,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48532,7 +48532,7 @@
             "TEXCOORD_0": 3183
           },
           "mode": 4,
-          "material": 117,
+          "material": 116,
           "indices": 3180,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48552,7 +48552,7 @@
             "TEXCOORD_0": 3187
           },
           "mode": 4,
-          "material": 118,
+          "material": 117,
           "indices": 3184,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48572,7 +48572,7 @@
             "TEXCOORD_0": 3191
           },
           "mode": 4,
-          "material": 119,
+          "material": 118,
           "indices": 3188,
           "extensions": {
             "KHR_draco_mesh_compression": {
@@ -48592,7 +48592,7 @@
             "TEXCOORD_0": 3195
           },
           "mode": 4,
-          "material": 75,
+          "material": 119,
           "indices": 3192,
           "extensions": {
             "KHR_draco_mesh_compression": {
