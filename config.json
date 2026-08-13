@@ -392,7 +392,7 @@
   },
   "post_process": {
     "noise": {
-      "enabled": true,
+      "enabled": false,
       "amount": 0.08,
       "disable_below_medium": true
     },
@@ -1552,8 +1552,7 @@
   "model_token": "915092e5e08d",
   "model_ext": "gltf",
   "available_variants": [
-    "medium",
-    "verylow"
+    "medium"
   ],
   "cameras": {
     "fly_duration": 1.2,
