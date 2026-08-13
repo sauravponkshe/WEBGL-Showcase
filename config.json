@@ -135,8 +135,8 @@
     }
   ],
   "mat_subset_categories": [
-    "PRIMARY_COLOR",
-    "SECONDARY_ACCENT"
+    "SECONDARY_ACCENT",
+    "PRIMARY_COLOR"
   ],
   "mat_subsets": [
     {
@@ -520,7 +520,7 @@
     },
     {
       "name": "NIGHT",
-      "file": "hdri/night.hdr",
+      "file": "hdri/day.hdr",
       "strength": 1.5,
       "background": true,
       "rotation_z": -170.79,
