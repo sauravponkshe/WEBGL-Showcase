@@ -1444,7 +1444,7 @@
     "roof_z": 3.169
   },
   "hdri": {
-    "file": "hdri/day_1_night_1.hdr",
+    "file": "hdri/day_1.hdr",
     "strength": 1.0,
     "background": true,
     "flatten_ground": true,
@@ -1462,7 +1462,7 @@
     {
       "name": "DAY_1",
       "uid": "4b8c7d228fe145398e137a3a4357b8ed",
-      "file": "hdri/day_1_night_1.hdr",
+      "file": "hdri/day_1.hdr",
       "strength": 1.0,
       "background": true,
       "rotation_z": 90.0,
@@ -1489,43 +1489,6 @@
       "default": true,
       "environment": null,
       "light": null,
-      "ambient_color": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "ambient_strength": 0.0
-    },
-    {
-      "name": "NIGHT_1",
-      "uid": "db65d9ccc016457db424d4632aae4801",
-      "file": "hdri/day_1_night_1.hdr",
-      "strength": 0.07,
-      "background": true,
-      "rotation_z": 0.0,
-      "flatten_ground": true,
-      "ground_height": -0.675,
-      "ground_radius": 2.56,
-      "ground_rotation_z": 90.0,
-      "ground_scale": 2.62,
-      "ground_offset": [
-        0.0,
-        0.0
-      ],
-      "ground_z_offset": 0.28,
-      "ground_hue": 0.5,
-      "ground_saturation": 0.0,
-      "ground_brightness": -0.48,
-      "ground_contrast": -0.93,
-      "grade_exposure": 0.0,
-      "grade_brightness": 1.0,
-      "grade_contrast": 1.0,
-      "grade_saturation": 1.0,
-      "grade_bloom": 0.15,
-      "grade_bloom_threshold": 0.88,
-      "default": false,
-      "environment": "ENVIRONMENTS_NIGHT",
-      "light": "LIGHTS_NIGHT",
       "ambient_color": [
         1.0,
         1.0,
