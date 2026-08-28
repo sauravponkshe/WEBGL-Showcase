@@ -1479,7 +1479,7 @@
       "ground_hue": 0.5,
       "ground_saturation": 1.0,
       "ground_brightness": 0.0,
-      "ground_contrast": 0.06,
+      "ground_contrast": 0.0,
       "grade_exposure": 0.0,
       "grade_brightness": 1.0,
       "grade_contrast": 1.3,
@@ -1556,7 +1556,7 @@
     "env_rotation": [
       0.0,
       0.0,
-      90.0
+      0.0
     ],
     "env_scale": [
       1.0,
