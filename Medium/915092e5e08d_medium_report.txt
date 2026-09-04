@@ -3,8 +3,8 @@
 PONKFIGURATOR PRO — Export Report — Medium
 ======================================================================
 File: C:\Users\saura\Desktop\PORSCHE\Medium\915092e5e08d_medium.glb
-Generated: 2026-09-03 10:08:32
-Total file size: 31.79 MB
+Generated: 2026-09-04 10:45:43
+Total file size: 32.86 MB
 
 ======================================================================
 EXPORT CONFIGURATION
@@ -18,35 +18,40 @@ Obfuscate Viewer JS:      off
 SIZE BREAKDOWN (approximate — see notes)
 ======================================================================
 Geometry (vertex/index buffers): 0 B
-Textures (image bufferViews):    11.00 MB
-Unaccounted (other bufferViews): 20.25 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
+Textures (image bufferViews):    11.92 MB
+Unaccounted (other bufferViews): 20.37 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
 Note: split is by bufferView reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
 
 ======================================================================
 GEOMETRY
 ======================================================================
-Meshes: 452   Primitives: 515
-Triangles: 3,078,597   Vertices: 3,233,331
+Meshes: 471   Primitives: 540
+Triangles: 3,114,219   Vertices: 3,285,528
 Draco compression: ACTIVE
 
 ======================================================================
 TEXTURES
 ======================================================================
 KTX2 (GPU-compressed) active: no
-Texture count: 66
+Texture count: 71
 Name                                     Format       Colorspace    Disk size    Est. VRAM
 OldRoad_normal                           image/jpeg   linear         442.3 KB      3.46 MB
 LIGHT                                    image/png    sRGB           142.5 KB      1.11 MB
 ChatGPT Image Aug 23, 2026, 03_51_56 PM  image/png    sRGB           100.2 KB     801.8 KB
 OldRoad_basecolor                        image/jpeg   sRGB           516.6 KB      4.04 MB
 OldRoad_roughness                        image/jpeg   linear         105.7 KB     845.4 KB
+Tex_GROUNDSHADOW_1                       image/png    sRGB            35.3 KB     282.1 KB
+Tex_GROUNDSHADOW_3                       image/png    sRGB            39.8 KB     318.5 KB
+Tex_GROUNDSHADOW_6                       image/png    sRGB            22.5 KB     180.4 KB
+Tex_GROUNDSHADOW_4                       image/png    sRGB            36.4 KB     291.0 KB
+Tex_GROUNDSHADOW_12                      image/png    sRGB            28.0 KB     224.0 KB
 PELLE_B2                                 image/jpeg   linear          1.12 MB      8.95 MB
 Plastic                                  image/jpeg   linear         102.3 KB     818.2 KB
 Normal_GER                               image/jpeg   linear          57.0 KB     456.4 KB
 GER                                      image/jpeg   sRGB            59.5 KB     475.9 KB
 Normal_GER                               image/jpeg   linear          70.2 KB     561.9 KB
 GER                                      image/jpeg   sRGB            58.9 KB     471.1 KB
-Tex_GROUNDSHADOW_1                       image/png    sRGB            27.8 KB     222.4 KB
+Tex_GROUNDSHADOW_2                       image/png    sRGB            27.8 KB     222.4 KB
 Tex_GROUNDSHADOW_2                       image/png    sRGB            33.3 KB     266.4 KB
 wiper                                    image/png    sRGB            67.5 KB     540.3 KB
 call pickup                              image/png    sRGB            55.1 KB     440.6 KB
@@ -80,7 +85,7 @@ leather_red_02_rough_1k                  image/jpeg   linear         102.0 KB   
 ChatGPT Image Jul 27, 2026, 12_39_45 AM  image/jpeg   sRGB           102.2 KB     817.3 KB
 FILE                                     image/jpeg   linear          96.7 KB     773.6 KB
 uv_textureminiconsole                    image/png    sRGB            25.9 KB     207.3 KB
-IMAGE_2                                  image/png    sRGB           200.1 KB      1.56 MB
+Speedo                                   image/png    sRGB           227.0 KB      1.77 MB
 VehicleAD                                image/png    sRGB           279.4 KB      2.18 MB
 Normal_BrakeDisk                         image/jpeg   linear          67.2 KB     537.8 KB
 Diffuse_Brakedisk                        image/jpeg   sRGB            88.9 KB     711.6 KB
@@ -91,24 +96,24 @@ Normal_TireSidewalll                     image/jpeg   linear          53.4 KB   
 Diffuse_TireSidewall                     image/png    sRGB           962.8 KB      7.52 MB
 Roughness_TireSidewall                   image/jpeg   linear          78.6 KB     628.8 KB
 siderigh2                                image/png    sRGB            36.5 KB     291.8 KB
-siderigh                                 image/png    sRGB           101.0 KB     808.1 KB
-hoodwhitepaint                           image/png    sRGB             9.4 KB      75.1 KB
-siderigh1                                image/png    sRGB            93.0 KB     743.7 KB
-hoodwhitepaint1                          image/png    sRGB            11.3 KB      90.8 KB
+siderigh                                 image/png    sRGB            78.9 KB     631.1 KB
+hoodwhitepaint                           image/png    sRGB            10.5 KB      83.8 KB
+siderigh1                                image/png    sRGB           868.1 KB      6.78 MB
+hoodwhitepaint1                          image/png    sRGB             9.7 KB      77.3 KB
 seat_Geometry_Normal                     image/jpeg   linear         227.6 KB      1.78 MB
 IMAGE_2_ICON                             image/png    sRGB            67.2 KB     537.5 KB
 IMAGE_3_ICON                             image/png    sRGB           113.5 KB     907.9 KB
-IMAGE_4_ICON                             image/png    sRGB            35.9 KB     287.2 KB
+Icon_Glow                                image/png    sRGB            35.0 KB     280.4 KB
 uv_AC                                    image/png    sRGB            87.5 KB     700.0 KB
 uv_texture2(Above AC)                    image/png    sRGB            34.7 KB     277.3 KB
 
-Estimated total VRAM for textures: 88.04 MB
+Estimated total VRAM for textures: 95.38 MB
 
 ======================================================================
 MATERIALS / DRAW CALLS
 ======================================================================
-Materials: 158
-Primitives (mesh x material combinations): 515
+Materials: 183
+Primitives (mesh x material combinations): 540
 Draw calls track distinct MATERIALS actually drawn, not primitive count directly — primitives sharing one material can still batch; this is an upper-bound proxy, not a live measurement.
 
 ======================================================================
@@ -191,7 +196,7 @@ Categories: 3   Options: 14
 ======================================================================
 CAMERAS
 ======================================================================
-Zoom range: 2.312 - 6.342  [offset centers active]
+Zoom range: 3.59 - 6.342  [offset centers active]
 Floor Z: 0.3534   Roof Z: 3.169
 Static cameras: 7  (Free: 1, Locked: 6)
   - INTERIOR_1  [zoom_pan]
