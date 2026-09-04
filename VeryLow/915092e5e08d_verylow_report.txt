@@ -1,0 +1,215 @@
+
+======================================================================
+PONKFIGURATOR PRO — Export Report — VeryLow
+======================================================================
+File: C:\Users\saura\Desktop\PORSCHE\VeryLow\915092e5e08d_verylow.glb
+Generated: 2026-09-04 19:32:29
+Total file size: 14.25 MB
+
+======================================================================
+EXPORT CONFIGURATION
+======================================================================
+External Textures:        off
+WebGL Optimized Textures: ON
+Encrypt Data:             ON  (this report reflects the file BEFORE encryption — see _write_variant_reports)
+Obfuscate Viewer JS:      off
+
+======================================================================
+SIZE BREAKDOWN (approximate — see notes)
+======================================================================
+Geometry (vertex/index buffers): 0 B
+Textures (image bufferViews):    2.80 MB
+Unaccounted (other bufferViews): 10.89 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
+Note: split is by bufferView reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
+
+======================================================================
+GEOMETRY
+======================================================================
+Meshes: 470   Primitives: 539
+Triangles: 1,335,890   Vertices: 2,096,134
+Draco compression: ACTIVE
+
+======================================================================
+TEXTURES
+======================================================================
+KTX2 (GPU-compressed) active: no
+Texture count: 71
+Name                                     Format       Colorspace    Disk size    Est. VRAM
+OldRoad_normal                           image/jpeg   linear           7.7 KB      61.4 KB
+LIGHT                                    image/png    sRGB            33.8 KB     270.5 KB
+ChatGPT Image Aug 23, 2026, 03_51_56 PM  image/png    sRGB            23.2 KB     185.6 KB
+OldRoad_basecolor                        image/jpeg   sRGB            25.2 KB     201.8 KB
+OldRoad_roughness                        image/jpeg   linear           5.6 KB      45.0 KB
+Tex_GROUNDSHADOW_1                       image/png    sRGB            13.5 KB     107.7 KB
+Tex_GROUNDSHADOW_3                       image/png    sRGB            16.3 KB     130.2 KB
+Tex_GROUNDSHADOW_6                       image/png    sRGB             7.0 KB      55.9 KB
+Tex_GROUNDSHADOW_4                       image/png    sRGB            12.8 KB     102.2 KB
+Tex_GROUNDSHADOW_12                      image/png    sRGB             8.5 KB      67.9 KB
+PELLE_B2                                 image/jpeg   linear          72.7 KB     581.5 KB
+Plastic                                  image/jpeg   linear          15.8 KB     126.1 KB
+Normal_GER                               image/jpeg   linear           7.8 KB      62.3 KB
+GER                                      image/jpeg   sRGB            10.7 KB      85.7 KB
+Normal_GER                               image/jpeg   linear           9.9 KB      79.1 KB
+GER                                      image/jpeg   sRGB            10.4 KB      83.5 KB
+Tex_GROUNDSHADOW_2                       image/png    sRGB             9.7 KB      77.5 KB
+Tex_GROUNDSHADOW_2                       image/png    sRGB            12.8 KB     102.6 KB
+wiper                                    image/png    sRGB            37.4 KB     299.5 KB
+call pickup                              image/png    sRGB            14.7 KB     117.6 KB
+diamond                                  image/png    sRGB             8.2 KB      65.6 KB
+call drop                                image/png    sRGB            13.6 KB     109.2 KB
+callrevock                               image/png    sRGB             4.2 KB      33.3 KB
+Normal_BrushedMetal                      image/jpeg   linear          13.5 KB     107.9 KB
+Roughness_BrushedMetal                   image/jpeg   linear          29.6 KB     237.1 KB
+Normal_Rubber                            image/jpeg   linear           4.8 KB      38.3 KB
+Roughness_Rubber                         image/jpeg   linear          21.1 KB     168.7 KB
+Plastic012B_1K-PNG_NormalGL              image/jpeg   linear           4.9 KB      38.8 KB
+Plastic012B_1K-PNG_Roughness             image/jpeg   linear           8.9 KB      71.4 KB
+windowopenclose                          image/png    sRGB            19.1 KB     153.2 KB
+windowlock                               image/png    sRGB            15.0 KB     120.3 KB
+windowunlock                             image/png    sRGB            15.1 KB     121.0 KB
+Normal_PlasticMatte                      image/jpeg   linear           4.8 KB      38.3 KB
+Normal_CarbonFiber                       image/jpeg   linear          42.9 KB     342.8 KB
+Roughness_CarbonFiber                    image/jpeg   linear           4.8 KB      38.5 KB
+Roughness_MetalGrid                      image/png    sRGB           347.0 KB      2.71 MB
+Normal_BrushedAluminium                  image/jpeg   linear           4.8 KB      38.3 KB
+Carpaint_Clearcoat                       image/jpeg   unknown         13.3 KB     106.0 KB
+Carpaint_Normal                          image/jpeg   linear          12.8 KB     102.2 KB
+vehicle-interior1-normal-ogl             image/jpeg   linear          37.4 KB     299.1 KB
+vehicle-interior1-roughness              image/jpeg   linear           5.1 KB      41.1 KB
+IMAGE                                    image/png    sRGB            18.7 KB     149.3 KB
+Normal_GrainedPlastic                    image/jpeg   linear          35.1 KB     280.6 KB
+Fabric01_1K_Normal                       image/png    linear         710.8 KB      5.55 MB
+Fabric01_1K_Roughness                    image/jpeg   linear           4.8 KB      38.3 KB
+leather_red_02_nor_gl_1k                 image/jpeg   linear          16.2 KB     129.6 KB
+leather_red_02_rough_1k                  image/jpeg   linear          16.6 KB     133.1 KB
+ChatGPT Image Jul 27, 2026, 12_39_45 AM  image/jpeg   sRGB            18.2 KB     145.9 KB
+FILE                                     image/jpeg   linear          56.0 KB     448.0 KB
+uv_textureminiconsole                    image/png    sRGB            10.1 KB      80.5 KB
+Speedo                                   image/png    sRGB            77.6 KB     621.0 KB
+VehicleAD                                image/png    sRGB           199.8 KB      1.56 MB
+Normal_BrakeDisk                         image/jpeg   linear          10.4 KB      82.9 KB
+Diffuse_Brakedisk                        image/jpeg   sRGB            24.1 KB     192.7 KB
+Roughness_BrakeDisk                      image/jpeg   linear          26.8 KB     214.1 KB
+Normal_Machined.png                      image/jpeg   linear          38.9 KB     311.1 KB
+Roughness_Machined.png                   image/jpeg   linear          28.9 KB     230.9 KB
+Normal_TireSidewalll                     image/jpeg   linear          12.6 KB     100.4 KB
+Diffuse_TireSidewall                     image/png    sRGB           306.0 KB      2.39 MB
+Roughness_TireSidewall                   image/jpeg   linear          23.0 KB     184.0 KB
+siderigh2                                image/png    sRGB            14.9 KB     119.6 KB
+siderigh                                 image/png    sRGB            19.5 KB     155.9 KB
+hoodwhitepaint                           image/png    sRGB            10.5 KB      83.8 KB
+siderigh1                                image/png    sRGB            39.7 KB     317.4 KB
+hoodwhitepaint1                          image/png    sRGB             9.7 KB      77.3 KB
+seat_Geometry_Normal                     image/jpeg   linear          20.5 KB     163.8 KB
+IMAGE_2_ICON                             image/png    sRGB            29.8 KB     238.2 KB
+IMAGE_3_ICON                             image/png    sRGB            43.7 KB     349.5 KB
+Icon_Glow                                image/png    sRGB            15.8 KB     126.1 KB
+uv_AC                                    image/png    sRGB            29.5 KB     235.9 KB
+uv_texture2(Above AC)                    image/png    sRGB            12.0 KB      96.4 KB
+
+Estimated total VRAM for textures: 22.39 MB
+
+======================================================================
+MATERIALS / DRAW CALLS
+======================================================================
+Materials: 183
+Primitives (mesh x material combinations): 539
+Draw calls track distinct MATERIALS actually drawn, not primitive count directly — primitives sharing one material can still batch; this is an upper-bound proxy, not a live measurement.
+
+======================================================================
+ANIMATIONS (this file)
+======================================================================
+Clips: 28
+  - FRDOOR_L
+  - FRDOOR_R
+  - TRUNK
+  - ANIM_BOOT_EMPTY
+  - ANIM_ROOF_EMPTY
+  - ANIM_ROOF
+  - ANIM_ROOF_MECHANISM_1_L
+  - ANIM_ROOF_MECHANISM_1_R
+  - ANIM_ROOF_MECHANISM_2_L
+  - ANIM_ROOF_MECHANISM_2_R
+  - ANIM_ROOF_MECHANISM_3_L
+  - ANIM_ROOF_MECHANISM_3_R
+  - ANIM_ROOF_MECHANISM_4_L
+  - ANIM_ROOF_MECHANISM_4_R
+  - ANIM_ROOF_MECHANISM_5_L
+  - ANIM_ROOF_MECHANISM_5_R
+  - ANIM_ROOF_MECHANISM_6_L
+  - ANIM_ROOF_MECHANISM_6_R
+  - ANIM_ROOF_MECHANISM_EMPTY_L
+  - ANIM_ROOF_MECHANISM_EMPTY_R
+  - FRWHEEL_L
+  - FRWHEEL_R
+  - DOOR_DECAL_HERITAGE_CLASSIC_L
+  - DOOR_DECAL_HERITAGE_CLASSIC_R
+  - DOOR_DECAL_HERITAGE_SE_L
+  - DOOR_DECAL_HERITAGE_SE_R
+  - DOOR_DECAL_HERITAGE_YELLOW_L
+  - DOOR_DECAL_HERITAGE_YELLOW_R
+
+======================================================================
+HDRI / ENVIRONMENT
+======================================================================
+Environments: 2
+  - DAY_STADIUM  file=hdri/day_stadium_night_stadium.hdr  [Flatten Ground, ground image: hdri/day_stadium_ground.jpg]
+  - NIGHT_STADIUM  file=hdri/day_stadium_night_stadium.hdr  [Flatten Ground, ground image: hdri/night_stadium_ground.jpg]
+
+======================================================================
+CONTAINERS (material swap targets)
+======================================================================
+Containers: 8
+  - ICON
+  - ICON_HAZARD
+  - ICON_LIGHTS
+  - INT_LIGHTS
+  - LIGHT_STRIPS
+  - LIGHT
+  - TRUNK_LIGHT
+  - INTERIOR_LIGHT
+
+======================================================================
+CONFIGS (Full Configurations)
+======================================================================
+Saved presets: 0
+
+======================================================================
+GEOS (Geo Packages)
+======================================================================
+Exposed geo package categories: 1
+  - GEOMETRIES_HERITAGE_DECAL: 3 option(s)
+Geo subset presets: 4
+  - CLASSIC
+  - SE
+  - YELLOW
+  - OFF
+
+======================================================================
+MAT SUBSETS (per-category color/material options)
+======================================================================
+Categories: 3   Options: 14
+  - SECONDARY_ACCENT: 2 option(s) — BEIGE, BLACK
+  - LIGHTS: 2 option(s) — OFF, ON
+  - PRIMARY_COLOR: 10 option(s) — RED, WHITE, GREEN, SKY BLUE, MIDNIGHT BLUE, YELLOW, GLOSSY BLACK, MATTE BLACK ...
+
+======================================================================
+CAMERAS
+======================================================================
+Zoom range: 3.59 - 6.342  [offset centers active]
+Floor Z: 0.3534   Roof Z: 3.169
+Static cameras: 7  (Free: 1, Locked: 6)
+  - INTERIOR_1  [zoom_pan]
+  - ROTATION  [free]
+  - ALLOY  [place]
+  - REAR_TOP  [place]
+  - INTERIOR_2  [place]
+  - HEADLAMP  [place]
+  - REAR_LAMP  [place]
+Turntable: off
+
+======================================================================
+WARNINGS
+======================================================================
+  ! WebGL Optimized Textures is enabled but this file has no KTX2 textures — check the export console for a conversion failure
+

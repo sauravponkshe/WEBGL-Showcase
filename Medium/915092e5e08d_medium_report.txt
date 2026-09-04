@@ -3,8 +3,8 @@
 PONKFIGURATOR PRO — Export Report — Medium
 ======================================================================
 File: C:\Users\saura\Desktop\PORSCHE\Medium\915092e5e08d_medium.glb
-Generated: 2026-09-04 10:45:43
-Total file size: 32.86 MB
+Generated: 2026-09-04 19:32:29
+Total file size: 33.04 MB
 
 ======================================================================
 EXPORT CONFIGURATION
@@ -19,14 +19,14 @@ SIZE BREAKDOWN (approximate — see notes)
 ======================================================================
 Geometry (vertex/index buffers): 0 B
 Textures (image bufferViews):    11.92 MB
-Unaccounted (other bufferViews): 20.37 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
+Unaccounted (other bufferViews): 20.56 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
 Note: split is by bufferView reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
 
 ======================================================================
 GEOMETRY
 ======================================================================
 Meshes: 471   Primitives: 540
-Triangles: 3,114,219   Vertices: 3,285,528
+Triangles: 3,179,485   Vertices: 3,382,902
 Draco compression: ACTIVE
 
 ======================================================================
