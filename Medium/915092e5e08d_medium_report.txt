@@ -2,31 +2,31 @@
 ======================================================================
 PONKFIGURATOR PRO — Export Report — Medium
 ======================================================================
-File: C:\Users\saura\Desktop\PORSCHE\Medium\915092e5e08d_medium.glb
-Generated: 2026-09-04 23:28:52
-Total file size: 28.45 MB
+File: C:\Users\saura\Desktop\PORSCHE\Medium\915092e5e08d_medium.gltf
+Generated: 2026-09-06 15:15:06
+Total size (this .gltf + its .bin + every texture file): 26.22 MB
 
 ======================================================================
 EXPORT CONFIGURATION
 ======================================================================
-External Textures:        off
+External Textures:        ON
 WebGL Optimized Textures: ON
-Encrypt Data:             ON  (this report reflects the file BEFORE encryption — see _write_variant_reports)
+Encrypt Data:             off  (this report reflects the file BEFORE encryption — see _write_variant_reports)
 Obfuscate Viewer JS:      off
 
 ======================================================================
 SIZE BREAKDOWN (approximate — see notes)
 ======================================================================
 Geometry (vertex/index buffers): 0 B
-Textures (image bufferViews):    7.32 MB
-Unaccounted (other bufferViews): 20.57 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
-Note: split is by bufferView reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
+Textures (loose files, External Textures mode):    5.05 MB
+Unaccounted (other bufferViews): 20.56 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
+Note: split is by bufferView/file reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
 
 ======================================================================
 GEOMETRY
 ======================================================================
 Meshes: 471   Primitives: 540
-Triangles: 3,179,486   Vertices: 3,382,798
+Triangles: 3,179,486   Vertices: 3,382,898
 Draco compression: ACTIVE
 
 ======================================================================
@@ -35,79 +35,79 @@ TEXTURES
 KTX2 (GPU-compressed) active: YES
 Texture count: 71
 Name                                     Format       Colorspace    Disk size    Est. VRAM
-OldRoad_normal                           image/ktx2   unknown        698.1 KB     698.1 KB
-LIGHT                                    image/ktx2   unknown         52.2 KB      52.2 KB
-ChatGPT Image Aug 23, 2026, 03_51_56 PM  image/ktx2   unknown         45.6 KB      45.6 KB
-OldRoad_basecolor                        image/ktx2   unknown        670.5 KB     670.5 KB
-OldRoad_roughness                        image/ktx2   unknown        227.3 KB     227.3 KB
-Tex_GROUNDSHADOW_1                       image/ktx2   unknown         10.7 KB      10.7 KB
-Tex_GROUNDSHADOW_3                       image/ktx2   unknown         14.7 KB      14.7 KB
-Tex_GROUNDSHADOW_6                       image/ktx2   unknown          6.8 KB       6.8 KB
-Tex_GROUNDSHADOW_4                       image/ktx2   unknown          6.8 KB       6.8 KB
-Tex_GROUNDSHADOW_12                      image/ktx2   unknown          5.4 KB       5.4 KB
-PELLE_B2                                 image/ktx2   unknown        634.7 KB     634.7 KB
-Plastic                                  image/ktx2   unknown        101.7 KB     101.7 KB
-Normal_GER                               image/ktx2   unknown         94.6 KB      94.6 KB
-GER                                      image/ktx2   unknown         47.5 KB      47.5 KB
-Normal_GER                               image/ktx2   unknown         92.2 KB      92.2 KB
-GER                                      image/ktx2   unknown         48.1 KB      48.1 KB
-Tex_GROUNDSHADOW_2                       image/ktx2   unknown          6.4 KB       6.4 KB
-Tex_GROUNDSHADOW_2                       image/ktx2   unknown          9.1 KB       9.1 KB
-wiper                                    image/ktx2   unknown         16.3 KB      16.3 KB
-call pickup                              image/ktx2   unknown         24.0 KB      24.0 KB
-diamond                                  image/ktx2   unknown         10.6 KB      10.6 KB
-call drop                                image/ktx2   unknown         17.1 KB      17.1 KB
-callrevock                               image/ktx2   unknown          5.2 KB       5.2 KB
-Normal_BrushedMetal                      image/ktx2   unknown         54.5 KB      54.5 KB
-Roughness_BrushedMetal                   image/ktx2   unknown        158.8 KB     158.8 KB
-Normal_Rubber                            image/ktx2   unknown          1.6 KB       1.6 KB
-Roughness_Rubber                         image/ktx2   unknown        139.7 KB     139.7 KB
-Plastic012B_1K-PNG_NormalGL              image/ktx2   unknown         15.3 KB      15.3 KB
-Plastic012B_1K-PNG_Roughness             image/ktx2   unknown         72.4 KB      72.4 KB
-windowopenclose                          image/ktx2   unknown         13.6 KB      13.6 KB
-windowlock                               image/ktx2   unknown         11.4 KB      11.4 KB
-windowunlock                             image/ktx2   unknown         11.3 KB      11.3 KB
-Normal_PlasticMatte                      image/ktx2   unknown         28.0 KB      28.0 KB
-Normal_CarbonFiber                       image/ktx2   unknown        158.9 KB     158.9 KB
-Roughness_CarbonFiber                    image/ktx2   unknown         16.2 KB      16.2 KB
-Roughness_MetalGrid                      image/ktx2   unknown        115.2 KB     115.2 KB
-Normal_BrushedAluminium                  image/ktx2   unknown          4.3 KB       4.3 KB
-Carpaint_Clearcoat                       image/ktx2   unknown        166.3 KB     166.3 KB
-Carpaint_Normal                          image/ktx2   unknown        164.9 KB     164.9 KB
-vehicle-interior1-normal-ogl             image/ktx2   unknown        761.0 KB     761.0 KB
-vehicle-interior1-roughness              image/ktx2   unknown        147.2 KB     147.2 KB
-IMAGE                                    image/ktx2   unknown          8.9 KB       8.9 KB
-Normal_GrainedPlastic                    image/ktx2   unknown        108.8 KB     108.8 KB
-Fabric01_1K_Normal                       image/ktx2   unknown        198.3 KB     198.3 KB
-Fabric01_1K_Roughness                    image/ktx2   unknown          1.3 KB       1.3 KB
-leather_red_02_nor_gl_1k                 image/ktx2   unknown        173.7 KB     173.7 KB
-leather_red_02_rough_1k                  image/ktx2   unknown        152.6 KB     152.6 KB
-ChatGPT Image Jul 27, 2026, 12_39_45 AM  image/ktx2   unknown         96.8 KB      96.8 KB
-FILE                                     image/ktx2   unknown         97.9 KB      97.9 KB
-uv_textureminiconsole                    image/ktx2   unknown          1.3 KB       1.3 KB
-Speedo                                   image/ktx2   unknown         29.8 KB      29.8 KB
-VehicleAD                                image/ktx2   unknown         44.0 KB      44.0 KB
-Normal_BrakeDisk                         image/ktx2   unknown        138.2 KB     138.2 KB
-Diffuse_Brakedisk                        image/ktx2   unknown        147.1 KB     147.1 KB
-Roughness_BrakeDisk                      image/ktx2   unknown        159.7 KB     159.7 KB
-Normal_Machined.png                      image/ktx2   unknown        311.1 KB     311.1 KB
-Roughness_Machined.png                   image/ktx2   unknown        138.3 KB     138.3 KB
-Normal_TireSidewalll                     image/ktx2   unknown         93.5 KB      93.5 KB
-Diffuse_TireSidewall                     image/ktx2   unknown         93.1 KB      93.1 KB
-Roughness_TireSidewall                   image/ktx2   unknown         82.0 KB      82.0 KB
-siderigh2                                image/ktx2   unknown         18.4 KB      18.4 KB
-siderigh                                 image/ktx2   unknown         35.5 KB      35.5 KB
-hoodwhitepaint                           image/ktx2   unknown          6.2 KB       6.2 KB
-siderigh1                                image/ktx2   unknown         46.8 KB      46.8 KB
-hoodwhitepaint1                          image/ktx2   unknown          6.5 KB       6.5 KB
-seat_Geometry_Normal                     image/ktx2   unknown        354.5 KB     354.5 KB
-uv_texture2(Above AC)                    image/ktx2   unknown          5.1 KB       5.1 KB
-uv_AC                                    image/ktx2   unknown         13.5 KB      13.5 KB
-IMAGE_2_ICON                             image/ktx2   unknown         16.3 KB      16.3 KB
-Icon_Glow                                image/ktx2   unknown          5.8 KB       5.8 KB
-IMAGE_3_ICON                             image/ktx2   unknown         22.3 KB      22.3 KB
+OldRoad_normal                           image/ktx2   unknown        506.3 KB     506.3 KB
+LIGHT                                    image/ktx2   unknown         24.8 KB      24.8 KB
+ChatGPT Image Aug 23, 2026, 03_51_56 PM  image/ktx2   unknown         20.1 KB      20.1 KB
+OldRoad_basecolor                        image/ktx2   unknown        515.3 KB     515.3 KB
+OldRoad_roughness                        image/ktx2   unknown        153.0 KB     153.0 KB
+Tex_GROUNDSHADOW_1                       image/ktx2   unknown          6.2 KB       6.2 KB
+Tex_GROUNDSHADOW_3                       image/ktx2   unknown          6.3 KB       6.3 KB
+Tex_GROUNDSHADOW_6                       image/ktx2   unknown          2.8 KB       2.8 KB
+Tex_GROUNDSHADOW_4                       image/ktx2   unknown          4.1 KB       4.1 KB
+Tex_GROUNDSHADOW_12                      image/ktx2   unknown          3.3 KB       3.3 KB
+PELLE_B2                                 image/ktx2   unknown        504.9 KB     504.9 KB
+Plastic                                  image/ktx2   unknown         79.9 KB      79.9 KB
+Normal_GER                               image/ktx2   unknown         52.6 KB      52.6 KB
+GER                                      image/ktx2   unknown         32.3 KB      32.3 KB
+Normal_GER                               image/ktx2   unknown         58.3 KB      58.3 KB
+GER                                      image/ktx2   unknown         33.0 KB      33.0 KB
+Tex_GROUNDSHADOW_2                       image/ktx2   unknown          3.8 KB       3.8 KB
+Tex_GROUNDSHADOW_2                       image/ktx2   unknown          5.2 KB       5.2 KB
+wiper                                    image/ktx2   unknown         11.2 KB      11.2 KB
+call pickup                              image/ktx2   unknown          9.2 KB       9.2 KB
+diamond                                  image/ktx2   unknown          5.7 KB       5.7 KB
+call drop                                image/ktx2   unknown          8.7 KB       8.7 KB
+callrevock                               image/ktx2   unknown          1.8 KB       1.8 KB
+Normal_BrushedMetal                      image/ktx2   unknown         36.2 KB      36.2 KB
+Roughness_BrushedMetal                   image/ktx2   unknown        123.3 KB     123.3 KB
+Normal_Rubber                            image/ktx2   unknown           822 B        822 B
+Roughness_Rubber                         image/ktx2   unknown        101.6 KB     101.6 KB
+Plastic012B_1K-PNG_NormalGL              image/ktx2   unknown         10.4 KB      10.4 KB
+Plastic012B_1K-PNG_Roughness             image/ktx2   unknown         49.2 KB      49.2 KB
+windowopenclose                          image/ktx2   unknown          6.4 KB       6.4 KB
+windowlock                               image/ktx2   unknown          5.1 KB       5.1 KB
+windowunlock                             image/ktx2   unknown          5.1 KB       5.1 KB
+Normal_PlasticMatte                      image/ktx2   unknown         16.2 KB      16.2 KB
+Normal_CarbonFiber                       image/ktx2   unknown         86.1 KB      86.1 KB
+Roughness_CarbonFiber                    image/ktx2   unknown          9.3 KB       9.3 KB
+Roughness_MetalGrid                      image/ktx2   unknown         89.4 KB      89.4 KB
+Normal_BrushedAluminium                  image/ktx2   unknown          2.1 KB       2.1 KB
+Carpaint_Clearcoat                       image/jpeg   unknown        110.3 KB     882.3 KB
+Carpaint_Normal                          image/ktx2   unknown        121.2 KB     121.2 KB
+vehicle-interior1-normal-ogl             image/ktx2   unknown        463.5 KB     463.5 KB
+vehicle-interior1-roughness              image/ktx2   unknown         86.1 KB      86.1 KB
+IMAGE                                    image/ktx2   unknown          4.1 KB       4.1 KB
+Normal_GrainedPlastic                    image/ktx2   unknown         78.4 KB      78.4 KB
+Fabric01_1K_Normal                       image/ktx2   unknown        100.5 KB     100.5 KB
+Fabric01_1K_Roughness                    image/ktx2   unknown           632 B        632 B
+leather_red_02_nor_gl_1k                 image/ktx2   unknown        126.0 KB     126.0 KB
+leather_red_02_rough_1k                  image/ktx2   unknown        120.4 KB     120.4 KB
+ChatGPT Image Jul 27, 2026, 12_39_45 AM  image/ktx2   unknown         66.0 KB      66.0 KB
+FILE                                     image/ktx2   unknown         64.5 KB      64.5 KB
+uv_textureminiconsole                    image/ktx2   unknown          2.7 KB       2.7 KB
+Speedo                                   image/ktx2   unknown         26.1 KB      26.1 KB
+VehicleAD                                image/ktx2   unknown         32.1 KB      32.1 KB
+Normal_BrakeDisk                         image/ktx2   unknown         99.4 KB      99.4 KB
+Diffuse_Brakedisk                        image/ktx2   unknown        111.8 KB     111.8 KB
+Roughness_BrakeDisk                      image/ktx2   unknown        123.1 KB     123.1 KB
+Normal_Machined.png                      image/ktx2   unknown        183.5 KB     183.5 KB
+Roughness_Machined.png                   image/ktx2   unknown        106.6 KB     106.6 KB
+Normal_TireSidewalll                     image/ktx2   unknown         65.0 KB      65.0 KB
+Diffuse_TireSidewall                     image/ktx2   unknown         71.5 KB      71.5 KB
+Roughness_TireSidewall                   image/ktx2   unknown         64.1 KB      64.1 KB
+siderigh2                                image/ktx2   unknown          3.9 KB       3.9 KB
+siderigh                                 image/ktx2   unknown         10.3 KB      10.3 KB
+hoodwhitepaint                           image/ktx2   unknown          2.7 KB       2.7 KB
+siderigh1                                image/ktx2   unknown         51.2 KB      51.2 KB
+hoodwhitepaint1                          image/ktx2   unknown          2.6 KB       2.6 KB
+seat_Geometry_Normal                     image/ktx2   unknown        239.0 KB     239.0 KB
+Icon_Glow                                image/ktx2   unknown          5.5 KB       5.5 KB
+uv_AC                                    image/ktx2   unknown          8.5 KB       8.5 KB
+IMAGE_2_ICON                             image/ktx2   unknown          8.7 KB       8.7 KB
+IMAGE_3_ICON                             image/ktx2   unknown         14.6 KB      14.6 KB
+uv_texture2(Above AC)                    image/ktx2   unknown          2.6 KB       2.6 KB
 
-Estimated total VRAM for textures: 7.32 MB
+Estimated total VRAM for textures: 5.80 MB
 
 ======================================================================
 MATERIALS / DRAW CALLS
@@ -153,8 +153,8 @@ Clips: 28
 HDRI / ENVIRONMENT
 ======================================================================
 Environments: 2
-  - DAY_STADIUM  file=hdri/day_stadium_night_stadium.hdr  [Flatten Ground, ground image: hdri/day_stadium_ground.jpg]
-  - NIGHT_STADIUM  file=hdri/day_stadium_night_stadium.hdr  [Flatten Ground, ground image: hdri/night_stadium_ground.jpg]
+  - DAY_STADIUM  file=hdri/day_stadium_night_stadium.hdr  [Flatten Ground, ground image: hdri/day_stadium_ground.ktx2]
+  - NIGHT_STADIUM  file=hdri/day_stadium_night_stadium.hdr  [Flatten Ground, ground image: hdri/night_stadium_ground.ktx2]
 
 ======================================================================
 CONTAINERS (material swap targets)
@@ -189,8 +189,8 @@ Geo subset presets: 4
 MAT SUBSETS (per-category color/material options)
 ======================================================================
 Categories: 3   Options: 14
-  - SECONDARY_ACCENT: 2 option(s) — BEIGE, BLACK
   - PRIMARY_COLOR: 10 option(s) — RED, WHITE, GREEN, SKY BLUE, MIDNIGHT BLUE, YELLOW, GLOSSY BLACK, MATTE BLACK ...
+  - SECONDARY_ACCENT: 2 option(s) — BEIGE, BLACK
   - LIGHTS: 2 option(s) — OFF, ON
 
 ======================================================================

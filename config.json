@@ -1,0 +1,3061 @@
+{
+  "containers": {
+    "ICON": [
+      "PLASTIC_GLOSSY_GLTF",
+      "PLASTIC_GLOSSY_GLTF.001"
+    ],
+    "ICON_HAZARD": [
+      "PLASTIC_GLOSSY_1_GLTF_5.001",
+      "PLASTIC_GLOSSY_1_GLTF_5"
+    ],
+    "ICON_LIGHTS": [
+      "PLASTIC_GLOSSY_1_GLTF_1.001",
+      "PLASTIC_GLOSSY_1_GLTF_1"
+    ],
+    "INT_LIGHTS": [
+      "INT_PLASTIC_2_1_GLTF_1",
+      "INT_PLASTIC_2_1_GLTF_1.002"
+    ],
+    "LIGHT_STRIPS": [
+      "Material.008",
+      "Material.004",
+      "Material.005",
+      "Material.006",
+      "Material.007",
+      "OFF"
+    ],
+    "LIGHT": [
+      "RED",
+      "BLUE",
+      "GREEN",
+      "YELLOW",
+      "DARK_BLUE",
+      "WHITE",
+      "BLUE_10",
+      "DARK_BLUE_10",
+      "GREEN_10",
+      "RED_10",
+      "WHITE_10",
+      "YELLOW_10"
+    ],
+    "TRUNK_LIGHT": [
+      "FRONT_LIGHT_2_GLTF.001",
+      "FRONT_LIGHT_2_GLTF"
+    ],
+    "INTERIOR_LIGHT": [
+      "INT_PLASTIC_2_1_GLTF_1.001",
+      "INT_PLASTIC_2_1_GLTF_1.002"
+    ]
+  },
+  "containers_all": {
+    "BODY": [
+      "Dark Forest Green CARPAINT_METALLIC_GLTF",
+      "Stormy Gray CARPAINT_METALLIC_GLTF",
+      "Scarlet Red CARPAINT_METALLIC_GLTF",
+      "Deep Yellow CARPAINT_METALLIC_GLTF",
+      "Black CARPAINT_MATTE_GLTF",
+      "WhiteSmoke CARPAINT_GLOSSY_GLTF",
+      "MidnightBlue CARPAINT_GLOSSY_GLTF",
+      "SkyBlue CARPAINT_GLOSSY_GLTF",
+      "Scarlet Red CARPAINT_METALLIC_GLTF.001",
+      "WhiteSmoke CARPAINT_GLOSSY_GLTF.001"
+    ],
+    "EMBLEM": [
+      "PLASTIC_MATTE_3_GLTF",
+      "GOLD_1_GLTF",
+      "CHROME_2_GLTF"
+    ],
+    "ROOF": [
+      "Black FABRIC_2_GLTF",
+      "Maroon Red FABRIC_2_GLTF",
+      "Light French Beige FABRIC_2_GLTF"
+    ],
+    "INTERIOR_ACCENT_1": [
+      "INT_PLASTIC_2_7_GLTF",
+      "INT_PLASTIC_2_3_GLTF",
+      "INT_PLASTIC_2_4_GLTF",
+      "INT_PLASTIC_2_5_GLTF",
+      "INT_PLASTIC_2_6_GLTF",
+      "INT_PLASTIC_2_6_GLTF.002",
+      "INT_PLASTIC_2_6_GLTF.001",
+      "INT_PLASTIC_2_8_GLTF"
+    ],
+    "INTERIOR_ACCENT_2": [
+      "INT_PLASTIC_2_1_GLTF",
+      "INT_PLASTIC_2_1_GLTF_1"
+    ],
+    "SEATBACK": [
+      "SimpleTexturedMaterial_3",
+      "SimpleTexturedMaterial_1",
+      "SimpleTexturedMaterial_2",
+      "SimpleTexturedMaterial_4",
+      "SimpleTexturedMaterial_5",
+      "SimpleTexturedMaterial_6",
+      "SimpleTexturedMaterial_8"
+    ],
+    "SEAT": [
+      "SimpleTexturedMaterial",
+      "SimpleTexturedMaterial.001"
+    ],
+    "CUBE": [
+      "WHITE",
+      "RED",
+      "GREEN",
+      "YELLOW"
+    ],
+    "ICON": [
+      "PLASTIC_GLOSSY_GLTF",
+      "PLASTIC_GLOSSY_GLTF.001"
+    ],
+    "ICON_HAZARD": [
+      "PLASTIC_GLOSSY_1_GLTF_5.001",
+      "PLASTIC_GLOSSY_1_GLTF_5"
+    ],
+    "ICON_LIGHTS": [
+      "PLASTIC_GLOSSY_1_GLTF_1.001",
+      "PLASTIC_GLOSSY_1_GLTF_1"
+    ],
+    "INT_LIGHTS": [
+      "INT_PLASTIC_2_1_GLTF_1",
+      "INT_PLASTIC_2_1_GLTF_1.002"
+    ],
+    "LIGHT_STRIPS": [
+      "Material.008",
+      "Material.004",
+      "Material.005",
+      "Material.006",
+      "Material.007",
+      "OFF"
+    ],
+    "LIGHT": [
+      "RED",
+      "BLUE",
+      "GREEN",
+      "YELLOW",
+      "DARK_BLUE",
+      "WHITE",
+      "BLUE_10",
+      "DARK_BLUE_10",
+      "GREEN_10",
+      "RED_10",
+      "WHITE_10",
+      "YELLOW_10"
+    ],
+    "TRUNK_LIGHT": [
+      "FRONT_LIGHT_2_GLTF.001",
+      "FRONT_LIGHT_2_GLTF"
+    ],
+    "INTERIOR_LIGHT": [
+      "INT_PLASTIC_2_1_GLTF_1.001",
+      "INT_PLASTIC_2_1_GLTF_1.002"
+    ]
+  },
+  "mat_colors": {
+    "Material.006": {
+      "color": [
+        0.8000074625015259,
+        0.36550962924957275,
+        0.002219351939857006
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        0.735207200050354,
+        0.0
+      ],
+      "emissiveIntensity": 5.0
+    },
+    "SimpleTexturedMaterial_6": {
+      "color": [
+        0.006512092426419258,
+        0.006512092426419258,
+        0.09084172546863556
+      ],
+      "metallic": 0.2175,
+      "roughness": 0.6265,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "GOLD_1_GLTF": {
+      "color": [
+        1.0,
+        0.7003670930862427,
+        0.2504533529281616
+      ],
+      "metallic": 0.8636,
+      "roughness": 0.4227,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "GREEN": {
+      "color": [
+        0.8000156879425049,
+        0.8000156879425049,
+        0.8000156879425049
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        0.0,
+        1.0,
+        0.008120217360556126
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "WhiteSmoke CARPAINT_GLOSSY_GLTF": {
+      "color": [
+        0.7172693610191345,
+        0.7172693610191345,
+        0.7172693610191345
+      ],
+      "metallic": 0.1,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PLASTIC_GLOSSY_1_GLTF_1.001": {
+      "metallic": 0.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "SimpleTexturedMaterial_5": {
+      "color": [
+        0.0,
+        0.042311422526836395,
+        0.0
+      ],
+      "metallic": 0.2175,
+      "roughness": 0.6265,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "INT_PLASTIC_2_6_GLTF.002": {
+      "color": [
+        0.006512092426419258,
+        0.006512092426419258,
+        0.09084172546863556
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Deep Yellow CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.9215818643569946,
+        0.5149176716804504,
+        0.0
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Scarlet Red CARPAINT_METALLIC_GLTF.001": {
+      "color": [
+        0.15423789620399475,
+        0.0001565092388773337,
+        0.00581496674567461
+      ],
+      "metallic": 0.6227,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "SimpleTexturedMaterial_2": {
+      "color": [
+        0.5906190276145935,
+        0.4019778072834015,
+        0.051269471645355225
+      ],
+      "metallic": 0.2175,
+      "roughness": 0.6265,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "INT_PLASTIC_2_1_GLTF": {
+      "color": [
+        0.5775805711746216,
+        0.4910208582878113,
+        0.3613068461418152
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PLASTIC_GLOSSY_1_GLTF_5": {
+      "metallic": 0.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "MidnightBlue CARPAINT_GLOSSY_GLTF": {
+      "color": [
+        0.006512092426419258,
+        0.006512092426419258,
+        0.09084172546863556
+      ],
+      "metallic": 0.0,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "SimpleTexturedMaterial_4": {
+      "color": [
+        0.1946178823709488,
+        0.0,
+        0.006995411589741707
+      ],
+      "metallic": 0.2175,
+      "roughness": 0.6265,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "INT_PLASTIC_2_6_GLTF.001": {
+      "color": [
+        0.10946174710988998,
+        0.39675527811050415,
+        0.6866854429244995
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "SimpleTexturedMaterial": {
+      "color": [
+        0.17876574397087097,
+        0.15310780704021454,
+        0.11440722644329071
+      ],
+      "metallic": 0.0,
+      "roughness": 0.6265,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "PLASTIC_MATTE_3_GLTF": {
+      "color": [
+        0.03310399502515793,
+        0.03310399502515793,
+        0.03310399502515793
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "INT_PLASTIC_2_1_GLTF_1.001": {
+      "color": [
+        0.07582550495862961,
+        0.07582550495862961,
+        0.07582550495862961
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Material.008": {
+      "color": [
+        0.8000229597091675,
+        0.8000229597091675,
+        0.8000229597091675
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 5.0
+    },
+    "Scarlet Red CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.533312976360321,
+        0.011120004579424858,
+        0.0
+      ],
+      "metallic": 0.6227,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "SkyBlue CARPAINT_GLOSSY_GLTF": {
+      "color": [
+        0.13958381116390228,
+        0.5591534376144409,
+        0.8307760953903198
+      ],
+      "metallic": 0.1,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "SimpleTexturedMaterial_8": {
+      "color": [
+        0.016458945348858833,
+        0.016458945348858833,
+        0.016458945348858833
+      ],
+      "metallic": 0.2175,
+      "roughness": 0.6265,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "INT_PLASTIC_2_3_GLTF": {
+      "color": [
+        0.1946178823709488,
+        0.0,
+        0.006995411589741707
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PLASTIC_GLOSSY_GLTF": {
+      "metallic": 0.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PLASTIC_GLOSSY_GLTF.001": {
+      "metallic": 0.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PLASTIC_GLOSSY_1_GLTF_1": {
+      "metallic": 0.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "YELLOW": {
+      "color": [
+        0.8000156879425049,
+        0.8000156879425049,
+        0.8000156879425049
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        0.911400318145752,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "Material.005": {
+      "color": [
+        0.04481768235564232,
+        0.8000074625015259,
+        0.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        0.007416355889290571,
+        1.0,
+        0.0
+      ],
+      "emissiveIntensity": 5.0
+    },
+    "Black CARPAINT_MATTE_GLTF": {
+      "color": [
+        0.056979842483997345,
+        0.056979842483997345,
+        0.056979842483997345
+      ],
+      "metallic": 0.5,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "INT_PLASTIC_2_1_GLTF_1.002": {
+      "color": [
+        0.07582550495862961,
+        0.07582550495862961,
+        0.07582550495862961
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 5.0
+    },
+    "SimpleTexturedMaterial_3": {
+      "color": [
+        0.8775038719177246,
+        0.8775038719177246,
+        0.8775038719177246
+      ],
+      "metallic": 0.2175,
+      "roughness": 0.6265,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "INT_PLASTIC_2_7_GLTF": {
+      "color": [
+        0.6866981387138367,
+        0.6866981387138367,
+        0.6866981387138367
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Stormy Gray CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.0423114113509655,
+        0.04373503103852272,
+        0.045186202973127365
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "INT_PLASTIC_2_8_GLTF": {
+      "color": [
+        0.0263669490814209,
+        0.0263669490814209,
+        0.0263669490814209
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "WhiteSmoke CARPAINT_GLOSSY_GLTF.001": {
+      "color": [
+        0.2924882769584656,
+        0.2924882769584656,
+        0.2924882769584656
+      ],
+      "metallic": 0.1,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "CHROME_2_GLTF": {
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "metallic": 1.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "RED": {
+      "color": [
+        0.8000156879425049,
+        0.8000156879425049,
+        0.8000156879425049
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        0.003982336726039648,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "INT_PLASTIC_2_4_GLTF": {
+      "color": [
+        0.5906190276145935,
+        0.4019778072834015,
+        0.051269471645355225
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "WHITE": {
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 10.0
+    },
+    "OFF": {
+      "color": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "INT_PLASTIC_2_1_GLTF_1": {
+      "color": [
+        0.13909012079238892,
+        0.13909012079238892,
+        0.13909012079238892
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "FRONT_LIGHT_2_GLTF": {
+      "color": [
+        0.9559569954872131,
+        0.44894182682037354,
+        0.0007139099761843681
+      ],
+      "metallic": 0.0,
+      "roughness": 1.0,
+      "emissive": [
+        0.9621411561965942,
+        1.0,
+        0.0001389061362715438
+      ],
+      "emissiveIntensity": 5.0
+    },
+    "Material.004": {
+      "color": [
+        0.45706602931022644,
+        0.0,
+        0.0034184264950454235
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        1.0,
+        0.0,
+        0.00028400187147781253
+      ],
+      "emissiveIntensity": 5.0
+    },
+    "INT_PLASTIC_2_5_GLTF": {
+      "color": [
+        0.0,
+        0.042311422526836395,
+        0.0
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "SimpleTexturedMaterial_1": {
+      "color": [
+        0.13746388256549835,
+        0.5050382018089294,
+        0.8775042295455933
+      ],
+      "metallic": 0.2175,
+      "roughness": 0.6265,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "SimpleTexturedMaterial.001": {
+      "color": [
+        0.007380045484751463,
+        0.007380045484751463,
+        0.007380045484751463
+      ],
+      "metallic": 0.0,
+      "roughness": 0.6265,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "Dark Forest Green CARPAINT_METALLIC_GLTF": {
+      "color": [
+        0.01850022003054619,
+        0.052860647439956665,
+        0.008568125776946545
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Material.007": {
+      "color": [
+        0.0,
+        0.8000156879425049,
+        0.7461254596710205
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "emissive": [
+        0.0,
+        0.8068122863769531,
+        1.0
+      ],
+      "emissiveIntensity": 5.0
+    },
+    "FRONT_LIGHT_2_GLTF.001": {
+      "color": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "metallic": 0.0,
+      "roughness": 1.0,
+      "emissive": [
+        0.9621411561965942,
+        1.0,
+        0.0001389061362715438
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PLASTIC_GLOSSY_1_GLTF_5.001": {
+      "metallic": 0.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    }
+  },
+  "light_mat_links": [
+    {
+      "light_name": "Area.003",
+      "container": "LIGHT",
+      "entries": [
+        {
+          "material_name": "RED",
+          "color": [
+            1.0,
+            0.4852,
+            0.7305
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "BLUE",
+          "color": [
+            0.039,
+            0.3426,
+            0.5668
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "GREEN",
+          "color": [
+            0.0,
+            0.3273,
+            0.0117
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "YELLOW",
+          "color": [
+            0.3836,
+            0.3964,
+            0.0843
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "DARK_BLUE",
+          "color": [
+            0.0098,
+            0.0002,
+            0.3964
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "WHITE",
+          "color": [
+            0.3964,
+            0.3964,
+            0.3964
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "BLUE_10",
+          "color": [
+            0.039,
+            0.3426,
+            0.5668
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "DARK_BLUE_10",
+          "color": [
+            0.0098,
+            0.0002,
+            0.3964
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "GREEN_10",
+          "color": [
+            0.0,
+            0.3273,
+            0.0117
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "RED_10",
+          "color": [
+            1.0,
+            0.4852,
+            0.7305
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "WHITE_10",
+          "color": [
+            0.3964,
+            0.3964,
+            0.3964
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "YELLOW_10",
+          "color": [
+            0.3836,
+            0.3964,
+            0.0843
+          ],
+          "power": 30.0
+        }
+      ]
+    },
+    {
+      "light_name": "Area.006",
+      "container": "LIGHT",
+      "entries": [
+        {
+          "material_name": "RED",
+          "color": [
+            1.0,
+            0.4852,
+            0.7305
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "BLUE",
+          "color": [
+            0.039,
+            0.3426,
+            0.5668
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "GREEN",
+          "color": [
+            0.0,
+            0.3273,
+            0.0117
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "YELLOW",
+          "color": [
+            0.3836,
+            0.3964,
+            0.0843
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "DARK_BLUE",
+          "color": [
+            0.0098,
+            0.0002,
+            0.3964
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "WHITE",
+          "color": [
+            0.3964,
+            0.3964,
+            0.3964
+          ],
+          "power": 3.0
+        },
+        {
+          "material_name": "BLUE_10",
+          "color": [
+            0.039,
+            0.3426,
+            0.5668
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "DARK_BLUE_10",
+          "color": [
+            0.0098,
+            0.0002,
+            0.3964
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "GREEN_10",
+          "color": [
+            0.0,
+            0.3273,
+            0.0117
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "RED_10",
+          "color": [
+            1.0,
+            0.4852,
+            0.7305
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "WHITE_10",
+          "color": [
+            0.3964,
+            0.3964,
+            0.3964
+          ],
+          "power": 30.0
+        },
+        {
+          "material_name": "YELLOW_10",
+          "color": [
+            0.3836,
+            0.3964,
+            0.0843
+          ],
+          "power": 30.0
+        }
+      ]
+    }
+  ],
+  "geometry_exposed": {
+    "GEOMETRIES_HERITAGE_DECAL": {
+      "name": "GEOMETRIES_HERITAGE_DECAL",
+      "enabled": true,
+      "children": [
+        {
+          "name": "GEOMETRIES_HERITAGE_DECAL_CLASSIC",
+          "enabled": true,
+          "children": []
+        },
+        {
+          "name": "GEOMETRIES_HERITAGE_DECAL_OFF",
+          "enabled": true,
+          "children": []
+        },
+        {
+          "name": "GEOMETRIES_HERITAGE_DECAL_SPECIAL_EDITION",
+          "enabled": true,
+          "children": []
+        },
+        {
+          "name": "GEOMETRIES_HERITAGE_DECAL_YELLOW",
+          "enabled": true,
+          "children": []
+        }
+      ]
+    }
+  },
+  "geometry_subsets": [
+    {
+      "name": "CLASSIC",
+      "uid": "b1be69e83a0b44d2baa99bc32d5a3580",
+      "state": {
+        "GEOMETRIES_HERITAGE_DECAL": "GEOMETRIES_HERITAGE_DECAL_CLASSIC"
+      }
+    },
+    {
+      "name": "SE",
+      "uid": "08c24aaee93e49459519bd5eb8b8fdbd",
+      "state": {
+        "GEOMETRIES_HERITAGE_DECAL": "GEOMETRIES_HERITAGE_DECAL_SPECIAL_EDITION"
+      }
+    },
+    {
+      "name": "YELLOW",
+      "uid": "da231c1acc684cbe9e47a4ace7937609",
+      "state": {
+        "GEOMETRIES_HERITAGE_DECAL": "GEOMETRIES_HERITAGE_DECAL_YELLOW"
+      }
+    },
+    {
+      "name": "OFF",
+      "uid": "ff79d52dd96248ee82ea836bccf3b3fc",
+      "state": {
+        "GEOMETRIES_HERITAGE_DECAL": "GEOMETRIES_HERITAGE_DECAL_OFF"
+      }
+    }
+  ],
+  "mat_subset_categories": [
+    "PRIMARY_COLOR",
+    "SECONDARY_ACCENT",
+    "LIGHTS"
+  ],
+  "mat_subsets": [
+    {
+      "name": "RED",
+      "uid": "b7e7d5a7edaa44f4a1b1c0ef86c28f46",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Scarlet Red CARPAINT_METALLIC_GLTF",
+        "EMBLEM": "CHROME_2_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_3_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_4",
+        "LIGHT_STRIPS": "Material.004",
+        "LIGHT": "RED_10"
+      }
+    },
+    {
+      "name": "WHITE",
+      "uid": "9386efa77467489092c3e1a8c22b3bfc",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "WhiteSmoke CARPAINT_GLOSSY_GLTF",
+        "EMBLEM": "PLASTIC_MATTE_3_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_7_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_3",
+        "LIGHT_STRIPS": "Material.008",
+        "LIGHT": "WHITE_10"
+      }
+    },
+    {
+      "name": "GREEN",
+      "uid": "5e9809a8290245c4b0c99fda099909cf",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Dark Forest Green CARPAINT_METALLIC_GLTF",
+        "EMBLEM": "PLASTIC_MATTE_3_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_5_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_5",
+        "LIGHT_STRIPS": "Material.005",
+        "LIGHT": "GREEN_10"
+      }
+    },
+    {
+      "name": "SKY BLUE",
+      "uid": "25a164d4216642079f72521befa4bb7c",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "SkyBlue CARPAINT_GLOSSY_GLTF",
+        "EMBLEM": "PLASTIC_MATTE_3_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_6_GLTF.001",
+        "SEATBACK": "SimpleTexturedMaterial_1",
+        "LIGHT_STRIPS": "Material.007",
+        "LIGHT": "BLUE_10"
+      }
+    },
+    {
+      "name": "MIDNIGHT BLUE",
+      "uid": "ef881cfd84e8477aa9ceb3833f3dca5f",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "MidnightBlue CARPAINT_GLOSSY_GLTF",
+        "EMBLEM": "CHROME_2_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_6_GLTF.002",
+        "SEATBACK": "SimpleTexturedMaterial_6",
+        "LIGHT_STRIPS": "Material.007",
+        "LIGHT": "DARK_BLUE_10"
+      }
+    },
+    {
+      "name": "YELLOW",
+      "uid": "53c2d6c448804d60a233c7bbdb6c2a5f",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Deep Yellow CARPAINT_METALLIC_GLTF",
+        "EMBLEM": "PLASTIC_MATTE_3_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_4_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_2",
+        "LIGHT_STRIPS": "Material.006",
+        "LIGHT": "YELLOW_10"
+      }
+    },
+    {
+      "name": "GLOSSY BLACK",
+      "uid": "c15111c096794f6db79728b9e1695939",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Stormy Gray CARPAINT_METALLIC_GLTF",
+        "EMBLEM": "GOLD_1_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_8_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_8",
+        "LIGHT_STRIPS": "Material.008",
+        "LIGHT": "WHITE"
+      }
+    },
+    {
+      "name": "MATTE BLACK",
+      "uid": "04ac581909b3418c8ba4f11bb56d395a",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Black CARPAINT_MATTE_GLTF",
+        "EMBLEM": "GOLD_1_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_8_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_8",
+        "LIGHT_STRIPS": "Material.008",
+        "LIGHT": "WHITE"
+      }
+    },
+    {
+      "name": "BEIGE",
+      "uid": "fdf7e74e734944f49612418a94306a60",
+      "category": "SECONDARY_ACCENT",
+      "state": {
+        "INTERIOR_ACCENT_2": "INT_PLASTIC_2_1_GLTF",
+        "SEAT": "SimpleTexturedMaterial"
+      }
+    },
+    {
+      "name": "BLACK",
+      "uid": "5ecb5f5a9d414affb1056d83aa38a36b",
+      "category": "SECONDARY_ACCENT",
+      "state": {
+        "INTERIOR_ACCENT_2": "INT_PLASTIC_2_1_GLTF_1",
+        "SEAT": "SimpleTexturedMaterial.001"
+      }
+    },
+    {
+      "name": "GREY_CLASSIC",
+      "uid": "c060f70249314474bad7b1fd0b39bb9d",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "WhiteSmoke CARPAINT_GLOSSY_GLTF.001",
+        "EMBLEM": "PLASTIC_MATTE_3_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_7_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_3",
+        "LIGHT_STRIPS": "Material.008",
+        "LIGHT": "WHITE_10"
+      }
+    },
+    {
+      "name": "MAROON_SE",
+      "uid": "2c319e7715934b3db064ce428b659089",
+      "category": "PRIMARY_COLOR",
+      "state": {
+        "BODY": "Scarlet Red CARPAINT_METALLIC_GLTF.001",
+        "EMBLEM": "CHROME_2_GLTF",
+        "INTERIOR_ACCENT_1": "INT_PLASTIC_2_3_GLTF",
+        "SEATBACK": "SimpleTexturedMaterial_4",
+        "LIGHT_STRIPS": "Material.004",
+        "LIGHT": "RED_10"
+      }
+    },
+    {
+      "name": "OFF",
+      "uid": "b147077696a9480f8f8c573b3c15217b",
+      "category": "LIGHTS",
+      "state": {
+        "ICON": "PLASTIC_GLOSSY_GLTF",
+        "ICON_HAZARD": "PLASTIC_GLOSSY_1_GLTF_5.001",
+        "ICON_LIGHTS": "PLASTIC_GLOSSY_1_GLTF_1.001",
+        "TRUNK_LIGHT": "FRONT_LIGHT_2_GLTF.001",
+        "INTERIOR_LIGHT": "INT_PLASTIC_2_1_GLTF_1.001"
+      }
+    },
+    {
+      "name": "ON",
+      "uid": "943deee67cb84340ad8a7e15e7c2c175",
+      "category": "LIGHTS",
+      "state": {
+        "ICON": "PLASTIC_GLOSSY_GLTF.001",
+        "ICON_HAZARD": "PLASTIC_GLOSSY_1_GLTF_5",
+        "ICON_LIGHTS": "PLASTIC_GLOSSY_1_GLTF_1",
+        "TRUNK_LIGHT": "FRONT_LIGHT_2_GLTF",
+        "INTERIOR_LIGHT": "INT_PLASTIC_2_1_GLTF_1.002"
+      }
+    }
+  ],
+  "global_mat_sets": [],
+  "mat_animations": [],
+  "geo_animations": [],
+  "area_lights": [
+    {
+      "name": "Area.007",
+      "rig": "LIGHTS_NIGHT",
+      "geo_chain": null,
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intensity": 10.0,
+      "width": 0.9072,
+      "height": 0.4618,
+      "position": [
+        0.0047,
+        0.8357,
+        0.2513
+      ],
+      "quaternion": [
+        -0.711128,
+        0.0,
+        -0.0,
+        0.703063
+      ],
+      "disable_on_mobile": false
+    },
+    {
+      "name": "Area.008",
+      "rig": "LIGHTS_NIGHT",
+      "geo_chain": null,
+      "color": [
+        0.9916995167732239,
+        1.0,
+        0.0
+      ],
+      "intensity": 0.5,
+      "width": 0.4538,
+      "height": 0.2146,
+      "position": [
+        0.0047,
+        0.4218,
+        -1.6399
+      ],
+      "quaternion": [
+        -0.824632,
+        0.0,
+        -0.0,
+        0.565669
+      ],
+      "disable_on_mobile": false
+    },
+    {
+      "name": "Area",
+      "rig": "LIGHTS_UNUNSED",
+      "geo_chain": null,
+      "color": [
+        0.7156937718391418,
+        0.9473065733909607,
+        1.0
+      ],
+      "intensity": 1.0,
+      "width": 1.02,
+      "height": 5.4613,
+      "position": [
+        -1.9614,
+        0.9508,
+        0.0323
+      ],
+      "quaternion": [
+        -0.635941,
+        -0.309159,
+        0.309159,
+        0.635941
+      ],
+      "disable_on_mobile": false
+    },
+    {
+      "name": "Area.001",
+      "rig": "LIGHTS_UNUNSED",
+      "geo_chain": null,
+      "color": [
+        0.7156937718391418,
+        0.9473065733909607,
+        1.0
+      ],
+      "intensity": 1.0,
+      "width": 1.02,
+      "height": 5.4613,
+      "position": [
+        -0.0252,
+        1.8211,
+        0.0323
+      ],
+      "quaternion": [
+        -0.707079,
+        -0.006271,
+        0.006271,
+        0.707079
+      ],
+      "disable_on_mobile": false
+    },
+    {
+      "name": "Area1",
+      "rig": "LIGHTS_UNUNSED",
+      "geo_chain": null,
+      "color": [
+        0.7156937718391418,
+        0.9473065733909607,
+        1.0
+      ],
+      "intensity": 1.0,
+      "width": -1.02,
+      "height": -5.4613,
+      "position": [
+        1.9614,
+        0.9508,
+        0.0323
+      ],
+      "quaternion": [
+        0.278167,
+        0.650095,
+        0.650095,
+        0.278166
+      ],
+      "disable_on_mobile": false
+    }
+  ],
+  "light_shadows": {
+    "Area.007": true,
+    "Area.008": true,
+    "Area": true,
+    "Area.001": true,
+    "Area1": true
+  },
+  "light_intensity_divisors": {},
+  "light_mobile_flags": {},
+  "post_process": {
+    "noise": {
+      "enabled": false,
+      "amount": 0.08,
+      "disable_below_medium": true
+    },
+    "vignette": {
+      "enabled": false,
+      "intensity": 0.5,
+      "softness": 1.0,
+      "disable_below_medium": true
+    },
+    "dof": {
+      "enabled": false,
+      "focus_distance": 3.56,
+      "aperture": 0.0004,
+      "max_blur": 0.01,
+      "disable_below_medium": true
+    },
+    "filters": [
+      {
+        "name": "Normal",
+        "filter_type": "NORMAL",
+        "intensity": 0.75
+      },
+      {
+        "name": "Filter 1",
+        "filter_type": "DRAMATIC",
+        "intensity": 0.25
+      }
+    ],
+    "active_filter_index": 1
+  },
+  "mat_name_map": {},
+  "default_geo_state": {
+    "GEOMETRIES_HERITAGE_DECAL": "GEOMETRIES_HERITAGE_DECAL_SPECIAL_EDITION"
+  },
+  "default_variant": "HERITAGE_EDITION",
+  "default_global_set": null,
+  "default_mat_subsets": [
+    {
+      "name": "MAROON_SE",
+      "category": "PRIMARY_COLOR"
+    },
+    {
+      "name": "BEIGE",
+      "category": "SECONDARY_ACCENT"
+    },
+    {
+      "name": "OFF",
+      "category": "LIGHTS"
+    }
+  ],
+  "camera": {
+    "zoom_min": 3.59,
+    "zoom_max": 6.342,
+    "zoom_min_offset": [
+      0.0069,
+      0.0507
+    ],
+    "zoom_max_offset": [
+      -0.0008,
+      0.2702
+    ],
+    "floor_z": 0.3534,
+    "lock_zoom_phone": true,
+    "focal_length_mm": 30.0,
+    "sensor_width_mm": 36.0,
+    "roof_z": 3.169
+  },
+  "hdri": {
+    "file": "hdri/day_stadium_night_stadium.hdr",
+    "strength": 1.0,
+    "background": true,
+    "flatten_ground": true,
+    "ground_height": -0.585,
+    "ground_radius": 13.72,
+    "ground_rotation_z": -50.43,
+    "ground_scale": 2.77,
+    "ground_offset": [
+      0.0,
+      0.0
+    ],
+    "ground_z_offset": 0.215
+  },
+  "hdris": [
+    {
+      "name": "DAY_STADIUM",
+      "uid": "5c1444ea36b34d7ca89e905e193011d7",
+      "file": "hdri/day_stadium_night_stadium.hdr",
+      "strength": 1.0,
+      "background": true,
+      "rotation_z": 0.0,
+      "flatten_ground": true,
+      "ground_height": -0.585,
+      "ground_radius": 13.72,
+      "ground_rotation_z": -50.43,
+      "ground_scale": 2.77,
+      "ground_offset": [
+        0.0,
+        0.0
+      ],
+      "ground_z_offset": 0.215,
+      "ground_hue": 0.5,
+      "ground_saturation": 0.5,
+      "ground_brightness": 0.0,
+      "ground_contrast": 0.0,
+      "ground_skybox_file": "hdri/day_stadium_ground.ktx2",
+      "grade_exposure": 0.0,
+      "grade_brightness": 1.0,
+      "grade_contrast": 1.3,
+      "grade_saturation": 1.1,
+      "grade_bloom": 0.1,
+      "grade_bloom_threshold": 0.9,
+      "default": true,
+      "environment": null,
+      "light": null,
+      "ambient_color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "ambient_strength": 0.0
+    },
+    {
+      "name": "NIGHT_STADIUM",
+      "uid": "1a5562adaa074f8d9e0ded1e6a080966",
+      "file": "hdri/day_stadium_night_stadium.hdr",
+      "strength": 0.2,
+      "background": true,
+      "rotation_z": 0.0,
+      "flatten_ground": true,
+      "ground_height": -0.585,
+      "ground_radius": 13.72,
+      "ground_rotation_z": -50.43,
+      "ground_scale": 2.77,
+      "ground_offset": [
+        0.0,
+        0.0
+      ],
+      "ground_z_offset": 0.215,
+      "ground_hue": 0.5,
+      "ground_saturation": 0.19,
+      "ground_brightness": -0.23,
+      "ground_contrast": -0.45,
+      "ground_skybox_file": "hdri/night_stadium_ground.ktx2",
+      "grade_exposure": 0.0,
+      "grade_brightness": 1.0,
+      "grade_contrast": 1.0,
+      "grade_saturation": 1.1,
+      "grade_bloom": 0.15,
+      "grade_bloom_threshold": 0.88,
+      "default": false,
+      "environment": "ENVIRONMENTS_NIGHT",
+      "light": "LIGHTS_NIGHT",
+      "ambient_color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "ambient_strength": 0.0
+    }
+  ],
+  "environment_sets": [
+    "ENVIRONMENTS_1",
+    "ENVIRONMENTS_DAY",
+    "ENVIRONMENTS_NIGHT",
+    "ENVIRONMENTS_STUDIO"
+  ],
+  "light_sets": [
+    "LIGHTS_DAY",
+    "LIGHTS_NIGHT",
+    "LIGHTS_UNUNSED"
+  ],
+  "environment_common_exists": false,
+  "light_common_exists": true,
+  "grade": {
+    "tone_mapping": "AgX",
+    "view_transform": "AgX",
+    "exposure": -1.0,
+    "ambient_intensity": 1.0,
+    "env_intensity": 1.0,
+    "env_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "env_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "brightness": 1.0,
+    "contrast": 1.0,
+    "saturation": 1.0,
+    "bloom": 0.05,
+    "bloom_threshold": 0.88
+  },
+  "transitions": {
+    "material": true,
+    "geometry": true,
+    "mat_ms": 1000,
+    "geo_ms": 180
+  },
+  "ar": {
+    "ios_enabled": false,
+    "android_enabled": false,
+    "geo_sets": [],
+    "mat_sets": []
+  },
+  "animations": {
+    "controls": [
+      {
+        "name": "FRDOOR_L",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "hotspot",
+        "hidden_ui": true,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "sounds": [
+          null,
+          null
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_object": "HOTSPOT_FRDOOR_L",
+        "hotspot_color": [
+          0.0134,
+          1.0,
+          0.0
+        ],
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "FRDOOR_R",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "hotspot",
+        "hidden_ui": true,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "sounds": [
+          null,
+          null
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_object": "HOTSPOT_FRDOOR_R",
+        "hotspot_color": [
+          0.019,
+          1.0,
+          0.0022
+        ],
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "RRDOOR_L",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "RRDOOR_R",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "HOOD",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "TRUNK",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "hotspot",
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "sounds": [
+          "sounds/dragon-studio-open-car-door-372469_d532f9.mp3",
+          "sounds/dragon-studio-close-car-door-372469__mp3cut.net__eab7c1.mp3"
+        ],
+        "hotspot_position": [
+          0.0,
+          0.3234,
+          -1.9555
+        ],
+        "track_node": "ANIM_TRUNK",
+        "track_offset": [
+          0.0113,
+          -0.22066,
+          -1.30938
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_object": "HOTSPOT_TRUNK",
+        "hotspot_color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "FRWHEEL_L",
+        "anim_type": "PROCEDURAL",
+        "states": 3,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "-30",
+          "0",
+          "30"
+        ],
+        "state_fracs": [
+          0.0,
+          0.5,
+          1.0
+        ],
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "FRWHEEL_R",
+        "anim_type": "PROCEDURAL",
+        "states": 3,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "-30",
+          "0",
+          "30"
+        ],
+        "state_fracs": [
+          0.0,
+          0.5,
+          1.0
+        ],
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_EMPTY",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_1_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_2_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_3_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_4_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_6_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_5_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_BOOT_EMPTY",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_L",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "ANIM_ROOF_MECHANISM_EMPTY_R",
+        "anim_type": "SCENE",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "AMBIENT_LIGHT",
+        "anim_type": "GEO_TOGGLE",
+        "states": 2,
+        "trigger": "button",
+        "geo_nodes": [
+          "Ambient_Light_L",
+          "Area.003",
+          "Area.006",
+          "Cube",
+          "ambient_Light_R"
+        ]
+      },
+      {
+        "name": "DOOR_DECAL_HERITAGE_SE_L",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "DOOR_DECAL_HERITAGE_SE_R",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "DOOR_DECAL_HERITAGE_CLASSIC_R",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "DOOR_DECAL_HERITAGE_CLASSIC_L",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "DOOR_DECAL_HERITAGE_YELLOW_L",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      },
+      {
+        "name": "DOOR_DECAL_HERITAGE_YELLOW_R",
+        "anim_type": "PROCEDURAL",
+        "states": 2,
+        "trigger": "button",
+        "hidden_ui": true,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "state_fracs": [
+          0.0,
+          1.0
+        ],
+        "playback_mode": "LOOP",
+        "play_from_startup": false,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "extra_hotspots": [],
+        "extra_images": []
+      }
+    ],
+    "combos": [
+      {
+        "name": "ROOF_ANIMATION",
+        "members": [
+          "ANIM_ROOF_EMPTY",
+          "ANIM_ROOF",
+          "ANIM_ROOF_MECHANISM_4_L",
+          "ANIM_ROOF_MECHANISM_3_L",
+          "ANIM_ROOF_MECHANISM_1_R",
+          "ANIM_ROOF_MECHANISM_2_L",
+          "ANIM_ROOF_MECHANISM_1_L",
+          "ANIM_ROOF_MECHANISM_2_R",
+          "ANIM_ROOF_MECHANISM_3_R",
+          "ANIM_ROOF_MECHANISM_4_R",
+          "ANIM_ROOF_MECHANISM_6_R",
+          "ANIM_ROOF_MECHANISM_5_R",
+          "ANIM_ROOF_MECHANISM_6_L",
+          "ANIM_ROOF_MECHANISM_5_L",
+          "ANIM_BOOT_EMPTY",
+          "ANIM_ROOF_MECHANISM_EMPTY_L",
+          "ANIM_ROOF_MECHANISM_EMPTY_R"
+        ],
+        "trigger": "hotspot",
+        "states": 2,
+        "state_names": [
+          "Start",
+          "End"
+        ],
+        "member_fracs": {
+          "ANIM_ROOF_EMPTY": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_1_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_2_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_3_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_4_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_R": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_6_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_5_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_BOOT_EMPTY": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_L": [
+            0.0,
+            1.0
+          ],
+          "ANIM_ROOF_MECHANISM_EMPTY_R": [
+            0.0,
+            1.0
+          ]
+        },
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "hotspot_position": [
+          0.0,
+          1.0596,
+          0.2246
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_color": [
+          1.0,
+          0.42,
+          0.21
+        ],
+        "extra_hotspots": [],
+        "extra_images": [],
+        "sounds": [
+          "sounds/Porsche_911_Targa_Roof_Open_and_Close_2_56282d.mp3",
+          "sounds/Porsche_911_Targa_Roof_Open_and_Close_2_56282d.mp3"
+        ]
+      },
+      {
+        "name": "WHEELS",
+        "members": [
+          "FRWHEEL_L",
+          "FRWHEEL_R"
+        ],
+        "trigger": "hotspot",
+        "states": 3,
+        "state_names": [
+          "-30",
+          "0",
+          "30"
+        ],
+        "member_fracs": {
+          "FRWHEEL_L": [
+            0.0,
+            0.5,
+            1.0
+          ],
+          "FRWHEEL_R": [
+            0.0,
+            0.5,
+            1.0
+          ]
+        },
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "hotspot_position": [
+          -0.8944,
+          0.0,
+          -1.2315
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_color": [
+          0.0,
+          0.01,
+          1.0
+        ],
+        "extra_hotspots": [
+          {
+            "position": [
+              0.9104,
+              0.0,
+              -1.2399
+            ],
+            "scale": 0.1,
+            "color": [
+              0.0,
+              0.01,
+              1.0
+            ],
+            "object": "HOTSPOT_WHEELS_extra0"
+          }
+        ],
+        "extra_images": []
+      },
+      {
+        "name": "DOOR_FL",
+        "members": [
+          "FRDOOR_L",
+          "DOOR_DECAL_HERITAGE_CLASSIC_L",
+          "DOOR_DECAL_HERITAGE_SE_L",
+          "DOOR_DECAL_HERITAGE_YELLOW_L"
+        ],
+        "trigger": "hotspot",
+        "states": 2,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "member_fracs": {
+          "FRDOOR_L": [
+            0.0,
+            1.0
+          ],
+          "DOOR_DECAL_HERITAGE_CLASSIC_L": [
+            0.0,
+            1.0
+          ],
+          "DOOR_DECAL_HERITAGE_SE_L": [
+            0.0,
+            1.0
+          ],
+          "DOOR_DECAL_HERITAGE_YELLOW_L": [
+            0.0,
+            1.0
+          ]
+        },
+        "playback_mode": "LOOP",
+        "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "hotspot_position": [
+          -0.907,
+          0.37,
+          0.4776
+        ],
+        "track_node": "ANIM_FRDOOR_L",
+        "track_offset": [
+          -0.03354,
+          0.03322,
+          1.19156
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_color": [
+          0.0,
+          1.0,
+          0.004
+        ],
+        "extra_hotspots": [],
+        "extra_images": [],
+        "sounds": [
+          "sounds/dragon-studio-open-car-door-372469_d532f9.mp3",
+          "sounds/dragon-studio-close-car-door-372469__mp3cut.net__eab7c1.mp3"
+        ]
+      },
+      {
+        "name": "DOOR_FR",
+        "members": [
+          "FRDOOR_R",
+          "DOOR_DECAL_HERITAGE_SE_R",
+          "DOOR_DECAL_HERITAGE_CLASSIC_R",
+          "DOOR_DECAL_HERITAGE_YELLOW_R"
+        ],
+        "trigger": "hotspot",
+        "states": 2,
+        "state_names": [
+          "Closed",
+          "Open"
+        ],
+        "member_fracs": {
+          "FRDOOR_R": [
+            0.0,
+            1.0
+          ],
+          "DOOR_DECAL_HERITAGE_SE_R": [
+            0.0,
+            1.0
+          ],
+          "DOOR_DECAL_HERITAGE_CLASSIC_R": [
+            0.0,
+            1.0
+          ],
+          "DOOR_DECAL_HERITAGE_YELLOW_R": [
+            0.0,
+            1.0
+          ]
+        },
+        "playback_mode": "PINGPONG",
+        "default_state": 1,
+        "play_from_startup": true,
+        "play_from_startup_mobile": true,
+        "keep_playing": false,
+        "keep_playing_pause_ms": 1000,
+        "hotspot_position": [
+          0.8911,
+          0.3779,
+          0.4766
+        ],
+        "track_node": "ANIM_FRDOOR_R",
+        "track_offset": [
+          0.01762,
+          0.04164,
+          1.19032
+        ],
+        "hotspot_scale": 0.1,
+        "hotspot_color": [
+          0.0,
+          1.0,
+          0.004
+        ],
+        "extra_hotspots": [],
+        "extra_images": [],
+        "sounds": [
+          "sounds/dragon-studio-open-car-door-372469_d532f9.mp3",
+          "sounds/dragon-studio-close-car-door-372469__mp3cut.net__eab7c1.mp3"
+        ]
+      }
+    ],
+    "sequences": [
+      {
+        "name": "NIGHT",
+        "trigger": "button",
+        "label": "NIGHT",
+        "hotspot_object": "",
+        "hotspot_color": [
+          0.21,
+          0.62,
+          1.0
+        ],
+        "hotspot_scale": 0.25,
+        "sound": "",
+        "steps": [
+          {
+            "together": false,
+            "action_type": "environment",
+            "action_name": "",
+            "target_name": "NIGHT_STADIUM",
+            "target_state": 1,
+            "playback_mode": "once",
+            "camera": "",
+            "container_name": "",
+            "container_material": "",
+            "geo_toggle_chain": []
+          },
+          {
+            "together": true,
+            "action_type": "mat_subset",
+            "action_name": "",
+            "target_name": "ON",
+            "target_state": 1,
+            "playback_mode": "once",
+            "camera": "",
+            "container_name": "",
+            "container_material": "",
+            "geo_toggle_chain": []
+          },
+          {
+            "together": false,
+            "action_type": "control",
+            "action_name": "AMBIENT_LIGHT",
+            "target_name": "",
+            "target_state": 1,
+            "playback_mode": "once",
+            "camera": "",
+            "container_name": "",
+            "container_material": "",
+            "geo_toggle_chain": []
+          }
+        ]
+      },
+      {
+        "name": "DAY",
+        "trigger": "button",
+        "label": "DAY",
+        "hotspot_object": "",
+        "hotspot_color": [
+          0.21,
+          0.62,
+          1.0
+        ],
+        "hotspot_scale": 0.25,
+        "sound": "",
+        "steps": [
+          {
+            "together": false,
+            "action_type": "environment",
+            "action_name": "",
+            "target_name": "DAY_STADIUM",
+            "target_state": 1,
+            "playback_mode": "once",
+            "camera": "",
+            "container_name": "",
+            "container_material": "",
+            "geo_toggle_chain": []
+          },
+          {
+            "together": true,
+            "action_type": "mat_subset",
+            "action_name": "",
+            "target_name": "OFF",
+            "target_state": 1,
+            "playback_mode": "once",
+            "camera": "",
+            "container_name": "",
+            "container_material": "",
+            "geo_toggle_chain": []
+          },
+          {
+            "together": false,
+            "action_type": "control",
+            "action_name": "AMBIENT_LIGHT",
+            "target_name": "",
+            "target_state": 0,
+            "playback_mode": "once",
+            "camera": "",
+            "container_name": "",
+            "container_material": "",
+            "geo_toggle_chain": []
+          }
+        ]
+      }
+    ]
+  },
+  "annotations": [],
+  "annotation_popup_style": {
+    "bgColor": "#0a0a0c",
+    "bgOpacity": 92,
+    "borderColor": "#c8a96e",
+    "borderWidth": 1,
+    "radius": 6,
+    "textColor": "#ffffff",
+    "textFontSize": 14,
+    "videoWidthPct": 19,
+    "markerBorderWidth": 3,
+    "markerOpacity": 100,
+    "markerGlow": 0,
+    "markerColor": "#ffffff"
+  },
+  "model_file": "Medium/915092e5e08d_medium.gltf",
+  "model_token": "915092e5e08d",
+  "model_ext": "gltf",
+  "available_variants": [
+    "medium",
+    "verylow"
+  ],
+  "cameras": {
+    "fly_duration": 1.2,
+    "zoom_min": 3.59,
+    "zoom_max": 6.342,
+    "zoom_min_offset": [
+      0.0069,
+      0.0507
+    ],
+    "zoom_max_offset": [
+      -0.0008,
+      0.2702
+    ],
+    "turntable": {
+      "enabled": false,
+      "name": "Turntable_Camera"
+    },
+    "static": [
+      {
+        "name": "INTERIOR_1",
+        "position": [
+          -0.3021,
+          0.5752,
+          0.2981
+        ],
+        "target": [
+          -0.1253,
+          0.4713,
+          -0.1578
+        ],
+        "lock": "zoom_pan",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 1.0,
+        "default": false,
+        "focal_length_mm": 10.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "ROTATION",
+        "position": [
+          -4.5019,
+          0.7863,
+          -4.1079
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0199
+        ],
+        "lock": "free",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "default": true,
+        "focal_length_mm": 30.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "ALLOY",
+        "position": [
+          -1.9369,
+          0.0574,
+          -2.4266
+        ],
+        "target": [
+          0.0469,
+          -0.0293,
+          -0.04
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 1.0,
+        "default": false,
+        "focal_length_mm": 40.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "REAR_TOP",
+        "position": [
+          3.5368,
+          2.5852,
+          4.7457
+        ],
+        "target": [
+          0.0634,
+          -0.177,
+          0.0573
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 1.0,
+        "default": false,
+        "focal_length_mm": 45.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "INTERIOR_2",
+        "position": [
+          -0.0046,
+          0.9412,
+          0.4849
+        ],
+        "target": [
+          -0.001,
+          0.3806,
+          -0.2792
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 1.0,
+        "default": false,
+        "focal_length_mm": 25.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "HEADLAMP",
+        "position": [
+          1.2097,
+          0.4824,
+          -2.7393
+        ],
+        "target": [
+          -0.3477,
+          0.1337,
+          -0.1945
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 1.0,
+        "default": false,
+        "focal_length_mm": 50.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "REAR_LAMP",
+        "position": [
+          1.1353,
+          1.1519,
+          3.0256
+        ],
+        "target": [
+          -0.7956,
+          -0.1285,
+          0.7461
+        ],
+        "lock": "place",
+        "transition": "fly",
+        "fly_duration": 2.0,
+        "ease_in": true,
+        "ease_out": true,
+        "dip_duration": 1.0,
+        "default": false,
+        "focal_length_mm": 50.0,
+        "sensor_width_mm": 36.0
+      }
+    ],
+    "cinematic": {
+      "sequence": [],
+      "trigger": "button"
+    },
+    "pivot": [
+      0.0,
+      0.0,
+      0.0199
+    ]
+  },
+  "section_view": {}
+}
