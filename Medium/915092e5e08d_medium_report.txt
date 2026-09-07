@@ -3,7 +3,7 @@
 PONKFIGURATOR PRO — Export Report — Medium
 ======================================================================
 File: C:\Users\saura\Desktop\PORSCHE\Medium\915092e5e08d_medium.gltf
-Generated: 2026-09-06 15:15:06
+Generated: 2026-09-07 10:59:31
 Total size (this .gltf + its .bin + every texture file): 26.22 MB
 
 ======================================================================
@@ -101,11 +101,11 @@ hoodwhitepaint                           image/ktx2   unknown          2.7 KB   
 siderigh1                                image/ktx2   unknown         51.2 KB      51.2 KB
 hoodwhitepaint1                          image/ktx2   unknown          2.6 KB       2.6 KB
 seat_Geometry_Normal                     image/ktx2   unknown        239.0 KB     239.0 KB
-Icon_Glow                                image/ktx2   unknown          5.5 KB       5.5 KB
+uv_texture2(Above AC)                    image/ktx2   unknown          2.6 KB       2.6 KB
 uv_AC                                    image/ktx2   unknown          8.5 KB       8.5 KB
 IMAGE_2_ICON                             image/ktx2   unknown          8.7 KB       8.7 KB
+Icon_Glow                                image/ktx2   unknown          5.5 KB       5.5 KB
 IMAGE_3_ICON                             image/ktx2   unknown         14.6 KB      14.6 KB
-uv_texture2(Above AC)                    image/ktx2   unknown          2.6 KB       2.6 KB
 
 Estimated total VRAM for textures: 5.80 MB
 
@@ -189,9 +189,9 @@ Geo subset presets: 4
 MAT SUBSETS (per-category color/material options)
 ======================================================================
 Categories: 3   Options: 14
+  - LIGHTS: 2 option(s) — OFF, ON
   - PRIMARY_COLOR: 10 option(s) — RED, WHITE, GREEN, SKY BLUE, MIDNIGHT BLUE, YELLOW, GLOSSY BLACK, MATTE BLACK ...
   - SECONDARY_ACCENT: 2 option(s) — BEIGE, BLACK
-  - LIGHTS: 2 option(s) — OFF, ON
 
 ======================================================================
 CAMERAS
