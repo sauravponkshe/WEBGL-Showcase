@@ -3,8 +3,8 @@
 PONKFIGURATOR PRO — Export Report — VeryLow
 ======================================================================
 File: C:\Users\saura\Desktop\PORSCHE\VeryLow\915092e5e08d_verylow.gltf
-Generated: 2026-09-07 10:59:31
-Total size (this .gltf + its .bin + every texture file): 12.47 MB
+Generated: 2026-09-08 10:55:26
+Total size (this .gltf + its .bin + every texture file): 12.12 MB
 
 ======================================================================
 EXPORT CONFIGURATION
@@ -18,33 +18,28 @@ Obfuscate Viewer JS:      off
 SIZE BREAKDOWN (approximate — see notes)
 ======================================================================
 Geometry (vertex/index buffers): 0 B
-Textures (loose files, External Textures mode):    985.0 KB
-Unaccounted (other bufferViews): 10.89 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
+Textures (loose files, External Textures mode):    971.8 KB
+Unaccounted (other bufferViews): 10.58 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
 Note: split is by bufferView/file reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
 
 ======================================================================
 GEOMETRY
 ======================================================================
-Meshes: 470   Primitives: 539
-Triangles: 1,335,889   Vertices: 2,096,135
+Meshes: 450   Primitives: 513
+Triangles: 1,235,459   Vertices: 1,946,698
 Draco compression: ACTIVE
 
 ======================================================================
 TEXTURES
 ======================================================================
 KTX2 (GPU-compressed) active: YES
-Texture count: 71
+Texture count: 66
 Name                                     Format       Colorspace    Disk size    Est. VRAM
 OldRoad_normal                           image/ktx2   unknown         15.4 KB      15.4 KB
 LIGHT                                    image/ktx2   unknown          6.3 KB       6.3 KB
 ChatGPT Image Aug 23, 2026, 03_51_56 PM  image/ktx2   unknown          5.8 KB       5.8 KB
 OldRoad_basecolor                        image/ktx2   unknown         35.7 KB      35.7 KB
 OldRoad_roughness                        image/ktx2   unknown          5.5 KB       5.5 KB
-Tex_GROUNDSHADOW_1                       image/ktx2   unknown          4.1 KB       4.1 KB
-Tex_GROUNDSHADOW_3                       image/ktx2   unknown          3.4 KB       3.4 KB
-Tex_GROUNDSHADOW_6                       image/ktx2   unknown          1.7 KB       1.7 KB
-Tex_GROUNDSHADOW_4                       image/ktx2   unknown          2.4 KB       2.4 KB
-Tex_GROUNDSHADOW_12                      image/ktx2   unknown          1.8 KB       1.8 KB
 PELLE_B2                                 image/ktx2   unknown         35.8 KB      35.8 KB
 Plastic                                  image/ktx2   unknown         18.6 KB      18.6 KB
 Normal_GER                               image/ktx2   unknown          8.0 KB       8.0 KB
@@ -101,19 +96,19 @@ hoodwhitepaint                           image/ktx2   unknown          2.7 KB   
 siderigh1                                image/ktx2   unknown          7.0 KB       7.0 KB
 hoodwhitepaint1                          image/ktx2   unknown          2.6 KB       2.6 KB
 seat_Geometry_Normal                     image/ktx2   unknown         31.4 KB      31.4 KB
-uv_texture2(Above AC)                    image/ktx2   unknown          1.4 KB       1.4 KB
-uv_AC                                    image/ktx2   unknown          3.1 KB       3.1 KB
 IMAGE_2_ICON                             image/ktx2   unknown          4.6 KB       4.6 KB
-Icon_Glow                                image/ktx2   unknown          3.3 KB       3.3 KB
 IMAGE_3_ICON                             image/ktx2   unknown          5.5 KB       5.5 KB
+Icon_Glow                                image/ktx2   unknown          3.3 KB       3.3 KB
+uv_AC                                    image/ktx2   unknown          3.1 KB       3.1 KB
+uv_texture2(Above AC)                    image/ktx2   unknown          1.4 KB       1.4 KB
 
-Estimated total VRAM for textures: 1.05 MB
+Estimated total VRAM for textures: 1.04 MB
 
 ======================================================================
 MATERIALS / DRAW CALLS
 ======================================================================
-Materials: 183
-Primitives (mesh x material combinations): 539
+Materials: 158
+Primitives (mesh x material combinations): 513
 Draw calls track distinct MATERIALS actually drawn, not primitive count directly — primitives sharing one material can still batch; this is an upper-bound proxy, not a live measurement.
 
 ======================================================================
@@ -189,9 +184,9 @@ Geo subset presets: 4
 MAT SUBSETS (per-category color/material options)
 ======================================================================
 Categories: 3   Options: 14
-  - LIGHTS: 2 option(s) — OFF, ON
   - PRIMARY_COLOR: 10 option(s) — RED, WHITE, GREEN, SKY BLUE, MIDNIGHT BLUE, YELLOW, GLOSSY BLACK, MATTE BLACK ...
   - SECONDARY_ACCENT: 2 option(s) — BEIGE, BLACK
+  - LIGHTS: 2 option(s) — OFF, ON
 
 ======================================================================
 CAMERAS
