@@ -1,0 +1,166 @@
+
+======================================================================
+PONKFIGURATOR PRO — Export Report — Highest
+======================================================================
+File: C:\Users\saura\Desktop\free-mclaren-p1-mso\source\web_export/Highest\2518357c1339.gltf
+Generated: 2026-09-17 10:50:10
+Total size (this .gltf + its .bin + every texture file): 42.23 MB
+
+======================================================================
+EXPORT CONFIGURATION
+======================================================================
+External Textures:        ON
+WebGL Optimized Textures: off
+Encrypt Data:             off  (this report reflects the file BEFORE encryption — see _write_variant_reports)
+Obfuscate Viewer JS:      off
+
+======================================================================
+SIZE BREAKDOWN (approximate — see notes)
+======================================================================
+Geometry (vertex/index buffers): 0 B
+Textures (loose files, External Textures mode):    31.42 MB
+Unaccounted (other bufferViews): 10.65 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
+Note: split is by bufferView/file reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
+
+======================================================================
+GEOMETRY
+======================================================================
+Meshes: 99   Primitives: 115
+Triangles: 878,657   Vertices: 1,355,408
+Draco compression: ACTIVE
+
+======================================================================
+TEXTURES
+======================================================================
+KTX2 (GPU-compressed) active: no
+Texture count: 52
+Name                                     Format       Colorspace    Disk size    Est. VRAM
+Tex_GROUNDSHADOW_1                       image/png    sRGB            48.5 KB     387.6 KB
+Tex_GROUNDSHADOW_2                       image/png    sRGB            64.7 KB     517.8 KB
+Normal_CarbonFiber                       image/png    linear          2.21 MB     17.68 MB
+Roughness_CarbonFiber                    image/png    linear          1.03 MB      8.21 MB
+decalsnm                                 image/png    linear         109.5 KB     875.9 KB
+decals                                   image/png    sRGB           284.9 KB      2.23 MB
+details_n                                image/png    linear         126.8 KB    1014.3 KB
+Details_D                                image/png    sRGB           102.0 KB     816.4 KB
+ao2                                      image/png    sRGB           170.4 KB      1.33 MB
+ao1                                      image/png    sRGB           600.8 KB      4.69 MB
+ao4                                      image/png    sRGB           386.3 KB      3.02 MB
+ao3                                      image/png    sRGB           447.0 KB      3.49 MB
+Paiqi                                    image/png    sRGB            12.8 KB     102.2 KB
+grid1_n                                  image/png    linear           2.1 KB      16.9 KB
+grid1_d                                  image/png    sRGB             1.4 KB      11.1 KB
+grid2_d                                  image/png    sRGB             5.1 KB      40.7 KB
+grille1_s_lod0_n                         image/png    linear          62.0 KB     496.1 KB
+grille1_s_lod0_g                         image/png    sRGB            41.6 KB     332.9 KB
+headlights_d                             image/png    sRGB           112.1 KB     896.5 KB
+Normal_PerforatedLeather                 image/png    linear         840.8 KB      6.57 MB
+Roughness_PerforatedLeather              image/png    linear          1.16 MB      9.25 MB
+Plastic012B_1K-PNG_NormalGL              image/png    linear          5.31 MB     42.46 MB
+Plastic012B_1K-PNG_Roughness             image/png    linear         977.5 KB      7.64 MB
+Normal_Alcantara                         image/png    linear          2.23 MB     17.81 MB
+Roughness_Alcantara                      image/png    linear         417.8 KB      3.26 MB
+int_cockpit_occ                          image/png    sRGB           423.3 KB      3.31 MB
+Normal_BrushedAluminium                  image/png    linear          1.68 MB     13.45 MB
+Carbon1_DefaultMaterial_Normal           image/png    linear         125.5 KB    1003.8 KB
+plastics_d                               image/png    sRGB           135.3 KB      1.06 MB
+mechanicals_n                            image/png    linear         184.3 KB      1.44 MB
+mechanicals_d                            image/png    sRGB           146.2 KB      1.14 MB
+grille1_s_lod0                           image/png    sRGB            34.2 KB     273.9 KB
+cockpit_belt                             image/png    sRGB            36.6 KB     292.9 KB
+Normal_BrushedMetal                      image/png    linear         369.0 KB      2.88 MB
+Roughness_BrushedMetal                   image/png    linear         905.7 KB      7.08 MB
+cuciturefixed                            image/png    sRGB            16.3 KB     130.3 KB
+Taillights_D_B                           image/png    sRGB            37.4 KB     299.5 KB
+Normal_CarbonForged.001                  image/png    linear          2.14 MB     17.13 MB
+Glossy_CarbonForged.001                  image/png    sRGB           346.9 KB      2.71 MB
+Roughness_CarbonForged.001               image/png    linear         894.7 KB      6.99 MB
+grid_altoparlanti_nm                     image/png    linear           2.8 KB      22.6 KB
+grid_altoparlanti                        image/png    sRGB             2.0 KB      16.4 KB
+brake_disk_n                             image/png    linear          68.4 KB     547.1 KB
+brake_disk_d                             image/png    sRGB            47.5 KB     380.2 KB
+00b47220                                 image/png    linear          85.6 KB     684.8 KB
+00b54ba0                                 image/png    sRGB           182.2 KB      1.42 MB
+pzer2                                    image/jpeg   sRGB           353.9 KB      2.76 MB
+00355230                                 image/png    linear         152.5 KB      1.19 MB
+00381600                                 image/png    sRGB           133.7 KB      1.04 MB
+Normal_PlasticMatte                      image/png    linear          1.73 MB     13.83 MB
+Carpaint_Clearcoat                       image/png    unknown         2.33 MB     18.67 MB
+Carpaint_Normal                          image/png    linear          2.33 MB     18.65 MB
+
+Estimated total VRAM for textures: 251.33 MB
+
+======================================================================
+MATERIALS / DRAW CALLS
+======================================================================
+Materials: 64
+Primitives (mesh x material combinations): 115
+Draw calls track distinct MATERIALS actually drawn, not primitive count directly — primitives sharing one material can still batch; this is an upper-bound proxy, not a live measurement.
+
+======================================================================
+ANIMATIONS (this file)
+======================================================================
+Clips: 4
+  - FRDOOR_L
+  - FRDOOR_R
+  - FRWHEEL_L
+  - FRWHEEL_R
+
+Configurator-driven animation triggers (material): 1
+  - COLOR  (trigger: None)
+Configurator-driven animation triggers (geometry): 0
+
+======================================================================
+HDRI / ENVIRONMENT
+======================================================================
+Environments: 3
+  - Studio  file=hdri/studio.hdr
+  - Dresden  file=hdri/dresden.exr  [Flatten Ground, ground image: hdri/dresden_ground.webp]
+  - Venice  file=hdri/venice.hdr  [Flatten Ground, ground image: hdri/venice_ground.jpg]
+
+======================================================================
+CONTAINERS (material swap targets)
+======================================================================
+Containers: 3
+  - CARPAINT
+  - BACKGROUND
+  - LOGO
+
+======================================================================
+CONFIGS (Full Configurations)
+======================================================================
+Saved presets: 0
+
+======================================================================
+GEOS (Geo Packages)
+======================================================================
+Exposed geo package categories: 0
+Geo subset presets: 1
+  - Geo Set 1
+
+======================================================================
+MAT SUBSETS (per-category color/material options)
+======================================================================
+Categories: 1   Options: 6
+  - COLOR: 6 option(s) — Orange, White, Green, Blue, Red, Yellow
+
+======================================================================
+CAMERAS
+======================================================================
+Zoom range: 2.698 - 7.748
+Floor Z: 0.7102   Roof Z: 2.7212
+Static cameras: 7  (Free: 1, Locked: 6)
+  - FREECAM_EXT  [free]
+  - CAM1_INT  [zoom_pan]
+  - HEROSHOT1_EXT  [place]
+  - HEROSHOT2_EXT  [place]
+  - CAM3_INT  [place]
+  - CAM2_INT  [place]
+  - HEROSHOT3_EXT  [place]
+Turntable: off
+
+======================================================================
+WARNINGS
+======================================================================
+  ! 6 non-KTX2 texture(s) over 2MB on disk — large VRAM impact once decoded: Normal_CarbonFiber, Plastic012B_1K-PNG_NormalGL, Normal_Alcantara, Normal_CarbonForged.001, Carpaint_Clearcoat
+

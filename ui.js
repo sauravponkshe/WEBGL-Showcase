@@ -42,7 +42,7 @@ function buildFilterSwitcher(){
     const b=mk('button','pb2'); b.textContent=item.name; b.dataset.pf=item.filter_type; b.dataset.pfn=item.name;
     if(window._wceActivePPFilter===item.filter_type) b.classList.add('active');
     b.onclick=()=>{
-      if(typeof _wceApplyPPFilter==='function') _wceApplyPPFilter(item.filter_type, item.intensity);
+      if(typeof _wceApplyPPFilter==='function') _wceApplyPPFilter(item.filter_type, item.intensity, item);
       window._wceActivePPFilter=item.filter_type;
       qsa('.pb2[data-pf]').forEach(x=>x.classList.remove('active'));
       b.classList.add('active');
@@ -173,7 +173,7 @@ function _wceApplyDesignerVisibility(){
   // Hide empty ANIM / CAMERA tabs in Preview and the real exported build,
   // but keep them switchable in the Designer's Edit mode so they can still
   // be set up even before anything has been added to them.
-  [['anim', ['sa-ctrl','sa-combo','sa-builtin','sa-seq']], ['camera', ['sc-static','sc-turntable','sc-cinematic']], ['section', ['ssection']]].forEach(pair=>{
+  [['anim', ['sa-ctrl','sa-combo','sa-builtin','sa-seq','sa-mat','sa-geo']], ['camera', ['sc-static','sc-turntable','sc-cinematic']], ['section', ['ssection']]].forEach(pair=>{
     const tabName = pair[0], sectionIds = pair[1];
     const isEmpty = sectionIds.every(id=>{
       const el=document.getElementById(id);
@@ -215,6 +215,18 @@ window._wceSetDesignerEditMode = function(on){
 // typography are already handled natively via CSS media queries baked in
 // at export time (see _wce_theme_css), requiring no JS here at all.
 function _wceDetectDeviceView(){
+  // wce_mobile_frame means this page is loaded inside the Mobile Portrait/
+  // Horizontal phone-frame preview (see the /__wce_mobile__ server route) --
+  // still a real desktop browser with a real mouse the whole time, so
+  // hover:none/pointer:coarse below would never match no matter how narrow
+  // the frame is. Checking this first means overlay positions, chrome
+  // text, and layout (all driven by this function via
+  // _wceApplyDeviceOverrides) correctly switch to the mobile version
+  // through that preview too, not just the colors/typography that
+  // _wce_theme_css's separate class-based fallback already covers.
+  const forced = new URLSearchParams(window.location.search).get('wce_mobile_frame');
+  if(forced === 'portrait') return 'mobileV';
+  if(forced === 'horizontal') return 'mobileH';
   const isTouch = window.matchMedia("(hover:none) and (pointer:coarse)").matches;
   if(!isTouch) return "desktop";
   return window.matchMedia("(orientation:landscape)").matches ? "mobileH" : "mobileV";
@@ -254,6 +266,15 @@ function _wceAttachOrientationListener(){
   else if(mq.addListener) mq.addListener(onChange);
 }
 function buildUI(){
+  // Mirrors _wceDetectDeviceView's own wce_mobile_frame check, applied as a
+  // body class so _wce_theme_css's class-based fallback (see its own
+  // comment) can pick up the colors/typography half of an artist's mobile
+  // overrides through this same preview path -- _wceApplyDeviceOverrides
+  // right below already handles the JS-driven half (overlays/layout/chrome
+  // text) via that shared detection function.
+  const _wceForcedMobile = new URLSearchParams(window.location.search).get('wce_mobile_frame');
+  if(_wceForcedMobile === 'portrait') document.body.classList.add('wce-force-mobile-v');
+  else if(_wceForcedMobile === 'horizontal') document.body.classList.add('wce-force-mobile-h');
   _wceApplyDeviceOverrides();
   _wceAttachOrientationListener();
   buildVariants();buildGlobalSets();buildGeoPkgs();buildMatSubs();buildHDRISwitcher();buildFilterSwitcher();
@@ -403,13 +424,17 @@ const _seqRunning = {};   // seqName → true while a sequence is executing
 
 
 function _fireStep(step) {
-  const {action_type, action_name, target_state, target_name, container_name, container_material, geo_toggle_chain} = step;
+  const {action_type, action_name, target_state, target_name, target_uid, container_name, container_material, geo_toggle_chain} = step;
   if (action_type === 'flyto') {
     // Dedicated camera fly-to step — no animation, just move the camera.
     if (action_name) flyToCamera(action_name);
   } else if (action_type === 'mat_subset' || action_type === 'global_set') {
     const pool = (CFG.mat_subsets||[]).concat(CFG.global_mat_sets||[]);
-    const s = pool.find(x => x.name === target_name);
+    // Prefer the persistent uid (survives renames, and disambiguates two
+    // categories that happen to share an identically-named subset) --
+    // falls back to a name-only match for sequences saved before target_uid
+    // existed.
+    const s = (target_uid && pool.find(x => x.uid === target_uid)) || pool.find(x => x.name === target_name);
     if (s) {
       applyMatSubset(s.state); refreshAdvMat(s.state);
       // Sync the active-button highlight on the panel, same as the normal
@@ -432,6 +457,13 @@ function _fireStep(step) {
     if (item) {
       _loadHDRIItem(item);
       qsa('.pb2').forEach(x=>{ if(x.dataset.hf!==undefined) x.classList.toggle('active', x.dataset.name===item.name); });
+    }
+  } else if (action_type === 'filter') {
+    const item = ((CFG.post_process&&CFG.post_process.filters)||[]).find(x => x.name === target_name);
+    if (item && typeof _wceApplyPPFilter==='function') {
+      _wceApplyPPFilter(item.filter_type, item.intensity, item);
+      window._wceActivePPFilter=item.filter_type;
+      qsa('.pb2').forEach(x=>{ if(x.dataset.pf!==undefined) x.classList.toggle('active', x.dataset.pfn===item.name); });
     }
   } else if (action_type === 'container') {
     if (container_name && container_material) {
@@ -663,6 +695,11 @@ function applyOverlay(o){
     } else if(o.type==='hdri'){
       const item=(o.uid && (CFG.hdris||[]).find(h=>h.uid===o.uid)) || (CFG.hdris||[]).find(h=>h.name===o.name) || o.item;
       if(item) _loadHDRIItem(item);
+    } else if(o.type==='presentation'){
+      if(_wcePresentationActive){ _wceExitPresentationMode(); }
+      else{ _wceEnterPresentationMode(o, document.querySelector('[data-overlay-id="'+o.id+'"]')); }
+    } else if(o.type==='snapshot'){
+      _wceTakeSnapshot();
     }
     // 'text' and 'group' are purely descriptive/organizational -- no apply action.
   }catch(e){ console.error('[WCE] overlay apply failed:', e); }
@@ -677,10 +714,9 @@ function buildVariants(){
 }
 function buildGlobalSets(){
   const sets=CFG.global_mat_sets||[];if(!sets.length)return;
-  // Suppressed entirely if Global Sets has been claimed by an enabled
-  // Materials auto-cycling entry -- avoids a manual picker and an auto-
-  // cycle hotspot both sitting there doing overlapping jobs.
-  if((CFG.mat_animations||[]).some(d=>d.source_key==='__global_sets__')) return;
+  // Always shown, independent of whether Global Sets also has an enabled
+  // Materials auto-cycling entry -- the manual picker and an auto-cycle
+  // trigger are two separate controls now, not mutually exclusive.
   const overlaySet=_wceOverlaySet();
   const sec=document.getElementById('sgs');sec.innerHTML='<div class="st">Full Configurations</div>';
   sets.forEach(s=>{
@@ -768,9 +804,9 @@ function buildGeoNode(container,children,depth,parentName){
 }
 function buildGeoPkgs(){
   const subs=CFG.geometry_subsets||[];if(!subs.length)return;
-  // Suppressed entirely if Geo Subsets has been claimed by an enabled
-  // Geometries auto-cycling entry.
-  if((CFG.geo_animations||[]).some(d=>d.source_key==='__geo_subsets__')) return;
+  // Always shown, independent of whether Geo Subsets also has an enabled
+  // Geometries auto-cycling entry -- the manual picker and an auto-cycle
+  // trigger are two separate controls now, not mutually exclusive.
   const overlaySet=_wceOverlaySet();
   const sec=document.getElementById('sgp');sec.innerHTML='<div class="st">Packages</div>';
   const g=mk('div','pg');
@@ -784,9 +820,10 @@ function buildMatSubs(){
   const byCat={};subs.forEach(s=>{(byCat[s.category]=byCat[s.category]||[]).push(s);});
   const sec=document.getElementById('sms');sec.innerHTML='';
   Object.entries(byCat).forEach(([cat,items])=>{
-    // Suppressed if this category has been claimed by an enabled
-    // Materials auto-cycling entry.
-    if((CFG.mat_animations||[]).some(d=>d.source_key===cat)) return;
+    // Always shown, independent of whether this category also has an
+    // enabled Materials auto-cycling entry -- the manual picker and an
+    // auto-cycle trigger are two separate controls now, not mutually
+    // exclusive.
     const t=mk('div','st');t.textContent=cat;sec.appendChild(t);const g=mk('div','pg');
     items.forEach(s=>{const b=mk('button','pb2');b.dataset.sc=cat;b.dataset.mn=s.name;b.textContent=s.name;
       b.onclick=()=>{activeV=null;qsa('.vc').forEach(x=>x.classList.remove('active'));applyMatSubset(s.state);qsa('.gb').forEach(x=>x.classList.remove('active'));qsa('.pb2[data-sc]').forEach(x=>x.classList.remove('active'));b.classList.add('active');refreshAdvMat(s.state);};g.appendChild(b);});
@@ -994,20 +1031,56 @@ function _wceApplyGroupCollapse(el, g){
   if(!body || !header) return;
   const collapsed = !!g.collapsed;
   const dir = g.direction || 'vertical';
+  const isHoriz = (dir==='horizontal' || dir==='reverse-horizontal');
+  const isReverse = (dir==='reverse-horizontal' || dir==='reverse-vertical');
   const dirChanged = el.dataset.wceDir !== dir;
   el.dataset.wceDir = dir;
   if(dirChanged){
     header.style.writingMode=''; header.style.transform='';
     header.style.width=''; header.style.height=''; header.style.flexShrink='';
-    el.style.display=''; el.style.flexDirection='';
-    body.style.width='';
-    if(dir==='horizontal'){
-      el.style.display='flex'; el.style.flexDirection='row'; el.style.width='auto';
+    el.style.display=''; el.style.flexDirection=''; el.style.transform='';
+    body.style.width=''; body.style.position=''; body.style.left=''; body.style.top=''; body.style.right=''; body.style.bottom='';
+    if(isHoriz){
+      el.style.display='flex';
+      el.style.flexDirection = isReverse ? 'row-reverse' : 'row';
+      el.style.width='auto';
       header.style.flexShrink='0'; header.style.width='32px';
       header.style.writingMode='vertical-rl'; header.style.transform='rotate(180deg)';
+      if(isReverse){
+        // g.x/g.y (and dragging) always anchor the CONTAINER's own
+        // top-left corner -- fine normally, where the header IS that
+        // corner. For reverse-horizontal, row-reverse puts the header on
+        // the RIGHT instead, so without this it would slide further right
+        // as the body opens. Shifting the whole container left by its own
+        // current total width keeps the header's edge fixed instead --
+        // a percentage transform is relative to the element's OWN
+        // rendered size and is recalculated every frame, so this stays
+        // correct throughout the width transition, not just at rest.
+        el.style.transform = 'translateX(-100%)';
+      }
+    } else if(isReverse){
+      // Reverse Vertical: same header-then-body pair as plain Vertical,
+      // just visually flipped via flex order instead of pulling the body
+      // out of normal flow. A prior version anchored the body with
+      // position:absolute + bottom:100% so it could escape the container
+      // above the header -- that meant the body sat OUTSIDE the
+      // container's own painted box, so the container's own background
+      // never reached it (looked transparent) and its overflow:hidden
+      // clipped it away unless overridden, which still didn't reliably
+      // show. Keeping body in normal flow and reversing the column order
+      // avoids both: the container's box still grows to enclose it, so
+      // its background paints correctly and overflow:hidden never
+      // conflicts with it.
+      el.style.display='flex';
+      el.style.flexDirection='column-reverse';
+      // Same idea as the horizontal case above, on the other axis:
+      // column-reverse puts the header on the BOTTOM, but g.x/g.y still
+      // anchor the container's top-left corner -- without this the
+      // header would slide further down as the body opens above it.
+      el.style.transform = 'translateY(-100%)';
     }
   }
-  if(dir==='horizontal'){
+  if(isHoriz){
     const label=header.querySelector('.wce-group-label');
     let naturalLen=g.height||140;
     if(label){
@@ -1053,7 +1126,7 @@ function buildThumbnailOverlays(){
   // the UI Designer -- variants, configs, packages, materials, animations,
   // cameras, sequences, environment, plus free-floating text labels and
   // collapsible groups that can nest several of the above together.
-  document.querySelectorAll('.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-group,.wce-overlay-section-slider').forEach(el=>el.remove());
+  document.querySelectorAll('.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-group,.wce-overlay-section-slider,.wce-overlay-action-btn').forEach(el=>el.remove());
   const list=window.WCE_OVERLAYS||[];
 
   const groupEls={};
@@ -1258,7 +1331,27 @@ function buildThumbnailOverlays(){
     }catch(e){ console.error('[WCE] failed to render a section slider:', e); }
   });
 
-  list.filter(o=>o.type!=='group' && o.type!=='text' && o.type!=='section_slider').forEach(o=>{
+list.filter(o=>o.type==='presentation').forEach(o=>{
+    const el=mk('button','wce-overlay-action-btn');
+    el.dataset.overlayId=o.id;
+    el.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg><span>'+(o.label||'Present')+'</span>';
+    el.style.left=o.x+'%'; el.style.top=o.y+'%';
+    el.onclick=()=>{ _wcePresentationActive ? _wceExitPresentationMode() : _wceEnterPresentationMode(o, el); };
+    _wceWireProfileTrigger(el, o.id);
+    hostFor(o).appendChild(el);
+  });
+list.filter(o=>o.type==='snapshot').forEach(o=>{
+    const el=mk('button','wce-overlay-action-btn');
+    el.dataset.overlayId=o.id;
+    el.dataset.wceActionKind='snapshot';
+    el.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span>'+(o.label||'Snapshot')+'</span>';
+    el.style.left=o.x+'%'; el.style.top=o.y+'%';
+    el.onclick=()=>_wceTakeSnapshot();
+    _wceWireProfileTrigger(el, o.id);
+    hostFor(o).appendChild(el);
+  });
+
+  list.filter(o=>o.type!=='group' && o.type!=='text' && o.type!=='section_slider' && o.type!=='presentation' && o.type!=='snapshot').forEach(o=>{
     if(!o.type && o.container && o.material) o.type='material';
     const el=mk('div','wce-overlay-thumb');
     el.style.left=(o.x??10)+'%';
@@ -1330,3 +1423,252 @@ function refreshActive(){
 }
 const mk=(t,c)=>{const e=document.createElement(t);if(c)e.className=c;return e;};
 const qsa=(s)=>[...document.querySelectorAll(s)];
+
+// ── Presentation Mode & Snapshot ─────────────────────────────────────────
+function _wceTakeSnapshot(){
+  try{
+    // comp (EffectComposer) is what the render loop actually calls every
+    // frame -- bloom, color grading, DOF, any other post-process pass only
+    // ever gets applied through it. Calling renderer.render(scene, cam)
+    // directly, as a previous version did, bypasses all of that entirely
+    // (a raw, unfiltered copy, confirmed directly against a real project),
+    // and exercises a plain rendering path the app otherwise never uses at
+    // all, which is almost certainly why the very first snapshot noticeably
+    // lagged -- likely forcing fresh shader compilation for a path the
+    // composer's own continuous rendering had never needed and so never
+    // warmed up. Reusing the exact same call the render loop already makes
+    // every frame avoids both problems at once.
+    comp.render();
+    const url=renderer.domElement.toDataURL('image/png');
+    const a=document.createElement('a');
+    a.href=url; a.download='snapshot-'+Date.now()+'.png';
+    document.body.appendChild(a); a.click(); a.remove();
+  }catch(e){ console.error('[WCE] Snapshot failed:', e); }
+}
+let _wcePresentationActive=false;
+let _wcePresentationHiddenEls=[];
+let _wcePresentationHiddenMarkers=[];
+const _wcePresentationRevealed=new Set();
+let _wcePresentationKeyHandler=null;
+let _wcePresentationDef=null;
+let _wcePresentationTriggerEl=null;
+let _wcePresentationTriggerOrigHTML=null;
+function _wcePresentationHideSelectors(){
+  // Everything a visitor would normally interact with -- the side panel,
+  // every artist-placed overlay (including every OTHER Presentation
+  // button an artist placed), the Sound/AR chrome buttons. Only the 3D
+  // view is left. The specific button that triggered this run is
+  // excluded from the sweep separately in _wceEnterPresentationMode below
+  // -- not by leaving its class out of this list -- since every other
+  // .wce-overlay-action-btn still needs to hide like everything else.
+  // Snapshot buttons are ALSO excluded from this same sweep (see the skip
+  // check below) -- there's no separate built-in Snapshot control
+  // anymore; an artist's OWN placed Snapshot button simply stays visible
+  // and usable the whole time presenting, the same way Present's own
+  // button does (just without needing to relabel into anything).
+  //
+  // Hotspot markers, annotation markers, and image triggers are
+  // DELIBERATELY not listed here at all -- they're handled by a
+  // completely separate mechanism below (_wcePresentationHiddenMarkers),
+  // not this generic style.display sweep. All three are driven by their
+  // own per-frame tick function (_tickHotspots / _tickImgTriggers), which
+  // runs on every single rendered frame and actively re-manages each
+  // marker's own display style itself (occlusion, on/off-screen fading,
+  // its own 'hidden' flag) -- setting style.display directly here would
+  // just get silently overwritten on the very next frame, which is
+  // exactly why the reveal hotkeys looked like they were doing nothing at
+  // all: the hide was being undone 60 times a second, confirmed directly
+  // against a real project.
+  return ['#panel','#ptab','#sfx-toggle','#ar-btn','.wce-overlay-thumb','.wce-overlay-text',
+          '.wce-overlay-group','.wce-overlay-section-slider','.wce-overlay-action-btn'];
+}
+function _wceElementCategory(el){
+  // Maps a DOM element back to whichever hotkey category it would be
+  // addressed by, so the hide sweep can check "does THIS specific thing
+  // already have a hotkey assigned" -- needed for starting hotkey-
+  // assigned categories visible (ON) instead of hidden, since knowing
+  // that requires knowing which category each individual element IS,
+  // not just which selector matched it.
+  if(el.id==='panel' || el.id==='ptab') return 'chrome:panel';
+  if(el.id==='sfx-toggle') return 'chrome:sound';
+  if(el.id==='ar-btn') return 'chrome:ar';
+  if(el.dataset.overlayId) return 'overlay:'+el.dataset.overlayId;
+  return null;
+}
+function _wcePresentationCategorySelector(cat){
+  // Bulk categories are addressed as a whole (chrome pieces) -- individual
+  // overlays are addressed by the same data-overlay-id every overlay
+  // element already carries, so this never needs its own separate id
+  // scheme. Hotspots/annotations/image triggers are NOT resolved to a
+  // selector at all -- see _wceToggleMarkerCategory, which handles them
+  // through each marker's own 'hidden' flag instead of a CSS selector,
+  // for the reason explained in _wcePresentationHideSelectors above.
+  if(cat==='chrome:panel') return '#panel,#ptab';
+  if(cat==='chrome:sound') return '#sfx-toggle';
+  if(cat==='chrome:ar') return '#ar-btn';
+  if(cat.indexOf('overlay:')===0) return '[data-overlay-id="'+cat.slice(8)+'"]';
+  return null;
+}
+function _wceHideMarkerCategory(kind, hasHotkey, arr, filterFn){
+  // hs.hidden / it.hidden is the SAME flag other, completely separate
+  // logic already uses for its own conditional visibility (e.g. an
+  // annotation linked to a material/geo subset that isn't currently
+  // active) -- recording each marker's CURRENT value before forcing it
+  // to true, rather than assuming it started false, means exiting
+  // presentation mode can restore exactly what that other logic already
+  // wanted, instead of incorrectly revealing something it meant to keep
+  // hidden. kind is tracked explicitly rather than inferred from a
+  // property like isAnnotation, since image trigger objects don't carry
+  // that field at all (undefined would otherwise read as false, wrongly
+  // grouping them in with plain hotspots).
+  //
+  // hasHotkey: still records every entry either way (needed for exit to
+  // restore correctly regardless), but only actually forces hidden=true
+  // when this category has NO assigned hotkey. A category with one
+  // starts exactly as it already was (usually visible) instead of forced
+  // hidden, and gets marked already-revealed below so the very first
+  // press of its hotkey correctly turns it OFF, not silently does nothing.
+  (arr||[]).forEach(function(item){
+    if(!filterFn(item)) return;
+    _wcePresentationHiddenMarkers.push({item:item, orig:item.hidden, kind:kind});
+    if(!hasHotkey) item.hidden = true;
+  });
+}
+function _wceToggleMarkerCategory(kind, reveal){
+  _wcePresentationHiddenMarkers.forEach(function(entry){
+    if(entry.kind !== kind) return;
+    // Revealing always shows it regardless of what it was hidden for (the
+    // artist explicitly asked to see it right now); re-hiding always goes
+    // back to fully hidden, matching everything else's default during
+    // presentation -- only actually exiting presentation mode restores
+    // each marker's own original reason for being hidden or not.
+    entry.item.hidden = !reveal;
+  });
+}
+function _wceEnterPresentationMode(def, triggerEl){
+  if(_wcePresentationActive) return;
+  _wcePresentationActive=true;
+  _wcePresentationDef=def||{};
+  _wcePresentationHiddenEls=[];
+  _wcePresentationHiddenMarkers=[];
+  _wcePresentationRevealed.clear();
+  _wcePresentationTriggerEl=triggerEl||null;
+  _wcePresentationTriggerOrigHTML=null;
+  // Every category that has at least one hotkey assigned to it starts
+  // visible (ON) instead of hidden -- the hotkey itself is what turns it
+  // OFF (and back on again), rather than only ever being a way to peek at
+  // something that starts hidden. Categories with no hotkey at all keep
+  // the original all-hidden-by-default behavior, since there'd be no way
+  // to ever bring them back otherwise.
+  const hotkeyCats = new Set((_wcePresentationDef.hotkeys||[]).map(function(h){ return h.category; }));
+  _wcePresentationHideSelectors().forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      // Never hide a Snapshot button -- there's no separate built-in one
+      // anymore, an artist's OWN placed Snapshot button just stays usable
+      // the whole time presenting -- nor the specific button that
+      // triggered this (handled below, possibly relabeled into Close
+      // rather than left alone).
+      if(el.dataset.wceActionKind==='snapshot') return;
+      if(el===_wcePresentationTriggerEl) return;
+      _wcePresentationHiddenEls.push({el:el, prevDisplay:el.style.display});
+      const cat = _wceElementCategory(el);
+      if(cat && hotkeyCats.has(cat)){
+        _wcePresentationRevealed.add(cat);
+        return;
+      }
+      el.style.display='none';
+    });
+  });
+  _wceHideMarkerCategory('hotspot', hotkeyCats.has('bulk:hotspots'), window.hotspots, function(hs){ return !hs.isAnnotation; });
+  _wceHideMarkerCategory('annotation', hotkeyCats.has('bulk:annotations'), window.hotspots, function(hs){ return !!hs.isAnnotation; });
+  _wceHideMarkerCategory('imagetrigger', hotkeyCats.has('bulk:imagetriggers'), window._imgTriggers, function(){ return true; });
+  if(hotkeyCats.has('bulk:hotspots')) _wcePresentationRevealed.add('bulk:hotspots');
+  if(hotkeyCats.has('bulk:annotations')) _wcePresentationRevealed.add('bulk:annotations');
+  if(hotkeyCats.has('bulk:imagetriggers')) _wcePresentationRevealed.add('bulk:imagetriggers');
+  if(_wcePresentationTriggerEl){
+    if(_wcePresentationDef.showCloseButton===false){
+      // Artist opted out of a visible way out -- hide the trigger button
+      // itself too, exactly like everything else. Escape still always
+      // works regardless of this setting.
+      _wcePresentationHiddenEls.push({el:_wcePresentationTriggerEl, prevDisplay:_wcePresentationTriggerEl.style.display});
+      _wcePresentationTriggerEl.style.display='none';
+    } else {
+      // The SAME button the artist placed becomes Close, rather than a
+      // separate built-in Close button appearing alongside it -- restored
+      // back to its original Present label/icon on exit, below.
+      _wcePresentationTriggerOrigHTML=_wcePresentationTriggerEl.innerHTML;
+      _wcePresentationTriggerEl.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg><span>Close</span>';
+      _wcePresentationTriggerEl.classList.add('wce-presentation-active');
+    }
+  }
+  const rootEl=document.documentElement;
+  const req=rootEl.requestFullscreen||rootEl.webkitRequestFullscreen||rootEl.mozRequestFullScreen;
+  if(req){ try{ req.call(rootEl).catch(function(){}); }catch(e){} }
+  // Reveal hotkeys are only ever heard by whichever document currently
+  // has keyboard focus -- when this whole thing is running inside the
+  // Designer's own preview iframe (as opposed to the real, standalone
+  // page, where there's no separate focus target to lose in the first
+  // place), focus could still be sitting on the Designer's own outer
+  // page (its sidebar, an input, etc.) at the moment Present gets
+  // clicked, in which case the very next keypress would never reach this
+  // listener at all. Explicitly taking focus here guarantees it lands in
+  // the right place regardless of whatever had it a moment before.
+  try{ window.focus(); }catch(e){}
+  _wcePresentationKeyHandler=function(ev){
+    const hotkeys=_wcePresentationDef.hotkeys||[];
+    // One key can be assigned to several different targets at once (see
+    // the duplicate check in the Designer's own Add Hotkey handler, which
+    // only blocks the exact same key+target pair twice, not a key being
+    // reused across DIFFERENT targets) -- so this triggers every matching
+    // entry, not just the first one found, otherwise a key configured for
+    // two things would only ever toggle one of them.
+    const matches=hotkeys.filter(function(h){ return h.key===ev.code; });
+    matches.forEach(function(h){ _wceTogglePresentationReveal(h.category); });
+  };
+  document.addEventListener('keydown', _wcePresentationKeyHandler);
+}
+function _wceTogglePresentationReveal(cat){
+  const isRevealed=_wcePresentationRevealed.has(cat);
+  if(cat==='bulk:hotspots'){
+    _wceToggleMarkerCategory('hotspot', !isRevealed);
+  } else if(cat==='bulk:annotations'){
+    _wceToggleMarkerCategory('annotation', !isRevealed);
+  } else if(cat==='bulk:imagetriggers'){
+    _wceToggleMarkerCategory('imagetrigger', !isRevealed);
+  } else {
+    const sel=_wcePresentationCategorySelector(cat);
+    if(!sel) return;
+    document.querySelectorAll(sel).forEach(function(el){
+      // Only ever touches elements presentation mode itself recorded -- an
+      // element that was already hidden for some other reason (Removed via
+      // the theme, a currently-empty tab, etc.) is left alone either way.
+      const entry=_wcePresentationHiddenEls.find(function(h){ return h.el===el; });
+      if(!entry) return;
+      el.style.display = isRevealed ? 'none' : (entry.prevDisplay||'');
+    });
+  }
+  if(isRevealed) _wcePresentationRevealed.delete(cat); else _wcePresentationRevealed.add(cat);
+}
+function _wceExitPresentationMode(){
+  if(!_wcePresentationActive) return;
+  _wcePresentationActive=false;
+  _wcePresentationHiddenEls.forEach(function(entry){ entry.el.style.display=entry.prevDisplay; });
+  _wcePresentationHiddenEls=[];
+  _wcePresentationHiddenMarkers.forEach(function(entry){ entry.item.hidden=entry.orig; });
+  _wcePresentationHiddenMarkers=[];
+  _wcePresentationRevealed.clear();
+  if(_wcePresentationTriggerEl && _wcePresentationTriggerOrigHTML!==null){
+    _wcePresentationTriggerEl.innerHTML=_wcePresentationTriggerOrigHTML;
+    _wcePresentationTriggerEl.classList.remove('wce-presentation-active');
+  }
+  _wcePresentationTriggerEl=null;
+  _wcePresentationTriggerOrigHTML=null;
+  if(_wcePresentationKeyHandler){ document.removeEventListener('keydown', _wcePresentationKeyHandler); _wcePresentationKeyHandler=null; }
+  if(document.fullscreenElement && document.exitFullscreen){ try{ document.exitFullscreen().catch(function(){}); }catch(e){} }
+}
+// Escape (or any other way fullscreen ends) fires this natively -- a
+// single shared exit path for every way presentation mode can end, rather
+// than separately wiring Escape and the Close button to do the same thing.
+document.addEventListener('fullscreenchange', function(){
+  if(!document.fullscreenElement && _wcePresentationActive) _wceExitPresentationMode();
+});
