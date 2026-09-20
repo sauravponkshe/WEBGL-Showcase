@@ -2,6 +2,516 @@
 // Edit this file to customise the web UI after export.
 // Globals are exposed by the main module via window before buildUI() is called.
 
+// ===== WCEG — shared Group-Frame / Shape helpers ==========================
+// This exact block is injected into BOTH the UI Designer page and the exported
+// site's ui.js (see _WCE_GROUP_COMMON_JS in core.py), so the two can never drift
+// apart. Everything here is DOM-only: it takes elements/objects as arguments and
+// uses el.ownerDocument, so it works for the Designer's iframe document and the
+// real page alike.
+const WCEG = (function(){
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  // Scroll offset per group id — survives the full re-renders both the Designer
+  // and the exported page do (they rebuild every overlay element on each change).
+  // Kept on the window that OWNS the element (the preview iframe, when in the
+  // Designer) so the Designer's copy of this module and the page's own copy of it
+  // always read and write the very same offsets.
+  function st(el){
+    const w = el.ownerDocument.defaultView;
+    return w.__wcegScroll || (w.__wcegScroll = {});
+  }
+
+  const CSS = [
+    // Content layer every child of a group / shape is placed in. Children keep
+    // being positioned in % of it, exactly as they were in % of the old body.
+    '.wce-group-content{position:absolute;left:0;top:0;right:0;bottom:0}',
+    '.wce-shape-fill,.wce-shape-content{position:absolute;left:0;top:0;right:0;bottom:0}',
+    '.wce-shape-fill{pointer-events:none}',
+    '.wce-shape-fill svg{position:absolute;left:0;top:0;display:block}',
+    // A shape is decoration + container: it never blocks the 3D view itself,
+    // only the things placed inside it stay interactive.
+    '.wce-overlay-shape{position:fixed;z-index:4;pointer-events:none}',
+    '.wce-shape-content .wce-overlay-thumb,.wce-shape-content .wce-overlay-action-btn,.wce-shape-content .wce-overlay-group,',
+    '.wce-shape-content .wce-overlay-section-slider,.wce-shape-content .wce-overlay-linked,',
+    '.wce-group-content .wce-overlay-linked{pointer-events:auto}',
+    // Anything sitting inside a container is positioned relative to it (before,
+    // sliders / action buttons stayed position:fixed even inside a group).
+    '.wce-group-content>.wce-overlay-thumb,.wce-group-content>.wce-overlay-text,.wce-group-content>.wce-overlay-shape,',
+    '.wce-group-content>.wce-overlay-section-slider,.wce-group-content>.wce-overlay-action-btn,',
+    '.wce-shape-content>.wce-overlay-thumb,.wce-shape-content>.wce-overlay-text,.wce-shape-content>.wce-overlay-shape,',
+    '.wce-shape-content>.wce-overlay-section-slider,.wce-shape-content>.wce-overlay-action-btn{position:absolute}',
+    // A group frame can sit inside another group frame or a shape: positioned inside it, and (inside a shape,
+    // which is click-through) still interactive.
+    '.wce-group-content>.wce-overlay-group,.wce-shape-content>.wce-overlay-group{position:absolute}',
+    // A group can be as wide as the screen, but never wider than a smaller one.
+    '.wce-overlay-group{max-width:100vw}',
+    '.wce-group-scroller{position:absolute;z-index:8;box-sizing:border-box;touch-action:none;cursor:pointer}',
+    '.wce-group-scroller-thumb{position:absolute;left:0;right:0;top:0;box-sizing:border-box;cursor:grab}'
+  ].join('\n');
+
+  function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
+  function num(v, dflt){ return (v!==undefined && v!==null && v!=='' && !isNaN(v)) ? +v : dflt; }
+
+  function rgba(hex, a){
+    const h = String(hex||'#808080').replace('#','');
+    let r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
+    if(isNaN(r)) r = 128;
+    if(isNaN(g)) g = 128;
+    if(isNaN(b)) b = 128;
+    return 'rgba('+r+','+g+','+b+','+a+')';
+  }
+  function isHoriz(dir){ return dir==='horizontal' || dir==='reverse-horizontal'; }
+
+  // ---------- Group frame: structure ----------
+  function groupInnerHTML(g){
+    return '<div class="wce-group-header"><span class="wce-group-arrow">'+(g.collapsed?'\u25b8':'\u25be')+'</span>'+
+      '<span class="wce-group-label">'+(g.label||'Group')+'</span></div>'+
+      '<div class="wce-group-body"><div class="wce-group-content"></div></div>';
+  }
+  // The element every child of the group is appended to and positioned against.
+  function groupHost(el){
+    return el.querySelector('.wce-group-content') || el.querySelector('.wce-group-body');
+  }
+
+  // Header title alignment. Stored as start / center / end so that "start" always
+  // means "the side the arrow is on". In a horizontal-collapse group the header is a
+  // rotated vertical strip (writing-mode + rotate(180deg)), so start = visual BOTTOM
+  // and end = visual TOP there; in vertical groups start = left, end = right.
+  function headerTextAlign(align, dir){
+    if(align==='center') return 'center';
+    if(isHoriz(dir)) return align==='end' ? 'end' : 'start';
+    return align==='end' ? 'right' : 'left';
+  }
+
+  // ---------- Group frame: arrow, title alignment, container, scroller ----------
+  function groupExtras(el, g){
+    el.__wcegG = g;
+    // The outer container used to carry its own dark background + border in CSS, which
+    // stayed visible underneath the tab/shelf and made "transparent" impossible.
+    // Tab and shelf paint their own backgrounds, so the container itself stays neutral.
+    el.style.background = 'none';
+    el.style.border = 'none';
+    const arrow = el.querySelector('.wce-group-arrow');
+    const label = el.querySelector('.wce-group-label');
+    if(arrow){
+      arrow.style.color = g.arrowColor || '';               // '' -> CSS default (accent)
+      arrow.style.fontSize = num(g.arrowSize, 9)+'px';
+    }
+    if(label){
+      label.style.flex = '1 1 auto';
+      label.style.minWidth = '0';
+      label.style.textAlign = headerTextAlign(g.headerAlign, g.direction||'vertical');
+    }
+    layoutScroller(el, g);
+  }
+
+  function scrollOn(g){ return !!(g && g.scrollEnabled); }
+  function scrollLenOf(g){ return num(g.scrollLength, 600); }
+
+  function metrics(el, g){
+    const content = el.querySelector('.wce-group-content');
+    const viewH = content ? content.clientHeight : 0;
+    const total = Math.max(scrollLenOf(g), viewH);
+    return {viewH: viewH, total: total, max: Math.max(0, total - viewH)};
+  }
+  // Highest y (in % of the shelf) an element may be dragged to inside a group.
+  function yMaxPct(g, viewH){
+    if(!scrollOn(g) || !viewH) return 96;
+    return Math.max(96, (Math.max(scrollLenOf(g), viewH) / viewH) * 100 - 4);
+  }
+
+  function layoutScroller(el, g){
+    const body = el.querySelector('.wce-group-body');
+    const content = el.querySelector('.wce-group-content');
+    if(!body || !content) return;
+    let bar = body.querySelector(':scope > .wce-group-scroller');
+    if(!scrollOn(g)){
+      if(bar) bar.remove();
+      content.style.left = '0'; content.style.right = '0'; content.style.transform = '';
+      body.style.touchAction = '';
+      delete st(el)[g.id];
+      return;
+    }
+    const doc = el.ownerDocument;
+    const side = g.scrollSide==='left' ? 'left' : 'right';
+    const thick = clamp(num(g.scrollWidth, 10), 2, 60);
+    const gut = thick + 6;                                    // gutter reserved beside the content
+    content.style.left = side==='left' ? gut+'px' : '0';
+    content.style.right = side==='right' ? gut+'px' : '0';
+    body.style.touchAction = 'none';
+    let thumb;
+    if(!bar){
+      bar = doc.createElement('div'); bar.className = 'wce-group-scroller';
+      thumb = doc.createElement('div'); thumb.className = 'wce-group-scroller-thumb';
+      bar.appendChild(thumb); body.appendChild(bar);
+      wireScroller(el, bar, thumb);
+    } else {
+      thumb = bar.querySelector('.wce-group-scroller-thumb');
+    }
+    const len = clamp(num(g.scrollTrackLength, 100), 10, 100);
+    const bw = clamp(num(g.scrollBorderWidth, 0), 0, 8);
+    const rad = clamp(num(g.scrollRadius, 4), 0, 30);
+    bar.style.width = thick+'px';
+    bar.style.top = ((100-len)/2)+'%';
+    bar.style.height = len+'%';
+    bar.style.left = side==='left' ? '3px' : 'auto';
+    bar.style.right = side==='right' ? '3px' : 'auto';
+    bar.style.background = rgba(g.scrollBg || '#000000', num(g.scrollBgOpacity, 40)/100);
+    bar.style.border = bw>0 ? (bw+'px solid '+(g.scrollBorderColor || '#444444')) : 'none';
+    bar.style.borderRadius = rad+'px';
+    thumb.style.background = rgba(g.scrollThumbColor || '#c8a96e', num(g.scrollThumbOpacity, 100)/100);
+    thumb.style.borderRadius = Math.max(0, rad - bw)+'px';
+    updateScroller(el);
+  }
+
+  // Re-measures and repositions (viewport height changes with collapse / resize).
+  function updateScroller(el){
+    const g = el.__wcegG;
+    if(!g) return;
+    const content = el.querySelector('.wce-group-content');
+    if(!content) return;
+    if(!scrollOn(g)){ content.style.transform = ''; return; }
+    const m = metrics(el, g);
+    if(m.viewH <= 0) return;                                   // collapsed / not laid out yet
+    const t = clamp(st(el)[g.id] || 0, 0, m.max);
+    st(el)[g.id] = t;
+    content.style.transform = t ? 'translateY('+(-t)+'px)' : '';
+    const bar = el.querySelector('.wce-group-scroller');
+    const thumb = bar && bar.querySelector('.wce-group-scroller-thumb');
+    if(!bar || !thumb) return;
+    const trackH = bar.clientHeight;
+    const ratio = m.total > 0 ? Math.min(1, m.viewH / m.total) : 1;
+    const thumbH = Math.max(Math.min(24, trackH), trackH * ratio);
+    thumb.style.height = thumbH+'px';
+    thumb.style.top = (m.max > 0 ? (trackH - thumbH) * (t / m.max) : 0)+'px';
+  }
+  // Collapse animates the shelf height, so measure now AND once it has settled.
+  function scheduleRefresh(el){
+    if(!el.__wcegG) return;
+    updateScroller(el);
+    if(!scrollOn(el.__wcegG)) return;                          // nothing to re-measure later
+    const w = el.ownerDocument.defaultView;
+    if(!w) return;
+    w.requestAnimationFrame(function(){ updateScroller(el); });
+    w.setTimeout(function(){ updateScroller(el); }, 330);
+  }
+  function setScroll(el, top){
+    const g = el.__wcegG;
+    if(!scrollOn(g)) return;
+    st(el)[g.id] = top;
+    updateScroller(el);
+  }
+
+  function wireScroller(el, bar, thumb){
+    const body = el.querySelector('.wce-group-body');
+    thumb.addEventListener('pointerdown', function(ev){
+      ev.stopPropagation(); ev.preventDefault();
+      const g = el.__wcegG; if(!g) return;
+      const m = metrics(el, g); if(m.max <= 0) return;
+      const startY = ev.clientY, startTop = st(el)[g.id] || 0;
+      const span = Math.max(1, bar.clientHeight - thumb.offsetHeight);
+      try{ thumb.setPointerCapture(ev.pointerId); }catch(e){}
+      function move(e){ setScroll(el, startTop + (e.clientY - startY) * (m.max / span)); }
+      function up(e){
+        thumb.removeEventListener('pointermove', move);
+        thumb.removeEventListener('pointerup', up);
+        thumb.removeEventListener('pointercancel', up);
+        try{ thumb.releasePointerCapture(e.pointerId); }catch(_){}
+      }
+      thumb.addEventListener('pointermove', move);
+      thumb.addEventListener('pointerup', up);
+      thumb.addEventListener('pointercancel', up);
+    });
+    // Clicking the empty track jumps the thumb there.
+    bar.addEventListener('pointerdown', function(ev){
+      if(ev.target === thumb) return;
+      ev.stopPropagation(); ev.preventDefault();
+      const g = el.__wcegG; if(!g) return;
+      const m = metrics(el, g); if(m.max <= 0) return;
+      const r = bar.getBoundingClientRect();
+      const span = bar.clientHeight - thumb.offsetHeight;
+      const py = (ev.clientY - r.top - bar.clientTop) - thumb.offsetHeight / 2;
+      setScroll(el, (span > 0 ? clamp(py / span, 0, 1) : 0) * m.max);
+    });
+    if(body.__wcegWired) return;
+    body.__wcegWired = true;
+    // Mouse wheel anywhere over the shelf.
+    body.addEventListener('wheel', function(ev){
+      const g = el.__wcegG; if(!scrollOn(g)) return;
+      const m = metrics(el, g); if(m.max <= 0) return;
+      ev.preventDefault(); ev.stopPropagation();
+      setScroll(el, (st(el)[g.id] || 0) + (ev.deltaMode===1 ? ev.deltaY*16 : ev.deltaY));
+    }, {passive:false});
+    // Touch drag on the shelf; a drag that scrolled must not also count as a tap.
+    let ty = 0, t0 = 0, moved = false;
+    body.addEventListener('touchstart', function(ev){
+      const g = el.__wcegG; if(!scrollOn(g) || !ev.touches.length) return;
+      ty = ev.touches[0].clientY; t0 = st(el)[g.id] || 0; moved = false;
+    }, {passive:true});
+    body.addEventListener('touchmove', function(ev){
+      const g = el.__wcegG; if(!scrollOn(g) || !ev.touches.length) return;
+      const dy = ty - ev.touches[0].clientY;
+      if(Math.abs(dy) > 6) moved = true;
+      if(moved){ ev.preventDefault(); setScroll(el, t0 + dy); }
+    }, {passive:false});
+    body.addEventListener('touchend', function(){
+      if(!moved) return;
+      moved = false;
+      const swallow = function(e){ e.stopPropagation(); e.preventDefault(); };
+      body.addEventListener('click', swallow, true);
+      el.ownerDocument.defaultView.setTimeout(function(){ body.removeEventListener('click', swallow, true); }, 350);
+    }, {passive:true});
+  }
+
+  // ---------- Shapes: decoration that is also a container ----------
+  const SHAPE_VERTS = {
+    hexagon:  [[25,0],[75,0],[100,50],[75,100],[25,100],[0,50]],
+    pentagon: [[50,0],[100,38],[82,100],[18,100],[0,38]],
+    octagon:  [[30,0],[70,0],[100,30],[100,70],[70,100],[30,100],[0,70],[0,30]],
+    diamond:  [[50,0],[100,50],[50,100],[0,50]]
+  };
+  // Rounded polygon path for a w x h box (vertices are % of each axis).
+  function polyPath(w, h, vp, radius){
+    const pts = vp.map(function(p){ return [p[0]/100*w, p[1]/100*h]; });
+    const n = pts.length;
+    function dist(a,b){ return Math.hypot(a[0]-b[0], a[1]-b[1]); }
+    function norm(v){ const l = Math.hypot(v[0], v[1]) || 1; return [v[0]/l, v[1]/l]; }
+    let d = '';
+    for(let i=0;i<n;i++){
+      const prev = pts[(i-1+n)%n], curr = pts[i], next = pts[(i+1)%n];
+      const v1 = norm([curr[0]-prev[0], curr[1]-prev[1]]), v2 = norm([next[0]-curr[0], next[1]-curr[1]]);
+      const len1 = dist(prev,curr), len2 = dist(curr,next);
+      const r = Math.max(0, Math.min(radius, len1/2, len2/2));
+      const p1 = [curr[0]-v1[0]*r, curr[1]-v1[1]*r], p2 = [curr[0]+v2[0]*r, curr[1]+v2[1]*r];
+      d += (i===0?'M ':'L ')+p1[0].toFixed(2)+' '+p1[1].toFixed(2)+' ';
+      d += 'Q '+curr[0].toFixed(2)+' '+curr[1].toFixed(2)+' '+p2[0].toFixed(2)+' '+p2[1].toFixed(2)+' ';
+    }
+    return d + 'Z';
+  }
+
+  // ---------- Images: ONE crop model for thumbnails, image frames, toggle-state images and shapes ----------
+  // rec = {image, imageAspect (natural width / height), imageFit ('fill' = cover, 'fit' = contain),
+  //        imageScale (% of that baseline size; 100 = exactly as filled / fitted),
+  //        imageX / imageY (0-100: where the image sits inside the frame -- 0 puts its left / top edge on the
+  //        frame's left / top edge, 100 its right / bottom edge on the right / bottom edge)}.
+  // The WHOLE picture is always kept; the frame only shows the part selected by scale + position, so a crop
+  // can be adjusted any time. Fit / Fill only change the baseline size, Scale multiplies it.
+  const _aspects = {}, _waiters = {};
+  function aspectKey(u){ return u.length + ':' + u.slice(0, 40) + u.slice(-40); }
+  function knownAspect(rec){ return rec.imageAspect > 0 ? rec.imageAspect : (_aspects[aspectKey(rec.image)] || 0); }
+  function measureImage(url, doc, done){
+    const key = aspectKey(url);
+    if(_aspects[key]){ done(_aspects[key]); return; }
+    if(_waiters[key]){ _waiters[key].push(done); return; }
+    _waiters[key] = [done];
+    const img = new (doc.defaultView.Image)();
+    function fin(a){ _aspects[key] = a; const w = _waiters[key] || []; delete _waiters[key]; w.forEach(function(f){ try{ f(a); }catch(e){} }); }
+    img.onload = function(){ fin(img.naturalWidth > 0 && img.naturalHeight > 0 ? img.naturalWidth / img.naturalHeight : 1); };
+    img.onerror = function(){ fin(1); };
+    img.src = url;
+  }
+  // Size + position of the whole picture inside a W x H frame, in px (null while its shape is still unknown).
+  function imgGeom(rec, W, H){
+    const a = knownAspect(rec);
+    if(!(a > 0) || !(W > 0) || !(H > 0)) return null;
+    let iw = rec.imageFit === 'fit' ? Math.min(W, H * a) : Math.max(W, H * a);
+    iw *= clamp(num(rec.imageScale, 100), 5, 800) / 100;
+    const ih = iw / a;
+    const X = clamp(num(rec.imageX, 50), 0, 100), Y = clamp(num(rec.imageY, 50), 0, 100);
+    return {iw: iw, ih: ih, left: (W - iw) * X / 100, top: (H - ih) * Y / 100, a: a};
+  }
+  // (Re)paints the image layer inside `host`. The host must be positioned and clip its own overflow
+  // (border-radius / clip-path / overflow:hidden); W x H is the layer's box in px.
+  function paintImage(host, rec, W, H, opacity){
+    const doc = host.ownerDocument;
+    let layer = host.querySelector(':scope > .wce-img-layer');
+    if(!layer){ layer = doc.createElement('div'); layer.className = 'wce-img-layer'; host.insertBefore(layer, host.firstChild); }
+    layer.style.position = 'absolute'; layer.style.left = '0px'; layer.style.top = '0px';
+    layer.style.width = W + 'px'; layer.style.height = H + 'px';
+    layer.style.pointerEvents = 'none'; layer.style.backgroundRepeat = 'no-repeat';
+    layer.style.backgroundImage = 'url("' + String(rec.image).replace(/"/g, '%22') + '")';
+    layer.style.opacity = (opacity != null && opacity < 1) ? String(opacity) : '';
+    const g = imgGeom(rec, W, H);
+    if(g){
+      layer.style.backgroundSize = g.iw + 'px ' + g.ih + 'px';
+      layer.style.backgroundPosition = g.left + 'px ' + g.top + 'px';
+    } else {
+      // Picture shape not known yet (saved by an older build): keyword baseline now, exact once it has loaded.
+      layer.style.backgroundSize = rec.imageFit === 'fit' ? 'contain' : 'cover';
+      layer.style.backgroundPosition = num(rec.imageX, 50) + '% ' + num(rec.imageY, 50) + '%';
+      measureImage(rec.image, doc, function(){ if(host.isConnected) paintImage(host, rec, W, H, opacity); });
+    }
+    return layer;
+  }
+  // Frame size of a thumbnail-style element. Image frames may be any width x height; everything else is square.
+  function thumbDims(o){
+    const size = num(o.size, 46);
+    const frame = o.type === 'deco_image';
+    return {w: frame && o.width > 0 ? o.width : size, h: frame && o.height > 0 ? o.height : size};
+  }
+  // Where the image layer sits inside such an element (inside its border) and how big it is.
+  function thumbImageBox(o){
+    const d = thumbDims(o), bw = (o.shape === 'none') ? 0 : (o.borderWidth != null ? o.borderWidth : 2);
+    return {ox: bw, oy: bw, W: Math.max(1, d.w - 2 * bw), H: Math.max(1, d.h - 2 * bw)};
+  }
+  function shapeImageBox(s){
+    const w = Math.max(10, num(s.width, 160)), h = Math.max(10, num(s.height, 120)), bw = clamp(num(s.borderWidth, 2), 0, 40);
+    return {ox: bw, oy: bw, W: Math.max(1, w - 2 * bw), H: Math.max(1, h - 2 * bw)};
+  }
+  // Paints a thumbnail / toggle / image frame (shape, border, colour or image). Used by BOTH the Designer and
+  // the exported page, so what you crop and shape in the Designer is exactly what visitors get.
+  function paintThumb(el, o){
+    const doc = el.ownerDocument;
+    el.style.opacity = (o.opacity != null ? o.opacity : 100) / 100;
+    const shape = o.shape || 'circle';
+    const d = thumbDims(o), w = d.w, h = d.h;
+    const bw = o.borderWidth != null ? o.borderWidth : 2;
+    const borderColor = o.borderColor || '#ffffff';
+    const radius = o.radius || 0;
+    const hasImg = o.kind === 'image' && o.image;
+    el.style.width = w + 'px'; el.style.height = h + 'px';
+    el.style.overflow = 'hidden';
+    if(shape === 'none'){
+      // No shape at all: just the picture (or colour), no border / clip, so a transparent PNG shows through.
+      el.style.clipPath = 'none'; el.style.borderRadius = '0px'; el.style.border = 'none';
+      if(hasImg){ el.style.background = 'transparent'; paintImage(el, o, w, h); }
+      else el.style.background = o.color || '#808080';
+      return;
+    }
+    const vp = SHAPE_VERTS[shape];
+    if(vp){
+      // Polygons: CSS borders ignore clip-path, so the border is faked with a border-coloured outer clip and
+      // an inset inner clip for the fill.
+      el.style.clipPath = 'path("' + polyPath(w, h, vp, radius) + '")';
+      el.style.borderRadius = '0px'; el.style.border = 'none';
+      el.style.background = bw > 0 ? borderColor : 'transparent';
+      const iw = Math.max(1, w - 2 * bw), ih = Math.max(1, h - 2 * bw);
+      const inner = doc.createElement('div');
+      inner.style.cssText = 'position:absolute;left:' + bw + 'px;top:' + bw + 'px;width:' + iw + 'px;height:' + ih + 'px;';
+      inner.style.clipPath = 'path("' + polyPath(iw, ih, vp, Math.max(0, radius - bw)) + '")';
+      if(hasImg) paintImage(inner, o, iw, ih); else inner.style.background = o.color || '#808080';
+      el.appendChild(inner);
+    } else {
+      // Circle / rounded rectangle: plain border-radius + a real CSS border.
+      el.style.clipPath = 'none';
+      el.style.borderRadius = shape === 'circle' ? '50%' : radius + 'px';
+      el.style.borderWidth = bw + 'px'; el.style.borderStyle = bw > 0 ? 'solid' : 'none'; el.style.borderColor = borderColor;
+      if(hasImg){ el.style.background = 'transparent'; paintImage(el, o, Math.max(1, w - 2 * bw), Math.max(1, h - 2 * bw)); }
+      else el.style.background = o.color || '#808080';
+    }
+  }
+
+  // (Re)paints a shape element: a visual layer (fill + border, fill opacity separate
+  // from element opacity so children stay solid) and a content layer that hosts the
+  // children and clips them to the shape's outline.
+  function paintShape(el, s){
+    const doc = el.ownerDocument;
+    const w = Math.max(10, num(s.width, 160)), h = Math.max(10, num(s.height, 120));
+    const shape = s.shape || 'square';
+    const bw = clamp(num(s.borderWidth, 2), 0, 40);
+    const bc = s.borderColor || '#ffffff';
+    const fa = clamp(num(s.fillOpacity, 100), 0, 100) / 100;
+    const radius = Math.max(0, num(s.radius, 12));
+    const hasImg = s.kind === 'image' && !!s.image;
+    el.style.width = w+'px'; el.style.height = h+'px';
+    el.style.opacity = clamp(num(s.opacity, 100), 0, 100) / 100;
+    while(el.firstChild) el.removeChild(el.firstChild);
+    const fill = doc.createElement('div'); fill.className = 'wce-shape-fill';
+    const content = doc.createElement('div'); content.className = 'wce-shape-content';
+    const vp = SHAPE_VERTS[shape];
+    if(vp){
+      const outer = polyPath(w, h, vp, radius);
+      const svg = doc.createElementNS(SVGNS, 'svg');
+      svg.setAttribute('width', w); svg.setAttribute('height', h); svg.setAttribute('viewBox', '0 0 '+w+' '+h);
+      const path = doc.createElementNS(SVGNS, 'path');
+      path.setAttribute('d', outer);
+      path.setAttribute('fill', rgba(s.color || '#1a1a1c', fa));
+      if(bw > 0){
+        // stroke is centred on the outline; the svg is clipped to the outline, so the
+        // outer half disappears and exactly bw px of border remains inside.
+        path.setAttribute('stroke', bc);
+        path.setAttribute('stroke-width', bw*2);
+        path.setAttribute('stroke-linejoin', 'round');
+      }
+      svg.appendChild(path);
+      svg.style.clipPath = 'path("'+outer+'")';
+      fill.appendChild(svg);
+      if(hasImg){
+        const iw = Math.max(1, w - 2*bw), ih = Math.max(1, h - 2*bw);
+        const inner = doc.createElement('div');
+        inner.style.cssText = 'position:absolute;left:'+bw+'px;top:'+bw+'px;width:'+iw+'px;height:'+ih+'px;pointer-events:none';
+        inner.style.clipPath = 'path("'+polyPath(iw, ih, vp, Math.max(0, radius - bw))+'")';
+        paintImage(inner, s, iw, ih, fa);
+        fill.appendChild(inner);
+      }
+      content.style.clipPath = 'path("'+outer+'")';
+    } else {
+      const rad = shape==='circle' ? '50%' : radius+'px';
+      fill.style.borderRadius = rad;
+      fill.style.background = rgba(s.color || '#1a1a1c', fa);
+      fill.style.border = bw > 0 ? (bw+'px solid '+bc) : 'none';
+      content.style.borderRadius = rad;
+      content.style.overflow = 'hidden';
+      if(hasImg){ fill.style.overflow = 'hidden'; paintImage(fill, s, Math.max(1, w - 2*bw), Math.max(1, h - 2*bw), fa); }
+    }
+    el.appendChild(fill);
+    el.appendChild(content);
+  }
+  function buildShape(doc, s){
+    const el = doc.createElement('div');
+    el.className = 'wce-overlay-shape';
+    el.dataset.overlayId = s.id;
+    paintShape(el, s);
+    return el;
+  }
+  function shapeHost(el){ return el.querySelector(':scope > .wce-shape-content'); }
+
+  // ---------- Canvas-profile snapshots ----------
+  // What a Canvas profile snapshot records per element and re-applies while the profile is
+  // active: layout (position, size, which frame/shape it sits in, open/closed) and look
+  // (colours, borders, fonts, roundness, opacity, scroller/arrow settings ...). Deliberately
+  // NOT content or behaviour (label text, image data, links, what a thumbnail applies, toggle
+  // states), so editing those later never gets silently overridden by an old snapshot.
+  const SNAP_KEYS = [
+    'x','y','groupId','width','height','size','collapsed','direction','opacity',
+    'shape','radius','borderWidth','borderColor','color','fillOpacity',
+    'fontFamily','fontSize',
+    'tabBg','tabBgOpacity','tabBorderColor','tabBorderWidth','tabRadius',
+    'shelfBg','shelfBgOpacity','shelfBorderColor','shelfBorderWidth','shelfRadius',
+    'titleFont','titleFontSize','titleColor','headerAlign','arrowColor','arrowSize',
+    'scrollEnabled','scrollSide','scrollLength','scrollTrackLength','scrollWidth',
+    'scrollBg','scrollBgOpacity','scrollBorderColor','scrollBorderWidth','scrollRadius',
+    'scrollThumbColor','scrollThumbOpacity',
+    'trackColor','trackHeight','thumbColor','thumbSize','activeColor','showLabels'
+  ];
+  function snapshotOf(o){
+    const s = {};
+    SNAP_KEYS.forEach(function(k){ if(o[k] !== undefined) s[k] = o[k]; });
+    s.groupId = o.groupId || null;      // "at the root" is part of the state too
+    return s;
+  }
+
+  return {
+    css: CSS, rgba: rgba, isHoriz: isHoriz, clamp: clamp,
+    SNAP_KEYS: SNAP_KEYS, snapshotOf: snapshotOf,
+    groupInnerHTML: groupInnerHTML, groupHost: groupHost, groupExtras: groupExtras,
+    headerTextAlign: headerTextAlign,
+    updateScroller: updateScroller, scheduleRefresh: scheduleRefresh, setScroll: setScroll,
+    yMaxPct: yMaxPct, scrollOn: scrollOn,
+    paintShape: paintShape, buildShape: buildShape, shapeHost: shapeHost,
+    paintThumb: paintThumb, paintImage: paintImage, imgGeom: imgGeom, measureImage: measureImage,
+    knownAspect: knownAspect, thumbDims: thumbDims, thumbImageBox: thumbImageBox, shapeImageBox: shapeImageBox
+  };
+})();
+
+(function(){
+  // WCEG.css: container / shape / scroller rules (kept in the shared block so the UI
+  // Designer and the exported page can never disagree about them).
+  try{
+    const s=document.createElement('style'); s.id='wceg-css'; s.textContent=WCEG.css;
+    (document.head||document.documentElement).appendChild(s);
+  }catch(e){}
+})();
+
 function _animLabel(def,idx){
   const total=(def.states||2)-1;
   const nm=(def.state_names&&def.state_names[idx])?def.state_names[idx]:'';
@@ -79,7 +589,52 @@ function applyGlobalPalette(){
   Object.keys(theme.colors||{}).forEach(k=>{ document.documentElement.style.removeProperty('--'+k); });
   document.documentElement.style.removeProperty('--panel-bg');
   window._wceActiveProfile = null;
+  window._wceLive = null;
   if(typeof buildThumbnailOverlays==='function') buildThumbnailOverlays();
+}
+// ---- Canvas-profile snapshots ------------------------------------------------------------
+// While a Canvas profile with a snapshot is active, every overlay the snapshot covers is
+// drawn from a LIVE COPY = the real overlay + the snapshot's recorded layout/look. The real
+// overlays are never touched, so returning to the normal UI is just dropping the copies.
+// The copies persist while the profile stays active, so things the visitor does inside the
+// snapshot (opening a group frame, ...) survive re-renders.
+function _wceBuildLive(p){
+  const snap = p && p.snapshot && p.snapshot.overlays;
+  if(!p || p.mode!=='canvas' || !snap) return null;
+  const live = {};
+  (window.WCE_OVERLAYS||[]).forEach(o=>{
+    const s = snap[o.id];
+    if(!s) return;                       // added after the snapshot was taken: stays as it is
+    const c = Object.assign({}, o, JSON.parse(JSON.stringify(s)));
+    if(o.imageScale !== undefined) c.imageScale = o.imageScale; else delete c.imageScale;   // the crop belongs to the image, not the look
+    if(o.type==='toggle'){
+      // Which state a toggle is showing is app state, not layout: share it with the real one.
+      Object.defineProperty(c, 'activeIndex', {get(){ return o.activeIndex; }, set(v){ o.activeIndex = v; }, enumerable:true, configurable:true});
+    }
+    live[o.id] = c;
+  });
+  return live;
+}
+function _wceEffectiveOverlays(){
+  const base = window.WCE_OVERLAYS||[];
+  const live = window._wceLive;
+  if(!live) return base;
+  return base.map(o=>live[o.id]||o);
+}
+function _wceLiveOverlay(id){
+  const live = window._wceLive;
+  if(live && live[id]) return live[id];
+  return (window.WCE_OVERLAYS||[]).find(x=>x.id===id);
+}
+// A trigger was clicked: switch to the profile, or -- when the profile has "return on 2nd
+// click" and is already showing -- put the UI back to normal.
+function _wceProfileClick(p){
+  const tr = p.transition||'fade';
+  if(p.mode==='canvas' && p.returnOnRetrigger && window._wceActiveProfile===p){
+    _wceRunTransition(()=>applyGlobalPalette(), tr, p.duration);
+  } else {
+    _wceRunTransition(()=>applyProfile(p), tr, p.duration);
+  }
 }
 function applyProfile(p){
   if(!p) return;
@@ -89,6 +644,7 @@ function applyProfile(p){
   // since its p.colors/p.panelBg are simply never populated.
   if(p.mode!=='canvas') _wceApplyColors(p.colors, p.panelBg, p.panelOpacity);
   window._wceActiveProfile = p;
+  window._wceLive = _wceBuildLive(p);
   if(typeof buildThumbnailOverlays==='function') buildThumbnailOverlays();
 }
 function _wceRunTransition(applyFn, transitionType, duration){
@@ -135,7 +691,7 @@ function _wceRemoveColorTransitionCSS(){
   const s = document.getElementById('wce-color-transition-css');
   if(s) s.remove();
 }
-function _wceWireProfileTrigger(el, overlayId){
+function _wceWireProfileTrigger(el, overlayId, clickFilter){
   // Canvas-mode profiles can be triggered by clicking a thumbnail, toggle
   // group, text label, image, or group frame directly -- not just the
   // fixed set of chrome buttons SELECTABLE_SELECTOR covers. Added as an
@@ -144,7 +700,7 @@ function _wceWireProfileTrigger(el, overlayId){
   const profiles = window.WCE_PROFILES||[];
   const matched = profiles.find(p=>p.mode==='canvas' && (p.triggerOverlayIds||[]).indexOf(overlayId)!==-1);
   if(matched){
-    el.addEventListener('click', ()=>_wceRunTransition(()=>applyProfile(matched), matched.transition||'fade', matched.duration));
+    el.addEventListener('click', (ev)=>{ if(clickFilter && !clickFilter(ev)) return; _wceProfileClick(matched); });
   }
 }
 function _wceInitProfiles(){
@@ -161,7 +717,7 @@ function _wceInitProfiles(){
     }
     if(matched){
       const p = matched;
-      el.addEventListener('click', ()=>_wceRunTransition(()=>applyProfile(p), p.transition||'fade', p.duration));
+      el.addEventListener('click', ()=>_wceProfileClick(p));
     } else {
       el.addEventListener('click', ()=>_wceRunTransition(applyGlobalPalette, 'fade'));
     }
@@ -277,6 +833,7 @@ function buildUI(){
   else if(_wceForcedMobile === 'horizontal') document.body.classList.add('wce-force-mobile-h');
   _wceApplyDeviceOverrides();
   _wceAttachOrientationListener();
+  _wceAttachDeclutterResizeListener();
   buildVariants();buildGlobalSets();buildGeoPkgs();buildMatSubs();buildHDRISwitcher();buildFilterSwitcher();
   buildAdvGeo();buildAdvMat();buildAnimUI();buildSequenceUI();buildCameraUI();buildSectionViewUI();buildThumbnailOverlays();if(typeof buildMatGeoAnimUI==='function') buildMatGeoAnimUI();
   _wceInitProfiles();
@@ -367,9 +924,9 @@ function buildAnimUI(){
   if(controls.length){
     controls.forEach(def=>{
       if(def.trigger==='button'){
-        const btn=mk('button','anim-btn');btn.dataset.anim=def.name;
+        const btn=mk('button','anim-btn');btn.dataset.anim=def.name;btn.dataset.animId=_wceDefId(def);
         btn.innerHTML=def.name.replace(/_/g,' ')+'<span class="anim-play-icon">▶</span>';
-        btn.onclick=()=>triggerAnim(def.name);ctrlSec.appendChild(btn);
+        btn.onclick=()=>triggerAnim(_wceDefId(def));ctrlSec.appendChild(btn);
       }else if(def.trigger==='hotspot'){
         const lbl=mk('div','hotspot-lbl');lbl.dataset.hotspotLabel=def.name;lbl.style.cssText='font-size:10px;color:var(--hot);padding:5px 0 5px 4px;letter-spacing:.1em';
         lbl.textContent='● '+def.name.replace(/_/g,' ')+'  [hotspot in scene]';ctrlSec.appendChild(lbl);
@@ -384,10 +941,10 @@ function buildAnimUI(){
   if(combos.length){
     combos.forEach(def=>{
       if(def.trigger==='button'){
-        const btn=mk('button','anim-btn');btn.dataset.anim=def.name;
+        const btn=mk('button','anim-btn');btn.dataset.anim=def.name;btn.dataset.animId=_wceDefId(def);
         const ms=(def.members||[]).join(' + ')||'—';
         btn.innerHTML=def.name.replace(/_/g,' ')+'<span class="anim-play-icon">▶</span>';
-        btn.onclick=()=>triggerAnim(def.name);comboSec.appendChild(btn);
+        btn.onclick=()=>triggerAnim(_wceDefId(def));comboSec.appendChild(btn);
       }else if(def.trigger==='hotspot'){
         const lbl=mk('div','hotspot-lbl');lbl.dataset.hotspotLabel=def.name;lbl.style.cssText='font-size:10px;color:var(--hot);padding:5px 0 5px 4px;letter-spacing:.1em';
         lbl.textContent='● '+def.name.replace(/_/g,' ')+'  [hotspot in scene]';comboSec.appendChild(lbl);
@@ -401,9 +958,9 @@ function buildAnimUI(){
       biSec.innerHTML='<div class="st">Special Effects</div>';
       builtins.forEach(def=>{
         if(def.trigger==='button'){
-          const btn=mk('button','anim-btn');btn.dataset.anim=def.name;
+          const btn=mk('button','anim-btn');btn.dataset.anim=def.name;btn.dataset.animId=_wceDefId(def);
           btn.innerHTML=def.name.replace(/_/g,' ')+'<span class="anim-play-icon">▶</span>';
-          btn.onclick=()=>triggerAnim(def.name);biSec.appendChild(btn);
+          btn.onclick=()=>triggerAnim(_wceDefId(def));biSec.appendChild(btn);
         }else if(def.trigger==='hotspot'){
           const lbl=mk('div','hotspot-lbl');lbl.dataset.hotspotLabel=def.name;lbl.style.cssText='font-size:10px;color:var(--hot);padding:5px 0 5px 4px;letter-spacing:.1em';
           lbl.textContent='● '+def.name.replace(/_/g,' ')+'  [hotspot in scene]';biSec.appendChild(lbl);
@@ -419,6 +976,10 @@ function buildAnimUI(){
 // step directly above them. The executor syncs animState so the configurator
 // UI always reflects the current state.
 
+// A control and a combo can share a name, so each animation button and trigger carries an id: the exported
+// def.id ("control:HOOD" / "combo:HOOD"), derived here for configs that predate it.
+function _wceDefId(def){ return def.id || ((Array.isArray(def.members) ? 'combo:' : 'control:') + def.name); }
+
 const _seqRunning = {};   // seqName → true while a sequence is executing
 
 
@@ -429,14 +990,18 @@ function _fireStep(step) {
     // Dedicated camera fly-to step — no animation, just move the camera.
     if (action_name) flyToCamera(action_name);
   } else if (action_type === 'mat_subset' || action_type === 'global_set') {
-    const pool = (CFG.mat_subsets||[]).concat(CFG.global_mat_sets||[]);
+    // Resolved against Global Sets first, separately from the regular
+    // per-category pool -- so the correct transition-override key is
+    // known (Global Sets vs. the subsets own category), and can be
+    // passed through to applyMatSubset -- a single merged pool would lose it.
     // Prefer the persistent uid (survives renames, and disambiguates two
     // categories that happen to share an identically-named subset) --
     // falls back to a name-only match for sequences saved before target_uid
     // existed.
-    const s = (target_uid && pool.find(x => x.uid === target_uid)) || pool.find(x => x.name === target_name);
+    const gset = (target_uid && (CFG.global_mat_sets||[]).find(x => x.uid === target_uid)) || (CFG.global_mat_sets||[]).find(x => x.name === target_name);
+    const s = gset || (target_uid && (CFG.mat_subsets||[]).find(x => x.uid === target_uid)) || (CFG.mat_subsets||[]).find(x => x.name === target_name);
     if (s) {
-      applyMatSubset(s.state); refreshAdvMat(s.state);
+      applyMatSubset(s.state, gset ? '__global_sets__' : s.category); refreshAdvMat(s.state);
       // Sync the active-button highlight on the panel, same as the normal
       // click handlers already do, so a sequence step does not leave the
       // previously-selected button looking active after switching away.
@@ -480,25 +1045,23 @@ function _fireStep(step) {
     });
   } else {
     // CONTROL or COMBO: drive animation directly to explicit target state.
-    if (action_name) flyToAnimState(action_name, target_state ?? 1);
+    if (action_name) flyToAnimState((action_type === 'combo' ? 'combo:' : 'control:') + action_name, target_state ?? 1);
   }
 }
 
-async function executeSequence(seqName) {
-  const seqs = (CFG.animations||{}).sequences || [];
-  const seq  = seqs.find(s => s.name === seqName);
-  if (!seq || !seq.steps || !seq.steps.length) return;
-  if (_seqRunning[seqName]) return;
-  _seqRunning[seqName] = true;
-
-  try {
-    let i = 0;
-    while (i < seq.steps.length) {
+async function _runSteps(steps) {
+  // Shared step-walking engine: used by executeSequence (a named,
+  // independently-triggered Sequence) AND by a Camera Sequence segment's
+  // embedded mini-sequence (fired inline from _beginSegmentPlayback in the
+  // core engine script) -- same grouping/waiting semantics either way.
+  if (!steps || !steps.length) return;
+  let i = 0;
+    while (i < steps.length) {
       // Collect group: this step + any consecutive Together steps.
-      const group = [seq.steps[i]];
+      const group = [steps[i]];
       let j = i + 1;
-      while (j < seq.steps.length && seq.steps[j].together) {
-        group.push(seq.steps[j]); j++;
+      while (j < steps.length && steps[j].together) {
+        group.push(steps[j]); j++;
       }
 
       // Snapshot which keys are CURRENTLY live in _segWatch before firing.
@@ -527,6 +1090,17 @@ async function executeSequence(seqName) {
 
       i = j;
     }
+}
+window._runSteps = _runSteps;
+
+async function executeSequence(seqName) {
+  const seqs = (CFG.animations||{}).sequences || [];
+  const seq  = seqs.find(s => s.name === seqName);
+  if (!seq || !seq.steps || !seq.steps.length) return;
+  if (_seqRunning[seqName]) return;
+  _seqRunning[seqName] = true;
+  try {
+    await _runSteps(seq.steps);
   } finally {
     _seqRunning[seqName] = false;
   }
@@ -609,7 +1183,7 @@ function buildCameraUI(){
   const overlaySet=_wceOverlaySet();
   const staticList=(camCfg.static||[]);
   const tt=camCfg.turntable||{};
-  const cin=camCfg.cinematic||{};
+  const camSeqs=camCfg.camera_sequences||[];
   const staticSec=document.getElementById('sc-static');
   const ttSec=document.getElementById('sc-turntable');
   const cinSec=document.getElementById('sc-cinematic');
@@ -630,21 +1204,23 @@ function buildCameraUI(){
     ttSec.innerHTML='';
   }
 
-  if((cin.sequence||[]).length){
-    cinSec.innerHTML='<div class="st">Cinematic Sequence</div>';
-    const seqDiv=mk('div');seqDiv.style.cssText='font-size:9px;color:var(--muted);letter-spacing:.12em;margin-bottom:10px;line-height:1.9';
-    cin.sequence.forEach((s,i)=>{seqDiv.innerHTML+=(i+1)+'. '+s.name.replace(/_/g,' ')+'<br>';});
-    cinSec.appendChild(seqDiv);
-    if(cin.trigger==='button'){
-      const btn=mk('button','cin-btn');
-      btn.innerHTML='<span>PLAY CINEMATIC</span>';
-      btn.onclick=()=>_cinematicPlaying?_stopCinematic():_startCinematic();
+  cinSec.innerHTML = camSeqs.length ? '<div class="st">Camera Sequences</div>' : '';
+  camSeqs.forEach(seq=>{
+    const segDiv=mk('div');segDiv.style.cssText='font-size:9px;color:var(--muted);letter-spacing:.12em;margin-bottom:6px;line-height:1.9';
+    segDiv.innerHTML='<b>'+(seq.label||seq.name).replace(/_/g,' ')+'</b><br>';
+    (seq.segments||[]).forEach((s,i)=>{segDiv.innerHTML+=(i+1)+'. '+s.name.replace(/_/g,' ')+'<br>';});
+    cinSec.appendChild(segDiv);
+    if(seq.trigger==='button'){
+      const btn=mk('button','cin-btn camseq-btn');btn.dataset.seq=seq.name;
+      btn.innerHTML='<span>'+((seq.label||seq.name).toUpperCase().replace(/_/g,' '))+'</span>';
+      btn.onclick=()=>(_camSeq[seq.name]&&_camSeq[seq.name].playing)?_stopCameraSequence(seq.name):_startCameraSequence(seq.name);
       cinSec.appendChild(btn);
-    }else if(cin.trigger==='hotspot'){
-      const lbl=mk('div','hotspot-lbl');lbl.dataset.hotspotLabel='cinematic';lbl.style.cssText='font-size:10px;color:var(--hot);padding:4px 0;letter-spacing:.1em';
-      lbl.textContent='● Hotspot in scene starts cinematic';cinSec.appendChild(lbl);
+    }else if(seq.trigger==='hotspot'){
+      const lbl=mk('div','hotspot-lbl');lbl.dataset.hotspotLabel=seq.name;lbl.style.cssText='font-size:10px;color:var(--hot);padding:4px 0;letter-spacing:.1em';
+      lbl.textContent='● Hotspot in scene starts '+(seq.label||seq.name).replace(/_/g,' ');cinSec.appendChild(lbl);
     }
-  }
+    cinSec.appendChild(mk('div'));
+  });
 }
 
 function _wceOverlayKey(o){
@@ -655,7 +1231,8 @@ function _wceOverlayKey(o){
   if(o.type==='mat_subset'||o.type==='global_set'||o.type==='geo_subset') return o.type+'::'+(o.uid||o.name);
   if(o.type==='turntable') return 'turntable::singleton';
   if(o.type==='cinematic') return 'cinematic::singleton';
-  if(o.type==='text' || o.type==='group' || o.type==='section_slider') return o.id || (o.type+'::'+Math.random().toString(36).slice(2));
+  if(o.type==='camera_sequence') return 'camera_sequence::'+(o.name||'');
+  if(o.type==='text' || o.type==='group' || o.type==='section_slider' || o.type==='shape') return o.id || (o.type+'::'+Math.random().toString(36).slice(2));
   return o.type+'::'+o.name;
 }
 function _wceOverlaySet(){
@@ -674,16 +1251,16 @@ function applyOverlay(o){
       // was captured on this overlay back in the Designer -- that snapshot
       // goes stale the moment the subset's material assignments change on a
       // later export, even though the subset's own name never did.
-      const pool=(CFG.mat_subsets||[]).concat(CFG.global_mat_sets||[]);
-      const s=(o.uid && pool.find(x=>x.uid===o.uid)) || pool.find(x=>x.name===o.name) || (o.state ? {state:o.state} : null);
-      if(s){ applyMatSubset(s.state); refreshAdvMat(s.state); }
+      const gset=(o.uid && (CFG.global_mat_sets||[]).find(x=>x.uid===o.uid)) || (CFG.global_mat_sets||[]).find(x=>x.name===o.name);
+      const s=gset || (o.uid && (CFG.mat_subsets||[]).find(x=>x.uid===o.uid)) || (CFG.mat_subsets||[]).find(x=>x.name===o.name) || (o.state ? {state:o.state} : null);
+      if(s){ applyMatSubset(s.state, gset ? '__global_sets__' : s.category); refreshAdvMat(s.state); }
     } else if(o.type==='geo_subset'){
       const s=(o.uid && (CFG.geometry_subsets||[]).find(x=>x.uid===o.uid)) || (CFG.geometry_subsets||[]).find(x=>x.name===o.name) || (o.state ? {state:o.state} : null);
       if(s) applyGeoSubset(s.state);
     } else if(o.type==='geo_toggle' && o.node){
       applyGeoToggle(o.node, o.siblings||[]);
     } else if((o.type==='anim_control'||o.type==='anim_combo') && o.name){
-      triggerAnim(o.name);
+      triggerAnim((o.type==='anim_combo' ? 'combo:' : 'control:') + o.name);
     } else if(o.type==='sequence' && o.name){
       executeSequence(o.name);
     } else if(o.type==='camera' && o.name){
@@ -691,10 +1268,30 @@ function applyOverlay(o){
     } else if(o.type==='turntable'){
       window._turntableActive ? _stopTurntable() : _startTurntable();
     } else if(o.type==='cinematic'){
-      window._cinematicPlaying ? _stopCinematic() : _startCinematic();
+      // Pre-upgrade Toggle Group / Thumbnail saves: the migration that runs
+      // on Sync always names the carried-forward default sequence 'Cinematic',
+      // so an old singleton overlay still resolves to something real.
+      (_camSeq['Cinematic']&&_camSeq['Cinematic'].playing) ? _stopCameraSequence('Cinematic') : _startCameraSequence('Cinematic');
+    } else if(o.type==='camera_sequence' && o.name){
+      (_camSeq[o.name]&&_camSeq[o.name].playing) ? _stopCameraSequence(o.name) : _startCameraSequence(o.name);
     } else if(o.type==='hdri'){
       const item=(o.uid && (CFG.hdris||[]).find(h=>h.uid===o.uid)) || (CFG.hdris||[]).find(h=>h.name===o.name) || o.item;
       if(item) _loadHDRIItem(item);
+    } else if(o.type==='filter'){
+      const fItem=((CFG.post_process&&CFG.post_process.filters)||[]).find(x=>x.name===o.name);
+      if(fItem && typeof _wceApplyPPFilter==='function'){
+        _wceApplyPPFilter(fItem.filter_type, fItem.intensity, fItem);
+        window._wceActivePPFilter=fItem.filter_type;
+        qsa('.pb2[data-pf]').forEach(x=>x.classList.toggle('active', x.dataset.pfn===fItem.name));
+      }
+    } else if(o.type==='mat_anim'||o.type==='geo_anim'){
+      const mgKind=o.type==='mat_anim'?'MAT':'GEO';
+      const mgList=mgKind==='MAT'?(CFG.mat_animations||[]):(CFG.geo_animations||[]);
+      const mgDef=mgList.find(d=>d.source_key===o.name);
+      if(mgDef){
+        if(mgDef.play_mode==='step'){ if(typeof window._matGeoStep==='function') window._matGeoStep(mgKind, mgDef); }
+        else if(typeof window.triggerMatGeoAnim==='function') window.triggerMatGeoAnim(mgKind, mgDef.source_key);
+      }
     } else if(o.type==='presentation'){
       if(_wcePresentationActive){ _wceExitPresentationMode(); }
       else{ _wceEnterPresentationMode(o, document.querySelector('[data-overlay-id="'+o.id+'"]')); }
@@ -721,12 +1318,15 @@ function buildGlobalSets(){
   const sec=document.getElementById('sgs');sec.innerHTML='<div class="st">Full Configurations</div>';
   sets.forEach(s=>{
     const b=mk('button','gb');b.dataset.gn=s.name;b.textContent=s.name;
-    b.onclick=()=>{activeV=null;qsa('.vc').forEach(x=>x.classList.remove('active'));applyMatSubset(s.state);qsa('.gb').forEach(x=>x.classList.remove('active'));qsa('.pb2[data-sc]').forEach(x=>x.classList.remove('active'));b.classList.add('active');refreshAdvMat(s.state);};
+    b.onclick=()=>{activeV=null;qsa('.vc').forEach(x=>x.classList.remove('active'));applyMatSubset(s.state, '__global_sets__');qsa('.gb').forEach(x=>x.classList.remove('active'));qsa('.pb2[data-sc]').forEach(x=>x.classList.remove('active'));b.classList.add('active');refreshAdvMat(s.state);};
     sec.appendChild(b);
   });
 }
 function applyGeoToggle(colName,siblingNames){
   const sc=colName.replace(/ /g,'_');
+  // Already the visible sibling in this set -- clicking it again should
+  // do nothing at all, not replay the dissolve-in/out animation pointlessly.
+  if(geoSt[sc]) return;
   const smooth=!!_TRANS.geometry;
   siblingNames.forEach(s=>{
     const n=findNode(s);
@@ -826,7 +1426,7 @@ function buildMatSubs(){
     // exclusive.
     const t=mk('div','st');t.textContent=cat;sec.appendChild(t);const g=mk('div','pg');
     items.forEach(s=>{const b=mk('button','pb2');b.dataset.sc=cat;b.dataset.mn=s.name;b.textContent=s.name;
-      b.onclick=()=>{activeV=null;qsa('.vc').forEach(x=>x.classList.remove('active'));applyMatSubset(s.state);qsa('.gb').forEach(x=>x.classList.remove('active'));qsa('.pb2[data-sc]').forEach(x=>x.classList.remove('active'));b.classList.add('active');refreshAdvMat(s.state);};g.appendChild(b);});
+      b.onclick=()=>{activeV=null;qsa('.vc').forEach(x=>x.classList.remove('active'));applyMatSubset(s.state, cat);qsa('.gb').forEach(x=>x.classList.remove('active'));qsa('.pb2[data-sc]').forEach(x=>x.classList.remove('active'));b.classList.add('active');refreshAdvMat(s.state);};g.appendChild(b);});
     sec.appendChild(g);
   });
 }
@@ -937,70 +1537,8 @@ function _wceApplyThumbShape(el, o0){
     el.style.display = 'none';
     return;
   }
-  el.style.opacity = (o.opacity!=null ? o.opacity : 100)/100;
-  const shape = o.shape || 'circle';
-  const size = o.size || 46;
-  const bw = o.borderWidth != null ? o.borderWidth : 2;
-  const borderColor = o.borderColor || '#ffffff';
-  const radius = o.radius || 0;
-
-  if(shape === 'none'){
-    // No shape at all — just the raw image (or color) with no border/clip,
-    // so a transparent PNG shows through cleanly with nothing around it.
-    el.style.clipPath = 'none';
-    el.style.borderRadius = '0px';
-    el.style.border = 'none';
-    if(o.kind==='image' && o.image){
-      el.style.background = 'transparent';
-      el.style.backgroundImage = `url(${o.image})`;
-      el.style.backgroundSize = (o.imageScale||100)+'%';
-      el.style.backgroundPosition = 'center';
-      el.style.backgroundRepeat = 'no-repeat';
-    } else {
-      el.style.background = o.color || '#808080';
-    }
-    return;
-  }
-
-  const verts = _wceShapeVertices(shape);
-
-  if(verts){
-    // Polygon shapes: CSS border ignores clip-path, so the "border" is faked
-    // with a border-colored outer clip and an inset inner clip for the fill —
-    // otherwise the border only shows on the corners the clip happens to keep.
-    el.style.clipPath = 'path("'+_wceRoundedPolygonPath(size, verts, radius)+'")';
-    el.style.borderRadius = '0px';
-    el.style.border = 'none';
-    el.style.background = bw > 0 ? borderColor : 'transparent';
-    const inner = document.createElement('div');
-    inner.style.cssText = 'position:absolute;left:'+bw+'px;top:'+bw+'px;width:'+(size-2*bw)+'px;height:'+(size-2*bw)+'px;';
-    const innerRadius = Math.max(0, radius - bw);
-    inner.style.clipPath = 'path("'+_wceRoundedPolygonPath(size-2*bw, verts, innerRadius)+'")';
-    if(o.kind==='image' && o.image){
-      inner.style.backgroundImage = `url(${o.image})`;
-      inner.style.backgroundSize = (o.imageScale||100)+'%';
-      inner.style.backgroundPosition = 'center';
-      inner.style.backgroundRepeat = 'no-repeat';
-    } else {
-      inner.style.background = o.color || '#808080';
-    }
-    el.appendChild(inner);
-  } else {
-    // Circle / Square — plain border-radius + a real CSS border works natively.
-    el.style.clipPath = 'none';
-    el.style.borderRadius = shape==='circle' ? '50%' : radius+'px';
-    el.style.borderWidth = bw+'px';
-    el.style.borderStyle = bw > 0 ? 'solid' : 'none';
-    el.style.borderColor = borderColor;
-    if(o.kind==='image' && o.image){
-      el.style.backgroundImage = `url(${o.image})`;
-      el.style.backgroundSize = (o.imageScale||100)+'%';
-      el.style.backgroundPosition = 'center';
-      el.style.backgroundRepeat = 'no-repeat';
-    } else {
-      el.style.background = o.color || '#808080';
-    }
-  }
+  // Shared with the Designer (WCEG.paintThumb) so a shape / crop looks identical on the real site.
+  WCEG.paintThumb(el, o);
 }
 function _wceApplyGroupStyle(el, g){
   const header=el.querySelector('.wce-group-header');
@@ -1023,7 +1561,9 @@ function _wceApplyGroupStyle(el, g){
   if(label){
     label.style.fontFamily=g.titleFont?("'"+g.titleFont+"',sans-serif"):'';
     label.style.fontSize=(g.titleFontSize||13)+'px';
+    label.style.color=g.titleColor||'';
   }
+  WCEG.groupExtras(el, g);   // arrow colour/size, title alignment, transparent container, scroller
 }
 function _wceApplyGroupCollapse(el, g){
   const body = el.querySelector('.wce-group-body');
@@ -1091,12 +1631,14 @@ function _wceApplyGroupCollapse(el, g){
       header.removeChild(clone);
     }
     header.style.height=naturalLen+'px';
+    header.style.width=Math.max(32,(g.arrowSize!=null?g.arrowSize:9)+18)+'px';
     body.style.height=naturalLen+'px';
     body.style.width=collapsed?'0px':(g.width||180)+'px';
   } else {
     el.style.width=(g.width||180)+'px';
     body.style.height=collapsed?'0px':(g.height||140)+'px';
   }
+  WCEG.scheduleRefresh(el);   // the scroller re-measures once the shelf has finished opening/closing
 }
 let _wceGroupArrowDelegationAttached = false;
 function _wceAttachGroupArrowDelegation(){
@@ -1114,7 +1656,7 @@ function _wceAttachGroupArrowDelegation(){
     const groupEl = arrow.closest('.wce-overlay-group');
     if(!groupEl) return;
     const gid = groupEl.dataset.overlayId;
-    const g = (window.WCE_OVERLAYS||[]).find(function(x){ return x.id===gid; });
+    const g = _wceLiveOverlay(gid);
     if(!g) return;
     g.collapsed = !g.collapsed;
     _wceApplyGroupCollapse(groupEl, g);
@@ -1126,40 +1668,12 @@ function buildThumbnailOverlays(){
   // the UI Designer -- variants, configs, packages, materials, animations,
   // cameras, sequences, environment, plus free-floating text labels and
   // collapsible groups that can nest several of the above together.
-  document.querySelectorAll('.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-group,.wce-overlay-section-slider,.wce-overlay-action-btn').forEach(el=>el.remove());
-  const list=window.WCE_OVERLAYS||[];
+  document.querySelectorAll('.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-group,.wce-overlay-shape,.wce-overlay-section-slider,.wce-overlay-action-btn').forEach(el=>el.remove());
+  const list=_wceEffectiveOverlays();
 
-  const groupEls={};
-  list.filter(o=>o.type==='group').forEach(g=>{
-    const el=mk('div','wce-overlay-group');
-    el.dataset.overlayId=g.id;
-    el.style.left=g.x+'%'; el.style.top=g.y+'%';
-    el.innerHTML='<div class="wce-group-header"><span class="wce-group-arrow">'+(g.collapsed?'▸':'▾')+'</span>'+
-      '<span class="wce-group-label">'+(g.label||'Group')+'</span></div><div class="wce-group-body"></div>';
-    const geff=_wceEffectiveGroupProps(g);
-    _wceApplyGroupCollapse(el, g);
-    _wceApplyGroupStyle(el, geff);
-    if(geff.titleFont) _wceEnsureFontLoaded(geff.titleFont);
-    _wceWireProfileTrigger(el, g.id);
-    document.body.appendChild(el);
-    groupEls[g.id]=el;
-    if(g.expandTrigger==='hover'){
-      const _arw=el.querySelector('.wce-group-arrow');
-      el.addEventListener('mouseenter',()=>{
-        if(g.collapsed){ g.collapsed=false; _wceApplyGroupCollapse(el, g); if(_arw) _arw.textContent='\u25be'; }
-      });
-      el.addEventListener('mouseleave',()=>{
-        if(!g.collapsed){ g.collapsed=true; _wceApplyGroupCollapse(el, g); if(_arw) _arw.textContent='\u25b8'; }
-      });
-    }
-  });
-  _wceAttachGroupArrowDelegation();
-
-  function hostFor(o){
-    const g=o.groupId && groupEls[o.groupId];
-    return g ? g.querySelector('.wce-group-body') : document.body;
-  }
-
+  // Declared BEFORE the group loop below, which calls _wceEnsureFontLoaded: as a const
+  // declared after the loop it was still in its temporal dead zone at that point, so any
+  // group frame with a custom title font threw and aborted the whole overlay build.
   const _wceLoadedFonts={};
   function _wceEnsureFontLoaded(fam){
     const key=fam.trim().toLowerCase();
@@ -1170,6 +1684,83 @@ function buildThumbnailOverlays(){
     link.href='https://fonts.googleapis.com/css2?family='+fam.trim().replace(/ /g,'+')+':wght@300;400;500;600;700&display=swap';
     document.head.appendChild(link);
   }
+
+  // groupEls maps a container id (group frame OR shape) to the element its children are
+  // placed in (the frame's content layer / the shape's content layer).
+  const groupEls={};
+  function _wceRenderGroup(g, forceRoot){
+    const el=mk('div','wce-overlay-group');
+    el.dataset.overlayId=g.id;
+    el.style.left=g.x+'%'; el.style.top=g.y+'%';
+    el.innerHTML=WCEG.groupInnerHTML(g);
+    const geff=_wceEffectiveGroupProps(g);
+    _wceApplyGroupCollapse(el, g);
+    _wceApplyGroupStyle(el, geff);
+    if(geff.titleFont) _wceEnsureFontLoaded(geff.titleFont);
+    _wceWireProfileTrigger(el, g.id);
+    (forceRoot ? document.body : hostFor(g)).appendChild(el);
+    groupEls[g.id]=WCEG.groupHost(el);
+    WCEG.scheduleRefresh(el);
+    const _arw=el.querySelector('.wce-group-arrow');
+    if(g.expandTrigger==='hover'){
+      el.addEventListener('mouseenter',()=>{
+        if(g.collapsed){ g.collapsed=false; _wceApplyGroupCollapse(el, g); if(_arw) _arw.textContent='\u25be'; }
+      });
+      el.addEventListener('mouseleave',()=>{
+        if(!g.collapsed){ g.collapsed=true; _wceApplyGroupCollapse(el, g); if(_arw) _arw.textContent='\u25b8'; }
+      });
+    } else if(g.expandTrigger==='header'){
+      // "Click header": a click anywhere on the tab toggles the shelf. (A click on the arrow
+      // itself is handled — and stopped — by _wceAttachGroupArrowDelegation, so it never
+      // reaches this listener and can't toggle twice.)
+      const _hdr=el.querySelector('.wce-group-header');
+      if(_hdr){
+        _hdr.style.cursor='pointer';
+        _hdr.addEventListener('click',()=>{
+          g.collapsed=!g.collapsed; _wceApplyGroupCollapse(el, g);
+          if(_arw) _arw.textContent=g.collapsed?'\u25b8':'\u25be';
+        });
+      }
+    }
+  }
+
+  function hostFor(o){
+    return (o.groupId && groupEls[o.groupId]) || document.body;
+  }
+
+  // Shapes: a decorative box that is also a container. Nested shapes render parent-first.
+  function _wceRenderShape(s, forceRoot){
+    const el=WCEG.buildShape(document, s);
+    el.style.left=(s.x??10)+'%'; el.style.top=(s.y??10)+'%';
+    if((window.WCE_PROFILES||[]).some(p=>p.mode==='canvas' && (p.triggerOverlayIds||[]).indexOf(s.id)!==-1)){
+      // A shape picked as a profile trigger has to be clickable (shapes are click-through
+      // otherwise). Only clicks on the shape itself count, never clicks on things inside it.
+      el.style.pointerEvents='auto'; el.style.cursor='pointer';
+      const _content=WCEG.shapeHost(el);
+      _wceWireProfileTrigger(el, s.id, ev=>ev.target===el || ev.target===_content);
+    }
+    (forceRoot ? document.body : hostFor(s)).appendChild(el);
+    groupEls[s.id]=WCEG.shapeHost(el);
+  }
+  // Group frames and shapes are both containers and can hold each other, so ONE parents-first pass renders
+  // them: a container is drawn only once its own parent exists.
+  (function(){
+    const conts=list.filter(o=>o.type==='group' || o.type==='shape');
+    const known=new Set(conts.map(c=>c.id));
+    const draw=(c,forceRoot)=>{ if(c.type==='group') _wceRenderGroup(c,forceRoot); else _wceRenderShape(c,forceRoot); };
+    let pending=conts.slice(), rounds=conts.length+1;
+    while(pending.length && rounds-- > 0){
+      const later=[];
+      pending.forEach(c=>{
+        if(c.groupId && known.has(c.groupId) && !groupEls[c.groupId]) later.push(c); else draw(c,false);
+      });
+      // Nothing placeable this round = a parent cycle; never lose anything.
+      if(later.length===pending.length){ later.forEach(c=>draw(c,true)); break; }
+      pending=later;
+    }
+  })();
+  _wceAttachGroupArrowDelegation();
+
   list.filter(o=>o.type==='text').forEach(o0=>{
     const o=_wceEffectiveTextProps(o0);
     const el=mk('div','wce-overlay-text');
@@ -1193,7 +1784,7 @@ function buildThumbnailOverlays(){
   // looks the real data up fresh from CFG rather than guessing a shape.
   function _wceResolveToggleState(st){
     if(!st || !st.type) return null;
-    if(st.type==='camera'||st.type==='anim_control'||st.type==='anim_combo'||st.type==='sequence'||st.type==='variant'){
+    if(st.type==='camera'||st.type==='anim_control'||st.type==='anim_combo'||st.type==='sequence'||st.type==='camera_sequence'||st.type==='variant'||st.type==='filter'||st.type==='mat_anim'||st.type==='geo_anim'){
       return {type:st.type, name:st.target};
     }
     if(st.type==='hdri'){
@@ -1209,6 +1800,21 @@ function buildThumbnailOverlays(){
       const s=(st.targetUid && (CFG.geometry_subsets||[]).find(x=>x.uid===st.targetUid)) || (CFG.geometry_subsets||[]).find(x=>x.name===st.target);
       return s ? {type:'geo_subset', state:s.state} : null;
     }
+    if(st.type==='material'){
+      const parts=String(st.target||'').split('::');
+      if(parts.length<2) return null;
+      return {type:'material', container:parts[0], material:parts.slice(1).join('::')};
+    }
+    if(st.type==='geo_toggle'){
+      let sib=null;
+      Object.keys(CFG.geometry_exposed||{}).forEach(function(pn){
+        const tree=CFG.geometry_exposed[pn];
+        if(!tree||tree.subset_only||sib) return;
+        const ch=(tree.children||[]).filter(function(c){ return c.name.toLowerCase().indexOf('common')===-1; });
+        if(ch.some(function(c){ return c.name===st.target; })) sib=ch.map(function(c){ return c.name; });
+      });
+      return sib ? {type:'geo_toggle', node:st.target, siblings:sib} : null;
+    }
     if(st.type==='turntable'||st.type==='cinematic'){
       return {type:st.type};
     }
@@ -1222,7 +1828,7 @@ function buildThumbnailOverlays(){
     pop.id='wce-toggle-picker';
     const _dpTheme=(window.WCE_THEME&&window.WCE_THEME.dropdownPicker)||{};
     const _dpBg=_wceHexToRgba(_dpTheme.bgColor||'#0a0a0c', 0.95), _dpBorder=_dpTheme.borderColor||'#c8a96e';
-    pop.style.cssText='position:fixed;z-index:10002;background:'+_dpBg+';border:1px solid '+_dpBorder+';border-radius:4px;padding:6px;min-width:120px';
+    pop.style.cssText='position:fixed;z-index:10002;background:'+_dpBg+';border:1px solid '+_dpBorder+';border-radius:4px;padding:6px;min-width:120px;overflow-y:auto;box-sizing:border-box';
     pop.style.left=rect.left+'px';
     pop.style.top=(rect.bottom+6)+'px';
     states.forEach((st,i)=>{
@@ -1242,6 +1848,20 @@ function buildThumbnailOverlays(){
       pop.appendChild(item);
     });
     document.body.appendChild(pop);
+    // Keep the whole list on screen: open below the thumbnail when there is room, flip above when
+    // there is not, cap the height to the space available (it scrolls), and stay inside the window.
+    (function(){
+      const pad=8, vw=window.innerWidth, vh=window.innerHeight;
+      pop.style.maxHeight=Math.max(120,vh-2*pad)+'px';
+      const pr=pop.getBoundingClientRect();
+      const below=vh-rect.bottom-pad-6, above=rect.top-pad-6;
+      const openUp = pr.height>below && above>below;
+      const avail=Math.max(120, openUp?above:below);
+      const h=Math.min(pr.height, avail);
+      pop.style.maxHeight=h+'px';
+      pop.style.top=(openUp ? Math.max(pad, rect.top-6-h) : rect.bottom+6)+'px';
+      pop.style.left=Math.max(pad, Math.min(rect.left, vw-pr.width-pad))+'px';
+    })();
     const closeHandler=(e)=>{
       if(!pop.contains(e.target)){ pop.remove(); document.removeEventListener('pointerdown', closeHandler, true); }
     };
@@ -1351,9 +1971,10 @@ list.filter(o=>o.type==='snapshot').forEach(o=>{
     hostFor(o).appendChild(el);
   });
 
-  list.filter(o=>o.type!=='group' && o.type!=='text' && o.type!=='section_slider' && o.type!=='presentation' && o.type!=='snapshot').forEach(o=>{
+  list.filter(o=>o.type!=='group' && o.type!=='shape' && o.type!=='text' && o.type!=='section_slider' && o.type!=='presentation' && o.type!=='snapshot').forEach(o=>{
     if(!o.type && o.container && o.material) o.type='material';
     const el=mk('div','wce-overlay-thumb');
+    if(o.id) el.dataset.overlayId=o.id;
     el.style.left=(o.x??10)+'%';
     el.style.top=(o.y??10)+'%';
     const eff = _wceEffectiveThumbProps(o);
@@ -1367,6 +1988,8 @@ list.filter(o=>o.type==='snapshot').forEach(o=>{
       const shapeProps=Object.assign({}, eff, {
         kind: cur.image ? 'image' : undefined,
         image: cur.image || undefined,
+        imageAspect: cur.imageAspect, imageFit: cur.imageFit, imageX: cur.imageX, imageY: cur.imageY,
+        imageScale: cur.imageScale != null ? cur.imageScale : eff.imageScale,
         color: cur.image ? undefined : (eff.color || '#808080'),
       });
       _wceApplyThumbShape(el, shapeProps);
@@ -1415,6 +2038,111 @@ list.filter(o=>o.type==='snapshot').forEach(o=>{
     _wceWireProfileTrigger(el, o.id);
     hostFor(o).appendChild(el);
   });
+
+  _wceDeclutterOverlays();
+}
+function _wceDeclutterOverlays(){
+  // Every thumbnail/text/toggle/action-button is positioned as a
+  // percentage of its container, but sized in fixed pixels the artist
+  // chose once -- so the same relative gap the artist designed at one
+  // screen size shrinks in absolute terms on a smaller one while the
+  // element itself doesn't, eventually clashing. This pass measures
+  // every one's real, current on-screen box after normal CSS layout has
+  // already placed it, and nudges any pair that overlaps (or falls under
+  // a small buffer) apart -- purely a rendered offset layered on top of
+  // the stored percentage position via left/top calc(), never touching
+  // the artist's actual placement data. Skipped entirely while actively
+  // dragging in the Designer's Edit mode, where precise, undisturbed
+  // placement matters more than avoiding a clash a real visitor's screen
+  // size might never even hit -- it still runs in Preview and the real
+  // exported page, on load and on resize.
+  if(window._wceDesignerEditMode) return;
+  const SELECTOR = '.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-action-btn';
+  const MIN_GAP = 4;
+
+  // Items inside a Group are positioned relative to that group's own
+  // body, not the viewport -- so they can only ever clash with siblings
+  // in the SAME group, never against free-floating items sitting in a
+  // completely different coordinate space.
+  const contexts = new Map();
+  document.querySelectorAll(SELECTOR).forEach(el=>{
+    const groupBody = el.closest('.wce-shape-content,.wce-group-body');
+    const key = groupBody || document.body;
+    if(!contexts.has(key)) contexts.set(key, []);
+    contexts.get(key).push(el);
+  });
+
+  contexts.forEach(els=>{
+    if(els.length < 2) return;
+    // Capture each element's true, un-nudged percentage position exactly
+    // once (right when it's fresh from buildThumbnailOverlays()) -- a
+    // resize can re-run this on the SAME elements with no rebuild in
+    // between, so this is what lets every pass start back from the
+    // artist's real placement instead of compounding drift from the
+    // previous pass's calc() offset.
+    els.forEach(el=>{
+      if(el.dataset.wceBaseLeft===undefined) el.dataset.wceBaseLeft = el.style.left;
+      if(el.dataset.wceBaseTop===undefined)  el.dataset.wceBaseTop  = el.style.top;
+      el.style.left = el.dataset.wceBaseLeft;
+      el.style.top  = el.dataset.wceBaseTop;
+    });
+
+    const boxes = els.map(el=>{
+      const r = el.getBoundingClientRect();
+      return {el, x:r.left, y:r.top, w:r.width, h:r.height, dx:0, dy:0};
+    });
+
+    // A handful of relaxation passes -- resolving one overlapping pair
+    // can introduce a new one with a neighbor, so this repeats until
+    // nothing moved (or a small cap, so a pathological layout can never
+    // loop indefinitely).
+    for(let pass=0; pass<6; pass++){
+      let moved = false;
+      for(let i=0;i<boxes.length;i++){
+        for(let j=i+1;j<boxes.length;j++){
+          const a=boxes[i], b=boxes[j];
+          const ax1=a.x+a.dx, ay1=a.y+a.dy, ax2=ax1+a.w, ay2=ay1+a.h;
+          const bx1=b.x+b.dx, by1=b.y+b.dy, bx2=bx1+b.w, by2=by1+b.h;
+          const overlapX = Math.min(ax2,bx2) - Math.max(ax1,bx1);
+          const overlapY = Math.min(ay2,by2) - Math.max(ay1,by1);
+          if(overlapX > -MIN_GAP && overlapY > -MIN_GAP){
+            // Push apart along whichever axis needs the smaller nudge to
+            // clear -- the natural separation direction a person
+            // decluttering these by hand would reach for.
+            const needX = overlapX + MIN_GAP;
+            const needY = overlapY + MIN_GAP;
+            const acx=ax1+a.w/2, acy=ay1+a.h/2, bcx=bx1+b.w/2, bcy=by1+b.h/2;
+            if(needX < needY){
+              const dir = acx <= bcx ? -1 : 1;
+              a.dx += dir*needX/2; b.dx -= dir*needX/2;
+            } else {
+              const dir = acy <= bcy ? -1 : 1;
+              a.dy += dir*needY/2; b.dy -= dir*needY/2;
+            }
+            moved = true;
+          }
+        }
+      }
+      if(!moved) break;
+    }
+
+    boxes.forEach(b=>{
+      if(b.dx || b.dy){
+        b.el.style.left = 'calc(' + b.el.dataset.wceBaseLeft + ' + ' + b.dx.toFixed(1) + 'px)';
+        b.el.style.top  = 'calc(' + b.el.dataset.wceBaseTop  + ' + ' + b.dy.toFixed(1) + 'px)';
+      }
+    });
+  });
+}
+let _wceDeclutterResizeAttached = false;
+function _wceAttachDeclutterResizeListener(){
+  if(_wceDeclutterResizeAttached) return;
+  _wceDeclutterResizeAttached = true;
+  let t = null;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(t);
+    t = setTimeout(_wceDeclutterOverlays, 150);
+  });
 }
 function refreshActive(){
   qsa('.vc').forEach(b=>b.classList.toggle('active',b.dataset.v===activeV));
@@ -1439,10 +2167,21 @@ function _wceTakeSnapshot(){
     // warmed up. Reusing the exact same call the render loop already makes
     // every frame avoids both problems at once.
     comp.render();
-    const url=renderer.domElement.toDataURL('image/png');
-    const a=document.createElement('a');
-    a.href=url; a.download='snapshot-'+Date.now()+'.png';
-    document.body.appendChild(a); a.click(); a.remove();
+    // toBlob(), not toDataURL(): a data: URI base64-encodes the whole
+    // image into one string, and mobile Safari/Chrome have historically
+    // failed that download silently past a fairly small size ceiling --
+    // exactly what showed up specifically on phone, on detailed/narrow-
+    // FOV (interior, high focal length) shots, since those simply encode
+    // to a bigger PNG than a plain wide exterior shot. A Blob holds the
+    // raw binary directly with no such ceiling.
+    renderer.domElement.toBlob(function(blob){
+      if(!blob){ console.error('[WCE] Snapshot failed: toBlob returned null'); return; }
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download='snapshot-'+Date.now()+'.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    }, 'image/png');
   }catch(e){ console.error('[WCE] Snapshot failed:', e); }
 }
 let _wcePresentationActive=false;
@@ -1480,7 +2219,7 @@ function _wcePresentationHideSelectors(){
   // all: the hide was being undone 60 times a second, confirmed directly
   // against a real project.
   return ['#panel','#ptab','#sfx-toggle','#ar-btn','.wce-overlay-thumb','.wce-overlay-text',
-          '.wce-overlay-group','.wce-overlay-section-slider','.wce-overlay-action-btn'];
+          '.wce-overlay-group','.wce-overlay-shape','.wce-overlay-section-slider','.wce-overlay-action-btn'];
 }
 function _wceElementCategory(el){
   // Maps a DOM element back to whichever hotkey category it would be
