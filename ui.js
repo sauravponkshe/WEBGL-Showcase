@@ -362,6 +362,10 @@ const WCEG = (function(){
   function paintThumb(el, o){
     const doc = el.ownerDocument;
     el.style.opacity = (o.opacity != null ? o.opacity : 100) / 100;
+    // Explicit either way (not just when off) since this always needs to win
+    // over the .wce-overlay-thumb class's own box-shadow rule regardless of
+    // which way the toggle is set.
+    el.style.boxShadow = (o.shadow === false) ? 'none' : '0 2px 12px rgba(0,0,0,.45)';
     const shape = o.shape || 'circle';
     const d = thumbDims(o), w = d.w, h = d.h;
     const bw = o.borderWidth != null ? o.borderWidth : 2;
@@ -1663,6 +1667,19 @@ function _wceAttachGroupArrowDelegation(){
     arrow.textContent = g.collapsed ? '▸' : '▾';
   }, true);
 }
+function _wceThumbCategoryStyle(o){
+  // Matches each thumbnail type to the SAME category color the equivalent
+  // side-panel button already uses (.pb2/.gb/.vc/.tb/.cam-btn/.anim-btn), so
+  // a highlighted thumbnail reads consistently with the panel -- and since
+  // these are the same --accent/--ok/--a2/--cam custom properties the
+  // palette editor already controls, a palette change applies here too,
+  // with no separate color config needed.
+  const t=o.type;
+  if(t==='camera'||t==='turntable'||t==='cinematic'||t==='camera_sequence') return {color:'var(--cam)',bg:'#100a18'};
+  if(t==='geo_toggle') return {color:'var(--a2)',bg:'#080f1e'};
+  if(t==='mat_subset'||t==='geo_subset'||t==='hdri'||t==='filter'||t==='material') return {color:'var(--ok)',bg:'#071410'};
+  return {color:'var(--accent)',bg:'#161208'};
+}
 function buildThumbnailOverlays(){
   // Buttons/labels the artist dragged out of the sidebar (or added freehand) in
   // the UI Designer -- variants, configs, packages, materials, animations,
@@ -1975,6 +1992,9 @@ list.filter(o=>o.type==='snapshot').forEach(o=>{
     if(!o.type && o.container && o.material) o.type='material';
     const el=mk('div','wce-overlay-thumb');
     if(o.id) el.dataset.overlayId=o.id;
+    const _cat=_wceThumbCategoryStyle(o);
+    el.style.setProperty('--wce-thumb-active-color', _cat.color);
+    el.style.setProperty('--wce-thumb-active-bg', _cat.bg);
     el.style.left=(o.x??10)+'%';
     el.style.top=(o.y??10)+'%';
     const eff = _wceEffectiveThumbProps(o);

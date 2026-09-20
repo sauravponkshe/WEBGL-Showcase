@@ -127,7 +127,123 @@
     ]
   },
   "mat_colors": {
-    "CreamWhite_LEATHER_1_GLTF": {
+    "PapayaOrange_PLASTIC_GLOSSY_1_GLTF": {
+      "color": [
+        0.7835378050804138,
+        0.13563333451747894,
+        0.008568125776946545
+      ],
+      "metallic": 0.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "MacawBlueGreen_PLASTIC_GROUND_1_GLTF": {
+      "color": [
+        0.04696357250213623,
+        0.2936716675758362,
+        0.31855452060699463
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "MidnightNavy_ALCANTARA_1_GLTF": {
+      "color": [
+        0.0,
+        0.03310476616024971,
+        0.13286831974983215
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "LimeGreen_PLASTIC_MATTE_1_GLTF": {
+      "color": [
+        0.018777059391140938,
+        0.31855452060699463,
+        0.018777059391140938
+      ],
+      "metallic": 0.0,
+      "roughness": 1.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PapayaOrange_CARPAINT_METALLIC_1_GLTF": {
+      "color": [
+        0.7835379838943481,
+        0.13563339412212372,
+        0.008568127639591694
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "WhiteSmoke_PLASTIC_GROUND_1_GLTF": {
+      "color": [
+        0.31855452060699463,
+        0.31855452060699463,
+        0.31855452060699463
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "MacawBlueGreen_CARPAINT_METALLIC_1_GLTF": {
+      "color": [
+        0.05612849071621895,
+        0.520995557308197,
+        0.5711248517036438
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "CARBON_FIBER_4_GLTF": {
+      "color": [
+        0.043693527579307556,
+        0.043693527579307556,
+        0.043693527579307556
+      ],
+      "metallic": 1.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "CreamWhite_ALCANTARA_1_GLTF": {
       "color": [
         1.0,
         0.9822505712509155,
@@ -141,11 +257,70 @@
       ],
       "emissiveIntensity": 0.0
     },
-    "MacawBlueGreen_PLASTIC_GROUND_1_GLTF": {
+    "CARBON_FIBER_3_GLTF": {
       "color": [
-        0.04696357250213623,
-        0.2936716675758362,
+        0.043693527579307556,
+        0.043693527579307556,
+        0.043693527579307556
+      ],
+      "metallic": 1.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PapayaOrange_Plastic_1_GLTF": {
+      "color": [
+        0.7835379838943481,
+        0.13563339412212372,
+        0.008568127639591694
+      ],
+      "metallic": 0.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "WhiteSmoke_PLASTIC_MATTE_1_GLTF": {
+      "color": [
+        0.31855452060699463,
+        0.31855452060699463,
         0.31855452060699463
+      ],
+      "metallic": 0.0,
+      "roughness": 1.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PLASTIC_GLOSSY_1_GLTF": {
+      "color": [
+        0.03310399502515793,
+        0.03310399502515793,
+        0.03310399502515793
+      ],
+      "metallic": 0.0,
+      "roughness": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "RubberDuckyYellow_PLASTIC_GROUND_1_GLTF": {
+      "color": [
+        0.31855452060699463,
+        0.2217383086681366,
+        0.0001821152400225401
       ],
       "metallic": 0.0,
       "emissive": [
@@ -170,41 +345,11 @@
       ],
       "emissiveIntensity": 0.0
     },
-    "Vermilion_CARPAINT_METALLIC_1_GLTF": {
+    "PapayaOrange_ALCANTARA_1_GLTF": {
       "color": [
-        0.3764879107475281,
-        0.015012872405350208,
-        0.017110276967287064
-      ],
-      "metallic": 0.7,
-      "roughness": 0.3,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "MacawBlueGreen_CARPAINT_METALLIC_1_GLTF": {
-      "color": [
-        0.05612849071621895,
-        0.520995557308197,
-        0.5711248517036438
-      ],
-      "metallic": 0.7,
-      "roughness": 0.3,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "SaddleBrown_LEATHER_PERFORATED_1_GLTF": {
-      "color": [
-        0.45078593492507935,
-        0.18116427958011627,
-        0.07036012411117554
+        0.7835378050804138,
+        0.13563333451747894,
+        0.008568125776946545
       ],
       "metallic": 0.0,
       "emissive": [
@@ -214,13 +359,58 @@
       ],
       "emissiveIntensity": 0.0
     },
-    "RubberDuckyYellow_PLASTIC_GROUND_1_GLTF": {
+    "ALUMINIUM_4_GLTF": {
       "color": [
-        0.31855452060699463,
-        0.2217383086681366,
-        0.0001821152400225401
+        0.4047013521194458,
+        0.4398377537727356,
+        0.46635276079177856
+      ],
+      "metallic": 1.0,
+      "roughness": 0.35,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Vermilion_PLASTIC_MATTE_1_GLTF": {
+      "color": [
+        0.1328708678483963,
+        0.007113533094525337,
+        0.00794687308371067
       ],
       "metallic": 0.0,
+      "roughness": 1.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "MidnightNavy_LEATHER_1_GLTF": {
+      "color": [
+        0.0,
+        0.03310476616024971,
+        0.13286831974983215
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "DarkLimeGreen_CARPAINT_METALLIC_1_GLTF": {
+      "color": [
+        0.052860647439956665,
+        0.366252601146698,
+        0.008568125776946545
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
       "emissive": [
         1.0,
         1.0,
@@ -233,6 +423,20 @@
         0.07036012411117554,
         0.0,
         0.004391443450003862
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Black_PLASTIC_GROUND_1_GLTF": {
+      "color": [
+        0.03310399502515793,
+        0.03310399502515793,
+        0.03310399502515793
       ],
       "metallic": 0.0,
       "emissive": [
@@ -257,13 +461,14 @@
       ],
       "emissiveIntensity": 0.0
     },
-    "CreamWhite_ALCANTARA_1_GLTF": {
+    "SilverPlastic_1_GLTF": {
       "color": [
-        1.0,
-        0.9822505712509155,
-        0.6307571530342102
+        0.2381891906261444,
+        0.2381891906261444,
+        0.2381891906261444
       ],
       "metallic": 0.0,
+      "roughness": 0.0,
       "emissive": [
         1.0,
         1.0,
@@ -271,11 +476,11 @@
       ],
       "emissiveIntensity": 0.0
     },
-    "Vermilion_PLASTIC_MATTE_1_GLTF": {
+    "MacawBlueGreen_PLASTIC_MATTE_1_GLTF": {
       "color": [
-        0.1328708678483963,
-        0.007113533094525337,
-        0.00794687308371067
+        0.04696357250213623,
+        0.2936716675758362,
+        0.31855452060699463
       ],
       "metallic": 0.0,
       "roughness": 1.0,
@@ -286,11 +491,11 @@
       ],
       "emissiveIntensity": 0.0
     },
-    "Black_ALCANTARA_1_GLTF": {
+    "CARBON_FIBER_5_GLTF": {
       "color": [
-        0.0,
-        0.0,
-        0.0
+        0.01992976851761341,
+        0.01992976851761341,
+        0.01992976851761341
       ],
       "metallic": 0.0,
       "emissive": [
@@ -330,44 +535,13 @@
       ],
       "emissiveIntensity": 0.0
     },
-    "PapayaOrange_PLASTIC_GLOSSY_1_GLTF": {
+    "SaddleBrown_LEATHER_PERFORATED_1_GLTF": {
       "color": [
-        0.7835378050804138,
-        0.13563333451747894,
-        0.008568125776946545
+        0.45078593492507935,
+        0.18116427958011627,
+        0.07036012411117554
       ],
       "metallic": 0.0,
-      "roughness": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "SilverPlastic_1_GLTF": {
-      "color": [
-        0.2381891906261444,
-        0.2381891906261444,
-        0.2381891906261444
-      ],
-      "metallic": 0.0,
-      "roughness": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "LimeGreen_PLASTIC_MATTE_1_GLTF": {
-      "color": [
-        0.018777059391140938,
-        0.31855452060699463,
-        0.018777059391140938
-      ],
-      "metallic": 0.0,
-      "roughness": 1.0,
       "emissive": [
         1.0,
         1.0,
@@ -380,176 +554,6 @@
         0.07036012411117554,
         0.0,
         0.004391443450003862
-      ],
-      "metallic": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "PapayaOrange_LEATHER_1_GLTF": {
-      "color": [
-        0.7835378050804138,
-        0.13563333451747894,
-        0.008568125776946545
-      ],
-      "metallic": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "CARBON_FIBER_5_GLTF": {
-      "color": [
-        0.01992976851761341,
-        0.01992976851761341,
-        0.01992976851761341
-      ],
-      "metallic": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "Black_LEATHER_1_GLTF": {
-      "color": [
-        0.01967790722846985,
-        0.01967790722846985,
-        0.01967790722846985
-      ],
-      "metallic": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "Black_Rims": {
-      "metallic": 0.4,
-      "roughness": 0.25,
-      "emissive": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "emissiveIntensity": 1.0
-    },
-    "PapayaOrange_CARPAINT_METALLIC_1_GLTF": {
-      "color": [
-        0.7835379838943481,
-        0.13563339412212372,
-        0.008568127639591694
-      ],
-      "metallic": 0.7,
-      "roughness": 0.3,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "PLASTIC_GLOSSY_1_GLTF": {
-      "color": [
-        0.03310399502515793,
-        0.03310399502515793,
-        0.03310399502515793
-      ],
-      "metallic": 0.0,
-      "roughness": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "Gold_ALUMINIUM_1_GLTF": {
-      "color": [
-        0.35888564586639404,
-        0.2599168121814728,
-        0.1707596480846405
-      ],
-      "metallic": 1.0,
-      "roughness": 0.1385,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "Black_CARPAINT_METALLIC_1_GLTF": {
-      "color": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "metallic": 0.7,
-      "roughness": 0.3,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "Black_PLASTIC_GROUND_1_GLTF": {
-      "color": [
-        0.03310399502515793,
-        0.03310399502515793,
-        0.03310399502515793
-      ],
-      "metallic": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "PlatinumSilver_CARPAINT_METALLIC_1_GLTF": {
-      "color": [
-        0.6172065734863281,
-        0.6172065734863281,
-        0.6172065734863281
-      ],
-      "metallic": 0.7,
-      "roughness": 0.3,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "RubberDuckyYellow_CARPAINT_METALLIC_1_GLTF": {
-      "color": [
-        1.0,
-        0.68668532371521,
-        0.0003035269910469651
-      ],
-      "metallic": 0.7,
-      "roughness": 0.3,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "PapayaOrange_ALCANTARA_1_GLTF": {
-      "color": [
-        0.7835378050804138,
-        0.13563333451747894,
-        0.008568125776946545
       ],
       "metallic": 0.0,
       "emissive": [
@@ -574,184 +578,11 @@
       ],
       "emissiveIntensity": 0.0
     },
-    "CARBON_FIBER_4_GLTF": {
+    "Black_LEATHER_1_GLTF": {
       "color": [
-        0.043693527579307556,
-        0.043693527579307556,
-        0.043693527579307556
-      ],
-      "metallic": 1.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "PapayaOrange_PLASTIC_GROUND_1_GLTF": {
-      "color": [
-        0.8780421018600464,
-        0.245854914188385,
-        0.06004422530531883
-      ],
-      "metallic": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "WhiteSmoke_PLASTIC_GROUND_1_GLTF": {
-      "color": [
-        0.31855452060699463,
-        0.31855452060699463,
-        0.31855452060699463
-      ],
-      "metallic": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "MidnightNavy_LEATHER_1_GLTF": {
-      "color": [
-        0.0,
-        0.03310476616024971,
-        0.13286831974983215
-      ],
-      "metallic": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "WhiteSmoke_PLASTIC_MATTE_1_GLTF": {
-      "color": [
-        0.31855452060699463,
-        0.31855452060699463,
-        0.31855452060699463
-      ],
-      "metallic": 0.0,
-      "roughness": 1.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "PapayaOrange_Plastic_1_GLTF": {
-      "color": [
-        0.7835379838943481,
-        0.13563339412212372,
-        0.008568127639591694
-      ],
-      "metallic": 0.0,
-      "roughness": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "LimeGreen_PLASTIC_GROUND_1_GLTF": {
-      "color": [
-        0.018777059391140938,
-        0.31855452060699463,
-        0.018777059391140938
-      ],
-      "metallic": 0.1,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "MidnightNavy_ALCANTARA_1_GLTF": {
-      "color": [
-        0.0,
-        0.03310476616024971,
-        0.13286831974983215
-      ],
-      "metallic": 0.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "ALUMINIUM_4_GLTF": {
-      "color": [
-        0.4047013521194458,
-        0.4398377537727356,
-        0.46635276079177856
-      ],
-      "metallic": 1.0,
-      "roughness": 0.35,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "DarkLimeGreen_CARPAINT_METALLIC_1_GLTF": {
-      "color": [
-        0.052860647439956665,
-        0.366252601146698,
-        0.008568125776946545
-      ],
-      "metallic": 0.7,
-      "roughness": 0.3,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "CARBON_FIBER_3_GLTF": {
-      "color": [
-        0.043693527579307556,
-        0.043693527579307556,
-        0.043693527579307556
-      ],
-      "metallic": 1.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "MacawBlueGreen_PLASTIC_MATTE_1_GLTF": {
-      "color": [
-        0.04696357250213623,
-        0.2936716675758362,
-        0.31855452060699463
-      ],
-      "metallic": 0.0,
-      "roughness": 1.0,
-      "emissive": [
-        1.0,
-        1.0,
-        1.0
-      ],
-      "emissiveIntensity": 0.0
-    },
-    "SaddleBrown_ALCANTARA_1_GLTF": {
-      "color": [
-        0.45078593492507935,
-        0.18116427958011627,
-        0.07036012411117554
+        0.01967790722846985,
+        0.01967790722846985,
+        0.01967790722846985
       ],
       "metallic": 0.0,
       "emissive": [
@@ -774,6 +605,175 @@
         1.0
       ],
       "emissiveIntensity": 0.0
+    },
+    "Black_Rims": {
+      "metallic": 0.4,
+      "roughness": 0.25,
+      "emissive": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "emissiveIntensity": 1.0
+    },
+    "PapayaOrange_PLASTIC_GROUND_1_GLTF": {
+      "color": [
+        0.8780421018600464,
+        0.245854914188385,
+        0.06004422530531883
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PlatinumSilver_CARPAINT_METALLIC_1_GLTF": {
+      "color": [
+        0.6172065734863281,
+        0.6172065734863281,
+        0.6172065734863281
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "LimeGreen_PLASTIC_GROUND_1_GLTF": {
+      "color": [
+        0.018777059391140938,
+        0.31855452060699463,
+        0.018777059391140938
+      ],
+      "metallic": 0.1,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Black_CARPAINT_METALLIC_1_GLTF": {
+      "color": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Vermilion_CARPAINT_METALLIC_1_GLTF": {
+      "color": [
+        0.3764879107475281,
+        0.015012872405350208,
+        0.017110276967287064
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "PapayaOrange_LEATHER_1_GLTF": {
+      "color": [
+        0.7835378050804138,
+        0.13563333451747894,
+        0.008568125776946545
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Black_ALCANTARA_1_GLTF": {
+      "color": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "Gold_ALUMINIUM_1_GLTF": {
+      "color": [
+        0.35888564586639404,
+        0.2599168121814728,
+        0.1707596480846405
+      ],
+      "metallic": 1.0,
+      "roughness": 0.1385,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "RubberDuckyYellow_CARPAINT_METALLIC_1_GLTF": {
+      "color": [
+        1.0,
+        0.68668532371521,
+        0.0003035269910469651
+      ],
+      "metallic": 0.7,
+      "roughness": 0.3,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "CreamWhite_LEATHER_1_GLTF": {
+      "color": [
+        1.0,
+        0.9822505712509155,
+        0.6307571530342102
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
+    },
+    "SaddleBrown_ALCANTARA_1_GLTF": {
+      "color": [
+        0.45078593492507935,
+        0.18116427958011627,
+        0.07036012411117554
+      ],
+      "metallic": 0.0,
+      "emissive": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissiveIntensity": 0.0
     }
   },
   "light_mat_links": [],
@@ -786,8 +786,8 @@
     }
   ],
   "mat_subset_categories": [
-    "COLOR",
     "INTERIOR",
+    "COLOR",
     "ANIMATION_CYCLE"
   ],
   "mat_subsets": [
@@ -1274,7 +1274,7 @@
     ],
     "floor_z": 0.3169,
     "lock_zoom_phone": false,
-    "focal_length_mm": 45.0,
+    "focal_length_mm": 35.0,
     "sensor_width_mm": 36.0,
     "roof_z": 3.404
   },
@@ -2601,6 +2601,28 @@
         "dip_duration": 0.4,
         "default": false,
         "focal_length_mm": 25.0,
+        "sensor_width_mm": 36.0
+      },
+      {
+        "name": "FREECAM_EXT.001",
+        "position": [
+          0.8315,
+          1.7714,
+          5.0365
+        ],
+        "target": [
+          0.0,
+          0.2416,
+          -0.0
+        ],
+        "lock": "free",
+        "transition": "fly",
+        "fly_duration": 1.2,
+        "ease_in": false,
+        "ease_out": true,
+        "dip_duration": 0.4,
+        "default": false,
+        "focal_length_mm": 35.0,
         "sensor_width_mm": 36.0
       }
     ],
