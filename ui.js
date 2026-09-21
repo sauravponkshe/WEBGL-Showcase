@@ -619,9 +619,19 @@ const WCEUIS = (function(){
     win.addEventListener('resize', again);
     win.addEventListener('orientationchange', again);
   }
+  // Sound (#sfx-toggle) used to be the one control NOT placed like every other element: pinned 14px from the
+  // bottom-left corner in px, while Present / Snapshot / thumbnails are top-left percentages. On any screen whose
+  // aspect differs from the reference the two systems drift apart, and Sound was also skipped by the overlap pass.
+  // Until the artist moves it, its stock spot is now expressed in the SAME model: a top-left % of this view's
+  // reference canvas (identical to the old spot at the reference size).
+  function chromeDefaultPos(win, el, view){
+    const ref = cfgFor(win).ref[view || viewOf(win)] || cfgFor(win).ref.desktop, m = 14;
+    const h = el.offsetHeight || 30;
+    return { x: m / ref[0] * 100, y: (ref[1] - m - h) / ref[1] * 100 };
+  }
   return {
     STAGE_ID: STAGE_ID, REF: DEFAULTS.ref, DEFAULTS: DEFAULTS,
-    compute: compute, apply: apply, init: init,
+    compute: compute, viewOf: viewOf, chromeDefaultPos: chromeDefaultPos, apply: apply, init: init,
     scale: function(win){ return (win || window).__wceUiScale || 1; },
     stage: function(doc){ doc = doc || document; return doc.getElementById(STAGE_ID) || doc.body; }
   };
@@ -938,6 +948,7 @@ function _wceAttachOrientationListener(){
     _wceApplyDeviceOverrides();
     if(typeof buildThumbnailOverlays==="function") buildThumbnailOverlays();
     if(typeof _wceApplyChromeOverrides==="function") _wceApplyChromeOverrides();
+    if(typeof _wceDeclutterOverlays==="function") _wceDeclutterOverlays();
     const pan = document.getElementById("panel"), ptab = document.getElementById("ptab");
     if(pan && ptab){
       const hidden = !!(window.WCE_THEME||{}).panelHidden;
@@ -990,6 +1001,7 @@ function buildUI(){
   _wceApplyDesignerVisibility();
   _wceIndexStLabels();
   _wceApplyChromeOverrides();
+  if(typeof _wceDeclutterOverlays==='function') _wceDeclutterOverlays();
 }
 function _wceIndexStLabels(){
   // :nth-of-type counts by tag name, not by class, so it can't reliably
@@ -1007,6 +1019,17 @@ function _wceIndexStLabels(){
 }
 function _wceApplyChromeOverrides(){
   const overrides = (window.WCE_THEME||{}).chromeOverrides || {};
+  // Sound is positioned exactly like Present / Snapshot / thumbnails: top-left % of the canvas (its saved spot, or the
+  // stock bottom-left spot expressed in %), never px-from-the-bottom -- see WCEUIS.chromeDefaultPos.
+  (function(){
+    const el = document.getElementById('sfx-toggle');
+    if(!el) return;
+    const ov = overrides['#sfx-toggle'];
+    const p = (ov && ov.pos) ? ov.pos : WCEUIS.chromeDefaultPos(window, el);
+    el.style.left = p.x + '%'; el.style.top = p.y + '%';
+    el.style.bottom = 'auto'; el.style.right = 'auto';
+    el.dataset.wceBaseLeft = p.x + '%'; el.dataset.wceBaseTop = p.y + '%';   // what the overlap pass resets to
+  })();
   const isTextSel = function(s){ return s && (s === 'h1' || s === '#vl' || s === '#force-refresh-btn' || s === '#st' || s.indexOf('.st') !== -1 || s.indexOf('label[for=') !== -1 || s.indexOf('.hotspot-lbl') !== -1 || s.indexOf('.empty-note') !== -1); };
   Object.keys(overrides).forEach(function(sel){
     const entry = overrides[sel];
@@ -2203,7 +2226,7 @@ function _wceDeclutterOverlays(){
   // size might never even hit -- it still runs in Preview and the real
   // exported page, on load and on resize.
   if(window._wceDesignerEditMode) return;
-  const SELECTOR = '.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-action-btn';
+  const SELECTOR = '.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-action-btn,#sfx-toggle';
   const MIN_GAP = 4;
   const _s = window.__wceUiScale || 1;   // screen px -> stage px
 
@@ -2213,6 +2236,7 @@ function _wceDeclutterOverlays(){
   // completely different coordinate space.
   const contexts = new Map();
   document.querySelectorAll(SELECTOR).forEach(el=>{
+    if(el.id === 'sfx-toggle' && !el.dataset.wceBaseLeft) return;   // not placed yet (see _wceApplyChromeOverrides)
     const groupBody = el.closest('.wce-shape-content,.wce-group-body');
     const key = groupBody || _wceRootHost();
     if(!contexts.has(key)) contexts.set(key, []);
