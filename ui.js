@@ -509,6 +509,7 @@ const WCEG = (function(){
     const s = {};
     SNAP_KEYS.forEach(function(k){ if(o[k] !== undefined) s[k] = o[k]; });
     s.groupId = o.groupId || null;      // "at the root" is part of the state too
+    s.hidden = !!o.hidden;              // shown / hidden is part of the state too, so a profile can toggle it
     return s;
   }
 
@@ -534,29 +535,47 @@ const WCEG = (function(){
 // the viewport. Children keep their % positions AND their px sizes, but every px is now worth
 // s real pixels — the picture drawn at the reference size is simply shrunk/grown as a whole.
 //
-//   s = clamp( min(viewportW / refW, viewportH / (refH * (1 - heightSlack))), min, max )
+// DESKTOP (contain): s = clamp( min(vw / refW, vh / refH), min, max ). Positions are % of the stage, so the layout
+// only ever contracts relative to the Designer view (nothing overlaps or leaves the screen that did not already).
 //
-// Taking the MIN of the two axes means the layout is only ever a contraction of the reference
-// layout: nothing can overlap, or run off-screen, that did not already do so in the Designer.
-// heightSlack lets phones ignore the browser toolbars eating into the visible height.
-// The Designer always renders each view at exactly its reference size, so it always runs at s = 1.
+// PHONES (literal): the designed canvas keeps its reference size in the axis that varies from phone to phone.
+//   portrait  fits the WIDTH  (s = vw / 390) and keeps the full 844 px HEIGHT: shorter screens simply CUT the bottom,
+//   landscape fits the HEIGHT (s = vh / 390) and keeps the full 844 px WIDTH:  narrower screens CUT the right side.
+// Everything is positioned inside #wce-ui-canvas, which has exactly that size, so a % in the cropped axis means
+// "% of the reference canvas" -- a control keeps the same distance from the top-left corner on every phone, and the
+// Designer's bleed guides mark exactly where each common screen shape stops. A `safe` region is guaranteed to stay
+// fully visible (s shrinks if the window is too small for it), so anything inside it looks identical everywhere.
+// Chrome that must hug the real screen edges (side panel, loader) is NOT inside the canvas.
 const WCEUIS = (function(){
-  const STAGE_ID = 'wce-ui-stage';
+  const STAGE_ID = 'wce-ui-stage', CANVAS_ID = 'wce-ui-canvas';
   const DEFAULTS = {
     enabled: true, min: 0.6, max: 2.5,
     ref:         { desktop: [1920, 1080], mobileV: [390, 844], mobileH: [844, 390] },
-    heightSlack: { desktop: 0,            mobileV: 0.2,        mobileH: 0.15 },
+    heightSlack: { desktop: 0 },
+    // which axis the scale is fitted to: 'w' / 'h' = literal phone view, absent = desktop contain-fit
+    fit:         { mobileV: 'w', mobileH: 'h' },
+    // [literalX, literalY]: axis in which the canvas keeps its reference size and the screen crops / leaves room
+    literal:     { desktop: [false, false], mobileV: [false, true], mobileH: [true, false] },
+    // region that must always be fully visible in a literal view (canvas px)
+    safe:        { mobileV: [390, 660], mobileH: [693, 390] },
+    // bleed guides (canvas px at which common screens end). Phones: content beyond a line can be cut off.
+    // Desktop is guide-only (its % layout slides in instead of being cropped).
+    bleed: {
+      desktop: { x: [{at: 1728, label: '16:10'}, {at: 1440, label: '4:3'}], y: [{at: 950, label: 'browser'}] },
+      mobileV: { x: [], y: [{at: 780, label: '18:9'}, {at: 693, label: '16:9'}, {at: 660, label: 'browser bars'}] },
+      mobileH: { x: [{at: 780, label: '18:9'}, {at: 693, label: '16:9'}], y: [] }
+    },
     narrowBelow: 768                       // stage width under which the panel goes full-width
   };
+  const MERGE = ['ref', 'heightSlack', 'fit', 'literal', 'safe', 'bleed'];
   function clampN(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
-  // Optional per-project override: WCE_THEME.uiScale = {enabled, min, max, ref:{...}, heightSlack:{...}}
+  // Optional per-project override: WCE_THEME.uiScale = {enabled, min, max, ref, fit, literal, safe, bleed}
   function cfgFor(win){
     try{
       const o = win.WCE_THEME && win.WCE_THEME.uiScale;
       if(o && typeof o === 'object'){
         const c = Object.assign({}, DEFAULTS, o);
-        c.ref = Object.assign({}, DEFAULTS.ref, o.ref || {});
-        c.heightSlack = Object.assign({}, DEFAULTS.heightSlack, o.heightSlack || {});
+        MERGE.forEach(function(k){ c[k] = Object.assign({}, DEFAULTS[k], o[k] || {}); });
         return c;
       }
     }catch(e){}
@@ -583,9 +602,15 @@ const WCEUIS = (function(){
     if(p !== null && p !== '' && isFinite(parseFloat(p))) return clampN(parseFloat(p), 0.25, 4);
     const v = viewOf(win);
     const ref = c.ref[v] || c.ref.desktop;
-    const slack = clampN(+c.heightSlack[v] || 0, 0, 0.5);
     const vw = win.innerWidth || 1, vh = win.innerHeight || 1;
-    let s = Math.min(vw / ref[0], vh / (ref[1] * (1 - slack)));
+    const fit = c.fit[v], safe = c.safe[v];
+    let s;
+    if(fit === 'w' && safe)      s = Math.min(vw / ref[0], vh / safe[1]);
+    else if(fit === 'h' && safe) s = Math.min(vh / ref[1], vw / safe[0]);
+    else {
+      const slack = clampN(+c.heightSlack[v] || 0, 0, 0.5);
+      s = Math.min(vw / ref[0], vh / (ref[1] * (1 - slack)));
+    }
     s = clampN(s, +c.min || 0.25, +c.max || 4);
     s = Math.round(s * 1000) / 1000;
     return Math.abs(s - 1) < 0.005 ? 1 : s;
@@ -596,6 +621,7 @@ const WCEUIS = (function(){
     if(!d || !d.documentElement) return 1;
     const s = compute(win), prev = win.__wceUiScale;
     const vw = win.innerWidth || 1, vh = win.innerHeight || 1;
+    const c = cfgFor(win), v = viewOf(win);
     win.__wceUiScale = s;
     d.documentElement.style.setProperty('--wce-s', String(s));
     const st = d.getElementById(STAGE_ID);
@@ -604,7 +630,14 @@ const WCEUIS = (function(){
       st.style.height = (vh / s) + 'px';
       st.style.transform = (s === 1) ? 'none' : 'scale(' + s + ')';
     }
-    d.documentElement.classList.toggle('wce-narrow', (vw / s) < (cfgFor(win).narrowBelow || 768));
+    // The canvas the overlays live in: reference size in a literal axis, otherwise it just fills the stage.
+    const cv = d.getElementById(CANVAS_ID);
+    if(cv){
+      const ref = c.ref[v] || c.ref.desktop, lit = c.literal[v] || [false, false];
+      cv.style.width  = lit[0] ? ref[0] + 'px' : (vw / s) + 'px';
+      cv.style.height = lit[1] ? ref[1] + 'px' : (vh / s) + 'px';
+    }
+    d.documentElement.classList.toggle('wce-narrow', (vw / s) < (c.narrowBelow || 768));
     if(prev !== s){
       try{ win.dispatchEvent(new win.CustomEvent('wce-uiscale', {detail: {scale: s}})); }catch(e){}
     }
@@ -620,18 +653,39 @@ const WCEUIS = (function(){
     win.addEventListener('orientationchange', again);
   }
   // Sound (#sfx-toggle) used to be the one control NOT placed like every other element: pinned 14px from the
-  // bottom-left corner in px, while Present / Snapshot / thumbnails are top-left percentages. On any screen whose
-  // aspect differs from the reference the two systems drift apart, and Sound was also skipped by the overlap pass.
-  // Until the artist moves it, its stock spot is now expressed in the SAME model: a top-left % of this view's
-  // reference canvas (identical to the old spot at the reference size).
+  // bottom-left corner in px, while Present / Snapshot / thumbnails are top-left percentages. Until the artist moves
+  // it, its stock spot is expressed in the SAME model: a top-left % of this view's reference canvas. In a phone view
+  // whose bottom can be cropped it sits above the lowest bleed line so it is never cut off.
   function chromeDefaultPos(win, el, view){
-    const ref = cfgFor(win).ref[view || viewOf(win)] || cfgFor(win).ref.desktop, m = 14;
-    const h = el.offsetHeight || 30;
-    return { x: m / ref[0] * 100, y: (ref[1] - m - h) / ref[1] * 100 };
+    const c = cfgFor(win), v = view || viewOf(win);
+    const ref = c.ref[v] || c.ref.desktop, lit = c.literal[v] || [false, false], safe = c.safe[v];
+    const m = 14, h = el.offsetHeight || 30;
+    const bottom = (lit[1] && safe) ? safe[1] : ref[1];
+    return { x: m / ref[0] * 100, y: (bottom - m - h) / ref[1] * 100 };
+  }
+  // Per-overlay stacking order: an overlay with a numeric `z` gets it as its z-index (Bring to front / Send to back).
+  function applyStacking(doc, overlays){
+    const w = doc.defaultView;
+    (overlays || []).forEach(function(o){
+      if(!o) return;
+      let id = String(o.id);
+      try{ id = w.CSS.escape(id); }catch(e){ id = id.replace(/[^a-zA-Z0-9_-]/g, ''); }
+      doc.querySelectorAll('[data-overlay-id="' + id + '"]').forEach(function(el){
+        if(typeof o.z === 'number') el.style.zIndex = String(o.z);
+        // Hidden elements are taken off the page (display:none: nothing drawn, nothing clickable). A profile flips this per
+        // state; only what we hid ourselves is shown again.
+        if(o.hidden){ el.style.setProperty('display', 'none', 'important'); el.dataset.wceHid = '1'; }
+        else if(el.dataset.wceHid){ el.style.removeProperty('display'); delete el.dataset.wceHid; }
+      });
+    });
   }
   return {
-    STAGE_ID: STAGE_ID, REF: DEFAULTS.ref, DEFAULTS: DEFAULTS,
-    compute: compute, viewOf: viewOf, chromeDefaultPos: chromeDefaultPos, apply: apply, init: init,
+    STAGE_ID: STAGE_ID, CANVAS_ID: CANVAS_ID, REF: DEFAULTS.ref, DEFAULTS: DEFAULTS,
+    compute: compute, viewOf: viewOf, chromeDefaultPos: chromeDefaultPos, applyStacking: applyStacking, apply: apply, init: init,
+    bleed:   function(view, win){ return (cfgFor(win || window).bleed[view]) || {x: [], y: []}; },
+    safe:    function(view, win){ return cfgFor(win || window).safe[view] || null; },
+    literal: function(view, win){ return cfgFor(win || window).literal[view] || [false, false]; },
+    refSize: function(win){ win = win || window; const c = cfgFor(win); return c.ref[viewOf(win)] || c.ref.desktop; },
     scale: function(win){ return (win || window).__wceUiScale || 1; },
     stage: function(doc){ doc = doc || document; return doc.getElementById(STAGE_ID) || doc.body; }
   };
@@ -906,7 +960,7 @@ window._wceSetDesignerEditMode = function(on){
 // typography are already handled natively via CSS media queries baked in
 // at export time (see _wce_theme_css), requiring no JS here at all.
 // Every free-floating overlay is hosted in the scaled HUD stage (see WCEUIS), not directly in <body>.
-function _wceRootHost(){ return document.getElementById('wce-ui-stage') || document.body; }
+function _wceRootHost(){ return document.getElementById('wce-ui-canvas') || document.getElementById('wce-ui-stage') || document.body; }
 function _wceDetectDeviceView(){
   // wce_mobile_frame means this page is loaded inside the Mobile Portrait/
   // Horizontal phone-frame preview (see the /__wce_mobile__ server route) --
@@ -1828,6 +1882,10 @@ function _wceThumbCategoryStyle(o){
   return {color:'var(--accent)',bg:'#161208'};
 }
 function buildThumbnailOverlays(){
+  _wceBuildThumbnailOverlaysCore();
+  try{ WCEUIS.applyStacking(document, _wceEffectiveOverlays()); }catch(e){}
+}
+function _wceBuildThumbnailOverlaysCore(){
   // Buttons/labels the artist dragged out of the sidebar (or added freehand) in
   // the UI Designer -- variants, configs, packages, materials, animations,
   // cameras, sequences, environment, plus free-floating text labels and
@@ -2229,6 +2287,7 @@ function _wceDeclutterOverlays(){
   const SELECTOR = '.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-action-btn,#sfx-toggle';
   const MIN_GAP = 4;
   const _s = window.__wceUiScale || 1;   // screen px -> stage px
+  const _hid = new Set((_wceEffectiveOverlays() || []).filter(function(x){ return x && x.hidden; }).map(function(x){ return String(x.id); }));
 
   // Items inside a Group are positioned relative to that group's own
   // body, not the viewport -- so they can only ever clash with siblings
@@ -2237,13 +2296,14 @@ function _wceDeclutterOverlays(){
   const contexts = new Map();
   document.querySelectorAll(SELECTOR).forEach(el=>{
     if(el.id === 'sfx-toggle' && !el.dataset.wceBaseLeft) return;   // not placed yet (see _wceApplyChromeOverrides)
+    if(el.dataset.overlayId && _hid.has(el.dataset.overlayId)) return;   // hidden elements are not part of the layout
     const groupBody = el.closest('.wce-shape-content,.wce-group-body');
     const key = groupBody || _wceRootHost();
     if(!contexts.has(key)) contexts.set(key, []);
     contexts.get(key).push(el);
   });
 
-  contexts.forEach(els=>{
+  contexts.forEach((els, key)=>{
     if(els.length < 2) return;
     // Capture each element's true, un-nudged percentage position exactly
     // once (right when it's fresh from buildThumbnailOverlays()) -- a
@@ -2252,8 +2312,12 @@ function _wceDeclutterOverlays(){
     // artist's real placement instead of compounding drift from the
     // previous pass's calc() offset.
     els.forEach(el=>{
-      if(el.dataset.wceBaseLeft===undefined) el.dataset.wceBaseLeft = el.style.left;
-      if(el.dataset.wceBaseTop===undefined)  el.dataset.wceBaseTop  = el.style.top;
+      // The cached base is only valid until something else moves the element (the Designer after a drag, a theme
+      // re-apply). A plain inline value that differs from the cache is the NEW placement -- only our own calc()
+      // nudges are temporary. Without this, every pass in Preview snapped a dragged Sound back to where it began.
+      const _curL = el.style.left, _curT = el.style.top;
+      if(el.dataset.wceBaseLeft===undefined || (_curL && _curL.indexOf('calc(')!==0 && _curL !== el.dataset.wceBaseLeft)) el.dataset.wceBaseLeft = _curL;
+      if(el.dataset.wceBaseTop===undefined  || (_curT && _curT.indexOf('calc(')!==0 && _curT !== el.dataset.wceBaseTop))  el.dataset.wceBaseTop  = _curT;
       // action buttons have transition:all -- without this the rect measured just below is still the old, nudged
       // position mid-animation, and each resize would compound the nudge
       el.style.transition = 'none';
@@ -2261,10 +2325,23 @@ function _wceDeclutterOverlays(){
       el.style.top  = el.dataset.wceBaseTop;
     });
 
+    // Where would each box sit in the Designer's own layout (the reference canvas)? Two that already overlapped THERE
+    // were overlapped on purpose (elements can be layered), so they are left alone -- only a pair that was apart in
+    // the Designer and collides on this screen gets pushed apart.
+    const _refSz = (key && key !== _wceRootHost()) ? [key.offsetWidth, key.offsetHeight] : WCEUIS.refSize(window);
     const boxes = els.map(el=>{
       const r = el.getBoundingClientRect();
-      return {el, x:r.left, y:r.top, w:r.width, h:r.height, dx:0, dy:0};
+      const bl = el.dataset.wceBaseLeft, bt = el.dataset.wceBaseTop;
+      const okRef = /%$/.test(bl || '') && /%$/.test(bt || '');
+      return {el, x:r.left, y:r.top, w:r.width, h:r.height, dx:0, dy:0,
+              rx: okRef ? parseFloat(bl) / 100 * _refSz[0] : NaN, ry: okRef ? parseFloat(bt) / 100 * _refSz[1] : NaN,
+              rw: el.offsetWidth, rh: el.offsetHeight};
     });
+    const _wasOverlappingInDesigner = function(a, b){
+      if(!(isFinite(a.rx) && isFinite(b.rx))) return false;
+      return Math.min(a.rx + a.rw, b.rx + b.rw) - Math.max(a.rx, b.rx) > 0 &&
+             Math.min(a.ry + a.rh, b.ry + b.rh) - Math.max(a.ry, b.ry) > 0;
+    };
 
     // A handful of relaxation passes -- resolving one overlapping pair
     // can introduce a new one with a neighbor, so this repeats until
@@ -2275,6 +2352,7 @@ function _wceDeclutterOverlays(){
       for(let i=0;i<boxes.length;i++){
         for(let j=i+1;j<boxes.length;j++){
           const a=boxes[i], b=boxes[j];
+          if(_wasOverlappingInDesigner(a, b)) continue;   // layered on purpose in the Designer
           const ax1=a.x+a.dx, ay1=a.y+a.dy, ax2=ax1+a.w, ay2=ay1+a.h;
           const bx1=b.x+b.dx, by1=b.y+b.dy, bx2=bx1+b.w, by2=by1+b.h;
           const overlapX = Math.min(ax2,bx2) - Math.max(ax1,bx1);
