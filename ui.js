@@ -43,12 +43,22 @@ const WCEG = (function(){
     // which is click-through) still interactive.
     '.wce-group-content>.wce-overlay-group,.wce-shape-content>.wce-overlay-group{position:absolute}',
     // A group can be as wide as the screen, but never wider than a smaller one.
-    '.wce-overlay-group{max-width:100vw}',
+    '.wce-overlay-group{max-width:calc(100vw / var(--wce-s, 1))}',
     '.wce-group-scroller{position:absolute;z-index:8;box-sizing:border-box;touch-action:none;cursor:pointer}',
     '.wce-group-scroller-thumb{position:absolute;left:0;right:0;top:0;box-sizing:border-box;cursor:grab}'
   ].join('\n');
 
   function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
+  // On-screen size / layout size of an element = the scale it is drawn at. It is 1 in the Designer and
+  // whenever the UI is unscaled; on the exported site it is WCEUIS's s. Pointer deltas (screen px) must be
+  // divided by it before they are used as CSS px.
+  function localScale(el){
+    try{
+      const r = el.getBoundingClientRect();
+      const k = el.offsetHeight ? r.height / el.offsetHeight : (el.offsetWidth ? r.width / el.offsetWidth : 1);
+      return k > 0.01 ? k : 1;
+    }catch(e){ return 1; }
+  }
   function num(v, dflt){ return (v!==undefined && v!==null && v!=='' && !isNaN(v)) ? +v : dflt; }
 
   function rgba(hex, a){
@@ -207,10 +217,10 @@ const WCEG = (function(){
       ev.stopPropagation(); ev.preventDefault();
       const g = el.__wcegG; if(!g) return;
       const m = metrics(el, g); if(m.max <= 0) return;
-      const startY = ev.clientY, startTop = st(el)[g.id] || 0;
+      const startY = ev.clientY, startTop = st(el)[g.id] || 0, k = localScale(bar);
       const span = Math.max(1, bar.clientHeight - thumb.offsetHeight);
       try{ thumb.setPointerCapture(ev.pointerId); }catch(e){}
-      function move(e){ setScroll(el, startTop + (e.clientY - startY) * (m.max / span)); }
+      function move(e){ setScroll(el, startTop + ((e.clientY - startY) / k) * (m.max / span)); }
       function up(e){
         thumb.removeEventListener('pointermove', move);
         thumb.removeEventListener('pointerup', up);
@@ -229,7 +239,7 @@ const WCEG = (function(){
       const m = metrics(el, g); if(m.max <= 0) return;
       const r = bar.getBoundingClientRect();
       const span = bar.clientHeight - thumb.offsetHeight;
-      const py = (ev.clientY - r.top - bar.clientTop) - thumb.offsetHeight / 2;
+      const py = ((ev.clientY - r.top) / localScale(bar) - bar.clientTop) - thumb.offsetHeight / 2;
       setScroll(el, (span > 0 ? clamp(py / span, 0, 1) : 0) * m.max);
     });
     if(body.__wcegWired) return;
@@ -249,7 +259,7 @@ const WCEG = (function(){
     }, {passive:true});
     body.addEventListener('touchmove', function(ev){
       const g = el.__wcegG; if(!scrollOn(g) || !ev.touches.length) return;
-      const dy = ty - ev.touches[0].clientY;
+      const dy = (ty - ev.touches[0].clientY) / localScale(body);
       if(Math.abs(dy) > 6) moved = true;
       if(moved){ ev.preventDefault(); setScroll(el, t0 + dy); }
     }, {passive:false});
@@ -365,7 +375,15 @@ const WCEG = (function(){
     // Explicit either way (not just when off) since this always needs to win
     // over the .wce-overlay-thumb class's own box-shadow rule regardless of
     // which way the toggle is set.
-    el.style.boxShadow = (o.shadow === false) ? 'none' : '0 2px 12px rgba(0,0,0,.45)';
+    // A custom property, not a direct inline box-shadow -- setting the
+    // shadow inline unconditionally would always beat the .active CSS
+    // rule's own box-shadow (inline always wins over a class rule,
+    // regardless of specificity), which is exactly what was silently
+    // blocking the active-state glow from ever appearing on any thumbnail.
+    // Routing both through custom properties lets the .active rule (see
+    // its own comment) layer the ring glow ON TOP of this drop shadow
+    // instead of one unconditionally overwriting the other.
+    el.style.setProperty('--wce-thumb-shadow', (o.shadow === false) ? 'none' : '0 2px 12px rgba(0,0,0,.45)');
     const shape = o.shape || 'circle';
     const d = thumbDims(o), w = d.w, h = d.h;
     const bw = o.borderWidth != null ? o.borderWidth : 2;
@@ -506,6 +524,109 @@ const WCEG = (function(){
     knownAspect: knownAspect, thumbDims: thumbDims, thumbImageBox: thumbImageBox, shapeImageBox: shapeImageBox
   };
 })();
+
+// ===== WCEUIS — uniform UI scaling ===========================================
+// Shared by the UI Designer page and the exported site's ui.js, like WCEG above.
+//
+// THE MODEL. The whole HUD (side panel, chrome buttons, every placed overlay, hotspot markers,
+// startup screen) lives inside #wce-ui-stage. The stage is laid out at (viewport / s) CSS px and
+// then scaled by s with transform:scale(s) from its top-left corner, so it always covers exactly
+// the viewport. Children keep their % positions AND their px sizes, but every px is now worth
+// s real pixels — the picture drawn at the reference size is simply shrunk/grown as a whole.
+//
+//   s = clamp( min(viewportW / refW, viewportH / (refH * (1 - heightSlack))), min, max )
+//
+// Taking the MIN of the two axes means the layout is only ever a contraction of the reference
+// layout: nothing can overlap, or run off-screen, that did not already do so in the Designer.
+// heightSlack lets phones ignore the browser toolbars eating into the visible height.
+// The Designer always renders each view at exactly its reference size, so it always runs at s = 1.
+const WCEUIS = (function(){
+  const STAGE_ID = 'wce-ui-stage';
+  const DEFAULTS = {
+    enabled: true, min: 0.6, max: 2.5,
+    ref:         { desktop: [1920, 1080], mobileV: [390, 844], mobileH: [844, 390] },
+    heightSlack: { desktop: 0,            mobileV: 0.2,        mobileH: 0.15 },
+    narrowBelow: 768                       // stage width under which the panel goes full-width
+  };
+  function clampN(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
+  // Optional per-project override: WCE_THEME.uiScale = {enabled, min, max, ref:{...}, heightSlack:{...}}
+  function cfgFor(win){
+    try{
+      const o = win.WCE_THEME && win.WCE_THEME.uiScale;
+      if(o && typeof o === 'object'){
+        const c = Object.assign({}, DEFAULTS, o);
+        c.ref = Object.assign({}, DEFAULTS.ref, o.ref || {});
+        c.heightSlack = Object.assign({}, DEFAULTS.heightSlack, o.heightSlack || {});
+        return c;
+      }
+    }catch(e){}
+    return DEFAULTS;
+  }
+  function urlParam(win){
+    try{ return new win.URLSearchParams(win.location.search).get('wce_uiscale'); }catch(e){ return null; }
+  }
+  // True inside the Designer's own preview iframe (same-origin parent that owns #wce-preview-frame).
+  function inDesigner(win){
+    if(win.__wceDesigner) return true;
+    try{ return win.parent !== win && !!win.parent.document.getElementById('wce-preview-frame'); }catch(e){ return false; }
+  }
+  function viewOf(win){
+    if(win.__wceUiView) return win.__wceUiView;
+    try{ if(typeof win._wceDetectDeviceView === 'function') return win._wceDetectDeviceView(); }catch(e){}
+    return 'desktop';
+  }
+  function compute(win){
+    const p = urlParam(win);
+    if(p === 'off' || inDesigner(win)) return 1;
+    const c = cfgFor(win);
+    if(c.enabled === false) return 1;
+    if(p !== null && p !== '' && isFinite(parseFloat(p))) return clampN(parseFloat(p), 0.25, 4);
+    const v = viewOf(win);
+    const ref = c.ref[v] || c.ref.desktop;
+    const slack = clampN(+c.heightSlack[v] || 0, 0, 0.5);
+    const vw = win.innerWidth || 1, vh = win.innerHeight || 1;
+    let s = Math.min(vw / ref[0], vh / (ref[1] * (1 - slack)));
+    s = clampN(s, +c.min || 0.25, +c.max || 4);
+    s = Math.round(s * 1000) / 1000;
+    return Math.abs(s - 1) < 0.005 ? 1 : s;
+  }
+  function apply(win){
+    win = win || window;
+    const d = win.document;
+    if(!d || !d.documentElement) return 1;
+    const s = compute(win), prev = win.__wceUiScale;
+    const vw = win.innerWidth || 1, vh = win.innerHeight || 1;
+    win.__wceUiScale = s;
+    d.documentElement.style.setProperty('--wce-s', String(s));
+    const st = d.getElementById(STAGE_ID);
+    if(st){
+      st.style.width = (vw / s) + 'px';
+      st.style.height = (vh / s) + 'px';
+      st.style.transform = (s === 1) ? 'none' : 'scale(' + s + ')';
+    }
+    d.documentElement.classList.toggle('wce-narrow', (vw / s) < (cfgFor(win).narrowBelow || 768));
+    if(prev !== s){
+      try{ win.dispatchEvent(new win.CustomEvent('wce-uiscale', {detail: {scale: s}})); }catch(e){}
+    }
+    return s;
+  }
+  function init(win){
+    win = win || window;
+    apply(win);
+    if(win.__wceUiScaleWired) return;
+    win.__wceUiScaleWired = true;
+    const again = function(){ apply(win); };
+    win.addEventListener('resize', again);
+    win.addEventListener('orientationchange', again);
+  }
+  return {
+    STAGE_ID: STAGE_ID, REF: DEFAULTS.ref, DEFAULTS: DEFAULTS,
+    compute: compute, apply: apply, init: init,
+    scale: function(win){ return (win || window).__wceUiScale || 1; },
+    stage: function(doc){ doc = doc || document; return doc.getElementById(STAGE_ID) || doc.body; }
+  };
+})();
+try{ if(typeof window !== 'undefined' && document.getElementById(WCEUIS.STAGE_ID)) WCEUIS.init(window); }catch(e){}
 
 (function(){
   // WCEG.css: container / shape / scroller rules (kept in the shared block so the UI
@@ -774,6 +895,8 @@ window._wceSetDesignerEditMode = function(on){
 // thumbnailGroups, globalThumbProps -- colors, panel background, and
 // typography are already handled natively via CSS media queries baked in
 // at export time (see _wce_theme_css), requiring no JS here at all.
+// Every free-floating overlay is hosted in the scaled HUD stage (see WCEUIS), not directly in <body>.
+function _wceRootHost(){ return document.getElementById('wce-ui-stage') || document.body; }
 function _wceDetectDeviceView(){
   // wce_mobile_frame means this page is loaded inside the Mobile Portrait/
   // Horizontal phone-frame preview (see the /__wce_mobile__ server route) --
@@ -835,6 +958,7 @@ function buildUI(){
   const _wceForcedMobile = new URLSearchParams(window.location.search).get('wce_mobile_frame');
   if(_wceForcedMobile === 'portrait') document.body.classList.add('wce-force-mobile-v');
   else if(_wceForcedMobile === 'horizontal') document.body.classList.add('wce-force-mobile-h');
+  try{ WCEUIS.apply(window); }catch(e){}
   _wceApplyDeviceOverrides();
   _wceAttachOrientationListener();
   _wceAttachDeclutterResizeListener();
@@ -848,7 +972,7 @@ function buildUI(){
   const ptab=document.getElementById('ptab'),pan=document.getElementById('panel');
   if((window.WCE_THEME||{}).panelHidden){pan.style.display='none';ptab.style.display='none';}
   ptab.onclick=()=>{pan.classList.toggle('closed');ptab.textContent=pan.classList.contains('closed')?'❮':'❯';};
-  if(window.innerWidth<768){pan.classList.add('closed');ptab.textContent='❮';}
+  if(document.documentElement.classList.contains('wce-narrow')){pan.classList.add('closed');ptab.textContent='❮';}
   document.querySelectorAll('.tnb').forEach(btn=>{
     btn.addEventListener('click',()=>{
       document.querySelectorAll('.tnb').forEach(b=>b.classList.remove('active'));
@@ -1715,7 +1839,7 @@ function buildThumbnailOverlays(){
     _wceApplyGroupStyle(el, geff);
     if(geff.titleFont) _wceEnsureFontLoaded(geff.titleFont);
     _wceWireProfileTrigger(el, g.id);
-    (forceRoot ? document.body : hostFor(g)).appendChild(el);
+    (forceRoot ? _wceRootHost() : hostFor(g)).appendChild(el);
     groupEls[g.id]=WCEG.groupHost(el);
     WCEG.scheduleRefresh(el);
     const _arw=el.querySelector('.wce-group-arrow');
@@ -1742,7 +1866,7 @@ function buildThumbnailOverlays(){
   }
 
   function hostFor(o){
-    return (o.groupId && groupEls[o.groupId]) || document.body;
+    return (o.groupId && groupEls[o.groupId]) || _wceRootHost();
   }
 
   // Shapes: a decorative box that is also a container. Nested shapes render parent-first.
@@ -1756,7 +1880,7 @@ function buildThumbnailOverlays(){
       const _content=WCEG.shapeHost(el);
       _wceWireProfileTrigger(el, s.id, ev=>ev.target===el || ev.target===_content);
     }
-    (forceRoot ? document.body : hostFor(s)).appendChild(el);
+    (forceRoot ? _wceRootHost() : hostFor(s)).appendChild(el);
     groupEls[s.id]=WCEG.shapeHost(el);
   }
   // Group frames and shapes are both containers and can hold each other, so ONE parents-first pass renders
@@ -1865,17 +1989,19 @@ function buildThumbnailOverlays(){
       pop.appendChild(item);
     });
     document.body.appendChild(pop);
+    const _uiS = window.__wceUiScale || 1;
+    if(_uiS !== 1){ pop.style.transformOrigin = '0 0'; pop.style.transform = 'scale(' + _uiS + ')'; }
     // Keep the whole list on screen: open below the thumbnail when there is room, flip above when
     // there is not, cap the height to the space available (it scrolls), and stay inside the window.
     (function(){
       const pad=8, vw=window.innerWidth, vh=window.innerHeight;
-      pop.style.maxHeight=Math.max(120,vh-2*pad)+'px';
+      pop.style.maxHeight=(Math.max(120,vh-2*pad)/_uiS)+'px';
       const pr=pop.getBoundingClientRect();
       const below=vh-rect.bottom-pad-6, above=rect.top-pad-6;
       const openUp = pr.height>below && above>below;
       const avail=Math.max(120, openUp?above:below);
       const h=Math.min(pr.height, avail);
-      pop.style.maxHeight=h+'px';
+      pop.style.maxHeight=(h/_uiS)+'px';
       pop.style.top=(openUp ? Math.max(pad, rect.top-6-h) : rect.bottom+6)+'px';
       pop.style.left=Math.max(pad, Math.min(rect.left, vw-pr.width-pad))+'px';
     })();
@@ -2079,6 +2205,7 @@ function _wceDeclutterOverlays(){
   if(window._wceDesignerEditMode) return;
   const SELECTOR = '.wce-overlay-thumb,.wce-overlay-text,.wce-overlay-action-btn';
   const MIN_GAP = 4;
+  const _s = window.__wceUiScale || 1;   // screen px -> stage px
 
   // Items inside a Group are positioned relative to that group's own
   // body, not the viewport -- so they can only ever clash with siblings
@@ -2087,7 +2214,7 @@ function _wceDeclutterOverlays(){
   const contexts = new Map();
   document.querySelectorAll(SELECTOR).forEach(el=>{
     const groupBody = el.closest('.wce-shape-content,.wce-group-body');
-    const key = groupBody || document.body;
+    const key = groupBody || _wceRootHost();
     if(!contexts.has(key)) contexts.set(key, []);
     contexts.get(key).push(el);
   });
@@ -2103,6 +2230,9 @@ function _wceDeclutterOverlays(){
     els.forEach(el=>{
       if(el.dataset.wceBaseLeft===undefined) el.dataset.wceBaseLeft = el.style.left;
       if(el.dataset.wceBaseTop===undefined)  el.dataset.wceBaseTop  = el.style.top;
+      // action buttons have transition:all -- without this the rect measured just below is still the old, nudged
+      // position mid-animation, and each resize would compound the nudge
+      el.style.transition = 'none';
       el.style.left = el.dataset.wceBaseLeft;
       el.style.top  = el.dataset.wceBaseTop;
     });
@@ -2148,10 +2278,11 @@ function _wceDeclutterOverlays(){
 
     boxes.forEach(b=>{
       if(b.dx || b.dy){
-        b.el.style.left = 'calc(' + b.el.dataset.wceBaseLeft + ' + ' + b.dx.toFixed(1) + 'px)';
-        b.el.style.top  = 'calc(' + b.el.dataset.wceBaseTop  + ' + ' + b.dy.toFixed(1) + 'px)';
+        b.el.style.left = 'calc(' + b.el.dataset.wceBaseLeft + ' + ' + (b.dx / _s).toFixed(1) + 'px)';
+        b.el.style.top  = 'calc(' + b.el.dataset.wceBaseTop  + ' + ' + (b.dy / _s).toFixed(1) + 'px)';
       }
     });
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ els.forEach(el=>{ el.style.transition=''; }); }));
   });
 }
 let _wceDeclutterResizeAttached = false;
