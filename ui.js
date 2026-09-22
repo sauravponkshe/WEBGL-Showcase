@@ -627,6 +627,12 @@ const WCEUIS = (function(){
     if(win.__wceDesigner) return true;
     try{ return win.parent !== win && !!win.parent.document.getElementById('wce-preview-frame'); }catch(e){ return false; }
   }
+  // The real, current visible area -- falls back to the plain viewport where visualViewport
+  // is not available (desktop browsers, and the Designer's own preview).
+  function viewportSize(win){
+    const vv = win.visualViewport;
+    return vv ? {w: vv.width, h: vv.height} : {w: win.innerWidth || 1, h: win.innerHeight || 1};
+  }
   function viewOf(win){
     if(win.__wceUiView) return win.__wceUiView;
     try{ if(typeof win._wceDetectDeviceView === 'function') return win._wceDetectDeviceView(); }catch(e){}
@@ -640,7 +646,7 @@ const WCEUIS = (function(){
     if(p !== null && p !== '' && isFinite(parseFloat(p))) return clampN(parseFloat(p), 0.25, 4);
     const v = viewOf(win);
     const ref = c.ref[v] || c.ref.desktop;
-    const vw = win.innerWidth || 1, vh = win.innerHeight || 1;
+    const vp = viewportSize(win), vw = vp.w, vh = vp.h;
     const fit = c.fit[v], safe = c.safe[v];
     let s;
     if(fit === 'w' && safe)      s = Math.min(vw / ref[0], vh / safe[1]);
@@ -658,7 +664,7 @@ const WCEUIS = (function(){
     const d = win.document;
     if(!d || !d.documentElement) return 1;
     const s = compute(win), prev = win.__wceUiScale;
-    const vw = win.innerWidth || 1, vh = win.innerHeight || 1;
+    const vp = viewportSize(win), vw = vp.w, vh = vp.h;
     const c = cfgFor(win), v = viewOf(win);
     win.__wceUiScale = s;
     d.documentElement.style.setProperty('--wce-s', String(s));
@@ -689,6 +695,13 @@ const WCEUIS = (function(){
     const again = function(){ apply(win); };
     win.addEventListener('resize', again);
     win.addEventListener('orientationchange', again);
+    // A real phone's own address bar / bottom bar showing or hiding changes what is actually
+    // visible without necessarily firing a plain 'resize' -- visualViewport's own resize (and a
+    // scroll, which is what often accompanies that chrome animating on iOS) catches those too.
+    if(win.visualViewport){
+      win.visualViewport.addEventListener('resize', again);
+      win.visualViewport.addEventListener('scroll', again);
+    }
   }
   // Sound (#sfx-toggle) used to be the one control NOT placed like every other element: pinned 14px from the
   // bottom-left corner in px, while Present / Snapshot / thumbnails are top-left percentages. Until the artist moves
@@ -1050,7 +1063,15 @@ function _wceInitProfiles(){
       const p = matched;
       el.addEventListener('click', ()=>_wceProfileClick(p));
     } else {
-      el.addEventListener('click', ()=>_wceRunTransition(applyGlobalPalette, 'fade'));
+      // Nothing claimed this button as its own switch (a Panel profile's own trigger), so it
+      // used to always fall back to resetting the palette to Global -- even while a Canvas
+      // profile (a shape/thumbnail/text-triggered overlay swap) was actively showing, silently
+      // throwing that away on every unrelated click (materials, the sound button, anything).
+      // Only reset when there is actually a Panel-style state to return from.
+      el.addEventListener('click', ()=>{
+        if(window._wceActiveProfile && window._wceActiveProfile.mode==='canvas') return;
+        _wceRunTransition(applyGlobalPalette, 'fade');
+      });
     }
   });
 }
