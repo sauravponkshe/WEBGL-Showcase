@@ -3,7 +3,7 @@
 PONKFIGURATOR PRO — Export Report — Highest
 ======================================================================
 File: C:\Users\saura\Desktop\free-mclaren-p1-mso\source\web_export/Highest\2518357c1339.gltf
-Generated: 2026-09-21 14:45:32
+Generated: 2026-09-22 07:05:00
 Total size (this .gltf + its .bin + every texture file): 53.69 MB
 
 ======================================================================
@@ -88,18 +88,18 @@ brake_disk_d                             image/png    sRGB            47.5 KB   
 pzer2                                    image/jpeg   sRGB           353.9 KB      2.76 MB
 00355230                                 image/png    linear         152.5 KB      1.19 MB
 00381600                                 image/png    sRGB           133.7 KB      1.04 MB
+Carbon1_DefaultMaterial_Normal           image/png    linear         125.5 KB    1003.8 KB
+Normal_PlasticMatte                      image/png    linear          1.73 MB     13.83 MB
 Carpaint_Clearcoat                       image/png    unknown         2.33 MB     18.67 MB
 Carpaint_Normal                          image/png    linear          2.33 MB     18.65 MB
-Normal_PlasticMatte                      image/png    linear          1.73 MB     13.83 MB
-wet_ground_Dark                          image/png    linear          1.38 MB     11.07 MB
 wet ground_Roughness                     image/png    linear          3.03 MB     24.27 MB
+wet_ground_Dark                          image/png    linear          1.38 MB     11.07 MB
 leather_red_02_nor_gl_1k                 image/png    linear          2.17 MB     17.32 MB
 leather_red_02_rough_1k                  image/png    linear          1.20 MB      9.64 MB
 Normal_PerforatedLeather                 image/png    linear         840.8 KB      6.57 MB
 Roughness_PerforatedLeather              image/png    linear          1.16 MB      9.25 MB
 00b47220                                 image/png    linear          85.6 KB     684.8 KB
 00b54ba0                                 image/png    sRGB           182.2 KB      1.42 MB
-Carbon1_DefaultMaterial_Normal           image/png    linear         125.5 KB    1003.8 KB
 
 Estimated total VRAM for textures: 341.11 MB
 
@@ -165,9 +165,9 @@ Geo subset presets: 1
 MAT SUBSETS (per-category color/material options)
 ======================================================================
 Categories: 3   Options: 21
+  - ANIMATION_CYCLE: 7 option(s) — Orange, Cream, Red, Black, Yellow, Green, Blue
   - INTERIOR: 7 option(s) — CarbonFiber, Burgandy, JetBlack, CreamWhite, MidNightNavy, SaddleBrown, PapayaOrange
   - COLOR: 7 option(s) — Orange, White, Green, Blue, Red, Yellow, Black
-  - ANIMATION_CYCLE: 7 option(s) — Orange, Cream, Red, Black, Yellow, Green, Blue
 
 ======================================================================
 CAMERAS

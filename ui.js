@@ -279,6 +279,17 @@ const WCEG = (function(){
     octagon:  [[30,0],[70,0],[100,30],[100,70],[70,100],[30,100],[0,70],[0,30]],
     diamond:  [[50,0],[100,50],[50,100],[0,50]]
   };
+  // Arrow and triangle are defined pointing RIGHT. An orientation maps the vertices (not a rotation), so the shape always
+  // spans its whole box: h = right, v = down, rh = left, rv = up. A new triangle points up, a new arrow points right.
+  SHAPE_VERTS.triangle = [[0,0],[100,50],[0,100]];
+  SHAPE_VERTS.arrow = [[0,30],[58,30],[58,0],[100,50],[58,100],[58,70],[0,70]];
+  function shapeVerts(shape, orient){
+    const v = SHAPE_VERTS[shape];
+    if(!v || (shape !== 'arrow' && shape !== 'triangle')) return v;
+    const o = orient || (shape === 'triangle' ? 'rv' : 'h');
+    if(o === 'h') return v;
+    return v.map(function(p){ const x = p[0], y = p[1]; return o === 'rh' ? [100 - x, y] : (o === 'v' ? [y, x] : [y, 100 - x]); });
+  }
   // Rounded polygon path for a w x h box (vertices are % of each axis).
   function polyPath(w, h, vp, radius){
     const pts = vp.map(function(p){ return [p[0]/100*w, p[1]/100*h]; });
@@ -355,7 +366,7 @@ const WCEG = (function(){
   // Frame size of a thumbnail-style element. Image frames may be any width x height; everything else is square.
   function thumbDims(o){
     const size = num(o.size, 46);
-    const frame = o.type === 'deco_image';
+    const frame = true;                       // any thumbnail may now be non-square (an explicit width / height wins)
     return {w: frame && o.width > 0 ? o.width : size, h: frame && o.height > 0 ? o.height : size};
   }
   // Where the image layer sits inside such an element (inside its border) and how big it is.
@@ -364,13 +375,30 @@ const WCEG = (function(){
     return {ox: bw, oy: bw, W: Math.max(1, d.w - 2 * bw), H: Math.max(1, d.h - 2 * bw)};
   }
   function shapeImageBox(s){
-    const w = Math.max(10, num(s.width, 160)), h = Math.max(10, num(s.height, 120)), bw = clamp(num(s.borderWidth, 2), 0, 40);
+    const w = Math.max(1, num(s.width, 160)), h = Math.max(1, num(s.height, 120)), bw = clamp(num(s.borderWidth, 2), 0, 40);
     return {ox: bw, oy: bw, W: Math.max(1, w - 2 * bw), H: Math.max(1, h - 2 * bw)};
   }
   // Paints a thumbnail / toggle / image frame (shape, border, colour or image). Used by BOTH the Designer and
   // the exported page, so what you crop and shape in the Designer is exactly what visitors get.
+  // A drop shadow from ONE strength value (0 = none): the offset grows with the blur, the tint stays black. Strength 12 is the
+  // shadow every thumbnail already had, so existing projects look exactly the same.
+  function shadowCss(on, strength){
+    const s = strength == null ? 12 : strength;
+    if(!on || !(s > 0)) return 'none';
+    return '0 ' + Math.round(s / 6) + 'px ' + s + 'px rgba(0,0,0,.45)';
+  }
+  function shadowFilter(on, strength){
+    const s = strength == null ? 12 : strength;
+    if(!on || !(s > 0)) return '';
+    return 'drop-shadow(0 ' + Math.round(s / 6) + 'px ' + Math.round(s / 2) + 'px rgba(0,0,0,.45))';
+  }
+  function borderRgba(color, opacity){
+    const c = color || '#ffffff';
+    return (opacity != null && opacity < 100) ? rgba(c, opacity / 100) : c;
+  }
   function paintThumb(el, o){
     const doc = el.ownerDocument;
+    el.removeAttribute('data-wce-poly'); el.style.removeProperty('--wce-shadow-filter');
     el.style.opacity = (o.opacity != null ? o.opacity : 100) / 100;
     // Explicit either way (not just when off) since this always needs to win
     // over the .wce-overlay-thumb class's own box-shadow rule regardless of
@@ -383,11 +411,11 @@ const WCEG = (function(){
     // Routing both through custom properties lets the .active rule (see
     // its own comment) layer the ring glow ON TOP of this drop shadow
     // instead of one unconditionally overwriting the other.
-    el.style.setProperty('--wce-thumb-shadow', (o.shadow === false) ? 'none' : '0 2px 12px rgba(0,0,0,.45)');
+    el.style.setProperty('--wce-thumb-shadow', shadowCss(o.shadow !== false, o.shadowStrength));
     const shape = o.shape || 'circle';
     const d = thumbDims(o), w = d.w, h = d.h;
     const bw = o.borderWidth != null ? o.borderWidth : 2;
-    const borderColor = o.borderColor || '#ffffff';
+    const borderColor = borderRgba(o.borderColor, o.borderOpacity);
     const radius = o.radius || 0;
     const hasImg = o.kind === 'image' && o.image;
     el.style.width = w + 'px'; el.style.height = h + 'px';
@@ -399,13 +427,20 @@ const WCEG = (function(){
       else el.style.background = o.color || '#808080';
       return;
     }
-    const vp = SHAPE_VERTS[shape];
+    const vp = shapeVerts(shape, o.orient);
     if(vp){
       // Polygons: CSS borders ignore clip-path, so the border is faked with a border-coloured outer clip and
       // an inset inner clip for the fill.
-      el.style.clipPath = 'path("' + polyPath(w, h, vp, radius) + '")';
-      el.style.borderRadius = '0px'; el.style.border = 'none';
-      el.style.background = bw > 0 ? borderColor : 'transparent';
+      // the element itself is NOT clipped (a clip would cut off its own glow / ring / shadow): the outline lives on an inner layer
+      el.setAttribute('data-wce-poly', '1');
+      el.style.clipPath = 'none'; el.style.borderRadius = '0px'; el.style.border = 'none'; el.style.background = 'transparent';
+      el.style.setProperty('--wce-shadow-filter', shadowFilter(o.shadow !== false, o.shadowStrength));
+      const outer = doc.createElement('div');
+      outer.className = 'wce-poly-outer';
+      outer.style.cssText = 'position:absolute;left:0;top:0;width:' + w + 'px;height:' + h + 'px;';
+      outer.style.clipPath = 'path("' + polyPath(w, h, vp, radius) + '")';
+      outer.style.background = bw > 0 ? borderColor : 'transparent';
+      el.appendChild(outer);
       const iw = Math.max(1, w - 2 * bw), ih = Math.max(1, h - 2 * bw);
       const inner = doc.createElement('div');
       inner.style.cssText = 'position:absolute;left:' + bw + 'px;top:' + bw + 'px;width:' + iw + 'px;height:' + ih + 'px;';
@@ -427,26 +462,28 @@ const WCEG = (function(){
   // children and clips them to the shape's outline.
   function paintShape(el, s){
     const doc = el.ownerDocument;
-    const w = Math.max(10, num(s.width, 160)), h = Math.max(10, num(s.height, 120));
+    const w = Math.max(1, num(s.width, 160)), h = Math.max(1, num(s.height, 120));
     const shape = s.shape || 'square';
     const bw = clamp(num(s.borderWidth, 2), 0, 40);
-    const bc = s.borderColor || '#ffffff';
+    const bc = borderRgba(s.borderColor, s.borderOpacity);
     const fa = clamp(num(s.fillOpacity, 100), 0, 100) / 100;
     const radius = Math.max(0, num(s.radius, 12));
     const hasImg = s.kind === 'image' && !!s.image;
     el.style.width = w+'px'; el.style.height = h+'px';
     el.style.opacity = clamp(num(s.opacity, 100), 0, 100) / 100;
+    el.setAttribute('data-wce-sil', '1');
+    el.style.setProperty('--wce-shadow-filter', shadowFilter(s.shadow === true, s.shadowStrength));
     while(el.firstChild) el.removeChild(el.firstChild);
     const fill = doc.createElement('div'); fill.className = 'wce-shape-fill';
     const content = doc.createElement('div'); content.className = 'wce-shape-content';
-    const vp = SHAPE_VERTS[shape];
+    const vp = shapeVerts(shape, s.orient);
     if(vp){
       const outer = polyPath(w, h, vp, radius);
       const svg = doc.createElementNS(SVGNS, 'svg');
       svg.setAttribute('width', w); svg.setAttribute('height', h); svg.setAttribute('viewBox', '0 0 '+w+' '+h);
       const path = doc.createElementNS(SVGNS, 'path');
       path.setAttribute('d', outer);
-      path.setAttribute('fill', rgba(s.color || '#1a1a1c', fa));
+      path.setAttribute('fill', hasImg ? 'none' : rgba(s.color || '#1a1a1c', fa));
       if(bw > 0){
         // stroke is centred on the outline; the svg is clipped to the outline, so the
         // outer half disappears and exactly bw px of border remains inside.
@@ -469,7 +506,7 @@ const WCEG = (function(){
     } else {
       const rad = shape==='circle' ? '50%' : radius+'px';
       fill.style.borderRadius = rad;
-      fill.style.background = rgba(s.color || '#1a1a1c', fa);
+      fill.style.background = hasImg ? 'transparent' : rgba(s.color || '#1a1a1c', fa);
       fill.style.border = bw > 0 ? (bw+'px solid '+bc) : 'none';
       content.style.borderRadius = rad;
       content.style.overflow = 'hidden';
@@ -495,7 +532,7 @@ const WCEG = (function(){
   // states), so editing those later never gets silently overridden by an old snapshot.
   const SNAP_KEYS = [
     'x','y','groupId','width','height','size','collapsed','direction','opacity',
-    'shape','radius','borderWidth','borderColor','color','fillOpacity',
+    'shape','radius','borderWidth','borderColor','color','fillOpacity','borderOpacity','shadow','shadowStrength','tracking','orient',
     'fontFamily','fontSize',
     'tabBg','tabBgOpacity','tabBorderColor','tabBorderWidth','tabRadius',
     'shelfBg','shelfBgOpacity','shelfBorderColor','shelfBorderWidth','shelfRadius',
@@ -503,7 +540,8 @@ const WCEG = (function(){
     'scrollEnabled','scrollSide','scrollLength','scrollTrackLength','scrollWidth',
     'scrollBg','scrollBgOpacity','scrollBorderColor','scrollBorderWidth','scrollRadius',
     'scrollThumbColor','scrollThumbOpacity',
-    'trackColor','trackHeight','thumbColor','thumbSize','activeColor','showLabels'
+    'trackColor','trackHeight','thumbColor','thumbSize','activeColor','showLabels',
+    'hover','iconColor'
   ];
   function snapshotOf(o){
     const s = {};
@@ -666,11 +704,11 @@ const WCEUIS = (function(){
   // Per-overlay stacking order: an overlay with a numeric `z` gets it as its z-index (Bring to front / Send to back).
   function applyStacking(doc, overlays){
     const w = doc.defaultView;
+    const byId = {};
+    doc.querySelectorAll('[data-overlay-id]').forEach(function(e){ (byId[e.getAttribute('data-overlay-id')] = byId[e.getAttribute('data-overlay-id')] || []).push(e); });
     (overlays || []).forEach(function(o){
       if(!o) return;
-      let id = String(o.id);
-      try{ id = w.CSS.escape(id); }catch(e){ id = id.replace(/[^a-zA-Z0-9_-]/g, ''); }
-      doc.querySelectorAll('[data-overlay-id="' + id + '"]').forEach(function(el){
+      (byId[String(o.id)] || []).forEach(function(el){
         if(typeof o.z === 'number') el.style.zIndex = String(o.z);
         // Hidden elements are taken off the page (display:none: nothing drawn, nothing clickable). A profile flips this per
         // state; only what we hid ourselves is shown again.
@@ -679,9 +717,108 @@ const WCEUIS = (function(){
       });
     });
   }
+  // A profile can sit under a parent (parentId): the effective profile is the chain of parents with the child on top, so a
+  // sub-profile only has to say what it CHANGES. Canvas captures are per device (snapshots.desktop / mobileV / mobileH); an
+  // older profile with one .snapshot serves every device until it is captured again on that device.
+  function resolveProfile(p, profiles, view){
+    if(!p) return p;
+    const chain = [];
+    let cur = p, guard = 0;
+    while(cur && guard++ < 12){
+      chain.unshift(cur);
+      const pid = cur.parentId;
+      cur = pid ? (profiles || []).find(function(x){ return x.id === pid; }) : null;
+    }
+    const eff = Object.assign({}, p);
+    eff.__src = p;
+    const merged = {colors: {}, thumbnails: {}, textOverrides: {}, groupOverrides: {}}, ov = {};
+    let stamp = null, any = false;
+    chain.forEach(function(x){
+      Object.keys(merged).forEach(function(k){
+        const src = x[k] || {};
+        Object.keys(src).forEach(function(id){
+          const a = merged[k][id], b = src[id];
+          merged[k][id] = (a && b && typeof a === 'object' && typeof b === 'object') ? Object.assign({}, a, b) : b;
+        });
+      });
+      if(x.panelBg !== undefined) eff.panelBg = x.panelBg;
+      if(x.panelOpacity !== undefined) eff.panelOpacity = x.panelOpacity;
+      const s = (x.snapshots && x.snapshots[view]) || x.snapshot;
+      if(s && s.overlays){
+        any = true; stamp = s.capturedAt || stamp;
+        Object.keys(s.overlays).forEach(function(id){ ov[id] = Object.assign({}, ov[id] || {}, s.overlays[id]); });
+      }
+    });
+    eff.colors = merged.colors; eff.thumbnails = merged.thumbnails; eff.textOverrides = merged.textOverrides; eff.groupOverrides = merged.groupOverrides;
+    eff.snapshot = any ? {capturedAt: stamp, overlays: ov} : null;
+    return eff;
+  }
+  // ---- Icon overlays (Sound / Present / Snapshot): shape-like buttons, styled like any other element ----
+  const ICON_PATHS = {
+    present:   '<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>',
+    snapshot:  '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+    sound_on:  '<path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/>',
+    sound_off: '<path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>'
+  };
+  function iconSvg(kind, px){
+    return '<svg viewBox="0 0 24 24" width="' + px + '" height="' + px + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (ICON_PATHS[kind] || '') + '</svg>';
+  }
+  function hexRgba(hex, a){
+    const m = /^#([0-9a-f]{6})$/i.exec(hex || '');
+    if(!m) return hex;
+    const n = parseInt(m[1], 16);
+    return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+  }
+  // The same style keys shapes use: size, shape, radius, fill colour + opacity, border, opacity -- plus the icon colour.
+  function applyIconStyle(el, o, kind){
+    const size = o.size || 40, shape = o.shape || 'circle';
+    el.classList.add('wce-icon-btn');
+    el.innerHTML = iconSvg(kind, Math.round(size * 0.5));
+    el.style.width = size + 'px'; el.style.height = size + 'px'; el.style.padding = '0'; el.style.justifyContent = 'center'; el.style.gap = '0';
+    el.style.borderRadius = shape === 'circle' ? '50%' : (shape === 'square' || shape === 'none' ? '0' : (o.radius != null ? o.radius : 10) + 'px');
+    if(o.color) el.style.background = hexRgba(o.color, (o.fillOpacity != null ? o.fillOpacity : 100) / 100);
+    if(o.borderWidth != null) el.style.borderWidth = o.borderWidth + 'px';
+    if(o.borderColor) el.style.borderColor = o.borderColor;
+    if(o.iconColor) el.style.color = o.iconColor;
+    if(o.opacity != null) el.style.opacity = String(o.opacity / 100);
+  }
+  // Hover effect (any element): only what the artist switched on is written, so an element with no hover settings keeps the page's own hover.
+  function applyHover(doc, overlays){
+    const w = doc.defaultView;
+    const byId = {};
+    doc.querySelectorAll('[data-overlay-id]').forEach(function(e){ (byId[e.getAttribute('data-overlay-id')] = byId[e.getAttribute('data-overlay-id')] || []).push(e); });
+    (overlays || []).forEach(function(o){
+      if(!o) return;
+      (byId[String(o.id)] || []).forEach(function(el){
+        ['scale', 'lift', 'opacity', 'fill', 'border', 'ring-w', 'glow', 'glow-r', 'speed'].forEach(function(k){ el.style.removeProperty('--wce-hv-' + k); });
+        const h = o.hover;
+        if(h && typeof h === 'object') el.setAttribute('data-wce-hv', '1'); else el.removeAttribute('data-wce-hv');      // any hover object (even an empty one) replaces the page's default hover
+        if(o.type === 'text'){
+          el.setAttribute('data-wce-sil', '1');
+          const ori = o.orient || 'h';
+          el.style.writingMode = (ori === 'v' || ori === 'rv') ? 'vertical-rl' : '';
+          el.style.rotate = (ori === 'rh' || ori === 'rv') ? '180deg' : '';       // the CSS rotate PROPERTY: it composes with the hover lift instead of being replaced by it
+          el.style.letterSpacing = o.tracking ? o.tracking + 'px' : '';
+          el.style.textShadow = (o.shadow === true && (o.shadowStrength == null ? 12 : o.shadowStrength) > 0) ? '0 ' + Math.round((o.shadowStrength == null ? 12 : o.shadowStrength) / 6) + 'px ' + Math.round((o.shadowStrength == null ? 12 : o.shadowStrength) / 2) + 'px rgba(0,0,0,.6)' : '';
+          if(o.opacity != null) el.style.opacity = String(o.opacity / 100);
+        }
+        // text and shapes are click-through on the page; an element that HAS a hover effect must be able to receive the pointer
+        if(h && Object.keys(h).length){ el.style.pointerEvents = 'auto'; el.dataset.wceHvPe = '1'; }
+        else if(el.dataset.wceHvPe){ el.style.removeProperty('pointer-events'); delete el.dataset.wceHvPe; }
+        if(!h) return;
+        if(h.scale != null) el.style.setProperty('--wce-hv-scale', String(h.scale / 100));
+        if(h.lift) el.style.setProperty('--wce-hv-lift', (-Math.abs(h.lift)) + 'px');
+        if(h.opacity != null) el.style.setProperty('--wce-hv-opacity', String(h.opacity / 100));
+        if(h.fill) el.style.setProperty('--wce-hv-fill', h.fill);
+        if(h.border){ el.style.setProperty('--wce-hv-border', h.border === 'auto' ? 'var(--wce-thumb-active-color, var(--accent))' : h.border); el.style.setProperty('--wce-hv-ring-w', '2px'); }
+        if(h.glow){ el.style.setProperty('--wce-hv-glow', h.glow); el.style.setProperty('--wce-hv-glow-r', (h.glowSize != null ? h.glowSize : 14) + 'px'); }
+        if(h.speed != null) el.style.setProperty('--wce-hv-speed', h.speed + 'ms');
+      });
+    });
+  }
   return {
     STAGE_ID: STAGE_ID, CANVAS_ID: CANVAS_ID, REF: DEFAULTS.ref, DEFAULTS: DEFAULTS,
-    compute: compute, viewOf: viewOf, chromeDefaultPos: chromeDefaultPos, applyStacking: applyStacking, apply: apply, init: init,
+    compute: compute, viewOf: viewOf, chromeDefaultPos: chromeDefaultPos, applyStacking: applyStacking, applyHover: applyHover, applyIconStyle: applyIconStyle, iconSvg: iconSvg, resolveProfile: resolveProfile, apply: apply, init: init,
     bleed:   function(view, win){ return (cfgFor(win || window).bleed[view]) || {x: [], y: []}; },
     safe:    function(view, win){ return cfgFor(win || window).safe[view] || null; },
     literal: function(view, win){ return cfgFor(win || window).literal[view] || [false, false]; },
@@ -819,8 +956,11 @@ function _wceLiveOverlay(id){
 // click" and is already showing -- put the UI back to normal.
 function _wceProfileClick(p){
   const tr = p.transition||'fade';
-  if(p.mode==='canvas' && p.returnOnRetrigger && window._wceActiveProfile===p){
-    _wceRunTransition(()=>applyGlobalPalette(), tr, p.duration);
+  const _cur = window._wceActiveProfile;
+  if(p.mode==='canvas' && p.returnOnRetrigger && _cur && _cur.__src===p){
+    // a sub-profile goes back to its PARENT's state, a top-level profile back to Global
+    const _parent = p.parentId ? (window.WCE_PROFILES||[]).find(x=>x.id===p.parentId) : null;
+    _wceRunTransition(()=>{ if(_parent) applyProfile(_parent); else applyGlobalPalette(); }, tr, p.duration);
   } else {
     _wceRunTransition(()=>applyProfile(p), tr, p.duration);
   }
@@ -831,9 +971,11 @@ function applyProfile(p){
   // only Panel-mode profiles do. Calling _wceApplyColors here regardless
   // would reset --panel-bg to black every time a Canvas profile triggers,
   // since its p.colors/p.panelBg are simply never populated.
-  if(p.mode!=='canvas') _wceApplyColors(p.colors, p.panelBg, p.panelOpacity);
-  window._wceActiveProfile = p;
-  window._wceLive = _wceBuildLive(p);
+  // the EFFECTIVE profile: its parents underneath, and the capture made on THIS device
+  const _eff = WCEUIS.resolveProfile(p, window.WCE_PROFILES||[], _wceDetectDeviceView());
+  if(p.mode!=='canvas') _wceApplyColors(_eff.colors, _eff.panelBg, _eff.panelOpacity);
+  window._wceActiveProfile = _eff;
+  window._wceLive = _wceBuildLive(_eff);
   if(typeof buildThumbnailOverlays==='function') buildThumbnailOverlays();
 }
 function _wceRunTransition(applyFn, transitionType, duration){
@@ -961,6 +1103,41 @@ window._wceSetDesignerEditMode = function(on){
 // at export time (see _wce_theme_css), requiring no JS here at all.
 // Every free-floating overlay is hosted in the scaled HUD stage (see WCEUIS), not directly in <body>.
 function _wceRootHost(){ return document.getElementById('wce-ui-canvas') || document.getElementById('wce-ui-stage') || document.body; }
+// Sound / Present / Snapshot overlays are built on the SAME container as thumbnails (.wce-overlay-thumb): the same shapes (circle, hexagon...),
+// border, size, opacity, hover and selected ring. Only the icon inside and the click behaviour differ.
+function _wceIsIconOverlay(o){ return !!o && (o.type==='sound' || ((o.type==='presentation' || o.type==='snapshot') && o.display==='icon')); }
+function _wceIconShapeProps(o, eff){ return Object.assign({}, eff, {kind: undefined, image: undefined, color: o.color || '#1a1a1c'}); }
+function _wceDecorateIcon(el, o, sz){
+  const kind = o.type==='sound' ? 'sound_on' : (o.type==='presentation' ? 'present' : 'snapshot');
+  el.dataset.wceActionKind = o.type;
+  el.title = o.label || (o.type==='sound' ? 'Toggle sound effects' : (o.type==='presentation' ? 'Presentation mode' : 'Take a snapshot'));
+  const ic = document.createElement('span');
+  ic.className = 'wce-thumb-icon';
+  ic.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none;color:' + (o.iconColor || 'var(--text)');
+  const px = Math.round(sz * 0.5);
+  ic.innerHTML = WCEUIS.iconSvg(kind, px);
+  el.appendChild(ic);
+  if(o.type==='sound'){
+    const s = document.getElementById('sfx-toggle');
+    const sync = ()=>{ const off = !!(s && s.classList.contains('off')); el.classList.toggle('off', off); ic.innerHTML = WCEUIS.iconSvg(off ? 'sound_off' : 'sound_on', px); };
+    sync();
+    el.onclick = ()=>{ const b = document.getElementById('sfx-toggle'); if(b) b.click(); };
+    if(window._wceSoundObs){ try{ window._wceSoundObs.disconnect(); }catch(e){} }
+    if(s && window.MutationObserver){ window._wceSoundObs = new MutationObserver(sync); window._wceSoundObs.observe(s, {attributes:true, attributeFilter:['class']}); }
+  } else if(o.type==='presentation'){
+    el.onclick = ()=>{ _wcePresentationActive ? _wceExitPresentationMode() : _wceEnterPresentationMode(o, el); };
+  } else {
+    el.onclick = ()=>_wceTakeSnapshot();
+  }
+}
+// When a Sound overlay exists it IS the sound button: the fixed chrome button steps aside (its audio logic stays; the overlay clicks it).
+function _wceSoundOverlayVisibility(){
+  const sfx = document.getElementById('sfx-toggle');
+  if(!sfx) return;
+  const has = (_wceEffectiveOverlays()||[]).some(function(o){ return o && o.type==='sound' && !o.hidden; });
+  if(has){ sfx.style.setProperty('display','none','important'); sfx.dataset.wceSoundOverlay='1'; }
+  else if(sfx.dataset.wceSoundOverlay){ sfx.style.removeProperty('display'); delete sfx.dataset.wceSoundOverlay; }
+}
 function _wceDetectDeviceView(){
   // wce_mobile_frame means this page is loaded inside the Mobile Portrait/
   // Horizontal phone-frame preview (see the /__wce_mobile__ server route) --
@@ -991,6 +1168,8 @@ function _wceApplyDeviceOverrides(){
   base.chromeOverrides = src.chromeOverrides || {};
   base.globalThumbProps = src.globalThumbProps || base.globalThumbProps;
   base.panelHidden = (override ? override.panelHidden : base.panelHidden);
+  // Hide Panel is per device, whether or not the views are mirrored
+  if(base.panelHiddenByDevice && base.panelHiddenByDevice[view] !== undefined) base.panelHidden = !!base.panelHiddenByDevice[view];
 }
 let _wceOrientationListenerAttached = false;
 function _wceAttachOrientationListener(){
@@ -1000,6 +1179,8 @@ function _wceAttachOrientationListener(){
   const onChange = function(){
     if(_wceDetectDeviceView()==="desktop") return;
     _wceApplyDeviceOverrides();
+    // rotating: the active profile is re-resolved for the new device (its capture there)
+    if(window._wceActiveProfile && window._wceActiveProfile.__src) applyProfile(window._wceActiveProfile.__src);
     if(typeof buildThumbnailOverlays==="function") buildThumbnailOverlays();
     if(typeof _wceApplyChromeOverrides==="function") _wceApplyChromeOverrides();
     if(typeof _wceDeclutterOverlays==="function") _wceDeclutterOverlays();
@@ -1055,6 +1236,7 @@ function buildUI(){
   _wceApplyDesignerVisibility();
   _wceIndexStLabels();
   _wceApplyChromeOverrides();
+  try{ _wceSoundOverlayVisibility(); }catch(e){}
   if(typeof _wceDeclutterOverlays==='function') _wceDeclutterOverlays();
 }
 function _wceIndexStLabels(){
@@ -1469,7 +1651,7 @@ function applyOverlay(o){
     } else if(o.type==='sequence' && o.name){
       executeSequence(o.name);
     } else if(o.type==='camera' && o.name){
-      flyToCamera(o.name);
+      window._wceCamSel=o.name; flyToCamera(o.name);
     } else if(o.type==='turntable'){
       window._turntableActive ? _stopTurntable() : _startTurntable();
     } else if(o.type==='cinematic'){
@@ -1637,6 +1819,7 @@ function buildMatSubs(){
 }
 function buildAdvMat(){refreshAdvMat({});}
 function refreshAdvMat(state){
+  _wceQueueThumbSync();
   const containers=CFG.containers||{};
   const overlaySet=_wceOverlaySet();
   const sec=document.getElementById('sam');sec.innerHTML='<div class="st">Individual Materials</div>';
@@ -1649,7 +1832,7 @@ function refreshAdvMat(state){
     const row=mk('div','sr');const lbl=mk('label','sr-label');lbl.setAttribute('for',fid);lbl.textContent=c.replace(/_/g,' ');row.appendChild(lbl);
     const sel=document.createElement('select');sel.id=fid;sel.name=fid;sel.innerHTML='<option value="">— select —</option>';
     vals.forEach(v=>{const o=document.createElement('option');o.value=o.textContent=v;if(state[c]===v)o.selected=true;sel.appendChild(o);});
-    sel.onchange=()=>{if(sel.value){activeV=null;qsa('.vc').forEach(x=>x.classList.remove('active'));applyMat(c,sel.value);matSt[c]=sel.value;}};
+    sel.onchange=()=>{if(sel.value){activeV=null;qsa('.vc').forEach(x=>x.classList.remove('active'));applyMat(c,sel.value);matSt[c]=sel.value;_wceQueueThumbSync();}};
     row.appendChild(sel);sec.appendChild(row);
   });
 }
@@ -1881,9 +2064,180 @@ function _wceThumbCategoryStyle(o){
   if(t==='mat_subset'||t==='geo_subset'||t==='hdri'||t==='filter'||t==='material') return {color:'var(--ok)',bg:'#071410'};
   return {color:'var(--accent)',bg:'#161208'};
 }
+// ---- Auto-highlight ----------------------------------------------------------------------
+// A thumbnail lights up whenever EVERYTHING it would apply is already applied in the live scene,
+// no matter how it got that way (this thumbnail, another thumbnail, a side-panel button, a variant,
+// a sequence). Covered: individual materials, material sets, full configs, packages, geometry toggles,
+// variants, environments, scene cameras (while the view sits at that camera), animations and combos (only
+// while playing), sequences / cinematics / turntable (while running), filters and toggle groups (while one of their
+// options is applied). One-shot actions keep the old click-only behaviour.
+// Returns true / false, or null when this kind of thumbnail is not tracked.
+// ---- Highlight groups ---------------------------------------------------------------------
+// A thumbnail with hlGroupId uses that group's ring colour (and optional glow) while it is lit. The four theme
+// colours are stored as var(--accent) etc., so a palette change still flows through. No group = category colours.
+function _wceHlGroups(){
+  const base=window.WCE_THEME||{};
+  let src=base;
+  try{
+    const v=_wceDetectDeviceView(); const ov=(base.deviceOverrides||{})[v];
+    if(v!=='desktop' && ov) src=ov;
+  }catch(e){}
+  return src.highlightGroups || base.highlightGroups || [];
+}
+function _wceApplyLitVars(el, o){
+  const cat=_wceThumbCategoryStyle(o);
+  el.style.setProperty('--wce-thumb-active-color', cat.color);
+  el.style.setProperty('--wce-thumb-active-bg', cat.bg);
+  el.style.removeProperty('--wce-lit-glow'); el.style.removeProperty('--wce-lit-glow-r');
+  if(!o || !o.hlGroupId) return;
+  const g=_wceHlGroups().find(x=>x.id===o.hlGroupId);
+  if(!g) return;
+  if(g.color) el.style.setProperty('--wce-thumb-active-color', g.color);
+  if(g.glow){
+    el.style.setProperty('--wce-lit-glow', g.glowColor || 'var(--wce-thumb-active-color)');
+    el.style.setProperty('--wce-lit-glow-r', (g.glowSize!=null ? g.glowSize : 14)+'px');
+  }
+}
+// Is the live view sitting at this scene camera? (same idea as flyToCamera's own "already there" check)
+function _wceCamAtName(name){
+  try{
+    const def=((typeof camCfg!=='undefined' && camCfg && camCfg.static)||[]).find(c=>c.name===name);
+    const c=window.cam, t=window._wceCtrl;
+    if(!def || !def.position || !c) return false;
+    const gap=(a,b)=>Math.hypot(a[0]-b[0], a[1]-b[1], a[2]-b[2]);
+    if(gap([c.position.x,c.position.y,c.position.z], def.position) > 0.01) return false;
+    // A locked camera (Zoom/Pan lock or Lock in Place) moves the orbit target to a point right in front of the lens the
+    // moment it arrives, so for those only the position says whether the view is still there. Free cameras also compare
+    // where they look.
+    const locked=def.lock ? def.lock!=='free' : !!def.lock_tumble_pan;
+    if(!locked && def.target && t && t.target && gap([t.target.x,t.target.y,t.target.z], def.target) > 0.01) return false;
+    return true;
+  }catch(e){ return false; }
+}
+// Environments, cameras, animations and sequences change from many places (sequences, hotspots, the side panel,
+// the visitor orbiting away...), so besides the instant refreshes there is a light re-check a few times a second.
+let _wceThumbPoll=null;
+function _wceStartThumbPoll(){
+  if(_wceThumbPoll) return;
+  _wceThumbPoll=setInterval(()=>{
+    if(document.hidden || !(window.WCE_OVERLAYS||[]).length) return;
+    try{ _wceSyncThumbHighlights(); }catch(e){}
+  }, 200);
+}
+function _wceThumbCovered(o){
+  if(!o.type && o.container && o.material) o.type='material';
+  const t=o.type;
+  const ms=(typeof matSt!=='undefined' && matSt) || {};
+  const gs=(typeof geoSt!=='undefined' && geoSt) || {};
+  const gk=v=>String(v).replace(/ /g,'_');
+  const allMat=st=>{ const e=Object.entries(st||{}); return e.length>0 && e.every(([c,m])=>ms[c]===m); };
+  const allGeo=st=>{ const e=Object.entries(st||{}); return e.length>0 && e.every(([p,c])=>!!gs[gk(c)]); };
+  if(t==='material') return !!(o.container && o.material && ms[o.container]===o.material);
+  if(t==='geo_toggle') return !!(o.node && gs[gk(o.node)]);
+  if(t==='mat_subset' || t==='global_set'){
+    // resolved fresh from CFG in the same order applyOverlay uses, so it checks what a click would apply
+    const gset=(o.uid && (CFG.global_mat_sets||[]).find(x=>x.uid===o.uid)) || (CFG.global_mat_sets||[]).find(x=>x.name===o.name);
+    const s=gset || (o.uid && (CFG.mat_subsets||[]).find(x=>x.uid===o.uid)) || (CFG.mat_subsets||[]).find(x=>x.name===o.name) || (o.state ? {state:o.state} : null);
+    return !!s && allMat(s.state);
+  }
+  if(t==='geo_subset'){
+    const s=(o.uid && (CFG.geometry_subsets||[]).find(x=>x.uid===o.uid)) || (CFG.geometry_subsets||[]).find(x=>x.name===o.name) || (o.state ? {state:o.state} : null);
+    return !!s && allGeo(s.state);
+  }
+  if(t==='variant'){
+    const d=(typeof varData!=='undefined' && varData) ? varData[o.name] : null;
+    if(!d) return false;
+    const SKIP=['CAMERA_SETTINGS','MAT_SUBSETS','GLOBAL_MAT_SETS','GEO_SETS','LIGHTS','ENVIRONMENTS'];
+    const exposed=CFG.geometry_exposed||{};
+    let n=0, ok=true;
+    Object.entries(d).forEach(([k,v])=>{
+      if(!ok || typeof v!=='string' || !v || v==='NONE') return;
+      if(k.startsWith('GEOMETRIES_')){ if(!exposed[k]) return; n++; if(!gs[gk(v)]) ok=false; }
+      else if(!SKIP.includes(k)){ n++; if(ms[k]!==v) ok=false; }
+    });
+    return ok && n>0;
+  }
+  // ---- things that are "on" without touching materials / geometry ----
+  if(t==='hdri'){
+    const list=CFG.hdris||[];
+    const item=(o.uid && list.find(h=>h.uid===o.uid)) || list.find(h=>h.name===o.name) || o.item;
+    if(!item) return false;
+    if(window._wceEnvSel!==undefined) return window._wceEnvSel===(item.uid||item.name);
+    return !!item.default;   // nothing chosen yet: the environment the page starts with
+  }
+  if(t==='camera') return _wceCamAtName(o.name) || (window._wceCamSel===o.name && !!(window._isFlyActive && window._isFlyActive()));
+  if(t==='sequence') return !!(o.name && _seqRunning[o.name]);
+  if(t==='cinematic') return !!(_camSeq['Cinematic'] && _camSeq['Cinematic'].playing);
+  if(t==='camera_sequence') return !!(o.name && _camSeq[o.name] && _camSeq[o.name].playing);
+  if(t==='turntable') return !!window._turntableActive;
+  if(t==='filter'){
+    const f=((CFG.post_process&&CFG.post_process.filters)||[]).find(x=>x.name===o.name);
+    return !!f && window._wceActivePPFilter===f.filter_type;
+  }
+  if(t==='anim_control' || t==='anim_combo'){
+    // Lit only while it is PLAYING -- the same thing the panel button's "playing" light means (a part of it is still
+    // moving, or a looping one is running). A finished animation resting in its end pose is not lit.
+    //  - a part (control) also lights while a combo is what moves it;
+    //  - a combo lights while any of its parts is moving, whoever started it -- except a part that is only looping on its own.
+    const def=(typeof _animDefByRef==='function') ? _animDefByRef((t==='anim_combo' ? 'combo:' : 'control:') + o.name) : null;
+    if(!def) return null;
+    const id=_wceDefId(def), isCombo=Array.isArray(def.members);
+    if(def.builtin==='hover') return !!(window._builtinActive && window._builtinActive.Hover);      // the hover loop, while it runs
+    if(def.anim_type==='GEO_FLICKER') return !!(window._geoFlickerTimers && window._geoFlickerTimers[def.name]);
+    if(def.anim_type==='GEO_TOGGLE') return ((window.animState||{})[def.name]||0)>0;                // no motion to watch: like its panel button, on while the geometry is shown
+    const bk=window._animBtnKeys||{}, kp=window._keepPlayingActive||{}, w=window._segWatch||{};
+    const busy=v=>!!(v && (v.size!==undefined ? v.size : v.length)>0);
+    const keyOf=n=>{ try{ return _resolveAnimKey(n); }catch(e){ return n; } };
+    if(kp[id] || busy(bk[id])) return true;                        // it is playing itself
+    if(!isCombo) return !!w[keyOf(def.name)];                      // ...or a combo is moving this part
+    return def.members.some(n=>{
+      const md=_animDefByRef('control:'+n), mid=md ? _wceDefId(md) : 'control:'+n;
+      if(kp[mid]) return false;                                    // a looping part does not light its combo
+      return !!w[keyOf(n)] || busy(bk[mid]);
+    });
+  }
+  if(t==='mat_anim' || t==='geo_anim'){
+    const list=t==='mat_anim' ? (CFG.mat_animations||[]) : (CFG.geo_animations||[]);
+    const def=list.find(d=>d.source_key===o.name);
+    if(!def || def.play_mode==='step' || !window._matGeoActive) return null;
+    return !!window._matGeoActive[def.source_key];
+  }
+  if(t==='toggle'){
+    // A toggle group holds several options, each one an ordinary thumbnail target. It lights while any of them is applied.
+    const res=window._wceResolveToggleState, states=o.states||[];
+    if(typeof res!=='function' || !states.length) return null;
+    let tracked=false, any=false;
+    states.forEach(st=>{ try{ const r=res(st); const c=r ? _wceThumbCovered(r) : null; if(c!==null){ tracked=true; if(c) any=true; } }catch(e){} });
+    return tracked ? any : null;
+  }
+  return null;
+}
+function _wceSyncThumbHighlights(){
+  if(window._wceDesignerEditMode) return;   // Edit mode keeps its own selection outlines
+  const list=(typeof _wceEffectiveOverlays==='function') ? _wceEffectiveOverlays() : (window.WCE_OVERLAYS||[]);
+  list.forEach(o=>{
+    try{
+      if(!o || !o.id) return;
+      const hit=_wceThumbCovered(o);
+      if(hit===null) return;
+      const el=document.querySelector('[data-overlay-id="'+o.id+'"]');
+      if(el && el.classList.contains('wce-overlay-thumb')) el.classList.toggle('active', hit);
+    }catch(e){}
+  });
+}
+let _wceThumbSyncTimer=null;
+function _wceQueueThumbSync(){
+  // Queued (not immediate) because callers set matSt/geoSt just AFTER calling applyMat/applyGeoToggle.
+  if(_wceThumbSyncTimer) return;
+  _wceThumbSyncTimer=setTimeout(()=>{ _wceThumbSyncTimer=null; _wceSyncThumbHighlights(); },0);
+}
 function buildThumbnailOverlays(){
   _wceBuildThumbnailOverlaysCore();
   try{ WCEUIS.applyStacking(document, _wceEffectiveOverlays()); }catch(e){}
+  try{ WCEUIS.applyHover(document, _wceEffectiveOverlays()); }catch(e){}
+  try{ _wceSoundOverlayVisibility(); }catch(e){}
+  _wceSyncThumbHighlights();
+  _wceStartThumbPoll();
 }
 function _wceBuildThumbnailOverlaysCore(){
   // Buttons/labels the artist dragged out of the sidebar (or added freehand) in
@@ -1961,6 +2315,7 @@ function _wceBuildThumbnailOverlaysCore(){
       const _content=WCEG.shapeHost(el);
       _wceWireProfileTrigger(el, s.id, ev=>ev.target===el || ev.target===_content);
     }
+    if(s.link){ el.classList.add('wce-overlay-linked'); el.addEventListener('click', ev=>{ if(el.contains(ev.target)) window.open(s.link, '_blank'); }); }
     (forceRoot ? _wceRootHost() : hostFor(s)).appendChild(el);
     groupEls[s.id]=WCEG.shapeHost(el);
   }
@@ -2042,6 +2397,7 @@ function _wceBuildThumbnailOverlaysCore(){
     }
     return null;
   }
+  window._wceResolveToggleState=_wceResolveToggleState;   // the highlight check resolves a toggle group's options with it
   function _wceShowTogglePicker(o, el, states){
     const existing=document.getElementById('wce-toggle-picker');
     if(existing) existing.remove();
@@ -2175,7 +2531,7 @@ function _wceBuildThumbnailOverlaysCore(){
     }catch(e){ console.error('[WCE] failed to render a section slider:', e); }
   });
 
-list.filter(o=>o.type==='presentation').forEach(o=>{
+list.filter(o=>o.type==='presentation' && o.display!=='icon').forEach(o=>{
     const el=mk('button','wce-overlay-action-btn');
     el.dataset.overlayId=o.id;
     el.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg><span>'+(o.label||'Present')+'</span>';
@@ -2184,7 +2540,7 @@ list.filter(o=>o.type==='presentation').forEach(o=>{
     _wceWireProfileTrigger(el, o.id);
     hostFor(o).appendChild(el);
   });
-list.filter(o=>o.type==='snapshot').forEach(o=>{
+list.filter(o=>o.type==='snapshot' && o.display!=='icon').forEach(o=>{
     const el=mk('button','wce-overlay-action-btn');
     el.dataset.overlayId=o.id;
     el.dataset.wceActionKind='snapshot';
@@ -2195,13 +2551,11 @@ list.filter(o=>o.type==='snapshot').forEach(o=>{
     hostFor(o).appendChild(el);
   });
 
-  list.filter(o=>o.type!=='group' && o.type!=='shape' && o.type!=='text' && o.type!=='section_slider' && o.type!=='presentation' && o.type!=='snapshot').forEach(o=>{
+  list.filter(o=>o.type!=='group' && o.type!=='shape' && o.type!=='text' && o.type!=='section_slider' && (o.type!=='presentation' || o.display==='icon') && (o.type!=='snapshot' || o.display==='icon')).forEach(o=>{
     if(!o.type && o.container && o.material) o.type='material';
     const el=mk('div','wce-overlay-thumb');
     if(o.id) el.dataset.overlayId=o.id;
-    const _cat=_wceThumbCategoryStyle(o);
-    el.style.setProperty('--wce-thumb-active-color', _cat.color);
-    el.style.setProperty('--wce-thumb-active-bg', _cat.bg);
+    _wceApplyLitVars(el, o);
     el.style.left=(o.x??10)+'%';
     el.style.top=(o.y??10)+'%';
     const eff = _wceEffectiveThumbProps(o);
@@ -2245,7 +2599,7 @@ list.filter(o=>o.type==='snapshot').forEach(o=>{
         }
       };
     } else {
-      _wceApplyThumbShape(el, o);
+      _wceApplyThumbShape(el, _wceIsIconOverlay(o) ? _wceIconShapeProps(o, eff) : o);
       el.title = o.label || o.material || o.name || '';
       if(o.type==='deco_image'){
         el.style.cursor='default';
@@ -2259,9 +2613,11 @@ list.filter(o=>o.type==='snapshot').forEach(o=>{
           applyOverlay(o);
           qsa('.wce-overlay-thumb').forEach(t=>t.classList.remove('active'));
           el.classList.add('active');
+          _wceSyncThumbHighlights(); _wceQueueThumbSync();
         };
       }
     }
+    if(_wceIsIconOverlay(o)) _wceDecorateIcon(el, o, sz);
     _wceWireProfileTrigger(el, o.id);
     hostFor(o).appendChild(el);
   });
@@ -2401,6 +2757,7 @@ function refreshActive(){
   qsa('.vc').forEach(b=>b.classList.toggle('active',b.dataset.v===activeV));
   qsa('.tb').forEach(b=>b.classList.remove('active'));
   Object.keys(geoSt).forEach(k=>{if(geoSt[k]){const btn=document.querySelector(`.tb[data-col="${k}"]`);if(btn)btn.classList.add('active');}  });
+  _wceQueueThumbSync();
 }
 const mk=(t,c)=>{const e=document.createElement(t);if(c)e.className=c;return e;};
 const qsa=(s)=>[...document.querySelectorAll(s)];
@@ -2438,6 +2795,7 @@ function _wceTakeSnapshot(){
   }catch(e){ console.error('[WCE] Snapshot failed:', e); }
 }
 let _wcePresentationActive=false;
+let _wcePresentationIconHost=null;
 let _wcePresentationHiddenEls=[];
 let _wcePresentationHiddenMarkers=[];
 const _wcePresentationRevealed=new Set();
@@ -2588,8 +2946,9 @@ function _wceEnterPresentationMode(def, triggerEl){
       // The SAME button the artist placed becomes Close, rather than a
       // separate built-in Close button appearing alongside it -- restored
       // back to its original Present label/icon on exit, below.
-      _wcePresentationTriggerOrigHTML=_wcePresentationTriggerEl.innerHTML;
-      _wcePresentationTriggerEl.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg><span>Close</span>';
+      _wcePresentationIconHost=_wcePresentationTriggerEl.querySelector('.wce-thumb-icon')||_wcePresentationTriggerEl;
+      _wcePresentationTriggerOrigHTML=_wcePresentationIconHost.innerHTML;
+      _wcePresentationIconHost.innerHTML='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg><span>Close</span>';
       _wcePresentationTriggerEl.classList.add('wce-presentation-active');
     }
   }
@@ -2650,7 +3009,7 @@ function _wceExitPresentationMode(){
   _wcePresentationHiddenMarkers=[];
   _wcePresentationRevealed.clear();
   if(_wcePresentationTriggerEl && _wcePresentationTriggerOrigHTML!==null){
-    _wcePresentationTriggerEl.innerHTML=_wcePresentationTriggerOrigHTML;
+    (_wcePresentationIconHost||_wcePresentationTriggerEl).innerHTML=_wcePresentationTriggerOrigHTML; _wcePresentationIconHost=null;
     _wcePresentationTriggerEl.classList.remove('wce-presentation-active');
   }
   _wcePresentationTriggerEl=null;
