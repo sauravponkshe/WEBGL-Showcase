@@ -3,38 +3,39 @@
 PONKFIGURATOR PRO — Export Report — Highest
 ======================================================================
 File: C:\Users\saura\Desktop\free-mclaren-p1-mso\source\web_export/Highest\2518357c1339.gltf
-Generated: 2026-09-22 09:38:10
-Total size (this .gltf + its .bin + every texture file): 53.69 MB
+Generated: 2026-09-24 09:39:45
+Total size (this .gltf + its .bin + every texture file): 49.26 MB
 
 ======================================================================
 EXPORT CONFIGURATION
 ======================================================================
 External Textures:        ON
 WebGL Optimized Textures: off
-Encrypt Data:             off  (this report reflects the file BEFORE encryption — see _write_variant_reports)
-Obfuscate Viewer JS:      off
+Encrypt Data:             ON  (this report reflects the file BEFORE encryption — see _write_variant_reports)
+Obfuscate Viewer JS:      ON
 
 ======================================================================
 SIZE BREAKDOWN (approximate — see notes)
 ======================================================================
 Geometry (vertex/index buffers): 0 B
-Textures (loose files, External Textures mode):    42.64 MB
+Textures (loose files, External Textures mode):    38.22 MB
 Unaccounted (other bufferViews): 10.80 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
 Note: split is by bufferView/file reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
 
 ======================================================================
 GEOMETRY
 ======================================================================
-Meshes: 128   Primitives: 177
-Triangles: 881,429   Vertices: 1,333,660
+Meshes: 128   Primitives: 163
+Triangles: 881,415   Vertices: 1,333,618
 Draco compression: ACTIVE
 
 ======================================================================
 TEXTURES
 ======================================================================
 KTX2 (GPU-compressed) active: no
-Texture count: 65
+Texture count: 63
 Name                                     Format       Colorspace    Disk size    Est. VRAM
+Normal_PlasticMatte                      image/png    linear          1.73 MB     13.83 MB
 LIGHT                                    image/png    sRGB            77.9 KB     623.2 KB
 ChatGPT Image Aug 23, 2026, 03_51_56 PM  image/png    sRGB            51.8 KB     414.6 KB
 Tex_GROUNDSHADOW_1                       image/png    sRGB            48.5 KB     387.6 KB
@@ -88,26 +89,23 @@ brake_disk_d                             image/png    sRGB            47.5 KB   
 pzer2                                    image/jpeg   sRGB           353.9 KB      2.76 MB
 00355230                                 image/png    linear         152.5 KB      1.19 MB
 00381600                                 image/png    sRGB           133.7 KB      1.04 MB
-Normal_PerforatedLeather                 image/png    linear         840.8 KB      6.57 MB
-Roughness_PerforatedLeather              image/png    linear          1.16 MB      9.25 MB
-Normal_PlasticMatte                      image/png    linear          1.73 MB     13.83 MB
 Carpaint_Clearcoat                       image/png    unknown         2.33 MB     18.67 MB
 Carpaint_Normal                          image/png    linear          2.33 MB     18.65 MB
-wet ground_Roughness                     image/png    linear          3.03 MB     24.27 MB
+leather_red_02_nor_gl_1k                 image/png    linear          2.17 MB     17.32 MB
+leather_red_02_rough_1k                  image/png    linear          1.20 MB      9.64 MB
+Normal_PerforatedLeather                 image/png    linear         840.8 KB      6.57 MB
+Roughness_PerforatedLeather              image/png    linear          1.16 MB      9.25 MB
 00b47220                                 image/png    linear          85.6 KB     684.8 KB
 00b54ba0                                 image/png    sRGB           182.2 KB      1.42 MB
 Carbon1_DefaultMaterial_Normal           image/png    linear         125.5 KB    1003.8 KB
-leather_red_02_nor_gl_1k                 image/png    linear          2.17 MB     17.32 MB
-leather_red_02_rough_1k                  image/png    linear          1.20 MB      9.64 MB
-wet_ground_Dark                          image/png    linear          1.38 MB     11.07 MB
 
-Estimated total VRAM for textures: 341.11 MB
+Estimated total VRAM for textures: 305.78 MB
 
 ======================================================================
 MATERIALS / DRAW CALLS
 ======================================================================
-Materials: 117
-Primitives (mesh x material combinations): 177
+Materials: 103
+Primitives (mesh x material combinations): 163
 Draw calls track distinct MATERIALS actually drawn, not primitive count directly — primitives sharing one material can still batch; this is an upper-bound proxy, not a live measurement.
 
 ======================================================================
@@ -143,7 +141,8 @@ Environments: 5
 ======================================================================
 CONTAINERS (material swap targets)
 ======================================================================
-Containers: 4
+Containers: 5
+  - TRIM
   - CALIPER
   - ALLOYS
   - HOOD
@@ -165,9 +164,9 @@ Geo subset presets: 1
 MAT SUBSETS (per-category color/material options)
 ======================================================================
 Categories: 3   Options: 21
-  - ANIMATION_CYCLE: 7 option(s) — Orange, Cream, Red, Black, Yellow, Green, Blue
-  - COLOR: 7 option(s) — Orange, White, Green, Blue, Red, Yellow, Black
   - INTERIOR: 7 option(s) — CarbonFiber, Burgandy, JetBlack, CreamWhite, MidNightNavy, SaddleBrown, PapayaOrange
+  - COLOR: 7 option(s) — Orange, White, Green, Blue, Red, Yellow, Black
+  - ANIMATION_CYCLE: 7 option(s) — Orange, Cream, Red, Black, Yellow, Green, Blue
 
 ======================================================================
 CAMERAS
@@ -190,5 +189,5 @@ Turntable: off
 ======================================================================
 WARNINGS
 ======================================================================
-  ! 8 non-KTX2 texture(s) over 2MB on disk — large VRAM impact once decoded: Normal_Alcantara, Normal_CarbonFiber, Plastic012B_1K-PNG_NormalGL, Normal_CarbonForged.001, Carpaint_Clearcoat
+  ! 7 non-KTX2 texture(s) over 2MB on disk — large VRAM impact once decoded: Normal_Alcantara, Normal_CarbonFiber, Plastic012B_1K-PNG_NormalGL, Normal_CarbonForged.001, Carpaint_Clearcoat
 
