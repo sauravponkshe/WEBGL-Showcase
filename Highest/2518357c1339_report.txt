@@ -3,8 +3,8 @@
 PONKFIGURATOR PRO — Export Report — Highest
 ======================================================================
 File: C:\Users\saura\Desktop\free-mclaren-p1-mso\source\web_export/Highest\2518357c1339.gltf
-Generated: 2026-09-24 10:32:39
-Total size (this .gltf + its .bin + every texture file): 49.26 MB
+Generated: 2026-09-27 21:31:25
+Total size (this .gltf + its .bin + every texture file): 49.21 MB
 
 ======================================================================
 EXPORT CONFIGURATION
@@ -18,22 +18,22 @@ Obfuscate Viewer JS:      ON
 SIZE BREAKDOWN (approximate — see notes)
 ======================================================================
 Geometry (vertex/index buffers): 0 B
-Textures (loose files, External Textures mode):    38.22 MB
-Unaccounted (other bufferViews): 10.80 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
+Textures (loose files, External Textures mode):    38.18 MB
+Unaccounted (other bufferViews): 10.79 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
 Note: split is by bufferView/file reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
 
 ======================================================================
 GEOMETRY
 ======================================================================
-Meshes: 128   Primitives: 163
-Triangles: 881,415   Vertices: 1,333,618
+Meshes: 127   Primitives: 162
+Triangles: 881,415   Vertices: 1,333,586
 Draco compression: ACTIVE
 
 ======================================================================
 TEXTURES
 ======================================================================
 KTX2 (GPU-compressed) active: no
-Texture count: 63
+Texture count: 62
 Name                                     Format       Colorspace    Disk size    Est. VRAM
 Normal_PlasticMatte                      image/png    linear          1.73 MB     13.83 MB
 LIGHT                                    image/png    sRGB            77.9 KB     623.2 KB
@@ -85,7 +85,6 @@ Roughness_CarbonForged.001               image/png    linear         894.7 KB   
 grid_altoparlanti_nm                     image/png    linear           2.8 KB      22.6 KB
 grid_altoparlanti                        image/png    sRGB             2.0 KB      16.4 KB
 brake_disk_n                             image/png    linear          68.4 KB     547.1 KB
-brake_disk_d                             image/png    sRGB            47.5 KB     380.2 KB
 pzer2                                    image/jpeg   sRGB           353.9 KB      2.76 MB
 00355230                                 image/png    linear         152.5 KB      1.19 MB
 00381600                                 image/png    sRGB           133.7 KB      1.04 MB
@@ -93,19 +92,19 @@ Normal_PerforatedLeather                 image/png    linear         840.8 KB   
 Roughness_PerforatedLeather              image/png    linear          1.16 MB      9.25 MB
 Carpaint_Clearcoat                       image/png    unknown         2.33 MB     18.67 MB
 Carpaint_Normal                          image/png    linear          2.33 MB     18.65 MB
+Carbon1_DefaultMaterial_Normal           image/png    linear         125.5 KB    1003.8 KB
 leather_red_02_nor_gl_1k                 image/png    linear          2.17 MB     17.32 MB
 leather_red_02_rough_1k                  image/png    linear          1.20 MB      9.64 MB
 00b47220                                 image/png    linear          85.6 KB     684.8 KB
 00b54ba0                                 image/png    sRGB           182.2 KB      1.42 MB
-Carbon1_DefaultMaterial_Normal           image/png    linear         125.5 KB    1003.8 KB
 
-Estimated total VRAM for textures: 305.78 MB
+Estimated total VRAM for textures: 305.41 MB
 
 ======================================================================
 MATERIALS / DRAW CALLS
 ======================================================================
-Materials: 103
-Primitives (mesh x material combinations): 163
+Materials: 102
+Primitives (mesh x material combinations): 162
 Draw calls track distinct MATERIALS actually drawn, not primitive count directly — primitives sharing one material can still batch; this is an upper-bound proxy, not a live measurement.
 
 ======================================================================
@@ -131,9 +130,10 @@ Configurator-driven animation triggers (geometry): 0
 ======================================================================
 HDRI / ENVIRONMENT
 ======================================================================
-Environments: 5
+Environments: 6
   - Studio  file=hdri/studio.hdr
   - Dresden  file=hdri/dresden.exr  [Flatten Ground, ground image: hdri/dresden_ground.webp]
+  - Lake_Side  file=hdri/lake_side.hdr  [Flatten Ground, ground image: hdri/lake_side_ground.webp]
   - Hangar  file=hdri/hangar.hdr  [Flatten Ground, ground image: hdri/hangar_ground.webp]
   - Museum Alleyway  file=hdri/museum_alleyway.hdr  [Flatten Ground, ground image: hdri/museum_alleyway_ground.webp]
   - Parking  file=hdri/parking.hdr  [Flatten Ground, ground image: hdri/parking_ground.webp]
@@ -164,9 +164,9 @@ Geo subset presets: 1
 MAT SUBSETS (per-category color/material options)
 ======================================================================
 Categories: 3   Options: 21
-  - COLOR: 7 option(s) — Orange, White, Green, Blue, Red, Yellow, Black
-  - INTERIOR: 7 option(s) — CarbonFiber, Burgandy, JetBlack, CreamWhite, MidNightNavy, SaddleBrown, PapayaOrange
   - ANIMATION_CYCLE: 7 option(s) — Orange, Cream, Red, Black, Yellow, Green, Blue
+  - INTERIOR: 7 option(s) — CarbonFiber, Burgandy, JetBlack, CreamWhite, MidNightNavy, SaddleBrown, PapayaOrange
+  - COLOR: 7 option(s) — Orange, White, Green, Blue, Red, Yellow, Black
 
 ======================================================================
 CAMERAS
