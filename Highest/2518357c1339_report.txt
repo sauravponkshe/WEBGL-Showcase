@@ -3,8 +3,8 @@
 PONKFIGURATOR PRO — Export Report — Highest
 ======================================================================
 File: C:\Users\saura\Desktop\free-mclaren-p1-mso\source\web_export/Highest\2518357c1339.gltf
-Generated: 2026-10-01 05:30:40
-Total size (this .gltf + its .bin + every texture file): 49.21 MB
+Generated: 2026-10-01 05:40:11
+Total size (this .gltf + its .bin + every texture file): 49.22 MB
 
 ======================================================================
 EXPORT CONFIGURATION
@@ -19,14 +19,14 @@ SIZE BREAKDOWN (approximate — see notes)
 ======================================================================
 Geometry (vertex/index buffers): 0 B
 Textures (loose files, External Textures mode):    38.18 MB
-Unaccounted (other bufferViews): 10.79 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
+Unaccounted (other bufferViews): 10.81 MB  — sparse accessor data, custom extensions, etc.; not a bug, just outside this report's simple split
 Note: split is by bufferView/file reference (accessor->geometry, image->texture) — an approximation, not an exact byte-by-byte accounting.
 
 ======================================================================
 GEOMETRY
 ======================================================================
-Meshes: 128   Primitives: 163
-Triangles: 880,745   Vertices: 1,332,149
+Meshes: 129   Primitives: 164
+Triangles: 881,655   Vertices: 1,334,493
 Draco compression: ACTIVE
 
 ======================================================================
@@ -104,7 +104,7 @@ Estimated total VRAM for textures: 305.41 MB
 MATERIALS / DRAW CALLS
 ======================================================================
 Materials: 103
-Primitives (mesh x material combinations): 163
+Primitives (mesh x material combinations): 164
 Draw calls track distinct MATERIALS actually drawn, not primitive count directly — primitives sharing one material can still batch; this is an upper-bound proxy, not a live measurement.
 
 ======================================================================
