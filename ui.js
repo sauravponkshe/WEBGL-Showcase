@@ -141,8 +141,16 @@ const WCEG = (function(){
     // fixed glyph. Its rotation is set in _wceApplyGroupCollapse (every place collapsed state
     // changes), not here -- this only ever touches its size and colour, which don't depend on
     // that state.
-    const showArrow = g.showArrow !== false;
+    // Expand Trigger "Do nothing" (expandTrigger === 'none'): the frame never opens or closes on its own, so there
+    // is nothing for an arrow to do -- it is hidden in every mode, whatever Show Arrow says.
+    const _noTrigger = (g.expandTrigger === 'none');
+    const showArrow = g.showArrow !== false && !_noTrigger;
     const hasShape = !!(g.headerShape && g.headerShape !== 'none');
+    const _hdrEl = el.querySelector('.wce-group-header');
+    if(_hdrEl){
+      if(_noTrigger){ _hdrEl.style.cursor = 'default'; _hdrEl.dataset.wceNoTrig = '1'; }   // the tab must not look clickable
+      else if(_hdrEl.dataset.wceNoTrig){ _hdrEl.style.cursor = ''; delete _hdrEl.dataset.wceNoTrig; }
+    }
     if(arrow){
       arrow.style.color = g.arrowColor || '';               // '' -> CSS default (accent)
       arrow.style.fontSize = num(g.arrowSize, 9)+'px';
@@ -1684,7 +1692,7 @@ function buildCameraUI(){
   if(tt.enabled){
     ttSec.innerHTML='<div class="st">Turntable</div>';
     const btn=mk('button','tt-btn');btn.textContent='Auto Rotate';
-    btn.onclick=()=>_turntableActive?_stopTurntable():_startTurntable();
+    btn.onclick=()=>window._wceToggleTurntable();
     ttSec.appendChild(btn);
   } else {
     ttSec.innerHTML='';
@@ -1752,7 +1760,7 @@ function applyOverlay(o){
     } else if(o.type==='camera' && o.name){
       window._wceCamSel=o.name; flyToCamera(o.name);
     } else if(o.type==='turntable'){
-      window._turntableActive ? _stopTurntable() : _startTurntable();
+      window._wceToggleTurntable();
     } else if(o.type==='cinematic'){
       // Pre-upgrade Toggle Group / Thumbnail saves: the migration that runs
       // on Sync always names the carried-forward default sequence 'Cinematic',
@@ -2162,7 +2170,7 @@ function _wceAttachGroupArrowDelegation(){
     if(!groupEl) return;
     const gid = groupEl.dataset.overlayId;
     const g = _wceLiveOverlay(gid);
-    if(!g) return;
+    if(!g || g.expandTrigger === "none") return;
     g.collapsed = !g.collapsed;
     _wceApplyGroupCollapse(groupEl, g);
   }, true);
@@ -2448,7 +2456,7 @@ function _wceBuildThumbnailOverlaysCore(){
       el.addEventListener('click', function(ev){
         ev.stopPropagation();
         const pg=_wceLiveOverlay(s.groupId);
-        if(!pg) return;
+        if(!pg || pg.expandTrigger==="none") return;
         pg.collapsed=!pg.collapsed;
         const pgEl=document.querySelector('[data-overlay-id="'+pg.id+'"]');
         if(pgEl) _wceApplyGroupCollapse(pgEl, pg);
@@ -3140,6 +3148,7 @@ function _wceTakeSnapshot(){
   }catch(e){ console.error('[WCE] Snapshot failed:', e); }
 }
 let _wcePresentationActive=false;
+try{Object.defineProperty(window,"_wcePresentationActiveFlag",{get:function(){return _wcePresentationActive;},configurable:true});}catch(e){}
 let _wcePresentationIconHost=null;
 let _wcePresentationHiddenEls=[];
 let _wcePresentationHiddenMarkers=[];
