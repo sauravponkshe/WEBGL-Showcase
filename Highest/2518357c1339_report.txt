@@ -3,7 +3,7 @@
 PONKFIGURATOR PRO — Export Report — Highest
 ======================================================================
 File: C:\Users\saura\Desktop\free-mclaren-p1-mso\source\web_export/Highest\2518357c1339.gltf
-Generated: 2026-10-02 19:15:17
+Generated: 2026-10-02 19:48:38
 Total size (this .gltf + its .bin + every texture file): 49.25 MB
 
 ======================================================================
@@ -165,8 +165,8 @@ Geo subset presets: 1
 MAT SUBSETS (per-category color/material options)
 ======================================================================
 Categories: 3   Options: 21
-  - COLOR: 7 option(s) — Orange, White, Green, Blue, Red, Yellow, Black
   - INTERIOR: 7 option(s) — CarbonFiber, Burgandy, JetBlack, CreamWhite, MidNightNavy, SaddleBrown, PapayaOrange
+  - COLOR: 7 option(s) — Orange, White, Green, Blue, Red, Yellow, Black
   - ANIMATION_CYCLE: 7 option(s) — Orange, Cream, Red, Black, Yellow, Green, Blue
 
 ======================================================================
