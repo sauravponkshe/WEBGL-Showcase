@@ -3129,7 +3129,7 @@ function _wceTakeSnapshot(){
     // composer's own continuous rendering had never needed and so never
     // warmed up. Reusing the exact same call the render loop already makes
     // every frame avoids both problems at once.
-    comp.render();
+    if(typeof window._wceAaSnapshotRender==="function") window._wceAaSnapshotRender(); else comp.render();
     // toBlob(), not toDataURL(): a data: URI base64-encodes the whole
     // image into one string, and mobile Safari/Chrome have historically
     // failed that download silently past a fairly small size ceiling --
